@@ -1,0 +1,33 @@
+{
+  "name": "TypescriptDemo1",
+  "version": "1.0.0",
+  "main": "./dist/main.bundle.js",
+  "scripts": {
+    "start": "electron ./dist/main.bundle.js",
+    "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors",
+    "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^16.7.17",
+    "@types/react-dom": "^16.0.11",
+    "css-loader": "^2.0.1",
+    "electron": "3.0.13",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.11.0",
+    "prettier": "1.15.3",
+    "rimraf": "^2.6.2",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.1",
+    "typescript": "^3.2.2",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-do": "^1.1.6",
+    "react-dom": "^16.6.3"
+  }
+}
