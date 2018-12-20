@@ -1,3 +1,39 @@
+html {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .app {
-     color: red;
+     color: black;
+}
+
+.mainContainer {
+  padding: 20px 60px;
+}
+
+.Nav {
+  background-color: rgb(67, 144, 227);
+  width: 100%;
+}
+
+.Nav__item-wrapper {
+  display: flex;
+  flex-direction: horizontal;
+  align-content: space-between;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Nav__item {
+  padding: 20px 20px;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: white;
 }
