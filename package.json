@@ -28,6 +28,8 @@
   "dependencies": {
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
+    "mobx": "^5.8.0",
+    "mobx-react": "^5.4.3",
     "react": "^16.6.3",
     "react-do": "^1.1.6",
     "react-dom": "^16.6.3",

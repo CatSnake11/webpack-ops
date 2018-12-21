@@ -1,16 +1,23 @@
 import * as React from 'react';
-import { AppContextConsumer } from '../AppContext';
+import { observer, inject } from 'mobx-react'
+import { StoreType } from '../store'
 
-export default class TabTwo extends React.Component<any, any> {
+type Props = {
+  store?: StoreType
+}
+
+@inject('store')
+@observer
+
+export default class TabTwo extends React.Component<Props, any> {
   render() {
+    const { store } = this.props
     return (
-      <AppContextConsumer>
-        {appContext => appContext && (
-        <div className="mainContainer">
-          <div>Name : {appContext.name}</div>
-        </div>
-        )}
-      </AppContextConsumer>
+      <div className="mainContainer">
+        <div>TabTwo</div>
+        <div>{store.name}</div>
+
+      </div>
     );
   }
 }
