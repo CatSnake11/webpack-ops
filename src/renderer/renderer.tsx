@@ -4,6 +4,7 @@ import App from './App'
 import { Provider } from 'mobx-react';
 import Store from './store'
 import './styles.scss';
+import { ipcRenderer } from 'electron';
 
 const store = new Store();
 
