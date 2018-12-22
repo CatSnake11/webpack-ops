@@ -1,6 +1,12 @@
 import { app, BrowserWindow } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
+
+installExtension(MOBX_DEVTOOLS)
+  .then((name) => console.log(`Added Extension: ${name}`))
+  .catch((err) => console.log(`An error occurred: `, err));
+
 
 let mainWindow: Electron.BrowserWindow;
 
