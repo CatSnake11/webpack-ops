@@ -1,0 +1,4970 @@
+[
+  {
+    "timeStamp": 1545352356201,
+    "time": 6887,
+    "hash": "b555a7b0942bbe17f97a",
+    "errors": [],
+    "size": 2690603,
+    "assets": [
+      {
+        "name": "02f6fb0172ccbbed22d04b6160639c37.png",
+        "chunks": [],
+        "size": 3535
+      },
+      {
+        "name": "app.js",
+        "chunks": [
+          0
+        ],
+        "size": 2687068,
+        "miniSize": 2332171,
+        "minified": false
+      }
+    ],
+    "chunks": [
+      {
+        "size": 1967633,
+        "files": [
+          "app.js"
+        ],
+        "modules": [
+          {
+            "name": "./node_modules/react/react.js",
+            "size": 56,
+            "id": 0
+          },
+          {
+            "name": "./node_modules/babel-runtime/helpers/classCallCheck.js",
+            "size": 208,
+            "id": 1
+          },
+          {
+            "name": "./node_modules/babel-runtime/helpers/possibleConstructorReturn.js",
+            "size": 542,
+            "id": 2
+          },
+          {
+            "name": "./node_modules/babel-runtime/helpers/inherits.js",
+            "size": 1110,
+            "id": 3
+          },
+          {
+            "name": "./node_modules/babel-runtime/helpers/extends.js",
+            "size": 544,
+            "id": 4
+          },
+          {
+            "name": "./node_modules/prop-types/index.js",
+            "size": 956,
+            "id": 5
+          },
+          {
+            "name": "./node_modules/babel-runtime/helpers/objectWithoutProperties.js",
+            "size": 280,
+            "id": 6
+          },
+          {
+            "name": "./node_modules/classnames/index.js",
+            "size": 1198,
+            "id": 7
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/bootstrapUtils.js",
+            "size": 4996,
+            "id": 8
+          },
+          {
+            "name": "./node_modules/fbjs/lib/invariant.js",
+            "size": 1506,
+            "id": 9
+          },
+          {
+            "name": "./node_modules/fbjs/lib/warning.js",
+            "size": 1897,
+            "id": 10
+          },
+          {
+            "name": "./node_modules/d3-geo/src/math.js",
+            "size": 880,
+            "id": 11
+          },
+          {
+            "name": "./node_modules/react-dom/lib/reactProdInvariant.js",
+            "size": 1110,
+            "id": 12
+          },
+          {
+            "name": "./node_modules/prop-types-extra/lib/elementType.js",
+            "size": 1272,
+            "id": 13
+          },
+          {
+            "name": "./node_modules/object-assign/index.js",
+            "size": 2108,
+            "id": 14
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMComponentTree.js",
+            "size": 6148,
+            "id": 15
+          },
+          {
+            "name": "./node_modules/@babel/runtime/helpers/interopRequireDefault.js",
+            "size": 145,
+            "id": 16
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/createChainedFunction.js",
+            "size": 955,
+            "id": 17
+          },
+          {
+            "name": "./node_modules/react-dom/index.js",
+            "size": 59,
+            "id": 18
+          },
+          {
+            "name": "./node_modules/fbjs/lib/ExecutionEnvironment.js",
+            "size": 935,
+            "id": 19
+          },
+          {
+            "name": "./node_modules/d3-selection/index.js",
+            "size": 932,
+            "id": 20
+          },
+          {
+            "name": "./node_modules/warning/browser.js",
+            "size": 1807,
+            "id": 21
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/StyleConfig.js",
+            "size": 477,
+            "id": 22
+          },
+          {
+            "name": "./node_modules/d3-time/src/interval.js",
+            "size": 2067,
+            "id": 23
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/ValidComponentChildren.js",
+            "size": 3911,
+            "id": 24
+          },
+          {
+            "name": "./node_modules/d3-array/index.js",
+            "size": 1429,
+            "id": 25
+          },
+          {
+            "name": "./node_modules/react/lib/ReactComponentTreeHook.js",
+            "size": 11673,
+            "id": 26
+          },
+          {
+            "name": "./node_modules/invariant/browser.js",
+            "size": 1397,
+            "id": 27
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactInstrumentation.js",
+            "size": 479,
+            "id": 28
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_core.js",
+            "size": 122,
+            "id": 29
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/index.js",
+            "size": 2281,
+            "id": 30
+          },
+          {
+            "name": "./node_modules/d3-interpolate/index.js",
+            "size": 1179,
+            "id": 31
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/schedule.js",
+            "size": 4746,
+            "id": 32
+          },
+          {
+            "name": "./node_modules/fbjs/lib/emptyFunction.js",
+            "size": 959,
+            "id": 33
+          },
+          {
+            "name": "./node_modules/react/lib/ReactCurrentOwner.js",
+            "size": 499,
+            "id": 34
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactUpdates.js",
+            "size": 9334,
+            "id": 35
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_wks.js",
+            "size": 358,
+            "id": 36
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/SafeAnchor.js",
+            "size": 3348,
+            "id": 37
+          },
+          {
+            "name": "./node_modules/d3-color/index.js",
+            "size": 157,
+            "id": 38
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/index.js",
+            "size": 4431,
+            "id": 39
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticEvent.js",
+            "size": 9235,
+            "id": 40
+          },
+          {
+            "name": "./node_modules/d3-time/src/duration.js",
+            "size": 164,
+            "id": 41
+          },
+          {
+            "name": "./node_modules/react-dom/lib/DOMProperty.js",
+            "size": 8117,
+            "id": 42
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_export.js",
+            "size": 2349,
+            "id": 43
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_global.js",
+            "size": 369,
+            "id": 44
+          },
+          {
+            "name": "./node_modules/dom-helpers/util/inDOM.js",
+            "size": 236,
+            "id": 45
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/index.js",
+            "size": 1892,
+            "id": 46
+          },
+          {
+            "name": "./node_modules/d3-geo/src/noop.js",
+            "size": 34,
+            "id": 47
+          },
+          {
+            "name": "./node_modules/react/lib/ReactElement.js",
+            "size": 11111,
+            "id": 48
+          },
+          {
+            "name": "./node_modules/react-dom/lib/PooledClass.js",
+            "size": 3234,
+            "id": 49
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/index.js",
+            "size": 5122,
+            "id": 50
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-dp.js",
+            "size": 600,
+            "id": 51
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_has.js",
+            "size": 120,
+            "id": 52
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_to-iobject.js",
+            "size": 217,
+            "id": 53
+          },
+          {
+            "name": "./node_modules/d3-dispatch/index.js",
+            "size": 52,
+            "id": 54
+          },
+          {
+            "name": "./node_modules/d3-path/index.js",
+            "size": 44,
+            "id": 55
+          },
+          {
+            "name": "./node_modules/d3-geo/src/stream.js",
+            "size": 2303,
+            "id": 56
+          },
+          {
+            "name": "./node_modules/d3-scale/src/array.js",
+            "size": 90,
+            "id": 57
+          },
+          {
+            "name": "./node_modules/d3-shape/src/constant.js",
+            "size": 81,
+            "id": 58
+          },
+          {
+            "name": "./node_modules/react/lib/React.js",
+            "size": 4956,
+            "id": 59
+          },
+          {
+            "name": "./node_modules/react/lib/reactProdInvariant.js",
+            "size": 1110,
+            "id": 60
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactReconciler.js",
+            "size": 6088,
+            "id": 61
+          },
+          {
+            "name": "./node_modules/react-dom/lib/DOMLazyTree.js",
+            "size": 3593,
+            "id": 62
+          },
+          {
+            "name": "./node_modules/history/es/index.js",
+            "size": 460,
+            "id": 63
+          },
+          {
+            "name": "./node_modules/react-router/node_modules/warning/warning.js",
+            "size": 1772,
+            "id": 64
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_hide.js",
+            "size": 286,
+            "id": 65
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_an-object.js",
+            "size": 154,
+            "id": 66
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_is-object.js",
+            "size": 110,
+            "id": 67
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_descriptors.js",
+            "size": 184,
+            "id": 68
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/object/values.js",
+            "size": 94,
+            "id": 69
+          },
+          {
+            "name": "./node_modules/dom-helpers/ownerDocument.js",
+            "size": 195,
+            "id": 70
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/contains.js",
+            "size": 921,
+            "id": 71
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/ownerDocument.js",
+            "size": 536,
+            "id": 72
+          },
+          {
+            "name": "./client/containers/Panel.jsx",
+            "size": 421,
+            "id": 73
+          },
+          {
+            "name": "./client/containers/PanelHeader.jsx",
+            "size": 674,
+            "id": 74
+          },
+          {
+            "name": "./node_modules/d3-array/src/ascending.js",
+            "size": 86,
+            "id": 75
+          },
+          {
+            "name": "./node_modules/d3-force/src/constant.js",
+            "size": 72,
+            "id": 76
+          },
+          {
+            "name": "./node_modules/d3-geo/src/adder.js",
+            "size": 904,
+            "id": 77
+          },
+          {
+            "name": "./node_modules/d3-random/src/defaultSource.js",
+            "size": 54,
+            "id": 78
+          },
+          {
+            "name": "./node_modules/react-dom/lib/EventPropagators.js",
+            "size": 4972,
+            "id": 79
+          },
+          {
+            "name": "./node_modules/react-dom/lib/EventPluginHub.js",
+            "size": 8985,
+            "id": 80
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticUIEvent.js",
+            "size": 1449,
+            "id": 81
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactInstanceMap.js",
+            "size": 1097,
+            "id": 82
+          },
+          {
+            "name": "./node_modules/history/es/PathUtils.js",
+            "size": 1605,
+            "id": 83
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_fails.js",
+            "size": 104,
+            "id": 84
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_property-desc.js",
+            "size": 173,
+            "id": 85
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-keys.js",
+            "size": 222,
+            "id": 86
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-pie.js",
+            "size": 37,
+            "id": 87
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iterators.js",
+            "size": 21,
+            "id": 88
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Button.js",
+            "size": 3132,
+            "id": 89
+          },
+          {
+            "name": "./node_modules/uncontrollable/index.js",
+            "size": 849,
+            "id": 90
+          },
+          {
+            "name": "./node_modules/d3-array/src/number.js",
+            "size": 63,
+            "id": 91
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/color.js",
+            "size": 697,
+            "id": 92
+          },
+          {
+            "name": "./node_modules/d3-collection/index.js",
+            "size": 270,
+            "id": 93
+          },
+          {
+            "name": "./node_modules/d3-geo/src/cartesian.js",
+            "size": 929,
+            "id": 94
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/azimuthal.js",
+            "size": 502,
+            "id": 95
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/dice.js",
+            "size": 309,
+            "id": 96
+          },
+          {
+            "name": "./node_modules/d3-scale/src/linear.js",
+            "size": 1745,
+            "id": 97
+          },
+          {
+            "name": "./node_modules/d3-scale/src/colors.js",
+            "size": 101,
+            "id": 98
+          },
+          {
+            "name": "./node_modules/d3-shape/src/math.js",
+            "size": 470,
+            "id": 99
+          },
+          {
+            "name": "./node_modules/d3-shape/src/offset/none.js",
+            "size": 309,
+            "id": 100
+          },
+          {
+            "name": "./node_modules/d3-shape/src/order/none.js",
+            "size": 120,
+            "id": 101
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/Diagram.js",
+            "size": 3567,
+            "id": 102
+          },
+          {
+            "name": "./node_modules/react/lib/canDefineProperty.js",
+            "size": 539,
+            "id": 103
+          },
+          {
+            "name": "./node_modules/fbjs/lib/emptyObject.js",
+            "size": 332,
+            "id": 104
+          },
+          {
+            "name": "./node_modules/process/browser.js",
+            "size": 5418,
+            "id": 105
+          },
+          {
+            "name": "./node_modules/react-dom/lib/EventPluginRegistry.js",
+            "size": 9624,
+            "id": 106
+          },
+          {
+            "name": "./node_modules/react-dom/lib/Transaction.js",
+            "size": 9431,
+            "id": 107
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticMouseEvent.js",
+            "size": 2019,
+            "id": 108
+          },
+          {
+            "name": "./node_modules/react-dom/lib/setInnerHTML.js",
+            "size": 3738,
+            "id": 109
+          },
+          {
+            "name": "./node_modules/react-dom/lib/escapeTextContentForBrowser.js",
+            "size": 3309,
+            "id": 110
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactBrowserEventEmitter.js",
+            "size": 12431,
+            "id": 111
+          },
+          {
+            "name": "./node_modules/history/es/LocationUtils.js",
+            "size": 2224,
+            "id": 112
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_library.js",
+            "size": 23,
+            "id": 113
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_uid.js",
+            "size": 162,
+            "id": 114
+          },
+          {
+            "name": "./node_modules/prop-types-extra/lib/utils/createChainableTypeChecker.js",
+            "size": 1417,
+            "id": 115
+          },
+          {
+            "name": "./node_modules/prop-types-extra/lib/all.js",
+            "size": 1069,
+            "id": 116
+          },
+          {
+            "name": "./node_modules/dom-helpers/style/index.js",
+            "size": 1534,
+            "id": 117
+          },
+          {
+            "name": "./node_modules/dom-helpers/events/on.js",
+            "size": 848,
+            "id": 118
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Dropdown.js",
+            "size": 10475,
+            "id": 119
+          },
+          {
+            "name": "./node_modules/prop-types-extra/lib/isRequiredForA11y.js",
+            "size": 916,
+            "id": 120
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/splitComponentProps.js",
+            "size": 522,
+            "id": 121
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Fade.js",
+            "size": 2438,
+            "id": 122
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Media.js",
+            "size": 1965,
+            "id": 123
+          },
+          {
+            "name": "./node_modules/prop-types-extra/lib/componentOrElement.js",
+            "size": 1671,
+            "id": 124
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/isWindow.js",
+            "size": 246,
+            "id": 125
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/getContainer.js",
+            "size": 500,
+            "id": 126
+          },
+          {
+            "name": "./client/views/recommendations/components/common/PanelData.jsx",
+            "size": 865,
+            "id": 127
+          },
+          {
+            "name": "./client/views/recommendations/components/common/FileReport.jsx",
+            "size": 1117,
+            "id": 128
+          },
+          {
+            "name": "./node_modules/d3/index.js",
+            "size": 855,
+            "id": 129
+          },
+          {
+            "name": "./node_modules/d3-selection/src/creator.js",
+            "size": 662,
+            "id": 130
+          },
+          {
+            "name": "./node_modules/d3-selection/src/point.js",
+            "size": 448,
+            "id": 131
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/number.js",
+            "size": 100,
+            "id": 132
+          },
+          {
+            "name": "./node_modules/d3-timer/index.js",
+            "size": 172,
+            "id": 133
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/tween.js",
+            "size": 2022,
+            "id": 134
+          },
+          {
+            "name": "./node_modules/d3-format/src/exponent.js",
+            "size": 134,
+            "id": 135
+          },
+          {
+            "name": "./node_modules/d3-geo/src/rotation.js",
+            "size": 2509,
+            "id": 136
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/rectangle.js",
+            "size": 5040,
+            "id": 137
+          },
+          {
+            "name": "./node_modules/d3-geo/src/transform.js",
+            "size": 701,
+            "id": 138
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/slice.js",
+            "size": 309,
+            "id": 139
+          },
+          {
+            "name": "./node_modules/d3-request/src/type.js",
+            "size": 370,
+            "id": 140
+          },
+          {
+            "name": "./node_modules/d3-scale/src/continuous.js",
+            "size": 3328,
+            "id": 141
+          },
+          {
+            "name": "./node_modules/d3-time/index.js",
+            "size": 2096,
+            "id": 142
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/linear.js",
+            "size": 738,
+            "id": 143
+          },
+          {
+            "name": "./node_modules/d3-shape/src/noop.js",
+            "size": 29,
+            "id": 144
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/basis.js",
+            "size": 1436,
+            "id": 145
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/cardinal.js",
+            "size": 1633,
+            "id": 146
+          },
+          {
+            "name": "./node_modules/react/lib/lowPriorityWarning.js",
+            "size": 2043,
+            "id": 147
+          },
+          {
+            "name": "./node_modules/react-dom/lib/EventPluginUtils.js",
+            "size": 7823,
+            "id": 148
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactErrorUtils.js",
+            "size": 2086,
+            "id": 149
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getEventTarget.js",
+            "size": 888,
+            "id": 150
+          },
+          {
+            "name": "./node_modules/react-dom/lib/isEventSupported.js",
+            "size": 1815,
+            "id": 151
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getEventModifierState.js",
+            "size": 1103,
+            "id": 152
+          },
+          {
+            "name": "./node_modules/react-dom/lib/DOMChildrenOperations.js",
+            "size": 7595,
+            "id": 153
+          },
+          {
+            "name": "./node_modules/react-dom/lib/DOMNamespaces.js",
+            "size": 383,
+            "id": 154
+          },
+          {
+            "name": "./node_modules/react-dom/lib/createMicrosoftUnsafeLocalFunction.js",
+            "size": 688,
+            "id": 155
+          },
+          {
+            "name": "./node_modules/react-dom/lib/LinkedValueUtils.js",
+            "size": 5117,
+            "id": 156
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactComponentEnvironment.js",
+            "size": 1180,
+            "id": 157
+          },
+          {
+            "name": "./node_modules/fbjs/lib/shallowEqual.js",
+            "size": 1616,
+            "id": 158
+          },
+          {
+            "name": "./node_modules/react-dom/lib/shouldUpdateReactComponent.js",
+            "size": 1281,
+            "id": 159
+          },
+          {
+            "name": "./node_modules/react-dom/lib/KeyEscapeUtils.js",
+            "size": 1172,
+            "id": 160
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactUpdateQueue.js",
+            "size": 9232,
+            "id": 161
+          },
+          {
+            "name": "./node_modules/react-dom/lib/validateDOMNesting.js",
+            "size": 13532,
+            "id": 162
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getEventCharCode.js",
+            "size": 1383,
+            "id": 163
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/index.js",
+            "size": 1011,
+            "id": 164
+          },
+          {
+            "name": "./node_modules/history/es/createTransitionManager.js",
+            "size": 2133,
+            "id": 165
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/Router.js",
+            "size": 131,
+            "id": 166
+          },
+          {
+            "name": "./node_modules/react-router/es/Router.js",
+            "size": 3804,
+            "id": 167
+          },
+          {
+            "name": "./node_modules/react-router/es/matchPath.js",
+            "size": 2044,
+            "id": 168
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_ctx.js",
+            "size": 520,
+            "id": 169
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_to-primitive.js",
+            "size": 655,
+            "id": 170
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_cof.js",
+            "size": 106,
+            "id": 171
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_defined.js",
+            "size": 162,
+            "id": 172
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_to-integer.js",
+            "size": 161,
+            "id": 173
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_shared-key.js",
+            "size": 159,
+            "id": 174
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_shared.js",
+            "size": 427,
+            "id": 175
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_enum-bug-keys.js",
+            "size": 160,
+            "id": 176
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-gops.js",
+            "size": 42,
+            "id": 177
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_to-object.js",
+            "size": 132,
+            "id": 178
+          },
+          {
+            "name": "./node_modules/babel-runtime/helpers/typeof.js",
+            "size": 1069,
+            "id": 179
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-create.js",
+            "size": 1505,
+            "id": 180
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_set-to-string-tag.js",
+            "size": 262,
+            "id": 181
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_wks-ext.js",
+            "size": 31,
+            "id": 182
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_wks-define.js",
+            "size": 417,
+            "id": 183
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/CloseButton.js",
+            "size": 1308,
+            "id": 184
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ButtonGroup.js",
+            "size": 2408,
+            "id": 185
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Glyphicon.js",
+            "size": 1704,
+            "id": 186
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Collapse.js",
+            "size": 6801,
+            "id": 187
+          },
+          {
+            "name": "./node_modules/keycode/index.js",
+            "size": 3712,
+            "id": 188
+          },
+          {
+            "name": "./node_modules/dom-helpers/events/off.js",
+            "size": 701,
+            "id": 189
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/TabContainer.js",
+            "size": 3714,
+            "id": 190
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/TabContent.js",
+            "size": 5529,
+            "id": 191
+          },
+          {
+            "name": "./client/views/cards/Cards.jsx",
+            "size": 5792,
+            "id": 192
+          },
+          {
+            "name": "./node_modules/d3-array/src/quantile.js",
+            "size": 499,
+            "id": 193
+          },
+          {
+            "name": "./node_modules/d3-drag/index.js",
+            "size": 120,
+            "id": 194
+          },
+          {
+            "name": "./node_modules/d3-selection/src/namespace.js",
+            "size": 303,
+            "id": 195
+          },
+          {
+            "name": "./node_modules/d3-selection/src/namespaces.js",
+            "size": 254,
+            "id": 196
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selector.js",
+            "size": 152,
+            "id": 197
+          },
+          {
+            "name": "./node_modules/d3-selection/src/window.js",
+            "size": 218,
+            "id": 198
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/on.js",
+            "size": 3119,
+            "id": 199
+          },
+          {
+            "name": "./node_modules/d3-selection/src/sourceEvent.js",
+            "size": 175,
+            "id": 200
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/value.js",
+            "size": 669,
+            "id": 201
+          },
+          {
+            "name": "./node_modules/d3-color/src/color.js",
+            "size": 9276,
+            "id": 202
+          },
+          {
+            "name": "./node_modules/d3-color/src/define.js",
+            "size": 340,
+            "id": 203
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/basis.js",
+            "size": 600,
+            "id": 204
+          },
+          {
+            "name": "./node_modules/d3-transition/index.js",
+            "size": 196,
+            "id": 205
+          },
+          {
+            "name": "./node_modules/d3-timer/src/timer.js",
+            "size": 2901,
+            "id": 206
+          },
+          {
+            "name": "./node_modules/d3-collection/src/map.js",
+            "size": 1988,
+            "id": 207
+          },
+          {
+            "name": "./node_modules/d3-dsv/index.js",
+            "size": 200,
+            "id": 208
+          },
+          {
+            "name": "./node_modules/d3-dsv/src/dsv.js",
+            "size": 3520,
+            "id": 209
+          },
+          {
+            "name": "./node_modules/d3-force/src/jiggle.js",
+            "size": 69,
+            "id": 210
+          },
+          {
+            "name": "./node_modules/d3-quadtree/index.js",
+            "size": 52,
+            "id": 211
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/quad.js",
+            "size": 134,
+            "id": 212
+          },
+          {
+            "name": "./node_modules/d3-format/index.js",
+            "size": 404,
+            "id": 213
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatDecimal.js",
+            "size": 655,
+            "id": 214
+          },
+          {
+            "name": "./node_modules/d3-geo/src/identity.js",
+            "size": 43,
+            "id": 215
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/conicEqualArea.js",
+            "size": 871,
+            "id": 216
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/conic.js",
+            "size": 402,
+            "id": 217
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/fit.js",
+            "size": 1588,
+            "id": 218
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/mercator.js",
+            "size": 1548,
+            "id": 219
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/index.js",
+            "size": 1874,
+            "id": 220
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/accessors.js",
+            "size": 166,
+            "id": 221
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/squarify.js",
+            "size": 1868,
+            "id": 222
+          },
+          {
+            "name": "./node_modules/d3-request/src/request.js",
+            "size": 4589,
+            "id": 223
+          },
+          {
+            "name": "./node_modules/d3-scale/src/constant.js",
+            "size": 72,
+            "id": 224
+          },
+          {
+            "name": "./node_modules/d3-time-format/index.js",
+            "size": 280,
+            "id": 225
+          },
+          {
+            "name": "./node_modules/d3-time-format/src/defaultLocale.js",
+            "size": 867,
+            "id": 226
+          },
+          {
+            "name": "./node_modules/d3-shape/src/line.js",
+            "size": 1516,
+            "id": 227
+          },
+          {
+            "name": "./node_modules/d3-shape/src/point.js",
+            "size": 81,
+            "id": 228
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/catmullRom.js",
+            "size": 2637,
+            "id": 229
+          },
+          {
+            "name": "./node_modules/d3-shape/src/order/ascending.js",
+            "size": 305,
+            "id": 230
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/RedBlackTree.js",
+            "size": 5302,
+            "id": 231
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/Edge.js",
+            "size": 3632,
+            "id": 232
+          },
+          {
+            "name": "./node_modules/react/lib/ReactBaseClasses.js",
+            "size": 5314,
+            "id": 233
+          },
+          {
+            "name": "./node_modules/react/lib/ReactNoopUpdateQueue.js",
+            "size": 3240,
+            "id": 234
+          },
+          {
+            "name": "./node_modules/react/lib/ReactElementSymbol.js",
+            "size": 500,
+            "id": 235
+          },
+          {
+            "name": "./node_modules/react/lib/getIteratorFn.js",
+            "size": 997,
+            "id": 236
+          },
+          {
+            "name": "./node_modules/react/lib/ReactElementValidator.js",
+            "size": 9076,
+            "id": 237
+          },
+          {
+            "name": "./node_modules/prop-types/factory.js",
+            "size": 768,
+            "id": 238
+          },
+          {
+            "name": "./node_modules/prop-types/factoryWithTypeCheckers.js",
+            "size": 20237,
+            "id": 239
+          },
+          {
+            "name": "./node_modules/prop-types/lib/ReactPropTypesSecret.js",
+            "size": 314,
+            "id": 240
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMComponentFlags.js",
+            "size": 307,
+            "id": 241
+          },
+          {
+            "name": "./node_modules/react-dom/lib/accumulateInto.js",
+            "size": 1572,
+            "id": 242
+          },
+          {
+            "name": "./node_modules/react-dom/lib/forEachAccumulated.js",
+            "size": 733,
+            "id": 243
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getTextContentAccessor.js",
+            "size": 833,
+            "id": 244
+          },
+          {
+            "name": "./node_modules/react-dom/lib/CallbackQueue.js",
+            "size": 3040,
+            "id": 245
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactFeatureFlags.js",
+            "size": 506,
+            "id": 246
+          },
+          {
+            "name": "./node_modules/react-dom/lib/inputValueTracking.js",
+            "size": 2974,
+            "id": 247
+          },
+          {
+            "name": "./node_modules/react-dom/lib/isTextInputElement.js",
+            "size": 895,
+            "id": 248
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ViewportMetrics.js",
+            "size": 482,
+            "id": 249
+          },
+          {
+            "name": "./node_modules/react-dom/lib/setTextContent.js",
+            "size": 1331,
+            "id": 250
+          },
+          {
+            "name": "./node_modules/fbjs/lib/focusNode.js",
+            "size": 578,
+            "id": 251
+          },
+          {
+            "name": "./node_modules/react-dom/lib/CSSProperty.js",
+            "size": 3693,
+            "id": 252
+          },
+          {
+            "name": "./node_modules/react-dom/lib/DOMPropertyOperations.js",
+            "size": 7485,
+            "id": 253
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactPropTypesSecret.js",
+            "size": 320,
+            "id": 254
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMSelect.js",
+            "size": 6686,
+            "id": 255
+          },
+          {
+            "name": "./node_modules/react-dom/lib/instantiateReactComponent.js",
+            "size": 4934,
+            "id": 256
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactNodeTypes.js",
+            "size": 894,
+            "id": 257
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactEmptyComponent.js",
+            "size": 582,
+            "id": 258
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactHostComponent.js",
+            "size": 1855,
+            "id": 259
+          },
+          {
+            "name": "./node_modules/react-dom/lib/traverseAllChildren.js",
+            "size": 6916,
+            "id": 260
+          },
+          {
+            "name": "./node_modules/fbjs/lib/EventListener.js",
+            "size": 2248,
+            "id": 261
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactInputSelection.js",
+            "size": 4148,
+            "id": 262
+          },
+          {
+            "name": "./node_modules/fbjs/lib/getActiveElement.js",
+            "size": 912,
+            "id": 263
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactMount.js",
+            "size": 25385,
+            "id": 264
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getHostComponentFromComposite.js",
+            "size": 618,
+            "id": 265
+          },
+          {
+            "name": "./node_modules/react-router-dom/node_modules/warning/warning.js",
+            "size": 1772,
+            "id": 266
+          },
+          {
+            "name": "./node_modules/history/es/DOMUtils.js",
+            "size": 2258,
+            "id": 267
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/Link.js",
+            "size": 4290,
+            "id": 268
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/Route.js",
+            "size": 128,
+            "id": 269
+          },
+          {
+            "name": "./node_modules/react-router/es/Route.js",
+            "size": 5891,
+            "id": 270
+          },
+          {
+            "name": "./node_modules/path-to-regexp/index.js",
+            "size": 10809,
+            "id": 271
+          },
+          {
+            "name": "./node_modules/react-router/es/generatePath.js",
+            "size": 979,
+            "id": 272
+          },
+          {
+            "name": "./client/containers/Header.jsx",
+            "size": 2001,
+            "id": 273
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/object/assign.js",
+            "size": 94,
+            "id": 274
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_ie8-dom-define.js",
+            "size": 199,
+            "id": 275
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_dom-create.js",
+            "size": 289,
+            "id": 276
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-keys-internal.js",
+            "size": 537,
+            "id": 277
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iobject.js",
+            "size": 289,
+            "id": 278
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_to-length.js",
+            "size": 215,
+            "id": 279
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.string.iterator.js",
+            "size": 531,
+            "id": 280
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iter-define.js",
+            "size": 2779,
+            "id": 281
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_redefine.js",
+            "size": 37,
+            "id": 282
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-gopn.js",
+            "size": 288,
+            "id": 283
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-gopd.js",
+            "size": 577,
+            "id": 284
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/PanelGroup.js",
+            "size": 3347,
+            "id": 285
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/object/entries.js",
+            "size": 95,
+            "id": 286
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-to-array.js",
+            "size": 468,
+            "id": 287
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/BreadcrumbItem.js",
+            "size": 2046,
+            "id": 288
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/CarouselItem.js",
+            "size": 3678,
+            "id": 289
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/capitalize.js",
+            "size": 110,
+            "id": 290
+          },
+          {
+            "name": "./node_modules/dom-helpers/util/camelizeStyle.js",
+            "size": 591,
+            "id": 291
+          },
+          {
+            "name": "./node_modules/dom-helpers/transition/properties.js",
+            "size": 3431,
+            "id": 292
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/Transition.js",
+            "size": 10626,
+            "id": 293
+          },
+          {
+            "name": "./node_modules/dom-helpers/activeElement.js",
+            "size": 475,
+            "id": 294
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/RootCloseWrapper.js",
+            "size": 5540,
+            "id": 295
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/addEventListener.js",
+            "size": 581,
+            "id": 296
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/DropdownToggle.js",
+            "size": 2349,
+            "id": 297
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Grid.js",
+            "size": 1883,
+            "id": 298
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ListGroupItem.js",
+            "size": 3214,
+            "id": 299
+          },
+          {
+            "name": "./node_modules/dom-helpers/util/scrollbarSize.js",
+            "size": 800,
+            "id": 300
+          },
+          {
+            "name": "./node_modules/dom-helpers/class/hasClass.js",
+            "size": 349,
+            "id": 301
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/isOverflowing.js",
+            "size": 1146,
+            "id": 302
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/Portal.js",
+            "size": 4122,
+            "id": 303
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ModalBody.js",
+            "size": 1607,
+            "id": 304
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ModalFooter.js",
+            "size": 1627,
+            "id": 305
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ModalHeader.js",
+            "size": 2771,
+            "id": 306
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ModalTitle.js",
+            "size": 1616,
+            "id": 307
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Nav.js",
+            "size": 11138,
+            "id": 308
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/NavbarBrand.js",
+            "size": 1656,
+            "id": 309
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/NavItem.js",
+            "size": 2607,
+            "id": 310
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Overlay.js",
+            "size": 2975,
+            "id": 311
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/offset.js",
+            "size": 1240,
+            "id": 312
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/scrollTop.js",
+            "size": 610,
+            "id": 313
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/PagerItem.js",
+            "size": 2495,
+            "id": 314
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/PaginationButton.js",
+            "size": 2827,
+            "id": 315
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/TabPane.js",
+            "size": 8406,
+            "id": 316
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ToggleButton.js",
+            "size": 2309,
+            "id": 317
+          },
+          {
+            "name": "./client/containers/Main.jsx",
+            "size": 4732,
+            "id": 318
+          },
+          {
+            "name": "./node_modules/d3-array/src/bisect.js",
+            "size": 238,
+            "id": 319
+          },
+          {
+            "name": "./node_modules/d3-array/src/bisector.js",
+            "size": 786,
+            "id": 320
+          },
+          {
+            "name": "./node_modules/d3-array/src/pairs.js",
+            "size": 262,
+            "id": 321
+          },
+          {
+            "name": "./node_modules/d3-array/src/deviation.js",
+            "size": 135,
+            "id": 322
+          },
+          {
+            "name": "./node_modules/d3-array/src/variance.js",
+            "size": 648,
+            "id": 323
+          },
+          {
+            "name": "./node_modules/d3-array/src/extent.js",
+            "size": 961,
+            "id": 324
+          },
+          {
+            "name": "./node_modules/d3-array/src/array.js",
+            "size": 90,
+            "id": 325
+          },
+          {
+            "name": "./node_modules/d3-array/src/range.js",
+            "size": 344,
+            "id": 326
+          },
+          {
+            "name": "./node_modules/d3-array/src/ticks.js",
+            "size": 1635,
+            "id": 327
+          },
+          {
+            "name": "./node_modules/d3-array/src/threshold/sturges.js",
+            "size": 96,
+            "id": 328
+          },
+          {
+            "name": "./node_modules/d3-array/src/min.js",
+            "size": 843,
+            "id": 329
+          },
+          {
+            "name": "./node_modules/d3-array/src/transpose.js",
+            "size": 356,
+            "id": 330
+          },
+          {
+            "name": "./node_modules/d3-selection/src/select.js",
+            "size": 259,
+            "id": 331
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selectorAll.js",
+            "size": 171,
+            "id": 332
+          },
+          {
+            "name": "./node_modules/d3-selection/src/matcher.js",
+            "size": 533,
+            "id": 333
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/enter.js",
+            "size": 792,
+            "id": 334
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/sparse.js",
+            "size": 71,
+            "id": 335
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/style.js",
+            "size": 968,
+            "id": 336
+          },
+          {
+            "name": "./node_modules/d3-drag/src/nodrag.js",
+            "size": 857,
+            "id": 337
+          },
+          {
+            "name": "./node_modules/d3-drag/src/noevent.js",
+            "size": 202,
+            "id": 338
+          },
+          {
+            "name": "./node_modules/d3-color/src/math.js",
+            "size": 72,
+            "id": 339
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/rgb.js",
+            "size": 1288,
+            "id": 340
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/basisClosed.js",
+            "size": 360,
+            "id": 341
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/constant.js",
+            "size": 72,
+            "id": 342
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/array.js",
+            "size": 372,
+            "id": 343
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/date.js",
+            "size": 134,
+            "id": 344
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/object.js",
+            "size": 390,
+            "id": 345
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/string.js",
+            "size": 1758,
+            "id": 346
+          },
+          {
+            "name": "./node_modules/d3-transition/src/interrupt.js",
+            "size": 665,
+            "id": 347
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/interpolate.js",
+            "size": 340,
+            "id": 348
+          },
+          {
+            "name": "./node_modules/d3-ease/index.js",
+            "size": 1320,
+            "id": 349
+          },
+          {
+            "name": "./node_modules/d3-chord/src/math.js",
+            "size": 159,
+            "id": 350
+          },
+          {
+            "name": "./node_modules/d3-force/src/simulation.js",
+            "size": 3444,
+            "id": 351
+          },
+          {
+            "name": "./node_modules/d3-format/src/locale.js",
+            "size": 4946,
+            "id": 352
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatSpecifier.js",
+            "size": 1675,
+            "id": 353
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatTypes.js",
+            "size": 846,
+            "id": 354
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatPrefixAuto.js",
+            "size": 611,
+            "id": 355
+          },
+          {
+            "name": "./node_modules/d3-geo/src/area.js",
+            "size": 1956,
+            "id": 356
+          },
+          {
+            "name": "./node_modules/d3-geo/src/circle.js",
+            "size": 2371,
+            "id": 357
+          },
+          {
+            "name": "./node_modules/d3-geo/src/compose.js",
+            "size": 250,
+            "id": 358
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/antimeridian.js",
+            "size": 2897,
+            "id": 359
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/index.js",
+            "size": 3584,
+            "id": 360
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/buffer.js",
+            "size": 470,
+            "id": 361
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/rejoin.js",
+            "size": 2802,
+            "id": 362
+          },
+          {
+            "name": "./node_modules/d3-geo/src/pointEqual.js",
+            "size": 139,
+            "id": 363
+          },
+          {
+            "name": "./node_modules/d3-geo/src/polygonContains.js",
+            "size": 2489,
+            "id": 364
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/circle.js",
+            "size": 5994,
+            "id": 365
+          },
+          {
+            "name": "./node_modules/d3-geo/src/distance.js",
+            "size": 229,
+            "id": 366
+          },
+          {
+            "name": "./node_modules/d3-geo/src/length.js",
+            "size": 1309,
+            "id": 367
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/bounds.js",
+            "size": 485,
+            "id": 368
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/albers.js",
+            "size": 235,
+            "id": 369
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/equirectangular.js",
+            "size": 253,
+            "id": 370
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/pack/siblings.js",
+            "size": 3013,
+            "id": 371
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/pack/enclose.js",
+            "size": 2976,
+            "id": 372
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/constant.js",
+            "size": 120,
+            "id": 373
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/round.js",
+            "size": 166,
+            "id": 374
+          },
+          {
+            "name": "./node_modules/d3-random/src/normal.js",
+            "size": 713,
+            "id": 375
+          },
+          {
+            "name": "./node_modules/d3-random/src/irwinHall.js",
+            "size": 345,
+            "id": 376
+          },
+          {
+            "name": "./node_modules/d3-request/src/dsv.js",
+            "size": 517,
+            "id": 377
+          },
+          {
+            "name": "./node_modules/d3-scale/src/ordinal.js",
+            "size": 1116,
+            "id": 378
+          },
+          {
+            "name": "./node_modules/d3-scale/src/number.js",
+            "size": 44,
+            "id": 379
+          },
+          {
+            "name": "./node_modules/d3-scale/src/nice.js",
+            "size": 340,
+            "id": 380
+          },
+          {
+            "name": "./node_modules/d3-scale/src/time.js",
+            "size": 4578,
+            "id": 381
+          },
+          {
+            "name": "./node_modules/d3-time-format/src/locale.js",
+            "size": 17085,
+            "id": 382
+          },
+          {
+            "name": "./node_modules/d3-time-format/src/isoFormat.js",
+            "size": 284,
+            "id": 383
+          },
+          {
+            "name": "./node_modules/d3-shape/src/area.js",
+            "size": 2917,
+            "id": 384
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/radial.js",
+            "size": 655,
+            "id": 385
+          },
+          {
+            "name": "./node_modules/d3-shape/src/lineRadial.js",
+            "size": 396,
+            "id": 386
+          },
+          {
+            "name": "./node_modules/d3-shape/src/pointRadial.js",
+            "size": 101,
+            "id": 387
+          },
+          {
+            "name": "./node_modules/d3-shape/src/array.js",
+            "size": 42,
+            "id": 388
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/circle.js",
+            "size": 186,
+            "id": 389
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/cross.js",
+            "size": 476,
+            "id": 390
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/diamond.js",
+            "size": 307,
+            "id": 391
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/star.js",
+            "size": 609,
+            "id": 392
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/square.js",
+            "size": 137,
+            "id": 393
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/triangle.js",
+            "size": 255,
+            "id": 394
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol/wye.js",
+            "size": 733,
+            "id": 395
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/cardinalClosed.js",
+            "size": 1605,
+            "id": 396
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/cardinalOpen.js",
+            "size": 1288,
+            "id": 397
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/Cell.js",
+            "size": 4083,
+            "id": 398
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/Circle.js",
+            "size": 1632,
+            "id": 399
+          },
+          {
+            "name": "./node_modules/d3-zoom/src/transform.js",
+            "size": 1336,
+            "id": 400
+          },
+          {
+            "name": "./client/views/overview/components/graphs/utils/D3Utils.jsx",
+            "size": 7536,
+            "id": 401
+          },
+          {
+            "name": "./client/views/overview/components/graphs/LineChart.jsx",
+            "size": 9473,
+            "id": 402
+          },
+          {
+            "name": "./client/index.jsx",
+            "size": 1026,
+            "id": 403
+          },
+          {
+            "name": "./node_modules/react/lib/ReactChildren.js",
+            "size": 6067,
+            "id": 404
+          },
+          {
+            "name": "./node_modules/react/lib/PooledClass.js",
+            "size": 3234,
+            "id": 405
+          },
+          {
+            "name": "./node_modules/react/lib/traverseAllChildren.js",
+            "size": 6908,
+            "id": 406
+          },
+          {
+            "name": "./node_modules/react/lib/KeyEscapeUtils.js",
+            "size": 1172,
+            "id": 407
+          },
+          {
+            "name": "./node_modules/react/lib/ReactDOMFactories.js",
+            "size": 5359,
+            "id": 408
+          },
+          {
+            "name": "./node_modules/react/lib/checkReactTypeSpec.js",
+            "size": 4071,
+            "id": 409
+          },
+          {
+            "name": "./node_modules/react/lib/ReactPropTypeLocationNames.js",
+            "size": 450,
+            "id": 410
+          },
+          {
+            "name": "./node_modules/react/lib/ReactPropTypesSecret.js",
+            "size": 320,
+            "id": 411
+          },
+          {
+            "name": "./node_modules/react/lib/ReactPropTypes.js",
+            "size": 378,
+            "id": 412
+          },
+          {
+            "name": "./node_modules/prop-types/checkPropTypes.js",
+            "size": 3534,
+            "id": 413
+          },
+          {
+            "name": "./node_modules/react/lib/ReactVersion.js",
+            "size": 228,
+            "id": 414
+          },
+          {
+            "name": "./node_modules/react/lib/createClass.js",
+            "size": 566,
+            "id": 415
+          },
+          {
+            "name": "./node_modules/create-react-class/factory.js",
+            "size": 29832,
+            "id": 416
+          },
+          {
+            "name": "./node_modules/react/lib/onlyChild.js",
+            "size": 1216,
+            "id": 417
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOM.js",
+            "size": 5048,
+            "id": 418
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDefaultInjection.js",
+            "size": 3379,
+            "id": 419
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ARIADOMPropertyConfig.js",
+            "size": 1694,
+            "id": 420
+          },
+          {
+            "name": "./node_modules/react-dom/lib/BeforeInputEventPlugin.js",
+            "size": 13130,
+            "id": 421
+          },
+          {
+            "name": "./node_modules/react-dom/lib/FallbackCompositionState.js",
+            "size": 2304,
+            "id": 422
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticCompositionEvent.js",
+            "size": 977,
+            "id": 423
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticInputEvent.js",
+            "size": 967,
+            "id": 424
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ChangeEventPlugin.js",
+            "size": 10691,
+            "id": 425
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactRef.js",
+            "size": 2435,
+            "id": 426
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactOwner.js",
+            "size": 3405,
+            "id": 427
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDebugTool.js",
+            "size": 11539,
+            "id": 428
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactInvalidSetStateWarningHook.js",
+            "size": 862,
+            "id": 429
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactHostOperationHistoryHook.js",
+            "size": 614,
+            "id": 430
+          },
+          {
+            "name": "./node_modules/fbjs/lib/performanceNow.js",
+            "size": 719,
+            "id": 431
+          },
+          {
+            "name": "./node_modules/fbjs/lib/performance.js",
+            "size": 462,
+            "id": 432
+          },
+          {
+            "name": "./node_modules/react-dom/lib/DefaultEventPluginOrder.js",
+            "size": 955,
+            "id": 433
+          },
+          {
+            "name": "./node_modules/react-dom/lib/EnterLeaveEventPlugin.js",
+            "size": 3032,
+            "id": 434
+          },
+          {
+            "name": "./node_modules/react-dom/lib/HTMLDOMPropertyConfig.js",
+            "size": 6470,
+            "id": 435
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactComponentBrowserEnvironment.js",
+            "size": 782,
+            "id": 436
+          },
+          {
+            "name": "./node_modules/react-dom/lib/Danger.js",
+            "size": 2118,
+            "id": 437
+          },
+          {
+            "name": "./node_modules/fbjs/lib/createNodesFromMarkup.js",
+            "size": 2536,
+            "id": 438
+          },
+          {
+            "name": "./node_modules/fbjs/lib/createArrayFromMixed.js",
+            "size": 3987,
+            "id": 439
+          },
+          {
+            "name": "./node_modules/fbjs/lib/getMarkupWrap.js",
+            "size": 2909,
+            "id": 440
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMIDOperations.js",
+            "size": 833,
+            "id": 441
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMComponent.js",
+            "size": 39011,
+            "id": 442
+          },
+          {
+            "name": "./node_modules/react-dom/lib/AutoFocusUtils.js",
+            "size": 477,
+            "id": 443
+          },
+          {
+            "name": "./node_modules/react-dom/lib/CSSPropertyOperations.js",
+            "size": 7075,
+            "id": 444
+          },
+          {
+            "name": "./node_modules/fbjs/lib/camelizeStyleName.js",
+            "size": 875,
+            "id": 445
+          },
+          {
+            "name": "./node_modules/fbjs/lib/camelize.js",
+            "size": 582,
+            "id": 446
+          },
+          {
+            "name": "./node_modules/react-dom/lib/dangerousStyleValue.js",
+            "size": 2939,
+            "id": 447
+          },
+          {
+            "name": "./node_modules/fbjs/lib/hyphenateStyleName.js",
+            "size": 848,
+            "id": 448
+          },
+          {
+            "name": "./node_modules/fbjs/lib/hyphenate.js",
+            "size": 674,
+            "id": 449
+          },
+          {
+            "name": "./node_modules/fbjs/lib/memoizeStringOnly.js",
+            "size": 572,
+            "id": 450
+          },
+          {
+            "name": "./node_modules/react-dom/lib/quoteAttributeValueForBrowser.js",
+            "size": 578,
+            "id": 451
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactEventEmitterMixin.js",
+            "size": 836,
+            "id": 452
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getVendorPrefixedEventName.js",
+            "size": 2747,
+            "id": 453
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMInput.js",
+            "size": 12956,
+            "id": 454
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMOption.js",
+            "size": 3565,
+            "id": 455
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMTextarea.js",
+            "size": 6342,
+            "id": 456
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactMultiChild.js",
+            "size": 14434,
+            "id": 457
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactChildReconciler.js",
+            "size": 5984,
+            "id": 458
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactCompositeComponent.js",
+            "size": 35086,
+            "id": 459
+          },
+          {
+            "name": "./node_modules/react-dom/lib/checkReactTypeSpec.js",
+            "size": 4087,
+            "id": 460
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactPropTypeLocationNames.js",
+            "size": 450,
+            "id": 461
+          },
+          {
+            "name": "./node_modules/react/lib/getNextDebugID.js",
+            "size": 315,
+            "id": 462
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactElementSymbol.js",
+            "size": 500,
+            "id": 463
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getIteratorFn.js",
+            "size": 997,
+            "id": 464
+          },
+          {
+            "name": "./node_modules/react-dom/lib/flattenChildren.js",
+            "size": 2651,
+            "id": 465
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactServerRenderingTransaction.js",
+            "size": 2166,
+            "id": 466
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactServerUpdateQueue.js",
+            "size": 4706,
+            "id": 467
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMEmptyComponent.js",
+            "size": 1780,
+            "id": 468
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMTreeTraversal.js",
+            "size": 3599,
+            "id": 469
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMTextComponent.js",
+            "size": 5692,
+            "id": 470
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDefaultBatchingStrategy.js",
+            "size": 1758,
+            "id": 471
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactEventListener.js",
+            "size": 5175,
+            "id": 472
+          },
+          {
+            "name": "./node_modules/fbjs/lib/getUnboundedScrollPosition.js",
+            "size": 996,
+            "id": 473
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactInjection.js",
+            "size": 1078,
+            "id": 474
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactReconcileTransaction.js",
+            "size": 5137,
+            "id": 475
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMSelection.js",
+            "size": 6654,
+            "id": 476
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getNodeForCharacterOffset.js",
+            "size": 1495,
+            "id": 477
+          },
+          {
+            "name": "./node_modules/fbjs/lib/containsNode.js",
+            "size": 923,
+            "id": 478
+          },
+          {
+            "name": "./node_modules/fbjs/lib/isTextNode.js",
+            "size": 479,
+            "id": 479
+          },
+          {
+            "name": "./node_modules/fbjs/lib/isNode.js",
+            "size": 702,
+            "id": 480
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SVGDOMPropertyConfig.js",
+            "size": 7196,
+            "id": 481
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SelectEventPlugin.js",
+            "size": 5935,
+            "id": 482
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SimpleEventPlugin.js",
+            "size": 7851,
+            "id": 483
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticAnimationEvent.js",
+            "size": 1087,
+            "id": 484
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticClipboardEvent.js",
+            "size": 1047,
+            "id": 485
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticFocusEvent.js",
+            "size": 944,
+            "id": 486
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticKeyboardEvent.js",
+            "size": 2583,
+            "id": 487
+          },
+          {
+            "name": "./node_modules/react-dom/lib/getEventKey.js",
+            "size": 2746,
+            "id": 488
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticDragEvent.js",
+            "size": 949,
+            "id": 489
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticTouchEvent.js",
+            "size": 1155,
+            "id": 490
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticTransitionEvent.js",
+            "size": 1104,
+            "id": 491
+          },
+          {
+            "name": "./node_modules/react-dom/lib/SyntheticWheelEvent.js",
+            "size": 1802,
+            "id": 492
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMContainerInfo.js",
+            "size": 845,
+            "id": 493
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMFeatureFlags.js",
+            "size": 317,
+            "id": 494
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactMarkupChecksum.js",
+            "size": 1350,
+            "id": 495
+          },
+          {
+            "name": "./node_modules/react-dom/lib/adler32.js",
+            "size": 1069,
+            "id": 496
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactVersion.js",
+            "size": 228,
+            "id": 497
+          },
+          {
+            "name": "./node_modules/react-dom/lib/findDOMNode.js",
+            "size": 2343,
+            "id": 498
+          },
+          {
+            "name": "./node_modules/react-dom/lib/renderSubtreeIntoContainer.js",
+            "size": 300,
+            "id": 499
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMUnknownPropertyHook.js",
+            "size": 4197,
+            "id": 500
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMNullInputValuePropHook.js",
+            "size": 1246,
+            "id": 501
+          },
+          {
+            "name": "./node_modules/react-dom/lib/ReactDOMInvalidARIAHook.js",
+            "size": 3018,
+            "id": 502
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/BrowserRouter.js",
+            "size": 2419,
+            "id": 503
+          },
+          {
+            "name": "./node_modules/history/es/createBrowserHistory.js",
+            "size": 9230,
+            "id": 504
+          },
+          {
+            "name": "./node_modules/resolve-pathname/index.js",
+            "size": 1797,
+            "id": 505
+          },
+          {
+            "name": "./node_modules/value-equal/index.js",
+            "size": 1136,
+            "id": 506
+          },
+          {
+            "name": "./node_modules/history/es/createHashHistory.js",
+            "size": 9382,
+            "id": 507
+          },
+          {
+            "name": "./node_modules/history/es/createMemoryHistory.js",
+            "size": 5394,
+            "id": 508
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/HashRouter.js",
+            "size": 2390,
+            "id": 509
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/MemoryRouter.js",
+            "size": 149,
+            "id": 510
+          },
+          {
+            "name": "./node_modules/react-router/es/MemoryRouter.js",
+            "size": 2421,
+            "id": 511
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/NavLink.js",
+            "size": 2897,
+            "id": 512
+          },
+          {
+            "name": "./node_modules/isarray/index.js",
+            "size": 120,
+            "id": 513
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/Prompt.js",
+            "size": 131,
+            "id": 514
+          },
+          {
+            "name": "./node_modules/react-router/es/Prompt.js",
+            "size": 2685,
+            "id": 515
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/Redirect.js",
+            "size": 137,
+            "id": 516
+          },
+          {
+            "name": "./node_modules/react-router/es/Redirect.js",
+            "size": 3891,
+            "id": 517
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/StaticRouter.js",
+            "size": 149,
+            "id": 518
+          },
+          {
+            "name": "./node_modules/react-router/es/StaticRouter.js",
+            "size": 5765,
+            "id": 519
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/Switch.js",
+            "size": 131,
+            "id": 520
+          },
+          {
+            "name": "./node_modules/react-router/es/Switch.js",
+            "size": 3278,
+            "id": 521
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/generatePath.js",
+            "size": 149,
+            "id": 522
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/matchPath.js",
+            "size": 140,
+            "id": 523
+          },
+          {
+            "name": "./node_modules/react-router-dom/es/withRouter.js",
+            "size": 143,
+            "id": 524
+          },
+          {
+            "name": "./node_modules/react-router/es/withRouter.js",
+            "size": 1432,
+            "id": 525
+          },
+          {
+            "name": "./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js",
+            "size": 2073,
+            "id": 526
+          },
+          {
+            "name": "./client/AppDev.jsx",
+            "size": 4235,
+            "id": 527
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Accordion.js",
+            "size": 839,
+            "id": 528
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/assign.js",
+            "size": 107,
+            "id": 529
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.object.assign.js",
+            "size": 162,
+            "id": 530
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_a-function.js",
+            "size": 125,
+            "id": 531
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-assign.js",
+            "size": 1195,
+            "id": 532
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_array-includes.js",
+            "size": 924,
+            "id": 533
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_to-absolute-index.js",
+            "size": 223,
+            "id": 534
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/symbol/iterator.js",
+            "size": 96,
+            "id": 535
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/symbol/iterator.js",
+            "size": 155,
+            "id": 536
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_string-at.js",
+            "size": 620,
+            "id": 537
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iter-create.js",
+            "size": 526,
+            "id": 538
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-dps.js",
+            "size": 404,
+            "id": 539
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_html.js",
+            "size": 101,
+            "id": 540
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-gpo.js",
+            "size": 493,
+            "id": 541
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/web.dom.iterable.js",
+            "size": 969,
+            "id": 542
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.array.iterator.js",
+            "size": 1116,
+            "id": 543
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_add-to-unscopables.js",
+            "size": 46,
+            "id": 544
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iter-step.js",
+            "size": 86,
+            "id": 545
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/symbol.js",
+            "size": 87,
+            "id": 546
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/symbol/index.js",
+            "size": 240,
+            "id": 547
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.symbol.js",
+            "size": 8851,
+            "id": 548
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_meta.js",
+            "size": 1558,
+            "id": 549
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_enum-keys.js",
+            "size": 469,
+            "id": 550
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_is-array.js",
+            "size": 147,
+            "id": 551
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_object-gopn-ext.js",
+            "size": 604,
+            "id": 552
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.object.to-string.js",
+            "size": 0,
+            "id": 553
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es7.symbol.async-iterator.js",
+            "size": 43,
+            "id": 554
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es7.symbol.observable.js",
+            "size": 40,
+            "id": 555
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/object/set-prototype-of.js",
+            "size": 104,
+            "id": 556
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/set-prototype-of.js",
+            "size": 125,
+            "id": 557
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.object.set-prototype-of.js",
+            "size": 160,
+            "id": 558
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_set-proto.js",
+            "size": 906,
+            "id": 559
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/object/create.js",
+            "size": 94,
+            "id": 560
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/create.js",
+            "size": 172,
+            "id": 561
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.object.create.js",
+            "size": 162,
+            "id": 562
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/entries.js",
+            "size": 109,
+            "id": 563
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es7.object.entries.js",
+            "size": 245,
+            "id": 564
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Alert.js",
+            "size": 2215,
+            "id": 565
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/object/values.js",
+            "size": 107,
+            "id": 566
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es7.object.values.js",
+            "size": 242,
+            "id": 567
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Badge.js",
+            "size": 2106,
+            "id": 568
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Breadcrumb.js",
+            "size": 1457,
+            "id": 569
+          },
+          {
+            "name": "./node_modules/react-is/index.js",
+            "size": 196,
+            "id": 570
+          },
+          {
+            "name": "./node_modules/react-is/cjs/react-is.development.js",
+            "size": 8066,
+            "id": 571
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ButtonToolbar.js",
+            "size": 1360,
+            "id": 572
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Carousel.js",
+            "size": 12510,
+            "id": 573
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/CarouselCaption.js",
+            "size": 1667,
+            "id": 574
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/TransitionEvents.js",
+            "size": 3372,
+            "id": 575
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Checkbox.js",
+            "size": 3447,
+            "id": 576
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Clearfix.js",
+            "size": 2551,
+            "id": 577
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ControlLabel.js",
+            "size": 2307,
+            "id": 578
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Col.js",
+            "size": 5366,
+            "id": 579
+          },
+          {
+            "name": "./node_modules/dom-helpers/util/camelize.js",
+            "size": 250,
+            "id": 580
+          },
+          {
+            "name": "./node_modules/dom-helpers/util/hyphenateStyle.js",
+            "size": 597,
+            "id": 581
+          },
+          {
+            "name": "./node_modules/dom-helpers/util/hyphenate.js",
+            "size": 219,
+            "id": 582
+          },
+          {
+            "name": "./node_modules/dom-helpers/style/getComputedStyle.js",
+            "size": 1699,
+            "id": 583
+          },
+          {
+            "name": "./node_modules/dom-helpers/style/removeStyle.js",
+            "size": 255,
+            "id": 584
+          },
+          {
+            "name": "./node_modules/dom-helpers/transition/isTransform.js",
+            "size": 312,
+            "id": 585
+          },
+          {
+            "name": "./node_modules/uncontrollable/createUncontrollable.js",
+            "size": 7309,
+            "id": 586
+          },
+          {
+            "name": "./node_modules/uncontrollable/utils.js",
+            "size": 3527,
+            "id": 587
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/DropdownMenu.js",
+            "size": 5204,
+            "id": 588
+          },
+          {
+            "name": "./node_modules/babel-runtime/core-js/array/from.js",
+            "size": 91,
+            "id": 589
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/fn/array/from.js",
+            "size": 147,
+            "id": 590
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/es6.array.from.js",
+            "size": 1635,
+            "id": 591
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iter-call.js",
+            "size": 410,
+            "id": 592
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_is-array-iter.js",
+            "size": 279,
+            "id": 593
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_create-property.js",
+            "size": 271,
+            "id": 594
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/core.get-iterator-method.js",
+            "size": 297,
+            "id": 595
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_classof.js",
+            "size": 718,
+            "id": 596
+          },
+          {
+            "name": "./node_modules/babel-runtime/node_modules/core-js/library/modules/_iter-detect.js",
+            "size": 645,
+            "id": 597
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/PropTypes.js",
+            "size": 1790,
+            "id": 598
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/DropdownButton.js",
+            "size": 2111,
+            "id": 599
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Form.js",
+            "size": 1910,
+            "id": 600
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/FormControl.js",
+            "size": 3425,
+            "id": 601
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/FormControlFeedback.js",
+            "size": 2617,
+            "id": 602
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/FormControlStatic.js",
+            "size": 1686,
+            "id": 603
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/FormGroup.js",
+            "size": 2840,
+            "id": 604
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/HelpBlock.js",
+            "size": 1309,
+            "id": 605
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Image.js",
+            "size": 2205,
+            "id": 606
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/InputGroup.js",
+            "size": 1580,
+            "id": 607
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/InputGroupAddon.js",
+            "size": 1358,
+            "id": 608
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/InputGroupButton.js",
+            "size": 1363,
+            "id": 609
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Jumbotron.js",
+            "size": 1606,
+            "id": 610
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Label.js",
+            "size": 1971,
+            "id": 611
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ListGroup.js",
+            "size": 2697,
+            "id": 612
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MediaBody.js",
+            "size": 2002,
+            "id": 613
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MediaHeading.js",
+            "size": 1636,
+            "id": 614
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MediaLeft.js",
+            "size": 1757,
+            "id": 615
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MediaList.js",
+            "size": 1307,
+            "id": 616
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MediaListItem.js",
+            "size": 1330,
+            "id": 617
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MediaRight.js",
+            "size": 1767,
+            "id": 618
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/MenuItem.js",
+            "size": 4372,
+            "id": 619
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Modal.js",
+            "size": 8683,
+            "id": 620
+          },
+          {
+            "name": "./node_modules/dom-helpers/events/index.js",
+            "size": 647,
+            "id": 621
+          },
+          {
+            "name": "./node_modules/dom-helpers/events/filter.js",
+            "size": 690,
+            "id": 622
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/querySelectorAll.js",
+            "size": 976,
+            "id": 623
+          },
+          {
+            "name": "./node_modules/dom-helpers/events/listen.js",
+            "size": 692,
+            "id": 624
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/Modal.js",
+            "size": 19354,
+            "id": 625
+          },
+          {
+            "name": "./node_modules/prop-types-extra/lib/deprecated.js",
+            "size": 1336,
+            "id": 626
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/ModalManager.js",
+            "size": 4978,
+            "id": 627
+          },
+          {
+            "name": "./node_modules/dom-helpers/class/index.js",
+            "size": 621,
+            "id": 628
+          },
+          {
+            "name": "./node_modules/dom-helpers/class/addClass.js",
+            "size": 622,
+            "id": 629
+          },
+          {
+            "name": "./node_modules/dom-helpers/class/removeClass.js",
+            "size": 568,
+            "id": 630
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/manageAriaHidden.js",
+            "size": 1081,
+            "id": 631
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/LegacyPortal.js",
+            "size": 5472,
+            "id": 632
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/RefHolder.js",
+            "size": 1877,
+            "id": 633
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/addFocusListener.js",
+            "size": 841,
+            "id": 634
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ModalDialog.js",
+            "size": 2379,
+            "id": 635
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Navbar.js",
+            "size": 8686,
+            "id": 636
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/NavbarCollapse.js",
+            "size": 1544,
+            "id": 637
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/NavbarHeader.js",
+            "size": 1399,
+            "id": 638
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/NavbarToggle.js",
+            "size": 2431,
+            "id": 639
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/NavDropdown.js",
+            "size": 3281,
+            "id": 640
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/Overlay.js",
+            "size": 7242,
+            "id": 641
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/Position.js",
+            "size": 7092,
+            "id": 642
+          },
+          {
+            "name": "./node_modules/react-overlays/lib/utils/calculatePosition.js",
+            "size": 3997,
+            "id": 643
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/position.js",
+            "size": 1815,
+            "id": 644
+          },
+          {
+            "name": "./node_modules/@babel/runtime/helpers/extends.js",
+            "size": 427,
+            "id": 645
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/offsetParent.js",
+            "size": 758,
+            "id": 646
+          },
+          {
+            "name": "./node_modules/dom-helpers/query/scrollLeft.js",
+            "size": 612,
+            "id": 647
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/OverlayTrigger.js",
+            "size": 8825,
+            "id": 648
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/PageHeader.js",
+            "size": 1467,
+            "id": 649
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/PageItem.js",
+            "size": 186,
+            "id": 650
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/deprecationWarning.js",
+            "size": 1975,
+            "id": 651
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Pager.js",
+            "size": 1918,
+            "id": 652
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Pagination.js",
+            "size": 7417,
+            "id": 653
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Panel.js",
+            "size": 6957,
+            "id": 654
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Popover.js",
+            "size": 3600,
+            "id": 655
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ProgressBar.js",
+            "size": 5002,
+            "id": 656
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Radio.js",
+            "size": 3405,
+            "id": 657
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ResponsiveEmbed.js",
+            "size": 2543,
+            "id": 658
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Row.js",
+            "size": 1546,
+            "id": 659
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/SplitButton.js",
+            "size": 2620,
+            "id": 660
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/SplitToggle.js",
+            "size": 910,
+            "id": 661
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Tab.js",
+            "size": 1350,
+            "id": 662
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Table.js",
+            "size": 2341,
+            "id": 663
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Tabs.js",
+            "size": 4403,
+            "id": 664
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Thumbnail.js",
+            "size": 2532,
+            "id": 665
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/ToggleButtonGroup.js",
+            "size": 4061,
+            "id": 666
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Tooltip.js",
+            "size": 3380,
+            "id": 667
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/Well.js",
+            "size": 1355,
+            "id": 668
+          },
+          {
+            "name": "./node_modules/react-bootstrap/es/utils/index.js",
+            "size": 346,
+            "id": 669
+          },
+          {
+            "name": "./client/assets/wpmlogo.png",
+            "size": 82,
+            "id": 670
+          },
+          {
+            "name": "./client/containers/utils.js",
+            "size": 668,
+            "id": 671
+          },
+          {
+            "name": "./client/views/recommendations/Recommendations.jsx",
+            "size": 2756,
+            "id": 672
+          },
+          {
+            "name": "./client/views/cards/SingleCard.jsx",
+            "size": 1267,
+            "id": 673
+          },
+          {
+            "name": "./client/views/recommendations/components/common/ProgressBar.jsx",
+            "size": 678,
+            "id": 674
+          },
+          {
+            "name": "./client/views/recommendations/components/common/ProgressBarData.jsx",
+            "size": 946,
+            "id": 675
+          },
+          {
+            "name": "./client/views/recommendations/components/Summary.jsx",
+            "size": 1560,
+            "id": 676
+          },
+          {
+            "name": "./client/views/recommendations/components/Minify.jsx",
+            "size": 2101,
+            "id": 677
+          },
+          {
+            "name": "./client/views/recommendations/components/PurifyCss.jsx",
+            "size": 1643,
+            "id": 678
+          },
+          {
+            "name": "./client/views/overview/Overview.jsx",
+            "size": 1298,
+            "id": 679
+          },
+          {
+            "name": "./client/views/overview/components/GraphContainer.jsx",
+            "size": 8497,
+            "id": 680
+          },
+          {
+            "name": "./client/views/overview/components/graphs/AreaChart.jsx",
+            "size": 6871,
+            "id": 681
+          },
+          {
+            "name": "./node_modules/d3/build/package.js",
+            "size": 2385,
+            "id": 682
+          },
+          {
+            "name": "./node_modules/d3-array/src/cross.js",
+            "size": 428,
+            "id": 683
+          },
+          {
+            "name": "./node_modules/d3-array/src/descending.js",
+            "size": 86,
+            "id": 684
+          },
+          {
+            "name": "./node_modules/d3-array/src/histogram.js",
+            "size": 2012,
+            "id": 685
+          },
+          {
+            "name": "./node_modules/d3-array/src/constant.js",
+            "size": 72,
+            "id": 686
+          },
+          {
+            "name": "./node_modules/d3-array/src/identity.js",
+            "size": 43,
+            "id": 687
+          },
+          {
+            "name": "./node_modules/d3-array/src/threshold/freedmanDiaconis.js",
+            "size": 361,
+            "id": 688
+          },
+          {
+            "name": "./node_modules/d3-array/src/threshold/scott.js",
+            "size": 180,
+            "id": 689
+          },
+          {
+            "name": "./node_modules/d3-array/src/max.js",
+            "size": 843,
+            "id": 690
+          },
+          {
+            "name": "./node_modules/d3-array/src/mean.js",
+            "size": 453,
+            "id": 691
+          },
+          {
+            "name": "./node_modules/d3-array/src/median.js",
+            "size": 559,
+            "id": 692
+          },
+          {
+            "name": "./node_modules/d3-array/src/merge.js",
+            "size": 339,
+            "id": 693
+          },
+          {
+            "name": "./node_modules/d3-array/src/permute.js",
+            "size": 161,
+            "id": 694
+          },
+          {
+            "name": "./node_modules/d3-array/src/scan.js",
+            "size": 392,
+            "id": 695
+          },
+          {
+            "name": "./node_modules/d3-array/src/shuffle.js",
+            "size": 285,
+            "id": 696
+          },
+          {
+            "name": "./node_modules/d3-array/src/sum.js",
+            "size": 374,
+            "id": 697
+          },
+          {
+            "name": "./node_modules/d3-array/src/zip.js",
+            "size": 99,
+            "id": 698
+          },
+          {
+            "name": "./node_modules/d3-axis/index.js",
+            "size": 79,
+            "id": 699
+          },
+          {
+            "name": "./node_modules/d3-axis/src/axis.js",
+            "size": 5171,
+            "id": 700
+          },
+          {
+            "name": "./node_modules/d3-axis/src/array.js",
+            "size": 42,
+            "id": 701
+          },
+          {
+            "name": "./node_modules/d3-axis/src/identity.js",
+            "size": 43,
+            "id": 702
+          },
+          {
+            "name": "./node_modules/d3-brush/index.js",
+            "size": 88,
+            "id": 703
+          },
+          {
+            "name": "./node_modules/d3-brush/src/brush.js",
+            "size": 15774,
+            "id": 704
+          },
+          {
+            "name": "./node_modules/d3-dispatch/src/dispatch.js",
+            "size": 2729,
+            "id": 705
+          },
+          {
+            "name": "./node_modules/d3-drag/src/drag.js",
+            "size": 5013,
+            "id": 706
+          },
+          {
+            "name": "./node_modules/d3-selection/src/create.js",
+            "size": 162,
+            "id": 707
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/select.js",
+            "size": 653,
+            "id": 708
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/selectAll.js",
+            "size": 550,
+            "id": 709
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/filter.js",
+            "size": 546,
+            "id": 710
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/data.js",
+            "size": 3591,
+            "id": 711
+          },
+          {
+            "name": "./node_modules/d3-selection/src/constant.js",
+            "size": 72,
+            "id": 712
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/exit.js",
+            "size": 176,
+            "id": 713
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/merge.js",
+            "size": 575,
+            "id": 714
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/order.js",
+            "size": 367,
+            "id": 715
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/sort.js",
+            "size": 681,
+            "id": 716
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/call.js",
+            "size": 134,
+            "id": 717
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/nodes.js",
+            "size": 140,
+            "id": 718
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/node.js",
+            "size": 258,
+            "id": 719
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/size.js",
+            "size": 98,
+            "id": 720
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/empty.js",
+            "size": 53,
+            "id": 721
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/each.js",
+            "size": 289,
+            "id": 722
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/attr.js",
+            "size": 1460,
+            "id": 723
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/property.js",
+            "size": 617,
+            "id": 724
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/classed.js",
+            "size": 1740,
+            "id": 725
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/text.js",
+            "size": 528,
+            "id": 726
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/html.js",
+            "size": 520,
+            "id": 727
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/raise.js",
+            "size": 138,
+            "id": 728
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/lower.js",
+            "size": 171,
+            "id": 729
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/append.js",
+            "size": 235,
+            "id": 730
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/insert.js",
+            "size": 468,
+            "id": 731
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/remove.js",
+            "size": 153,
+            "id": 732
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/clone.js",
+            "size": 343,
+            "id": 733
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/datum.js",
+            "size": 132,
+            "id": 734
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selection/dispatch.js",
+            "size": 891,
+            "id": 735
+          },
+          {
+            "name": "./node_modules/d3-selection/src/local.js",
+            "size": 536,
+            "id": 736
+          },
+          {
+            "name": "./node_modules/d3-selection/src/mouse.js",
+            "size": 224,
+            "id": 737
+          },
+          {
+            "name": "./node_modules/d3-selection/src/selectAll.js",
+            "size": 282,
+            "id": 738
+          },
+          {
+            "name": "./node_modules/d3-selection/src/touch.js",
+            "size": 407,
+            "id": 739
+          },
+          {
+            "name": "./node_modules/d3-selection/src/touches.js",
+            "size": 323,
+            "id": 740
+          },
+          {
+            "name": "./node_modules/d3-drag/src/constant.js",
+            "size": 72,
+            "id": 741
+          },
+          {
+            "name": "./node_modules/d3-drag/src/event.js",
+            "size": 430,
+            "id": 742
+          },
+          {
+            "name": "./node_modules/d3-color/src/lab.js",
+            "size": 3167,
+            "id": 743
+          },
+          {
+            "name": "./node_modules/d3-color/src/cubehelix.js",
+            "size": 1855,
+            "id": 744
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/round.js",
+            "size": 112,
+            "id": 745
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/transform/index.js",
+            "size": 2064,
+            "id": 746
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/transform/parse.js",
+            "size": 980,
+            "id": 747
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/transform/decompose.js",
+            "size": 672,
+            "id": 748
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/zoom.js",
+            "size": 1385,
+            "id": 749
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/hsl.js",
+            "size": 547,
+            "id": 750
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/lab.js",
+            "size": 447,
+            "id": 751
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/hcl.js",
+            "size": 547,
+            "id": 752
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/cubehelix.js",
+            "size": 760,
+            "id": 753
+          },
+          {
+            "name": "./node_modules/d3-interpolate/src/quantize.js",
+            "size": 163,
+            "id": 754
+          },
+          {
+            "name": "./node_modules/d3-transition/src/selection/index.js",
+            "size": 245,
+            "id": 755
+          },
+          {
+            "name": "./node_modules/d3-transition/src/selection/interrupt.js",
+            "size": 138,
+            "id": 756
+          },
+          {
+            "name": "./node_modules/d3-timer/src/timeout.js",
+            "size": 250,
+            "id": 757
+          },
+          {
+            "name": "./node_modules/d3-timer/src/interval.js",
+            "size": 400,
+            "id": 758
+          },
+          {
+            "name": "./node_modules/d3-transition/src/selection/transition.js",
+            "size": 1090,
+            "id": 759
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/attr.js",
+            "size": 2478,
+            "id": 760
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/attrTween.js",
+            "size": 904,
+            "id": 761
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/delay.js",
+            "size": 510,
+            "id": 762
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/duration.js",
+            "size": 528,
+            "id": 763
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/ease.js",
+            "size": 348,
+            "id": 764
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/filter.js",
+            "size": 574,
+            "id": 765
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/merge.js",
+            "size": 653,
+            "id": 766
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/on.js",
+            "size": 851,
+            "id": 767
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/remove.js",
+            "size": 284,
+            "id": 768
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/select.js",
+            "size": 826,
+            "id": 769
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/selectAll.js",
+            "size": 883,
+            "id": 770
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/selection.js",
+            "size": 174,
+            "id": 771
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/style.js",
+            "size": 1914,
+            "id": 772
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/styleTween.js",
+            "size": 607,
+            "id": 773
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/text.js",
+            "size": 473,
+            "id": 774
+          },
+          {
+            "name": "./node_modules/d3-transition/src/transition/transition.js",
+            "size": 691,
+            "id": 775
+          },
+          {
+            "name": "./node_modules/d3-ease/src/linear.js",
+            "size": 43,
+            "id": 776
+          },
+          {
+            "name": "./node_modules/d3-ease/src/quad.js",
+            "size": 192,
+            "id": 777
+          },
+          {
+            "name": "./node_modules/d3-ease/src/cubic.js",
+            "size": 210,
+            "id": 778
+          },
+          {
+            "name": "./node_modules/d3-ease/src/poly.js",
+            "size": 596,
+            "id": 779
+          },
+          {
+            "name": "./node_modules/d3-ease/src/sin.js",
+            "size": 236,
+            "id": 780
+          },
+          {
+            "name": "./node_modules/d3-ease/src/exp.js",
+            "size": 251,
+            "id": 781
+          },
+          {
+            "name": "./node_modules/d3-ease/src/circle.js",
+            "size": 261,
+            "id": 782
+          },
+          {
+            "name": "./node_modules/d3-ease/src/bounce.js",
+            "size": 521,
+            "id": 783
+          },
+          {
+            "name": "./node_modules/d3-ease/src/back.js",
+            "size": 653,
+            "id": 784
+          },
+          {
+            "name": "./node_modules/d3-ease/src/elastic.js",
+            "size": 1309,
+            "id": 785
+          },
+          {
+            "name": "./node_modules/d3-transition/src/active.js",
+            "size": 484,
+            "id": 786
+          },
+          {
+            "name": "./node_modules/d3-brush/src/constant.js",
+            "size": 72,
+            "id": 787
+          },
+          {
+            "name": "./node_modules/d3-brush/src/event.js",
+            "size": 127,
+            "id": 788
+          },
+          {
+            "name": "./node_modules/d3-brush/src/noevent.js",
+            "size": 202,
+            "id": 789
+          },
+          {
+            "name": "./node_modules/d3-chord/index.js",
+            "size": 94,
+            "id": 790
+          },
+          {
+            "name": "./node_modules/d3-chord/src/chord.js",
+            "size": 3174,
+            "id": 791
+          },
+          {
+            "name": "./node_modules/d3-chord/src/ribbon.js",
+            "size": 2340,
+            "id": 792
+          },
+          {
+            "name": "./node_modules/d3-chord/src/array.js",
+            "size": 42,
+            "id": 793
+          },
+          {
+            "name": "./node_modules/d3-chord/src/constant.js",
+            "size": 72,
+            "id": 794
+          },
+          {
+            "name": "./node_modules/d3-path/src/path.js",
+            "size": 4176,
+            "id": 795
+          },
+          {
+            "name": "./node_modules/d3-collection/src/nest.js",
+            "size": 2017,
+            "id": 796
+          },
+          {
+            "name": "./node_modules/d3-collection/src/set.js",
+            "size": 798,
+            "id": 797
+          },
+          {
+            "name": "./node_modules/d3-collection/src/keys.js",
+            "size": 104,
+            "id": 798
+          },
+          {
+            "name": "./node_modules/d3-collection/src/values.js",
+            "size": 115,
+            "id": 799
+          },
+          {
+            "name": "./node_modules/d3-collection/src/entries.js",
+            "size": 137,
+            "id": 800
+          },
+          {
+            "name": "./node_modules/d3-dsv/src/csv.js",
+            "size": 199,
+            "id": 801
+          },
+          {
+            "name": "./node_modules/d3-dsv/src/tsv.js",
+            "size": 200,
+            "id": 802
+          },
+          {
+            "name": "./node_modules/d3-force/index.js",
+            "size": 414,
+            "id": 803
+          },
+          {
+            "name": "./node_modules/d3-force/src/center.js",
+            "size": 654,
+            "id": 804
+          },
+          {
+            "name": "./node_modules/d3-force/src/collide.js",
+            "size": 2447,
+            "id": 805
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/quadtree.js",
+            "size": 2077,
+            "id": 806
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/add.js",
+            "size": 2441,
+            "id": 807
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/cover.js",
+            "size": 1665,
+            "id": 808
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/data.js",
+            "size": 170,
+            "id": 809
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/extent.js",
+            "size": 206,
+            "id": 810
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/find.js",
+            "size": 1692,
+            "id": 811
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/remove.js",
+            "size": 1898,
+            "id": 812
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/root.js",
+            "size": 51,
+            "id": 813
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/size.js",
+            "size": 155,
+            "id": 814
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/visit.js",
+            "size": 695,
+            "id": 815
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/visitAfter.js",
+            "size": 773,
+            "id": 816
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/x.js",
+            "size": 138,
+            "id": 817
+          },
+          {
+            "name": "./node_modules/d3-quadtree/src/y.js",
+            "size": 138,
+            "id": 818
+          },
+          {
+            "name": "./node_modules/d3-force/src/link.js",
+            "size": 3213,
+            "id": 819
+          },
+          {
+            "name": "./node_modules/d3-force/src/manyBody.js",
+            "size": 3218,
+            "id": 820
+          },
+          {
+            "name": "./node_modules/d3-force/src/radial.js",
+            "size": 1477,
+            "id": 821
+          },
+          {
+            "name": "./node_modules/d3-force/src/x.js",
+            "size": 1030,
+            "id": 822
+          },
+          {
+            "name": "./node_modules/d3-force/src/y.js",
+            "size": 1030,
+            "id": 823
+          },
+          {
+            "name": "./node_modules/d3-format/src/defaultLocale.js",
+            "size": 361,
+            "id": 824
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatGroup.js",
+            "size": 475,
+            "id": 825
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatNumerals.js",
+            "size": 154,
+            "id": 826
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatDefault.js",
+            "size": 368,
+            "id": 827
+          },
+          {
+            "name": "./node_modules/d3-format/src/formatRounded.js",
+            "size": 458,
+            "id": 828
+          },
+          {
+            "name": "./node_modules/d3-format/src/identity.js",
+            "size": 43,
+            "id": 829
+          },
+          {
+            "name": "./node_modules/d3-format/src/precisionFixed.js",
+            "size": 119,
+            "id": 830
+          },
+          {
+            "name": "./node_modules/d3-format/src/precisionPrefix.js",
+            "size": 190,
+            "id": 831
+          },
+          {
+            "name": "./node_modules/d3-format/src/precisionRound.js",
+            "size": 186,
+            "id": 832
+          },
+          {
+            "name": "./node_modules/d3-geo/index.js",
+            "size": 2799,
+            "id": 833
+          },
+          {
+            "name": "./node_modules/d3-geo/src/bounds.js",
+            "size": 5449,
+            "id": 834
+          },
+          {
+            "name": "./node_modules/d3-geo/src/centroid.js",
+            "size": 3783,
+            "id": 835
+          },
+          {
+            "name": "./node_modules/d3-geo/src/constant.js",
+            "size": 72,
+            "id": 836
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/extent.js",
+            "size": 537,
+            "id": 837
+          },
+          {
+            "name": "./node_modules/d3-geo/src/clip/line.js",
+            "size": 1099,
+            "id": 838
+          },
+          {
+            "name": "./node_modules/d3-geo/src/contains.js",
+            "size": 2730,
+            "id": 839
+          },
+          {
+            "name": "./node_modules/d3-geo/src/graticule.js",
+            "size": 3034,
+            "id": 840
+          },
+          {
+            "name": "./node_modules/d3-geo/src/interpolate.js",
+            "size": 911,
+            "id": 841
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/index.js",
+            "size": 1853,
+            "id": 842
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/area.js",
+            "size": 945,
+            "id": 843
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/centroid.js",
+            "size": 2033,
+            "id": 844
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/context.js",
+            "size": 914,
+            "id": 845
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/measure.js",
+            "size": 836,
+            "id": 846
+          },
+          {
+            "name": "./node_modules/d3-geo/src/path/string.js",
+            "size": 1316,
+            "id": 847
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/resample.js",
+            "size": 3275,
+            "id": 848
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/cylindricalEqualArea.js",
+            "size": 314,
+            "id": 849
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/albersUsa.js",
+            "size": 4213,
+            "id": 850
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/azimuthalEqualArea.js",
+            "size": 447,
+            "id": 851
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/azimuthalEquidistant.js",
+            "size": 443,
+            "id": 852
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/conicConformal.js",
+            "size": 1017,
+            "id": 853
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/conicEquidistant.js",
+            "size": 771,
+            "id": 854
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/gnomonic.js",
+            "size": 387,
+            "id": 855
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/identity.js",
+            "size": 2295,
+            "id": 856
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/naturalEarth1.js",
+            "size": 1040,
+            "id": 857
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/orthographic.js",
+            "size": 376,
+            "id": 858
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/stereographic.js",
+            "size": 436,
+            "id": 859
+          },
+          {
+            "name": "./node_modules/d3-geo/src/projection/transverseMercator.js",
+            "size": 762,
+            "id": 860
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/index.js",
+            "size": 876,
+            "id": 861
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/cluster.js",
+            "size": 2093,
+            "id": 862
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/count.js",
+            "size": 263,
+            "id": 863
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/each.js",
+            "size": 381,
+            "id": 864
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/eachBefore.js",
+            "size": 282,
+            "id": 865
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/eachAfter.js",
+            "size": 353,
+            "id": 866
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/sum.js",
+            "size": 264,
+            "id": 867
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/sort.js",
+            "size": 151,
+            "id": 868
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/path.js",
+            "size": 606,
+            "id": 869
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/ancestors.js",
+            "size": 138,
+            "id": 870
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/descendants.js",
+            "size": 121,
+            "id": 871
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/leaves.js",
+            "size": 164,
+            "id": 872
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/hierarchy/links.js",
+            "size": 242,
+            "id": 873
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/pack/index.js",
+            "size": 1917,
+            "id": 874
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/array.js",
+            "size": 250,
+            "id": 875
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/partition.js",
+            "size": 1266,
+            "id": 876
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/stratify.js",
+            "size": 1930,
+            "id": 877
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/tree.js",
+            "size": 7054,
+            "id": 878
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/index.js",
+            "size": 2810,
+            "id": 879
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/binary.js",
+            "size": 1266,
+            "id": 880
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/sliceDice.js",
+            "size": 170,
+            "id": 881
+          },
+          {
+            "name": "./node_modules/d3-hierarchy/src/treemap/resquarify.js",
+            "size": 1029,
+            "id": 882
+          },
+          {
+            "name": "./node_modules/d3-polygon/index.js",
+            "size": 275,
+            "id": 883
+          },
+          {
+            "name": "./node_modules/d3-polygon/src/area.js",
+            "size": 243,
+            "id": 884
+          },
+          {
+            "name": "./node_modules/d3-polygon/src/centroid.js",
+            "size": 346,
+            "id": 885
+          },
+          {
+            "name": "./node_modules/d3-polygon/src/hull.js",
+            "size": 1710,
+            "id": 886
+          },
+          {
+            "name": "./node_modules/d3-polygon/src/cross.js",
+            "size": 402,
+            "id": 887
+          },
+          {
+            "name": "./node_modules/d3-polygon/src/contains.js",
+            "size": 411,
+            "id": 888
+          },
+          {
+            "name": "./node_modules/d3-polygon/src/length.js",
+            "size": 375,
+            "id": 889
+          },
+          {
+            "name": "./node_modules/d3-queue/index.js",
+            "size": 46,
+            "id": 890
+          },
+          {
+            "name": "./node_modules/d3-queue/src/queue.js",
+            "size": 3128,
+            "id": 891
+          },
+          {
+            "name": "./node_modules/d3-queue/src/array.js",
+            "size": 29,
+            "id": 892
+          },
+          {
+            "name": "./node_modules/d3-random/index.js",
+            "size": 346,
+            "id": 893
+          },
+          {
+            "name": "./node_modules/d3-random/src/uniform.js",
+            "size": 440,
+            "id": 894
+          },
+          {
+            "name": "./node_modules/d3-random/src/logNormal.js",
+            "size": 405,
+            "id": 895
+          },
+          {
+            "name": "./node_modules/d3-random/src/bates.js",
+            "size": 375,
+            "id": 896
+          },
+          {
+            "name": "./node_modules/d3-random/src/exponential.js",
+            "size": 329,
+            "id": 897
+          },
+          {
+            "name": "./node_modules/d3-request/index.js",
+            "size": 308,
+            "id": 898
+          },
+          {
+            "name": "./node_modules/d3-request/src/html.js",
+            "size": 157,
+            "id": 899
+          },
+          {
+            "name": "./node_modules/d3-request/src/json.js",
+            "size": 127,
+            "id": 900
+          },
+          {
+            "name": "./node_modules/d3-request/src/text.js",
+            "size": 109,
+            "id": 901
+          },
+          {
+            "name": "./node_modules/d3-request/src/xml.js",
+            "size": 174,
+            "id": 902
+          },
+          {
+            "name": "./node_modules/d3-request/src/csv.js",
+            "size": 101,
+            "id": 903
+          },
+          {
+            "name": "./node_modules/d3-request/src/tsv.js",
+            "size": 118,
+            "id": 904
+          },
+          {
+            "name": "./node_modules/d3-scale/index.js",
+            "size": 1402,
+            "id": 905
+          },
+          {
+            "name": "./node_modules/d3-scale/src/band.js",
+            "size": 2637,
+            "id": 906
+          },
+          {
+            "name": "./node_modules/d3-scale/src/identity.js",
+            "size": 463,
+            "id": 907
+          },
+          {
+            "name": "./node_modules/d3-scale/src/tickFormat.js",
+            "size": 1203,
+            "id": 908
+          },
+          {
+            "name": "./node_modules/d3-scale/src/log.js",
+            "size": 3273,
+            "id": 909
+          },
+          {
+            "name": "./node_modules/d3-scale/src/pow.js",
+            "size": 1000,
+            "id": 910
+          },
+          {
+            "name": "./node_modules/d3-scale/src/quantile.js",
+            "size": 1280,
+            "id": 911
+          },
+          {
+            "name": "./node_modules/d3-scale/src/quantize.js",
+            "size": 1066,
+            "id": 912
+          },
+          {
+            "name": "./node_modules/d3-scale/src/threshold.js",
+            "size": 802,
+            "id": 913
+          },
+          {
+            "name": "./node_modules/d3-time/src/millisecond.js",
+            "size": 668,
+            "id": 914
+          },
+          {
+            "name": "./node_modules/d3-time/src/second.js",
+            "size": 440,
+            "id": 915
+          },
+          {
+            "name": "./node_modules/d3-time/src/minute.js",
+            "size": 437,
+            "id": 916
+          },
+          {
+            "name": "./node_modules/d3-time/src/hour.js",
+            "size": 569,
+            "id": 917
+          },
+          {
+            "name": "./node_modules/d3-time/src/day.js",
+            "size": 462,
+            "id": 918
+          },
+          {
+            "name": "./node_modules/d3-time/src/week.js",
+            "size": 963,
+            "id": 919
+          },
+          {
+            "name": "./node_modules/d3-time/src/month.js",
+            "size": 414,
+            "id": 920
+          },
+          {
+            "name": "./node_modules/d3-time/src/year.js",
+            "size": 754,
+            "id": 921
+          },
+          {
+            "name": "./node_modules/d3-time/src/utcMinute.js",
+            "size": 412,
+            "id": 922
+          },
+          {
+            "name": "./node_modules/d3-time/src/utcHour.js",
+            "size": 399,
+            "id": 923
+          },
+          {
+            "name": "./node_modules/d3-time/src/utcDay.js",
+            "size": 397,
+            "id": 924
+          },
+          {
+            "name": "./node_modules/d3-time/src/utcWeek.js",
+            "size": 979,
+            "id": 925
+          },
+          {
+            "name": "./node_modules/d3-time/src/utcMonth.js",
+            "size": 453,
+            "id": 926
+          },
+          {
+            "name": "./node_modules/d3-time/src/utcYear.js",
+            "size": 808,
+            "id": 927
+          },
+          {
+            "name": "./node_modules/d3-time-format/src/isoParse.js",
+            "size": 319,
+            "id": 928
+          },
+          {
+            "name": "./node_modules/d3-scale/src/utcTime.js",
+            "size": 379,
+            "id": 929
+          },
+          {
+            "name": "./node_modules/d3-scale/src/category10.js",
+            "size": 119,
+            "id": 930
+          },
+          {
+            "name": "./node_modules/d3-scale/src/category20b.js",
+            "size": 179,
+            "id": 931
+          },
+          {
+            "name": "./node_modules/d3-scale/src/category20c.js",
+            "size": 179,
+            "id": 932
+          },
+          {
+            "name": "./node_modules/d3-scale/src/category20.js",
+            "size": 179,
+            "id": 933
+          },
+          {
+            "name": "./node_modules/d3-scale/src/cubehelix.js",
+            "size": 188,
+            "id": 934
+          },
+          {
+            "name": "./node_modules/d3-scale/src/rainbow.js",
+            "size": 536,
+            "id": 935
+          },
+          {
+            "name": "./node_modules/d3-scale/src/viridis.js",
+            "size": 6471,
+            "id": 936
+          },
+          {
+            "name": "./node_modules/d3-scale/src/sequential.js",
+            "size": 717,
+            "id": 937
+          },
+          {
+            "name": "./node_modules/d3-shape/index.js",
+            "size": 2819,
+            "id": 938
+          },
+          {
+            "name": "./node_modules/d3-shape/src/arc.js",
+            "size": 8556,
+            "id": 939
+          },
+          {
+            "name": "./node_modules/d3-shape/src/pie.js",
+            "size": 2336,
+            "id": 940
+          },
+          {
+            "name": "./node_modules/d3-shape/src/descending.js",
+            "size": 86,
+            "id": 941
+          },
+          {
+            "name": "./node_modules/d3-shape/src/identity.js",
+            "size": 43,
+            "id": 942
+          },
+          {
+            "name": "./node_modules/d3-shape/src/areaRadial.js",
+            "size": 934,
+            "id": 943
+          },
+          {
+            "name": "./node_modules/d3-shape/src/link/index.js",
+            "size": 2218,
+            "id": 944
+          },
+          {
+            "name": "./node_modules/d3-shape/src/symbol.js",
+            "size": 1160,
+            "id": 945
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/basisClosed.js",
+            "size": 1530,
+            "id": 946
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/basisOpen.js",
+            "size": 1069,
+            "id": 947
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/bundle.js",
+            "size": 1081,
+            "id": 948
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/catmullRomClosed.js",
+            "size": 2083,
+            "id": 949
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/catmullRomOpen.js",
+            "size": 1760,
+            "id": 950
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/linearClosed.js",
+            "size": 514,
+            "id": 951
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/monotone.js",
+            "size": 3202,
+            "id": 952
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/natural.js",
+            "size": 1761,
+            "id": 953
+          },
+          {
+            "name": "./node_modules/d3-shape/src/curve/step.js",
+            "size": 1367,
+            "id": 954
+          },
+          {
+            "name": "./node_modules/d3-shape/src/stack.js",
+            "size": 1432,
+            "id": 955
+          },
+          {
+            "name": "./node_modules/d3-shape/src/offset/expand.js",
+            "size": 319,
+            "id": 956
+          },
+          {
+            "name": "./node_modules/d3-shape/src/offset/diverging.js",
+            "size": 422,
+            "id": 957
+          },
+          {
+            "name": "./node_modules/d3-shape/src/offset/silhouette.js",
+            "size": 314,
+            "id": 958
+          },
+          {
+            "name": "./node_modules/d3-shape/src/offset/wiggle.js",
+            "size": 740,
+            "id": 959
+          },
+          {
+            "name": "./node_modules/d3-shape/src/order/descending.js",
+            "size": 112,
+            "id": 960
+          },
+          {
+            "name": "./node_modules/d3-shape/src/order/insideOut.js",
+            "size": 545,
+            "id": 961
+          },
+          {
+            "name": "./node_modules/d3-shape/src/order/reverse.js",
+            "size": 97,
+            "id": 962
+          },
+          {
+            "name": "./node_modules/d3-voronoi/index.js",
+            "size": 50,
+            "id": 963
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/voronoi.js",
+            "size": 1420,
+            "id": 964
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/constant.js",
+            "size": 72,
+            "id": 965
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/point.js",
+            "size": 81,
+            "id": 966
+          },
+          {
+            "name": "./node_modules/d3-voronoi/src/Beach.js",
+            "size": 4381,
+            "id": 967
+          },
+          {
+            "name": "./node_modules/d3-zoom/index.js",
+            "size": 128,
+            "id": 968
+          },
+          {
+            "name": "./node_modules/d3-zoom/src/zoom.js",
+            "size": 14145,
+            "id": 969
+          },
+          {
+            "name": "./node_modules/d3-zoom/src/constant.js",
+            "size": 72,
+            "id": 970
+          },
+          {
+            "name": "./node_modules/d3-zoom/src/event.js",
+            "size": 137,
+            "id": 971
+          },
+          {
+            "name": "./node_modules/d3-zoom/src/noevent.js",
+            "size": 202,
+            "id": 972
+          },
+          {
+            "name": "./client/views/overview/components/graphs/utils/SVGDefs.jsx",
+            "size": 2841,
+            "id": 973
+          },
+          {
+            "name": "./client/views/overview/components/graphs/utils/Key.jsx",
+            "size": 3441,
+            "id": 974
+          },
+          {
+            "name": "./client/views/overview/components/SunburstContainer.jsx",
+            "size": 8370,
+            "id": 975
+          },
+          {
+            "name": "./client/views/overview/components/sunburst/SunBurstChart.jsx",
+            "size": 15177,
+            "id": 976
+          },
+          {
+            "name": "./node_modules/lodash.isequal/index.js",
+            "size": 49598,
+            "id": 977
+          },
+          {
+            "name": "(webpack)/buildin/global.js",
+            "size": 509,
+            "id": 978
+          },
+          {
+            "name": "(webpack)/buildin/module.js",
+            "size": 517,
+            "id": 979
+          },
+          {
+            "name": "./client/views/build-data/BuildData.jsx",
+            "size": 3736,
+            "id": 980
+          },
+          {
+            "name": "./client/views/build-data/components/Modules.jsx",
+            "size": 2658,
+            "id": 981
+          },
+          {
+            "name": "./client/views/build-data/components/Assets.jsx",
+            "size": 2833,
+            "id": 982
+          },
+          {
+            "name": "./client/views/build-data/components/Changes.jsx",
+            "size": 5243,
+            "id": 983
+          },
+          {
+            "name": "./client/views/build-data/components/Errors.jsx",
+            "size": 2422,
+            "id": 984
+          },
+          {
+            "name": "./monitor/stats.json",
+            "size": 19,
+            "id": 985
+          },
+          {
+            "name": "./client/App.jsx",
+            "size": 4536,
+            "id": 986
+          }
+        ]
+      }
+    ]
+  }
+]

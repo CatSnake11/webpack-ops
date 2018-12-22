@@ -1,0 +1,10 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/iamssen/typings-d3/5f8424f79a47abdef36799e51cc55a6c413af01f/d3-hierarchy/typings.json",
+    "raw": "registry:npm/d3-hierarchy#1.0.0+20160701011035",
+    "main": "./index.d.ts",
+    "version": "1.0.0",
+    "name": "d3-hierarchy"
+  }
+}
