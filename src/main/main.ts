@@ -1,11 +1,14 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, dialog } from 'electron';
+import { ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import fs from 'fs';
 import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
 
+
 installExtension(MOBX_DEVTOOLS)
-  .then((name) => console.log(`Added Extension: ${name}`))
-  .catch((err) => console.log(`An error occurred: `, err));
+  .then((name: any) => console.log(`Added Extension: ${name}`))
+  .catch((err: any) => console.log(`An error occurred: `, err));
 
 
 let mainWindow: Electron.BrowserWindow;
@@ -75,3 +78,146 @@ app.on('activate', () => {
 // }
 
 // type MyList = [number?, string?, boolean?]
+
+
+/**
+ * Event listeners from / to Renderer
+ **/ 
+
+ipcMain.on('load-package.json', (event: any, arg: any) => {
+  console.log(arg) // prints "ping"
+  event.sender.send('asynchronous-reply', 'pong')  // sends pong
+
+  selectPackageJson()
+})
+
+ipcMain.on('load-stats.json', (event: any, arg: any) => {
+  console.log(arg) // prints "ping"
+  event.sender.send('asynchronous-reply', 'pong')
+
+  selectStatsJson()
+})
+
+
+/**
+ * Event handlers - file loading / parsing
+ * Loading parsing of package.json file
+ * Selection of webpack config
+ * Loading parsing of webpack config file
+ **/ 
+
+function selectPackageJson (){
+  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
+  if (file != undefined) {
+    loadPackage(file)
+  }
+}
+
+function loadPackage(file: string) {
+  fs.readFile(file, (err, data) => {
+    if (err) {
+      //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
+      console.log(err);
+      return;
+    }
+    selectConfig(JSON.parse(data.toString()));  
+  });
+}
+  
+function selectConfig(packageFile: any) {
+  // todo: deliver to renderer to allow user selection
+  let output = "webpack configurations in package.json.\n" ;
+  const entries = packageFile.scripts;
+  const listOfConfigs: Array<string> = [];
+  for (let entry in entries) {
+    if (entries[entry].includes('webpack')) {
+      output += `${entry} - ${entries[entry]}\n`
+      listOfConfigs.push(entries[entry])
+    }
+  }
+  console.log(output + `\n`)
+  readConfig(listOfConfigs[0])
+}
+
+function readConfig(entry: string) {
+  let output = "selecting first configuration.\n" ;
+  output += entry + `\n`
+  console.log(output + `\n`)
+
+  let config = entry.split("--config" )[1].trimLeft().split(" ")[0]
+  fs.readFile(config, (err, data) => {
+    if (err) {
+      console.log("An error ocurred loading: " + err.message);
+      console.log(err);
+      return;
+    }
+    const configFile: string = data.toString();
+    //console.log(configFile);
+
+    parseConfig(configFile)
+  });
+}
+
+function parseConfig(entry: string) {
+  // todo: use Acorn AST parsing instead 
+  console.log("doing parseConfig")
+  function findObjects (entry: string) {
+    const arr = []
+    // find first object definition start
+    let index = entry.search(/\w+\s*=\s*{/)
+
+      console.log(entry.substr(index, 20))
+    // from that starting point find the matched {}
+    let end: number = findMatched(entry.substring(index), "}", "{")
+    //loop
+    arr.push(entry.substr(index, end))
+    return arr
+  }
+  let webpackObjs: Array<string> = findObjects(entry); 
+  return webpackObjs.toString()
+}
+
+function findMatched (str: string, char: string , nestedChar: string): number {
+  // replace this with Acorn Abstract Syntax Tree parsing  (parse JS module)
+  // desire to preserve Comments
+
+  console.log("doing findMatched")
+  // if ()
+  let i = str.search(/[{}]/)
+  console.log(str[i])
+  if (str[i] === char) return i
+  if (str[i] === nestedChar) {
+    console.log(str.substr(0, i))
+   // return  findMatched(str.substring(i + findMatched(str[i], "}", "{")) , "}", "{")
+  }
+}
+
+
+/**
+ * Event handlers - file loading / parsing
+ * Loading parsing of webpack stats file
+ **/ 
+
+function selectStatsJson (){
+  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]
+  if (file != undefined) {
+    loadStats(file)
+  }
+}
+
+function loadStats(file: string) {
+  fs.readFile(file, (err, data) => {
+    if (err) {
+      //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
+      console.log(err);
+      return;
+    }
+    // clean and send back JSON stats file
+    let content = data.toString()
+    content = content.substr(content.indexOf("{"));
+    content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  //splits multiple JSON objects if more than one exists in file
+    // console.log(content.substring(0, 40))
+    mainWindow.webContents.send('display-stats-reply', 'pretend object')
+    //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
+  });
+}

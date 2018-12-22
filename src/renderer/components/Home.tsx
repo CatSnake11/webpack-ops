@@ -57,7 +57,7 @@ export default class Home extends React.Component<{}, StateType> {
     const radius = Math.min(this.state.width, this.state.height) / 2;
 
     const root = d3.hierarchy(this.state.data);
-    const handleEvents = function (selection) {
+    var handleEvents = function (selection: any) {
       selection.on('mouseover', function () {
         let g = d3.select(this);
         let n = g.select('.the-node');
