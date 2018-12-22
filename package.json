@@ -9,6 +9,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/electron-devtools-installer": "^2.2.0",
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
     "css-loader": "^2.0.1",
