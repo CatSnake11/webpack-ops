@@ -36,44 +36,44 @@ const initialState = {
   }
 }
 
-type State = Readonly<typeof initialState>
+type StateType = Readonly<typeof initialState>
 
-export default class Home extends React.Component<any, State> {
+export default class Home extends React.Component<{}, StateType> {
   // may need "readonly"
-  state: State = initialState
+  state: StateType = initialState
   componentDidMount() {
     this.drawChart();
   }
 
   private drawChart() {
-    const svg = d3.select("svg")
-      .append("circle")
-      .attr("r", 250)
-      .attr("cx", this.state.width / 2)
-      .attr("cy", this.state.height / 2)
-      .attr("fill", "aquamarine")
+    // const svg = d3.select("svg")
+    //   .append("circle")
+    //   .attr("r", 250)
+    //   .attr("cx", this.state.width / 2)
+    //   .attr("cy", this.state.height / 2)
+    //   .attr("fill", "aquamarine")
     // .attr("transform", "translate(" + this.state.width / 10 + "," + this.state.height / 10 + ")");
 
     const radius = Math.min(this.state.width, this.state.height) / 2;
 
-    const root = d3.hierarchy(initialState.data);
-    var handleEvents = function (selection) {
+    const root = d3.hierarchy(this.state.data);
+    const handleEvents = function (selection) {
       selection.on('mouseover', function () {
         let g = d3.select(this);
         let n = g.select('.the-node');
 
         if (n.classed('solid')) {
           n.transition().duration(400)
-            .style('fill', "rgba(211,0,0,0.8)")
+            .style('fill', "rgba(25,100,255,0.3)")
             .attr('r', 18);
         } else {
           n.transition().duration(400)
-            .style('fill', "rgba(211,0,0,0.8)");
+            .style('fill', "rgba(25,100,255,0.3)");
         }
 
         g.select('.label')
           .transition().duration(700)
-          .style('fill', 'white')
+          .style('fill', 'grey')
 
       })
         .on('mouseout', function () {
@@ -86,7 +86,7 @@ export default class Home extends React.Component<any, State> {
               .attr('r', 14);
           } else {
             n.transition().duration(400)
-              .style('fill', "rgba(255,255,255,0.2)")
+              .style('fill', "rgba(25,100,255,0.5)")
           }
           g.select('.label')
             .transition().duration(700)
@@ -96,7 +96,7 @@ export default class Home extends React.Component<any, State> {
     const sunburstLayout = d3.partition();
 
     sunburstLayout.size([2 * Math.PI, radius]);
-    var arc = d3.arc()
+    const arc = d3.arc()
       .startAngle(function (d) { return d.x0 })
       .endAngle(function (d) { return d.x1 })
       .innerRadius(function (d) { return d.y0 })
@@ -105,6 +105,7 @@ export default class Home extends React.Component<any, State> {
     root.sum(d => d.value);
 
     sunburstLayout(root);
+    // console.log('root: ', root);
 
     const main = d3.select('svg');
     var sunburstNodes = main.selectAll('g')
@@ -116,8 +117,9 @@ export default class Home extends React.Component<any, State> {
     var paths = sunburstNodes.append('path')
       .attr('d', arc)
       .classed('the-node', true)
-      .style('fill', 'rgba(25,255,255,0.2)')
-      .style('stroke', '#2f2f2f')
+      .style('fill', 'rgba(25,100,255,0.5)')
+      .style('stroke', '#FFFFFF')
+      .style('stroke-width', 6);
 
     var labels = sunburstNodes.append("text")
       .attr('class', 'label')
@@ -130,10 +132,10 @@ export default class Home extends React.Component<any, State> {
       .text(function (d) { return d.parent ? d.data.name : "" });
 
     // https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af
-    function computeTextRotation(d) {
-      var angle = (d.x0 + d.x1) / Math.PI * 90;
-      return (angle < 180) ? angle - 90 : angle + 90;
-    }
+    // function computeTextRotation(d) {
+    //   var angle = (d.x0 + d.x1) / Math.PI * 90;
+    //   return (angle < 180) ? angle - 90 : angle + 90;
+    // }
   }
   render() {
     return (
@@ -141,7 +143,6 @@ export default class Home extends React.Component<any, State> {
         <div>HOME</div>
         <button>Generate Bundle</button>
         <svg width={this.state.width} height={this.state.height} />
-        {/* <main width={this.state.width} height={this.state.height} /> */}
       </div>
     );
   }
