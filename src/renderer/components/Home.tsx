@@ -23,7 +23,7 @@ const initialState = {
         "children": [
           {
             "name": "C1",
-            "value": 100
+            "value": 220
           },
           {
             "name": "C2",
@@ -31,7 +31,16 @@ const initialState = {
           },
           {
             "name": "C3",
-            "value": 200
+            "children" :[
+              {
+                "name": "D1",
+                "value": 20
+              },
+              {
+                "name": "D2",
+                "value": 40
+              }
+            ]
           }
         ]
       },
@@ -68,8 +77,8 @@ export default class Home extends React.Component<Props, StateType> {
 
     const root = d3.hierarchy(this.state.data);
     var handleEvents = function (selection: any) {
-      selection.on('mouseover', function () {
-        let g = d3.select(this);
+      selection.on('mouseover', function (d: any, i: number, group: any) {
+        let g = d3.select(group[i]);
         let n = g.select('.the-node');
 
         if (n.classed('solid')) {
@@ -86,8 +95,8 @@ export default class Home extends React.Component<Props, StateType> {
           .style('fill', 'grey')
 
       })
-        .on('mouseout', function () {
-          let g = d3.select(this);
+        .on('mouseout', function (d: any, i: number, group: any) {
+          let g = d3.select(group[i]);
           let n = g.select('.the-node');
 
           if (n.classed('solid')) {
@@ -106,7 +115,7 @@ export default class Home extends React.Component<Props, StateType> {
     const sunburstLayout = d3.partition();
 
     sunburstLayout.size([2 * Math.PI, radius]);
-    const arc = d3.arc()
+    var arc: any = d3.arc()
       .startAngle(function (d) { return d.x0 })
       .endAngle(function (d) { return d.x1 })
       .innerRadius(function (d) { return d.y0 })
