@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
+import AwesomeComponent from './AwesomeComponent';
 
 type Props = {
   store?: StoreType
@@ -17,27 +18,20 @@ export default class TabTwo extends React.Component<Props, any> {
       console.log("callback")
       console.log(arg) // prints "pong"
     })
-  
   }
 
-  getPackageJson = () :void => {
-    ipcRenderer.send('load-package.json', 'ping')
+  doSetIsLoadingTrue = (): void => {
+    this.props.store.setIsLoadingTrue();
   }
-  
-  //document.querySelector('#btn-package').addEventListener('click', getPackageJson)
-  
-  getWebpackStats = () :void => {
+
+  getPackageJson = (): void => {
+    ipcRenderer.send('load-package.json', 'ping')
+    this.doSetIsLoadingTrue();
+  }
+
+  getWebpackStats = (): void => {
     ipcRenderer.send('load-stats.json', 'ping')
   }
-  
-  //document.querySelector('#btn-stats').addEventListener('click', getWebpackStats)
-  
-  
-  
-  
-  
-  
-
 
   render() {
     const { store } = this.props
@@ -47,10 +41,10 @@ export default class TabTwo extends React.Component<Props, any> {
         <div>{store.name}</div>
 
         <h4>Select your package.json</h4>
-    <button id="btn-package" onClick={this.getPackageJson}>Find Package.JSON</button>
-    <h4>Load Webpack Stats</h4>
-    <button id="btn-stats" onClick={this.getWebpackStats}>Load Stats File</button>
-
+        <button id="btn-package" onClick={this.getPackageJson}>Find Package.JSON</button>
+        <h4>Load Webpack Stats</h4>
+        <button id="btn-stats" onClick={this.getWebpackStats}>Load Stats File</button>
+        {this.props.store.isLoading && <AwesomeComponent />}
       </div>
     );
   }

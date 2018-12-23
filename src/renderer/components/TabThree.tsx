@@ -31,10 +31,10 @@ export default class TabThree extends React.Component<Props, any> {
       <div className="mainContainer">
         <div>TabThree</div>
         <div>{store.age}</div>
-        <button name = "Update" onClick = {this.doAddAge}>add Age</button>
+        <button name="Update" onClick={this.doAddAge}>add Age</button>
         <button name="Decrement" onClick={this.doDecrementAge}>decrement Age</button>
-        <button name = "Reset" onClick = {this.doResetAge}>reset Age</button>
-        <input onChange = { e => this.doHandlePathChange(e) } />
+        <button name="Reset" onClick={this.doResetAge} id="resetButton">reset Age</button>
+        <input onChange={e => this.doHandlePathChange(e)} />
         <div>url: {store.path}</div>
       </div>
     );
