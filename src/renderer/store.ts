@@ -8,6 +8,11 @@ export type StoreType = {
     decrementAge(): void,
     path: string,
     setPath(input: string): void,
+    isLoading: boolean,
+    setIsLoadingTrue(): void,
+    isChartSelected: boolean,
+    setIsChartSelectedTrue(): void,
+    setIsChartSelectedFalse(): void,
 };
 
 export default class Store {
@@ -19,6 +24,12 @@ export default class Store {
 
     @observable
     path = "";
+
+    @observable
+    isLoading = false;
+
+    @observable
+    isChartSelected = true;
 
     @action.bound
     addAge() {
@@ -38,6 +49,21 @@ export default class Store {
     @action.bound
     setPath(input: string) {
         this.path = input;
+    }
+
+    @action.bound
+    setIsLoadingTrue() {
+        this.isLoading = true;
+    }
+
+    @action.bound
+    setIsChartSelectedTrue() {
+        this.isChartSelected = true;
+    }
+
+    @action.bound
+    setIsChartSelectedFalse() {
+        this.isChartSelected = false;
     }
 }
 

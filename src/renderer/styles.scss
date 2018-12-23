@@ -6,6 +6,7 @@ html {
 body {
   margin: 0;
   padding: 0;
+  background: rgb(243, 243, 255);
 }
 
 .app {
@@ -13,7 +14,20 @@ body {
 }
 
 .mainContainer {
-  padding: 20px 60px;
+  padding: 20px 100px;
+}
+
+.mainContainerHome {
+  padding: 20px 100px;
+  // display: flex;
+  // justify-content: center;
+}
+
+.smallermainContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
 }
 
 .Nav {
@@ -40,4 +54,29 @@ a {
 
 .hidden {
   display: none;
+}
+
+.spinner {
+  padding: 20px;
+}
+
+#sunburst {
+  // position: absolute;
+}
+
+#treemap {
+  // position: absolute;
+}
+
+button {
+  padding: 10px 10px 10px 10px;
+}
+
+#resetButton {
+  margin-right: 10px;
+}
+
+#buttonContainer {
+  border: 1px solid black;
+  display: inline-block;
 }

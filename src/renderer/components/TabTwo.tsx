@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
+import AwesomeComponent from './AwesomeComponent';
 
 type Props = {
   store?: StoreType
@@ -27,8 +28,13 @@ export default class TabTwo extends React.Component<Props, any> {
   
   }
 
-  getPackageJson = () :void => {
+  doSetIsLoadingTrue = (): void => {
+    this.props.store.setIsLoadingTrue();
+  }
+
+  getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping')
+    this.doSetIsLoadingTrue();
   }
   
   //document.querySelector('#btn-package').addEventListener('click', getPackageJson)
@@ -73,7 +79,7 @@ export default class TabTwo extends React.Component<Props, any> {
           </form> 
         </div>
 
-        <div id="stats-file-selector" className="hidden">
+        <div id="stats-file-selector" className="">
           <h4>Load Webpack Stats</h4>
           <button id="btn-stats" onClick={this.getWebpackStats}>Load Stats File</button>
         </div>
