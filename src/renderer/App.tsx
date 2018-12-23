@@ -3,10 +3,6 @@ import { Route, HashRouter as Router, Link, Switch } from 'react-router-dom';
 import TabTwo from './components/TabTwo';
 import TabThree from './components/TabThree';
 import Home from './components/Home';
-import { observer, inject } from 'mobx-react'
-
-
-
 
 // Import the styles here to process them with webpack
 import './styles.scss';
@@ -34,19 +30,18 @@ class Nav extends React.Component {
 }
 
 export default class App extends React.Component<any, any> {
-     render() {
-        return (
-        <Router>
-          <div>
-            <Nav />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/two" component={TabTwo} />
-              <Route exact path="/three" component={TabThree} />
-    
-            </Switch>
-          </div>
-        </Router>
-        )
+  render() {
+    return (
+      <Router>
+        <div>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/two" component={TabTwo} />
+            <Route exact path="/three" component={TabThree} />
+          </Switch>
+        </div>
+      </Router>
+    )
   }
 }
