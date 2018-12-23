@@ -1,3 +1,5 @@
 node_modules
 dist
 package-lock.json
+dist/main.bundle.js
+dist/renderer.bundle.js
