@@ -243,6 +243,7 @@ function loadStats(file: string) {
     //splits multiple JSON objects if more than one exists in file
     content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
     content = JSON.parse(content)
+    //let content1 = JSON.parse(content)
     while (!content.hasOwnProperty("builtAt")) {
       content = content.children[0]
     }
@@ -296,6 +297,7 @@ function loadStats(file: string) {
     //console.log(co)
     // console.log(content.substring(0, 40))
     mainWindow.webContents.send('display-stats-reply', sunBurstData)
+
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
   });
 }
