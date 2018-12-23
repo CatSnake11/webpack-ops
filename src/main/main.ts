@@ -213,11 +213,68 @@ function loadStats(file: string) {
       return;
     }
     // clean and send back JSON stats file
-    let content = data.toString()
+    //let content = data.toString()
+    let content = data.toString();
+
+    //console.log(content)
     content = content.substr(content.indexOf("{"));
-    content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  //splits multiple JSON objects if more than one exists in file
+
+    //splits multiple JSON objects if more than one exists in file
+    content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
+    content = JSON.parse(content)
+    while (!content.hasOwnProperty("builtAt")) {
+      content = content.children[0]
+    }
+    let returnObj = {};
+    returnObj.timeStamp = Date.now();
+    returnObj.time = content.time;
+    returnObj.hash = content.hash;
+    returnObj.errors = content.errors
+    returnObj.size = content.assets.reduce((size: number , asset: any): void => size + asset.size, 0)
+    returnObj.assets = content.assets.map(asset => ({
+      name: asset.name,
+      chunks: asset.chunks,
+      size: asset.size,
+    }));
+
+    returnObj.chunks = content.chunks.map(chunk => ({
+      size: chunk.size,
+      files: chunk.files,
+      modules: chunk.modules ?
+        chunk.modules.map(module => ({
+          name: module.name,
+          size: module.size,
+          id: module.id,
+        }))
+        : [],
+    }));
+
+    let Pdata: any = []
+    Pdata.push(returnObj)
+    //loops through assets
+    let i = 0; // or the latest build
+    let path: string;
+    let sizeStr: string;
+    let sunBurstData = [];
+
+
+    for (var k = 0; k < Pdata[i].chunks.length; k++) {
+      for (var l = 0; l < Pdata[i].chunks[k].modules.length; l++) {
+        sizeStr = Pdata[i].chunks[k].modules[l].size.toString();
+        path = Pdata[i].chunks[k].modules[l].name.replace("./", "");
+        sunBurstData.push([path, sizeStr])
+      }
+    }
+    const sunBurstDataSum: number = sunBurstData.reduce((sum: number, el:any):number => {
+      return sum += parseInt(el[1])
+    },0)
+  
+  
+
+    console.log(sunBurstDataSum)
+    //console.log(co)
     // console.log(content.substring(0, 40))
-    mainWindow.webContents.send('display-stats-reply', 'pretend object')
+    mainWindow.webContents.send('display-stats-reply', sunBurstData)
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
   });
 }

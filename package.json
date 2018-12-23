@@ -4,7 +4,7 @@
   "main": "./dist/main.bundle.js",
   "scripts": {
     "start": "electron ./dist/main.bundle.js",
-    "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors",
+    "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > stats.json",
     "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"
   },
   "license": "MIT",

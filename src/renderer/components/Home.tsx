@@ -16,7 +16,7 @@ const initialState = {
         "children": [
           {
             "name": "C1",
-            "value": 100
+            "value": 220
           },
           {
             "name": "C2",
@@ -24,7 +24,16 @@ const initialState = {
           },
           {
             "name": "C3",
-            "value": 200
+            "children" :[
+              {
+                "name": "D1",
+                "value": 20
+              },
+              {
+                "name": "D2",
+                "value": 40
+              }
+            ]
           }
         ]
       },
@@ -38,7 +47,7 @@ const initialState = {
 
 type State = Readonly<typeof initialState>
 
-export default class Home extends React.Component<any, State> {
+export default class Home extends React.Component<{}, State> {
   // may need "readonly"
   state: State = initialState
   componentDidMount() {
@@ -46,20 +55,20 @@ export default class Home extends React.Component<any, State> {
   }
 
   private drawChart() {
-    const svg = d3.select("svg")
-      .append("circle")
-      .attr("r", 250)
-      .attr("cx", this.state.width / 2)
-      .attr("cy", this.state.height / 2)
-      .attr("fill", "aquamarine")
+  //  const svg = d3.select("svg")
+  //    .append("circle")
+  //    .attr("r", 250)
+  //    .attr("cx", this.state.width / 2)
+  //    .attr("cy", this.state.height / 2)
+  //    .attr("fill", "aquamarine")
     // .attr("transform", "translate(" + this.state.width / 10 + "," + this.state.height / 10 + ")");
 
     const radius = Math.min(this.state.width, this.state.height) / 2;
 
     const root = d3.hierarchy(initialState.data);
     var handleEvents = function (selection: any) {
-      selection.on('mouseover', function () {
-        let g = d3.select(this);
+      selection.on('mouseover', function (d: any, i: number, group: any) {
+        let g = d3.select(group[i]);
         let n = g.select('.the-node');
 
         if (n.classed('solid')) {
@@ -76,8 +85,8 @@ export default class Home extends React.Component<any, State> {
           .style('fill', 'white')
 
       })
-        .on('mouseout', function () {
-          let g = d3.select(this);
+        .on('mouseout', function (d: any, i: number, group: any) {
+          let g = d3.select(group[i]);
           let n = g.select('.the-node');
 
           if (n.classed('solid')) {
@@ -96,7 +105,7 @@ export default class Home extends React.Component<any, State> {
     const sunburstLayout = d3.partition();
 
     sunburstLayout.size([2 * Math.PI, radius]);
-    var arc = d3.arc()
+    var arc: any = d3.arc()
       .startAngle(function (d) { return d.x0 })
       .endAngle(function (d) { return d.x1 })
       .innerRadius(function (d) { return d.y0 })
@@ -130,7 +139,7 @@ export default class Home extends React.Component<any, State> {
       .text(function (d) { return d.parent ? d.data.name : "" });
 
     // https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af
-    function computeTextRotation(d) {
+    function computeTextRotation(d: any) {
       var angle = (d.x0 + d.x1) / Math.PI * 90;
       return (angle < 180) ? angle - 90 : angle + 90;
     }
