@@ -80,18 +80,31 @@ app.on('activate', () => {
 // type MyList = [number?, string?, boolean?]
 
 
-/**
- * Event listeners from / to Renderer
- **/ 
+/*********************************************
+ * Event listeners from Renderer to Main
+ *********************************************/ 
 
 ipcMain.on('load-package.json', (event: any, arg: any) => {
+  // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong
 
   selectPackageJson()
 })
 
+ipcMain.on('read-config', (event: any, configNumber: any) => {
+  // after package.json is loaded configs have been sent to renderer and user
+  // has now selected one and we need to load
+  console.log("on load-config")
+  console.log("use configuration: ", configNumber) 
+  readConfig(configNumber)
+})
+
+
+
+
 ipcMain.on('load-stats.json', (event: any, arg: any) => {
+  // arg unimportant. User has selected to load a stats file. selectStatsJson() will present file loading dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')
 
@@ -114,6 +127,7 @@ function selectPackageJson (){
 }
 
 function loadPackage(file: string) {
+  console.log("loadPackage")
   fs.readFile(file, (err, data) => {
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
@@ -124,11 +138,15 @@ function loadPackage(file: string) {
   });
 }
   
+// temp store variable. This shouldn't be global, but works for the moment.
+const listOfConfigs: Array<string> = [];
+
 function selectConfig(packageFile: any) {
-  // todo: deliver to renderer to allow user selection
+  console.log("selectConfig")
+
   let output = "webpack configurations in package.json.\n" ;
   const entries = packageFile.scripts;
-  const listOfConfigs: Array<string> = [];
+//  const listOfConfigs: Array<string> = [];  // made global for inter function communication
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
@@ -136,15 +154,17 @@ function selectConfig(packageFile: any) {
     }
   }
   console.log(output + `\n`)
-  readConfig(listOfConfigs[0])
+
+  mainWindow.webContents.send('choose-config', listOfConfigs)
 }
 
-function readConfig(entry: string) {
-  let output = "selecting first configuration.\n" ;
-  output += entry + `\n`
-  console.log(output + `\n`)
+function readConfig(entry: number) {
+  console.log("readConfig")
+  console.log("listOfConfigs", listOfConfigs)
+  console.log("User selected entry", entry)
+  console.log(`selecting ${entry? "1st": "second"} configuration.\n` );
 
-  let config = entry.split("--config" )[1].trimLeft().split(" ")[0]
+  let config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
   fs.readFile(config, (err, data) => {
     if (err) {
       console.log("An error ocurred loading: " + err.message);
@@ -193,6 +213,7 @@ function findMatched (str: string, char: string , nestedChar: string): number {
 }
 
 
+
 /**
  * Event handlers - file loading / parsing
  * Loading parsing of webpack stats file
@@ -222,6 +243,7 @@ function loadStats(file: string) {
     //splits multiple JSON objects if more than one exists in file
     content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
     content = JSON.parse(content)
+    //let content1 = JSON.parse(content)
     while (!content.hasOwnProperty("builtAt")) {
       content = content.children[0]
     }
@@ -275,6 +297,7 @@ function loadStats(file: string) {
     //console.log(co)
     // console.log(content.substring(0, 40))
     mainWindow.webContents.send('display-stats-reply', sunBurstData)
+
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
   });
 }
