@@ -6,7 +6,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: rgb(243, 243, 255);
+  background: rgb(207, 226, 250);
 }
 
 .app {
@@ -68,8 +68,22 @@ a {
   // position: absolute;
 }
 
-button {
+.btn {
+  transition: 0.3s;
+  background-color:none;
+  background-color:rgb(207, 226, 250);
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  box-shadow: 0px 2px 5px 2px rgb(183, 198, 218);
+  color:white;
+  font-size: 16px;
   padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
 }
 
 #resetButton {

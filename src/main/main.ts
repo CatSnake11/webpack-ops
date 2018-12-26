@@ -153,6 +153,7 @@ function selectConfig(packageFile: any) {
       listOfConfigs.push(entries[entry])
     }
   }
+
   console.log(output + `\n`)
 
   mainWindow.webContents.send('choose-config', listOfConfigs)
@@ -163,8 +164,10 @@ function readConfig(entry: number) {
   console.log("listOfConfigs", listOfConfigs)
   console.log("User selected entry", entry)
   console.log(`selecting ${entry? "1st": "second"} configuration.\n` );
+  
 
   let config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
+  console.log(config)
   fs.readFile(config, (err, data) => {
     if (err) {
       console.log("An error ocurred loading: " + err.message);
@@ -172,12 +175,13 @@ function readConfig(entry: number) {
       return;
     }
     const configFile: string = data.toString();
-    //console.log(configFile);
-
+    console.log(configFile);
     parseConfig(configFile)
   });
 }
+//// using AST
 
+//// without using AST
 function parseConfig(entry: string) {
   // todo: use Acorn AST parsing instead 
   console.log("doing parseConfig")
