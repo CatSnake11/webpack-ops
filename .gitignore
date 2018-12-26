@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 dist/
 node_modules/
 package-lock.json
 stats.json
 webpack-stats.json
-=======
-node_modules
-dist
-package-lock.json
->>>>>>> master
