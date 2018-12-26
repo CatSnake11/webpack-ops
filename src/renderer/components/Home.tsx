@@ -13,8 +13,8 @@ type Props = {
 
 // declare var d3: any;
 const initialState = {
-  width: 500,
-  height: 500,
+  width: 700,
+  height: 700,
   data: {
     "name": "A1",
     "children": [
@@ -34,7 +34,16 @@ const initialState = {
             "children" :[
               {
                 "name": "D1",
-                "value": 20
+                "children":[
+                  {
+                    "name": "E1",
+                    "value": 1000
+                  },
+                  {
+                    "name": "E2",
+                    "value": 100
+                  }
+                ]
               },
               {
                 "name": "D2",
@@ -60,11 +69,62 @@ export default class Home extends React.Component<Props, StateType> {
   state: StateType = initialState
 
   componentDidMount() {
-    this.drawChart();
-    this.drawTreemap();
+
+    ipcRenderer.on('display-stats-reply', (event: any, data: string[][]): void => {
+      console.log(data)
+
+
+      let root:any = { "name": "root", "children": [] };
+      for (let i:number = 0; i < data.length; i++) {
+        let sequence:string = data[i][0];
+        let size:number = +data[i][1];
+        if (isNaN(size)) { // e.g. if this is a header row
+          continue;
+        }
+        let parts: string[] = sequence.split("/");
+        let currentNode = root;
+        for (let j:number = 0; j < parts.length; j++) {
+          let children = currentNode["children"];
+          let nodeName = parts[j];
+          let childNode;
+          if (j + 1 < parts.length) {
+            // Not yet at the end of the sequence; move down the tree.
+            var foundChild = false;
+            for (var k = 0; k < children.length; k++) {
+              if (children[k]["name"] == nodeName) {
+                childNode = children[k];
+                foundChild = true;
+                break;
+              }
+            }
+            // If we don't already have a child node for this branch, create it.
+            if (!foundChild) {
+              childNode = { "name": nodeName, "children": [] };
+              children.push(childNode);
+            }
+            currentNode = childNode;
+          } else {
+            // Reached the end of the sequence; create a leaf node.
+            childNode = { "name": nodeName, "value": size };
+            children.push(childNode);
+          }
+        }
+      }
+      console.log(root)
+      console.log(this.state.data)
+      this.drawChart(root);
+      this.drawTreemap();
+    
+    })
+
+    ipcRenderer.on('choose-config', (event: any, arg: any): void => {
+      console.log("list of configs - pick one")
+      this.props.store.setDisplayConfigSelectionTrue();
+      console.log(arg)
+    })
   }
 
-  private drawChart() {
+  private drawChart(jsonData:any) {
     // const svg = d3.select("svg")
     //   .append("circle")
     //   .attr("r", 250)
@@ -72,10 +132,10 @@ export default class Home extends React.Component<Props, StateType> {
     //   .attr("cy", this.state.height / 2)
     //   .attr("fill", "aquamarine")
     //   .attr("transform", "translate(" + this.state.width / 10 + "," + this.state.height / 10 + ")");
-
+    console.log(jsonData)
     const radius = (Math.min(this.state.width, this.state.height) / 2) - 10;
 
-    const root = d3.hierarchy(this.state.data);
+    const root = d3.hierarchy(jsonData);
     var handleEvents = function (selection: any) {
       selection.on('mouseover', function (d: any, i: number, group: any) {
         let g = d3.select(group[i]);
@@ -121,35 +181,51 @@ export default class Home extends React.Component<Props, StateType> {
       .innerRadius(function (d) { return d.y0 })
       .outerRadius(function (d) { return d.y1 })
 
-    root.sum(d => d.value);
+    root.sum(d => d.value)
+    .sort(function (a, b) { return b.value - a.value; });
 
     sunburstLayout(root);
     // console.log('root: ', root);
 
-    const main = d3.select('#sunburst');
-    var sunburstNodes = main.selectAll('g')
-      .data(root.descendants())
-      .enter()
-      .append('g').attr("class", "node")
-      .attr("transform", "translate(" + this.state.width / 2 + "," + this.state.height / 2 + ")")
-      .call(handleEvents)
-    var paths = sunburstNodes.append('path')
-      .attr('d', arc)
-      .classed('the-node', true)
-      .style('fill', 'rgba(25,100,255,0.5)')
-      .style('stroke', '#FFFFFF')
-      .style('stroke-width', 6);
+    const main = d3.select('#sunburst')
+                  .attr("width", this.state.width)
+                  .attr("height", this.state.height)
+                  .append("svg:g")
+                  .attr("transform", "translate(" + this.state.width / 2 + "," + this.state.height / 2 + ")");
 
-    var labels = sunburstNodes.append("text")
-      .attr('class', 'label')
-      .attr("transform", function (d) {
-        return "translate(" + arc.centroid(d)
-          /*+ ") rotate(" + computeTextRotation(d) */ + ")";
-      })
-      .attr("dx", "-4")
-      .attr("dy", '.5em')
-      .text(function (d) { return d.parent ? d.data.name : "" });
+    let nodes = sunburstLayout(root).descendants()
+        .filter(function (d) {
+          return (d.x1 - d.x0 > 0.005); // 0.005 radians = 0.29 degrees
+        });
+    
+    let color = function () {
+      let ctr = 0;
+      const hex = ['#FCE883', '#64b0cc', '#7a6fca', '#ca6f96', '#e58c72', '#e5c072']
+      return function () {
+        if (ctr === hex.length - 1) {
+          ctr = 0;
+          return hex[ctr]
+        } else {
+          ctr++
+          return hex[ctr]
+        }
+      }
+    }
+    let loopColors = color()
 
+      var i = 0;
+      var path = main.data([jsonData]).selectAll("path")
+        .data(nodes)
+        .enter().append("svg:path")
+        .attr("display", function (d) { return d.depth ? null : "none"; })
+        .attr("d", arc)
+        .attr("fill-rule", "evenodd")
+        .style("fill", function (d) { return loopColors() })
+        .style("opacity", 1)
+
+    
+      let totalSize = path.datum().value;
+      console.log(totalSize)
     // https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af
     // function computeTextRotation(d) {
     //   var angle = (d.x0 + d.x1) / Math.PI * 90;
@@ -220,14 +296,62 @@ export default class Home extends React.Component<Props, StateType> {
     this.props.store.setIsLoadingTrue();
   }
 
+
+  getPackageJson = (): void => {
+    ipcRenderer.send('load-package.json', 'ping')
+    this.doSetIsLoadingTrue();
+  }
+  
+  //document.querySelector('#btn-package').addEventListener('click', getPackageJson)
+  
+  getWebpackConfig = (event: any) :void => {
+    console.log("getWebpackConfig")   //getting this far
+    let radios = document.getElementsByName("config")
+
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+        // do whatever you want with the checked radio
+        ipcRenderer.send('read-config', radios[i].value)
+        break;
+      }
+    }
+    event.preventDefault();
+  }
+
+  getWebpackStats = () :void => {
+    ipcRenderer.send('load-stats.json', 'ping')
+  }
+
   render() {
     const { store } = this.props
     return (
       <div className="mainContainerHome">
-        <div className="smallerMainContainer">
+          <div>
+              <div id="package-selector" className="">
+                <h4>Select your package.json</h4>
+                <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
+              </div>
+      
+              {this.props.store.displayConfigSelection 
+                && <div id="webpack-config-selector">
+                     <h4>Select desired configuration</h4>
+                     <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
+                       <input type="radio" name="config" value="0"/><div style={{display: 'inline-block'}}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br/>
+                       <input type="radio" name="config" value="1"/><div style={{display: 'inline-block'}}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br/>
+                       <input type="submit" value="Submit"/>
+                     </form> 
+                  </div>}
+      
+              <div id="stats-file-selector" className="">
+                <h4>Load Webpack Stats</h4>
+                <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
+              </div>
+            </div>
+          <div className="smallerMainContainer">
+
           <div id="graphsContainer">
-            {store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="sunburst" />}
-            {!store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="treemap" />}
+              {store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="sunburst" />}
+              {!store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="treemap" />}
           </div>
           <div id="buttonContainer">
             <button onClick={this.doSetIsChartSelectedTrue}>Draw Chart</button>
