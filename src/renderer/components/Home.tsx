@@ -67,7 +67,6 @@ export default class Home extends React.Component<Props, StateType> {
   state: StateType = initialState
 
   componentDidMount() {
-
     ipcRenderer.on('display-stats-reply', (event: any, data: string[][]): void => {
       console.log(data)
 
@@ -457,11 +456,11 @@ export default class Home extends React.Component<Props, StateType> {
     let totalSize = nodes.datum().value;
 
     function mouseoverTreemap(d: any): void {
-      let percentage: number = (100 * d.value / totalSize).toPrecision(3);
-      let percentageString = ""
+      let percentage: number = (100 * d.value / totalSize)
+      let percentageString: string = ""
       if (percentage < 0.1) {
         percentageString = "< 0.1%";
-      } else percentageString = percentage.toString() + '%'
+      } else percentageString = percentage.toPrecision(3); + '%'
       d3.select('#treemapText')
         .text(d.data.name)
 
