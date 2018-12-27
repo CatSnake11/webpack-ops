@@ -11,6 +11,7 @@ type Props = {
 
 // declare var d3: any;
 const initialState = {
+  isPackageSelected: false,
   width: 900,
   height: 900,
   data: {
@@ -607,6 +608,11 @@ export default class Home extends React.Component<Props, StateType> {
       }
     }
     event.preventDefault();
+    this.setState({
+      isPackageSelected: true
+    })
+
+
   }
 
   getWebpackStats = (): void => {
@@ -618,12 +624,12 @@ export default class Home extends React.Component<Props, StateType> {
     return (
       <div className="mainContainerHome">
         <div>
-          <div id="package-selector" className="">
+          {!this.state.isPackageSelected && <div id="package-selector" className="">
             <h4>Select your package.json</h4>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
-          </div>
+          </div>}
 
-          {this.props.store.displayConfigSelection
+          {this.props.store.displayConfigSelection && !this.state.isPackageSelected
             && <div id="webpack-config-selector">
               <h4>Select desired configuration</h4>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
@@ -633,10 +639,10 @@ export default class Home extends React.Component<Props, StateType> {
               </form>
             </div>}
 
-          <div id="stats-file-selector" className="">
+          {this.state.isPackageSelected! && <div id="stats-file-selector" className="">
             <h4>Load Webpack Stats</h4>
             <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
-          </div>
+          </div>}
         </div>
         <div className="smallerMainContainer">
 
