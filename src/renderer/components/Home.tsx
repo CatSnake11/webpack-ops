@@ -69,7 +69,7 @@ export default class Home extends React.Component<Props, StateType> {
   state: StateType = initialState
 
   componentDidMount() {
-
+    this.drawTreemap();
     ipcRenderer.on('display-stats-reply', (event: any, data: string[][]): void => {
       console.log(data)
 
@@ -113,7 +113,6 @@ export default class Home extends React.Component<Props, StateType> {
       console.log(root)
       console.log(this.state.data)
       this.drawChart(root);
-      this.drawTreemap();
     
     })
 
@@ -351,7 +350,7 @@ export default class Home extends React.Component<Props, StateType> {
 
           <div id="graphsContainer">
               {store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="sunburst" />}
-              {!store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="treemap" />}
+              {store.isChartSelected && <svg width={this.state.width} height={this.state.height} id="treemap" />}
           </div>
           <div id="buttonContainer">
             <button onClick={this.doSetIsChartSelectedTrue}>Draw Chart</button>
