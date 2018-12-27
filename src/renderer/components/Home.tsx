@@ -437,13 +437,28 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([1000, 650])
+      .size([900, 650])
 
     root.sum(function (d: any) {
       return d.value;
     });
 
     treemapLayout(root);
+
+    const initializeBreadcrumbTrail = () => {
+      // Add the svg area.
+      var trail2 = d3.select("#sequenceTreeMap").append("svg:svg")
+        .attr("width", this.state.width)
+        .attr("height", 50)
+        .attr("id", "trail2");
+
+      // Add the label at the end, for the percentage.
+      trail2.append("svg:text")
+        .attr("id", "endlabel")
+        .style("fill", "#fff");   //controls the color of the percentage
+    }
+
+    initializeBreadcrumbTrail();
 
     const nodes = d3.select('#treemap')
       .selectAll('g')
@@ -461,7 +476,7 @@ export default class Home extends React.Component<Props, StateType> {
       let percentageString: string = ""
       if (percentage < 0.1) {
         percentageString = "< 0.1%";
-      } else percentageString = percentage.toPrecision(3); + '%'
+      } else percentageString = percentage.toPrecision(3) + '%';
       d3.select('#treemapText')
         .text(d.data.name)
 
@@ -480,6 +495,15 @@ export default class Home extends React.Component<Props, StateType> {
       const ancestorsArray = d.ancestors().reverse()
       ancestorsArray.shift();
 
+      let trickArray2 = ancestorsArray.slice(0);
+      // convert path array to a '/' seperated path string. add '/' at the end if it's a directory.
+      // const path = "./" + trickArray.map(node => node.data.name).join("/") + (trickArray[trickArray.length - 1].children ? "/" : "");
+      // _self.props.onHover(path);
+
+      for (var i = 1; i < trickArray2.length + 1; i++) {
+        updateBreadcrumbs(trickArray2.slice(0, i), percentageString);
+      }
+
       const ancestorsNameArray = ancestorsArray.map(el => {
         return el.data.name;
       })
@@ -487,6 +511,79 @@ export default class Home extends React.Component<Props, StateType> {
       d3.select('#ancestors')
         .text(ancestorsNameArray.join("/"));
       // console.log(ancestorsNameArray)
+    }
+
+    function updateBreadcrumbs(nodeArray: any, percentageString: any) {
+
+      // Data join; key function combines name and depth (= position in sequence).
+      var trail = d3.select("#trail2")
+        .selectAll("g")
+        .data(nodeArray, function (d) { return d.data.name + d.depth; });
+
+      // Remove exiting nodes.
+      trail.exit().remove();
+
+      // Add breadcrumb and label for entering nodes.
+      var entering = trail.enter().append("svg:g");
+
+      entering.append("svg:polygon")
+        .attr("points", breadcrumbPoints)
+        .style("fill", function (d) { return '#409dbf'; });
+
+      entering.append("svg:text")
+        .attr("x", (b.w + b.t) / 2)
+        .attr("y", b.h / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "start")
+        .text(function (d) { return d.data.name; });
+
+      // Now move and update the percentage at the end.
+      var nodeAryFlat = '';
+
+      for (var i = 0; i < nodeArray.length; i++) {
+        nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name
+      }
+
+      var nodeAryFlatLength = 0;
+      var nodeAryFlatLengthPercentage = 0;
+      for (var i = 1; i < nodeArray.length; i++) {
+        nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t
+        nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15
+      }
+
+      entering.attr("transform", function (d, i) {
+        if (i === 0) {
+          return "translate(0, 0)"
+        } else {
+          return "translate(" + nodeAryFlatLength + ", 0)";   //POSITIONING OF WORDS
+        }
+      });
+
+      d3.select("#trail2").select("#endlabel")
+        .attr("x", (nodeAryFlatLengthPercentage))  //CONTROLS WHERE THE PERCENTAGE IS LOCATED
+        .attr("y", b.h / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "start")
+        .text(percentageString);
+
+      // Make the breadcrumb trail visible, if it's hidden.
+      d3.select("#trail2")
+        .style("visibility", "");
+
+    }
+
+    // Generate a string that describes the points of a breadcrumb polygon.
+    function breadcrumbPoints(d: any, i: any) {
+      var points = [];
+      points.push("0,0");
+      points.push(b.w + d.data.name.length * 7.5 + ",0");  //CONTROLS THE SHAPE OF THE POLYGON
+      points.push(b.w + d.data.name.length * 7.5 + b.t + "," + (b.h / 2));
+      points.push(b.w + d.data.name.length * 7.5 + "," + b.h);
+      points.push("0," + b.h);
+      if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
+        points.push(b.t + "," + (b.h / 2));
+      }
+      return points.join(" ");
     }
 
     nodes
@@ -672,6 +769,7 @@ export default class Home extends React.Component<Props, StateType> {
                 <span id="filesizeTree"></span> <br />
               </div>
             </div>
+            <div id="sequenceTreeMap"></div>
             {store.isChartSelected &&
               <div id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
