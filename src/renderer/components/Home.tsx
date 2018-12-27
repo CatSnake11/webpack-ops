@@ -247,6 +247,7 @@ export default class Home extends React.Component<Props, StateType> {
       .on("mouseover", mouseover);
 
     let totalSize = path.datum().value;
+    setTotalSize
     console.log(totalSize)
     // https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af
     // function computeTextRotation(d) {
@@ -473,7 +474,7 @@ export default class Home extends React.Component<Props, StateType> {
       d3.select('#explanationTree')
         .style('visibility', '');
 
-      d3.selectAll('#treemap').selectAll("nodes")
+      d3.selectAll('#chartTreeMap').selectAll("nodes")
         .style("opacity", 0.2)
 
       const ancestorsArray = d.ancestors().reverse()
