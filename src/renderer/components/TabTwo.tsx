@@ -14,11 +14,8 @@ type Props = {
 export default class TabTwo extends React.Component<Props, any> {
 
   componentDidMount() {
-    
+
   }
-
-  
-
 
   render() {
     const { store } = this.props
@@ -27,7 +24,6 @@ export default class TabTwo extends React.Component<Props, any> {
         <div>TabTwo</div>
         <div>{store.name}</div>
 
-        
       </div>
     );
   }
