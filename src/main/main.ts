@@ -223,7 +223,7 @@ function parseConfig(entry: string) {
   }
   let webpackObjs: Array<string> = findObjects(entry); 
   console.log('hi')
-  console.log(webpackObjs.toString());
+  console.log('here' + webpackObjs);
   return webpackObjs.toString()
 }
 
