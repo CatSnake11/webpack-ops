@@ -249,7 +249,7 @@ function parseConfig(entry: string, filepath: string) {
   const plugins = [{description:"The SplitChunks plugin facilitates breaking modules into separate or combined files.", name:"Split Chunks plugin", file:"splitChunksPluginConfig.js"}]
   let plugin = plugins[0]
 
-  fs.readFile(__dirname + "/../src/plugins/" + plugin.name, (err, data) => {  // todo: needs to be the plugins directory
+  fs.readFile(__dirname + "/../src/plugins/" + plugin.file, (err, data) => {  // todo: needs to be the plugins directory
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
       console.log(err);
