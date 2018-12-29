@@ -1,7 +1,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+ 
 let mainConfig = {
+  optimization: {
+    splitChunks: {
+//     chunks: 'all',
+    }
+  },
   mode: 'development',
   entry: './src/main/main.ts',
   target: 'electron-main',
@@ -97,6 +104,8 @@ let rendererConfig = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './src/renderer/index.html'),
     }),
+    // To strip all locales except “en”
+    new MomentLocalesPlugin(),
   ],
 };
 

@@ -3,21 +3,33 @@ import { ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import fs from 'fs';
-import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
+//import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
+const acorn = require("acorn");
+const astravel = require('astravel');
+import { generate } from 'astring';
+import { any } from 'prop-types';
+
+/* test of reducing Moment library size */
+import * as moment from 'moment';
+
+let now = moment().format('LLLL');
+console.log("This is a momentous time")
+console.log(now)
 
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec)
 
-let generate = async function generateStats () {
+let generate1 = async function generateStats () {
   const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
   return { stats }
 };
 
 
+/*
 installExtension(MOBX_DEVTOOLS)
   .then((name: any) => console.log(`Added Extension: ${name}`))
   .catch((err: any) => console.log(`An error occurred: `, err));
-
+*/
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -95,7 +107,7 @@ app.on('activate', () => {
 ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
-  event.sender.send('asynchronous-reply', 'pong')  // sends pong
+  event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
 
   selectPackageJson()
 })
@@ -105,6 +117,7 @@ ipcMain.on('read-config', (event: any, configNumber: any) => {
   // has now selected one and we need to load
   console.log("on load-config")
   console.log("use configuration: ", configNumber) 
+
   readConfig(configNumber)
 })
 
@@ -180,7 +193,7 @@ function selectConfig(packageFile: any) {
 
   console.log(output + `\n`)
 
-  mainWindow.webContents.send('choose-config', listOfConfigs)
+  mainWindow.webContents.send('choose-config', listOfConfigs)   // react should render the list in TabTwo
 }
 
 function readConfig(entry: number) {
@@ -191,7 +204,7 @@ function readConfig(entry: number) {
   
 
   let config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
-  console.log(config)
+  console.log("loading webpack config", config)
   fs.readFile(config, (err, data) => {
     if (err) {
       console.log("An error ocurred loading: " + err.message);
@@ -199,47 +212,101 @@ function readConfig(entry: number) {
       return;
     }
     const configFile: string = data.toString();
-    console.log(configFile);
-    parseConfig(configFile)
+    //console.log(configFile);
+
+    parseConfig(configFile, config)
   });
 }
 //// using AST
 
-//// without using AST
-function parseConfig(entry: string) {
+
+function parseConfig(entry: string, filepath: string) {
   // todo: use Acorn AST parsing instead 
   console.log("doing parseConfig")
-  function findObjects (entry: string) {
-    const arr = []
-    // find first object definition start
-    let index = entry.search(/\w+\s*=\s*{/)
 
-      console.log(entry.substr(index, 20))
-    // from that starting point find the matched {}
-    let end: number = findMatched(entry.substring(index), "}", "{")
-    //loop
-    arr.push(entry.substr(index, end))
-    return arr
+  // Parse it into an AST and retrieve the list of comments
+  const comments: Array<string> = []
+  var ast = acorn.parse(entry, {
+    ecmaVersion: 6,
+    locations: true,
+    onComment: comments,
+  })
+  console.log(ast)
+  // Attach comments to AST nodes
+  astravel.attachComments(ast, comments)
+  // add back in comments
+  console.log("with comments added in")
+  console.log(ast.body)
+
+  // console.log(obj.body[obj.body.length-1].expression.left.object.name)
+  // console.log(obj.body[obj.body.length-1].expression.left.property.name)
+  let body = ast.body;
+  console.log(body[body.length-1].expression.left.object.name)  // should be module
+  console.log(body[body.length-1].expression.left.property.name)  // should be exports
+
+  // todo: if the last element is module.exports, which it should be, if it's an Object
+  // we have found the config object. If it's an array, we need to find the config objects.
+
+  // finding the config objects
+  let configNames = body[body.length-1].expression.right.elements;
+  let configs = [];
+
+  for (let i=0; i<configNames.length; i++) {
+    console.log(configNames[i].name);
+    let config;
+    try {
+      config = body.filter( (d: any) => {
+        return (
+          d.type === "VariableDeclaration" &&
+          d.declarations[0].id.name === configNames[i].name
+        )
+      })
+      console.log(config[0])
+      configs.push(config[0])
+    }
+    catch(err) {
+      console.log("not that declaration");
+    }
   }
-  let webpackObjs: Array<string> = findObjects(entry); 
-  console.log('hi')
-  console.log('here' + webpackObjs);
-  return webpackObjs.toString()
-}
+  console.log(configs.length)
 
-function findMatched (str: string, char: string , nestedChar: string): number {
-  // replace this with Acorn Abstract Syntax Tree parsing  (parse JS module)
-  // desire to preserve Comments
 
-  console.log("doing findMatched")
-  // if ()
-  let i = str.search(/[{}]/)
-  console.log(str[i])
-  if (str[i] === char) return i
-  if (str[i] === nestedChar) {
-    console.log(str.substr(0, i))
-   // return  findMatched(str.substring(i + findMatched(str[i], "}", "{")) , "}", "{")
-  }
+  // Add plugins
+  // List of plugins
+  // Assume first plugin
+  const plugins = [{description:"The SplitChunks plugin facilitates breaking modules into separate or combined files.", name:"Split Chunks plugin", file:"splitChunksPluginConfig.js"}]
+  let plugin = plugins[0]
+
+  fs.readFile(__dirname + "/../src/plugins/" + plugin.file, (err, data) => {  // todo: needs to be the plugins directory
+    if (err) {
+      //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
+      console.log(err);
+      return;
+    }
+    // run config through Acorn parser to make AST
+    // merge plugin config with selected webpack config
+  });
+
+  
+  // Format it into a code string
+  var formattedCode = generate(ast, {
+    comments: true,
+  })
+  console.log("code coverted back into JS file:")
+  //console.log(formattedCode)
+  // Check it
+  //console.log(entry === formattedCode ? 'It works!' : 'Something went wrong…')
+
+  fs.writeFile(filepath+"v2", formattedCode, (err) => {  //need to do better versioning / archiving
+    if (err) {
+  //    alert("An error ocurred updating the file" + err.message);
+      console.log(err);
+      return;
+    }
+
+    console.log("The new file has been succesfully saved");
+  });  
+  
 }
 
 
@@ -249,7 +316,7 @@ function findMatched (str: string, char: string , nestedChar: string): number {
  * Loading parsing of webpack stats file
  **/ 
 
-function selectStatsJson (){
+function selectStatsJson(){
   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]
   if (file != undefined) {
     loadStats(file)
@@ -265,35 +332,49 @@ function loadStats(file: string) {
     }
     // clean and send back JSON stats file
     //let content = data.toString()
-    let content = data.toString();
+    let content: any = data.toString();
 
     //console.log(content)
     content = content.substr(content.indexOf("{"));
 
     //splits multiple JSON objects if more than one exists in file
-    content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
-    content = JSON.parse(content)
-    //let content1 = JSON.parse(content)
+    //content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
+    // content = "{" + content.split(/}[\n\r\s]+{/)[1]  
+    content = content.split(/}[\n\r\s]+{/);
+    // repair brackets from split
+
+    console.log("content array length is",content.length)
+    if (content.length > 1) {
+      for (let i=0; i<content.length; i++){
+        content[i] = (i>0)?"{":"" + content[i] + (i<content.length-1)?"}":""
+      }
+    }
+    console.log("Stats File")
+    console.log(content[0].substring(0,40))
+    // console.log("Stats 2")
+    // console.log(content[1].substring(0,40))
+    // content is now an array of one or more stats json
+    content = JSON.parse(content[0])
     while (!content.hasOwnProperty("builtAt")) {
       content = content.children[0]
     }
-    let returnObj = {};
+    let returnObj: any = {};
     returnObj.timeStamp = Date.now();
     returnObj.time = content.time;
     returnObj.hash = content.hash;
     returnObj.errors = content.errors
     returnObj.size = content.assets.reduce((size: number , asset: any): void => size + asset.size, 0)
-    returnObj.assets = content.assets.map(asset => ({
+    returnObj.assets = content.assets.map((asset: any) => ({
       name: asset.name,
       chunks: asset.chunks,
       size: asset.size,
     }));
 
-    returnObj.chunks = content.chunks.map(chunk => ({
+    returnObj.chunks = content.chunks.map((chunk: any) => ({
       size: chunk.size,
       files: chunk.files,
       modules: chunk.modules ?
-        chunk.modules.map(module => ({
+        chunk.modules.map((module: any) => ({
           name: module.name,
           size: module.size,
           id: module.id,
