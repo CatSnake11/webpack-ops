@@ -116,12 +116,12 @@ export default class Home extends React.Component<Props, StateType> {
 
     sunburstLayout.size([2 * Math.PI, radius]);
     var arc: any = d3.arc()
-      .startAngle(function (d) { return d.x0 })
-      .endAngle(function (d) { return d.x1 })
-      .innerRadius(function (d) { return d.y0 })
-      .outerRadius(function (d) { return d.y1 })
+      .startAngle(function (d: any) { return d.x0 })
+      .endAngle(function (d: any) { return d.x1 })
+      .innerRadius(function (d: any) { return d.y0 })
+      .outerRadius(function (d: any) { return d.y1 })
 
-    root.sum(d => d.value);
+    root.sum((d: any) => d.value);
 
     sunburstLayout(root);
     // console.log('root: ', root);
@@ -148,10 +148,10 @@ export default class Home extends React.Component<Props, StateType> {
       })
       .attr("dx", "-4")
       .attr("dy", '.5em')
-      .text(function (d) { return d.parent ? d.data.name : "" });
+      .text(function (d: any) { return d.parent ? d.data.name : "" });
 
     // https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af
-    // function computeTextRotation(d) {
+    // function computeTextRotation(d: any) {
     //   var angle = (d.x0 + d.x1) / Math.PI * 90;
     //   return (angle < 180) ? angle - 90 : angle + 90;
     // }
@@ -177,13 +177,13 @@ export default class Home extends React.Component<Props, StateType> {
       .data(root.descendants())
       .enter()
       .append('g')
-      .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+      .attr('transform', function (d: any) { return 'translate(' + [d.x0, d.y0] + ')' })
       .attr("fill", 'rgba(25,100,255,0.2)')
 
     nodes
       .append('rect')
-      .attr('width', function (d) { return d.x1 - d.x0; })
-      .attr('height', function (d) { return d.y1 - d.y0; })
+      .attr('width', function (d: any) { return d.x1 - d.x0; })
+      .attr('height', function (d: any) { return d.y1 - d.y0; })
       .style('stroke', '#FFFFFF')
 
     nodes
@@ -193,7 +193,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style('fill', "#696969")
       .style('font-size', 10)
       .attr("transform", "translate(" + "10" + "," + "10" + ")")
-      .text(function (d) {
+      .text(function (d: any) {
         return d.data.name;
       })
 

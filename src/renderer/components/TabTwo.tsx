@@ -41,7 +41,7 @@ export default class TabTwo extends React.Component<Props, any> {
   
   getWebpackConfig = (event: any) :void => {
     console.log("getWebpackConfig")   //getting this far
-    let radios = document.getElementsByName("config")
+    let radios: any = document.getElementsByName("config")
 
     for (var i = 0, length = radios.length; i < length; i++) {
       if (radios[i].checked) {
