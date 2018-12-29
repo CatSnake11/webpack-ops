@@ -179,10 +179,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     sunburstLayout.size([2 * Math.PI, radius]);
     const arc: any = d3.arc()
-      .startAngle(function (d) { return d.x0 })
-      .endAngle(function (d) { return d.x1 })
-      .innerRadius(function (d) { return d.y0 })
-      .outerRadius(function (d) { return d.y1 })
+      .startAngle(function (d: any) { return d.x0 })
+      .endAngle(function (d: any) { return d.x1 })
+      .innerRadius(function (d: any) { return d.y0 })
+      .outerRadius(function (d: any) { return d.y1 })
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -217,7 +217,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style("opacity", 0);
 
     let nodes = sunburstLayout(root).descendants()
-      .filter(function (d) {
+      .filter(function (d: any) {
         return (d.x1 - d.x0 > 0.0092); // 0.005 radians = 0.29 degrees
       });
 
@@ -260,7 +260,7 @@ export default class Home extends React.Component<Props, StateType> {
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
       var percentageString = percentage + "%";
-      if (percentage < 0.1) {
+      if (Number(percentage) < 0.1) {
         percentageString = "< 0.1%";
       }
 
@@ -304,7 +304,7 @@ export default class Home extends React.Component<Props, StateType> {
         // Data join; key function combines name and depth (= position in sequence).
         var trail = d3.select("#trail")
           .selectAll("g")
-          .data(nodeArray, function (d) { return d.data.name + d.depth; });
+          .data(nodeArray, function (d: any) { return d.data.name + d.depth; });
 
         // Remove exiting nodes.
         trail.exit().remove();
@@ -465,7 +465,7 @@ export default class Home extends React.Component<Props, StateType> {
       .data(root.descendants())
       .enter()
       .append('g')
-      .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+      .attr('transform', function (d: any) { return 'translate(' + [d.x0, d.y0] + ')' })
       .attr("fill", 'rgba(85, 183, 218, 0.2)')
       .on('mouseover', mouseoverTreemap);
 
@@ -518,7 +518,7 @@ export default class Home extends React.Component<Props, StateType> {
       // Data join; key function combines name and depth (= position in sequence).
       var trail = d3.select("#trail2")
         .selectAll("g")
-        .data(nodeArray, function (d) { return d.data.name + d.depth; });
+        .data(nodeArray, function (d: any) { return d.data.name + d.depth; });
 
       // Remove exiting nodes.
       trail.exit().remove();
@@ -613,21 +613,21 @@ export default class Home extends React.Component<Props, StateType> {
       // .data(nodes.descendants())
       .enter()
       .append("div")
-      .attr("class", function (d) { return "node level-" + d.depth; })
-      .attr("title", function (d) { return d.data.name ? d.data.name : "null"; });
+      .attr("class", function (d: any) { return "node level-" + d.depth; })
+      .attr("title", function (d: any) { return d.data.name ? d.data.name : "null"; });
 
     cells
-      .style("left", function (d) { return x(d.x0) + "%"; })
-      .style("top", function (d) { return y(d.y0) + "%"; })
-      .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-      .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; })
+      .style("left", function (d: any) { return x(d.x0) + "%"; })
+      .style("top", function (d: any) { return y(d.y0) + "%"; })
+      .style("width", function (d: any) { return x(d.x1) - x(d.x0) + "%"; })
+      .style("height", function (d: any) { return y(d.y1) - y(d.y0) + "%"; })
       //.style("background-image", function(d) { return d.value ? imgUrl + d.value : ""; })
       //.style("background-image", function(d) { return d.value ? "url(http://placekitten.com/g/300/300)" : "none"; }) 
-      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
+      .style("background-color", function (d: any) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
-      .text(function (d) { return d.data.name ? d.data.name : "---"; });
+      .text(function (d: any) { return d.data.name ? d.data.name : "---"; });
     //.style("font-size", "")
     //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
 
@@ -635,7 +635,7 @@ export default class Home extends React.Component<Props, StateType> {
       .datum(nodes)
       .on("click", zoom);
 
-    function zoom(d) { // http://jsfiddle.net/ramnathv/amszcymq/
+    function zoom(d: any) { // http://jsfiddle.net/ramnathv/amszcymq/
 
       console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
 
@@ -651,27 +651,31 @@ export default class Home extends React.Component<Props, StateType> {
 
       cells
         .transition(t)
-        .style("left", function (d) { return x(d.x0) + "%"; })
-        .style("top", function (d) { return y(d.y0) + "%"; })
-        .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-        .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
+        .style("left", function (d: any) { return x(d.x0) + "%"; })
+        .style("top", function (d: any) { return y(d.y0) + "%"; })
+        .style("width", function (d: any) { return x(d.x1) - x(d.x0) + "%"; })
+        .style("height", function (d: any) { return y(d.y1) - y(d.y0) + "%"; });
 
       cells // hide this depth and above
-        .filter(function (d) { return d.ancestors(); })
-        .classed("hide", function (d) { return d.children ? true : false });
+        .filter(function (d: any) { return d.ancestors(); })
+        .classed("hide", function (d: any) { return d.children ? true : false });
 
       cells // show this depth + 1 and below
-        .filter(function (d) { return d.depth > currentDepth; })
+        .filter(function (d: any) { return d.depth > currentDepth; })
         .classed("hide", false);
     }
   }
 
   handleDrawChart = (): void => {
-    this.drawChart();
+    // drawChart requires json to be passed as parameter
+    // this.drawChart();
+    console.log("this.drawChart needs JSON passed")
   }
 
   handleDrawTreeMap = (): void => {
-    this.drawTreemap();
+    // drawChart requires json to be passed as parameter
+    // this.drawTreemap();
+    console.log("this.drawTreeMap needs JSON passed")
   }
 
   doSetIsChartSelectedTrue = (): void => {
@@ -695,12 +699,12 @@ export default class Home extends React.Component<Props, StateType> {
 
   getWebpackConfig = (event: any): void => {
     console.log("getWebpackConfig")   //getting this far
-    let radios = document.getElementsByName("config")
+    let radios = document.getElementsByName("config")// as HTMLInputElement
 
     for (var i = 0, length = radios.length; i < length; i++) {
-      if (radios[i].checked) {
+      if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', radios[i].value)
+        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value)
         break;
       }
     }
