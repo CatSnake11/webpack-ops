@@ -6,9 +6,9 @@ import fs from 'fs';
 import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
 
 const { promisify } = require('util');
-const exec = promisify(require('child_process').exec)
+const exec = promisify(require('child_process').exec);
 
-let generate = async function generateStats () {
+let generate = async function generateStats() {
   const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
   return { stats }
 };
@@ -71,26 +71,9 @@ app.on('activate', () => {
   }
 });
 
-// In this file you can include the rest of your app"s specific main process
-// code. You can also put them in separate files and require them here.
-
-// interface Person {
-//   first: string,
-//   last: string;
-//   [key: string]: any
-// }
-
-// const person: Person = {
-//   first: 'Jeff',
-//   last: 'Delaney'
-// }
-
-// type MyList = [number?, string?, boolean?]
-
-
 /*********************************************
  * Event listeners from Renderer to Main
- *********************************************/ 
+ *********************************************/
 
 ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
@@ -104,12 +87,9 @@ ipcMain.on('read-config', (event: any, configNumber: any) => {
   // after package.json is loaded configs have been sent to renderer and user
   // has now selected one and we need to load
   console.log("on load-config")
-  console.log("use configuration: ", configNumber) 
+  console.log("use configuration: ", configNumber)
   readConfig(configNumber)
 })
-
-
-
 
 ipcMain.on('load-stats.json', (event: any, arg: any) => {
   // arg unimportant. User has selected to load a stats file. selectStatsJson() will present file loading dialog
@@ -123,16 +103,16 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   //npm install --prefix ./install/here mini-css-extract-plugin
   console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
-var child;
-if (arrPluginsChecked.indexOf('checkedMini') > -1) {
-  child = exec("npm install --prefix /Users/heiyeunglam/Desktop/Project/ProductionProject/Webpack-Optimizer mini-css-extract-plugin",
-    function (error: any, stdout: any, stderr: any) {
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
-      if (error !== null) {
+  var child;
+  if (arrPluginsChecked.indexOf('checkedMini') > -1) {
+    child = exec("npm install --prefix /Users/heiyeunglam/Desktop/Project/ProductionProject/Webpack-Optimizer mini-css-extract-plugin",
+      function (error: any, stdout: any, stderr: any) {
+        console.log('stdout: ' + stdout);
+        console.log('stderr: ' + stderr);
+        if (error !== null) {
           console.log('exec error: ' + error);
-      }
-    })
+        }
+      })
   }
 });
 
@@ -141,9 +121,9 @@ if (arrPluginsChecked.indexOf('checkedMini') > -1) {
  * Loading parsing of package.json file
  * Selection of webpack config
  * Loading parsing of webpack config file
- **/ 
+ **/
 
-function selectPackageJson (){
+function selectPackageJson() {
   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
   if (file != undefined) {
     loadPackage(file)
@@ -158,19 +138,19 @@ function loadPackage(file: string) {
       console.log(err);
       return;
     }
-    selectConfig(JSON.parse(data.toString()));  
+    selectConfig(JSON.parse(data.toString()));
   });
 }
-  
+
 // temp store variable. This shouldn't be global, but works for the moment.
 const listOfConfigs: Array<string> = [];
 
 function selectConfig(packageFile: any) {
   console.log("selectConfig")
 
-  let output = "webpack configurations in package.json.\n" ;
+  let output = "webpack configurations in package.json.\n";
   const entries = packageFile.scripts;
-//  const listOfConfigs: Array<string> = [];  // made global for inter function communication
+  //  const listOfConfigs: Array<string> = [];  // made global for inter function communication
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
@@ -187,10 +167,9 @@ function readConfig(entry: number) {
   console.log("readConfig")
   console.log("listOfConfigs", listOfConfigs)
   console.log("User selected entry", entry)
-  console.log(`selecting ${entry? "1st": "second"} configuration.\n` );
-  
+  console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
 
-  let config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
+  let config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0];
   console.log(config)
   fs.readFile(config, (err, data) => {
     if (err) {
@@ -209,47 +188,44 @@ function readConfig(entry: number) {
 function parseConfig(entry: string) {
   // todo: use Acorn AST parsing instead 
   console.log("doing parseConfig")
-  function findObjects (entry: string) {
-    const arr = []
+  function findObjects(entry: string) {
+    const arr = [];
     // find first object definition start
-    let index = entry.search(/\w+\s*=\s*{/)
+    let index = entry.search(/\w+\s*=\s*{/);
 
-      console.log(entry.substr(index, 20))
+    console.log(entry.substr(index, 20));
     // from that starting point find the matched {}
-    let end: number = findMatched(entry.substring(index), "}", "{")
+    let end: number = findMatched(entry.substring(index), "}", "{");
     //loop
-    arr.push(entry.substr(index, end))
-    return arr
+    arr.push(entry.substr(index, end));
+    return arr;
   }
-  let webpackObjs: Array<string> = findObjects(entry); 
+  let webpackObjs: Array<string> = findObjects(entry);
   console.log('hi')
   console.log('here' + webpackObjs);
   return webpackObjs.toString()
 }
 
-function findMatched (str: string, char: string , nestedChar: string): number {
+function findMatched(str: string, char: string, nestedChar: string): number {
   // replace this with Acorn Abstract Syntax Tree parsing  (parse JS module)
   // desire to preserve Comments
-
   console.log("doing findMatched")
   // if ()
-  let i = str.search(/[{}]/)
+  let i = str.search(/[{}]/);
   console.log(str[i])
-  if (str[i] === char) return i
+  if (str[i] === char) return i;
   if (str[i] === nestedChar) {
-    console.log(str.substr(0, i))
-   // return  findMatched(str.substring(i + findMatched(str[i], "}", "{")) , "}", "{")
+    console.log(str.substr(0, i));
+    // return  findMatched(str.substring(i + findMatched(str[i], "}", "{")) , "}", "{")
   }
 }
-
-
 
 /**
  * Event handlers - file loading / parsing
  * Loading parsing of webpack stats file
- **/ 
+ **/
 
-function selectStatsJson (){
+function selectStatsJson() {
   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]
   if (file != undefined) {
     loadStats(file)
@@ -271,7 +247,7 @@ function loadStats(file: string) {
     content = content.substr(content.indexOf("{"));
 
     //splits multiple JSON objects if more than one exists in file
-    content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
+    content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]
     content = JSON.parse(content)
     //let content1 = JSON.parse(content)
     while (!content.hasOwnProperty("builtAt")) {
@@ -282,7 +258,7 @@ function loadStats(file: string) {
     returnObj.time = content.time;
     returnObj.hash = content.hash;
     returnObj.errors = content.errors
-    returnObj.size = content.assets.reduce((size: number , asset: any): void => size + asset.size, 0)
+    returnObj.size = content.assets.reduce((size: number, asset: any): void => size + asset.size, 0)
     returnObj.assets = content.assets.map(asset => ({
       name: asset.name,
       chunks: asset.chunks,
@@ -317,11 +293,9 @@ function loadStats(file: string) {
         sunBurstData.push([path, sizeStr])
       }
     }
-    const sunBurstDataSum: number = sunBurstData.reduce((sum: number, el:any):number => {
+    const sunBurstDataSum: number = sunBurstData.reduce((sum: number, el: any): number => {
       return sum += parseInt(el[1])
-    },0)
-  
-  
+    }, 0)
 
     console.log(sunBurstDataSum)
     //console.log(co)
