@@ -1,5 +1,7 @@
 import { observable, action } from 'mobx'
 
+
+
 export type StoreType = {
     name: string,
     age: number,
@@ -13,6 +15,11 @@ export type StoreType = {
     isChartSelected: boolean,
     setIsChartSelectedTrue(): void,
     setIsChartSelectedFalse(): void,
+    displayConfigSelection: boolean,
+    setDisplayConfigSelectionTrue(): void,
+    setDisplayConfigSelectionFalse(): void,
+    data_array: string[][],
+    storeDataArray(data:string[][]): void,
 };
 
 export default class Store {
@@ -30,6 +37,12 @@ export default class Store {
 
     @observable
     isChartSelected = true;
+
+    @observable
+    displayConfigSelection = false;
+
+    @observable
+    data_array = [['']];
 
     @action.bound
     addAge() {
@@ -65,6 +78,22 @@ export default class Store {
     setIsChartSelectedFalse() {
         this.isChartSelected = false;
     }
+
+    @action.bound
+    setDisplayConfigSelectionTrue() {
+        this.displayConfigSelection = true;
+    }
+
+    @action.bound
+    setDisplayConfigSelectionFalse() {
+        this.displayConfigSelection = false;
+    }
+
+    @action.bound    
+    storeDataArray(data:string[][]) {
+        this.data_array = data
+    }
+
 }
 
 

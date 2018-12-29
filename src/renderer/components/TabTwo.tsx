@@ -8,81 +8,60 @@ type Props = {
   store?: StoreType
 }
 
+const initialState = {
+  checkedMini: false,
+  checkedSplitChunks: false,
+  checkedMoment: false,
+}
+
+type StateType = Readonly<typeof initialState>
+
+
 @inject('store')
 @observer
 
-export default class TabTwo extends React.Component<Props, any> {
+export default class TabTwo extends React.Component<Props, StateType> {
+  state: StateType = initialState;
 
   componentDidMount() {
-    ipcRenderer.on('display-stats-reply', (event: any, arg: any): void => {
-      console.log("callback")
-      console.log(arg) // prints "pong"
+    ipcRenderer.on('done-installing', (event: any, arg: any): void => {
+      console.log("finished installation")
+      console.log(arg)
     })
-
-    ipcRenderer.on('choose-config', (event: any, arg: any): void => {
-      console.log("list of configs - pick one")
-      document.getElementById("webpack-config-selector").className="";
-      console.log(arg) // prints "pong"
-    })
-    
-  
   }
 
-  doSetIsLoadingTrue = (): void => {
-    this.props.store.setIsLoadingTrue();
+  installPluggins = () :void => {
+    const arr_plugins: string[] = ['checkedMini', 'checkedSplitChunks', 'checkedMoment'];
+    let arrToInstall: string[] = arr_plugins.reduce((accum:string[] ,el:string): string[] => {
+      console.log(el)
+      if (this.state[el] === true) accum.push(el);
+      return accum;
+    }, [])
+    console.log(arrToInstall)
+    ipcRenderer.send('install-pluggins', arrToInstall)
   }
 
-  getPackageJson = (): void => {
-    ipcRenderer.send('load-package.json', 'ping')
-    this.doSetIsLoadingTrue();
+  handleChangeCheckboxMini = (event: any): void => {
+    this.setState({checkedMini :!this.state.checkedMini})
   }
-  
-  //document.querySelector('#btn-package').addEventListener('click', getPackageJson)
-  
-  getWebpackConfig = (event: any) :void => {
-    console.log("getWebpackConfig")   //getting this far
-    let radios: any = document.getElementsByName("config")
-
-    for (var i = 0, length = radios.length; i < length; i++) {
-      if (radios[i].checked) {
-        // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', radios[i].value)
-        break;
-      }
-    }
-    event.preventDefault();
+  handleChangeCheckboxSplitChunks = (event: any): void => {
+    this.setState({checkedSplitChunks :!this.state.checkedSplitChunks})
   }
-  
-  getWebpackStats = () :void => {
-    ipcRenderer.send('load-stats.json', 'ping')
+  handleChangeCheckboxMoment = (event: any): void => {
+    this.setState({checkedMoment :!this.state.checkedMoment})
   }
-
 
   render() {
     const { store } = this.props
     return (
       <div className="mainContainer">
-        <div>TabTwo</div>
-        <div>{store.name}</div>
-
-        <div id="package-selector" className="">
-          <h4>Select your package.json</h4>
-          <button id="btn-package" onClick={this.getPackageJson}>Find Package.JSON</button>
-        </div>
-
-        <div id="webpack-config-selector" className="hidden">
-          <h4>Select desired configuration</h4>
-          <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-            <input type="radio" name="config" value="0"/><div style={{display: 'inline-block'}}>"development"<br/> "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br/>
-            <input type="radio" name="config" value="1"/><div style={{display: 'inline-block'}}>"production"<br/> "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br/>
-            <input type="submit" value="Submit"/>
-          </form> 
-        </div>
-
-        <div id="stats-file-selector" className="">
-          <h4>Load Webpack Stats</h4>
-          <button id="btn-stats" onClick={this.getWebpackStats}>Load Stats File</button>
-        </div>
+        <div>Optimization Plugins</div>
+        <div></div>
+        <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />Mini <br />
+        <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxSplitChunks} />Split Chunks <br />
+        <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxMoment} />Moment <br />
+        <button className="btn stats" onClick={this.installPluggins}>Install</button>
+        
       </div>
     );
   }

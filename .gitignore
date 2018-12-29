@@ -1,3 +1,5 @@
-node_modules
-dist
+dist/
+node_modules/
 package-lock.json
+stats.json
+webpack-stats.json

@@ -6,7 +6,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: rgb(243, 243, 255);
+  background: rgb(207, 226, 250);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .app {
@@ -61,15 +62,30 @@ a {
 }
 
 #sunburst {
-  // position: absolute;
+  // position: absolute; 
 }
 
 #treemap {
   // position: absolute;
+  // color: rgb(85, 183, 218);
 }
 
-button {
+.btn {
+  transition: 0.3s;
+  background-color:none;
+  background-color:rgb(207, 226, 250);
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  box-shadow: 0px 2px 5px 2px rgb(183, 198, 218);
+  color:white;
+  font-size: 16px;
   padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
 }
 
 #resetButton {
@@ -80,3 +96,22 @@ button {
   border: 1px solid black;
   display: inline-block;
 }
+
+.stats {
+  margin-bottom: 10px;
+}
+
+.toolTip {
+        position: absolute;
+        display: none;
+        width: auto;
+        height: auto;
+        background: none repeat scroll 0 0 white;
+        border: 0 none;
+        border-radius: 8px 8px 8px 8px;
+        box-shadow: -3px 3px 15px #888888;
+        color: black;
+        font: 12px sans-serif;
+        padding: 5px;
+        text-align: center;
+    }

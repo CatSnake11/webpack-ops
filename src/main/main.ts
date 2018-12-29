@@ -16,6 +16,15 @@ let now = moment().format('LLLL');
 console.log("This is a momentous time")
 console.log(now)
 
+const { promisify } = require('util');
+const exec = promisify(require('child_process').exec)
+
+let generate1 = async function generateStats () {
+  const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
+  return { stats }
+};
+
+
 /*
 installExtension(MOBX_DEVTOOLS)
   .then((name: any) => console.log(`Added Extension: ${name}`))
@@ -123,6 +132,22 @@ ipcMain.on('load-stats.json', (event: any, arg: any) => {
   selectStatsJson()
 })
 
+ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
+  //npm install --prefix ./install/here mini-css-extract-plugin
+  console.log(arrPluginsChecked)
+  var exec = require('child_process').exec;
+var child;
+if (arrPluginsChecked.indexOf('checkedMini') > -1) {
+  child = exec("npm install --prefix /Users/heiyeunglam/Desktop/Project/ProductionProject/Webpack-Optimizer mini-css-extract-plugin",
+    function (error: any, stdout: any, stderr: any) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+          console.log('exec error: ' + error);
+      }
+    })
+  }
+});
 
 /**
  * Event handlers - file loading / parsing
@@ -165,6 +190,7 @@ function selectConfig(packageFile: any) {
       listOfConfigs.push(entries[entry])
     }
   }
+
   console.log(output + `\n`)
 
   mainWindow.webContents.send('choose-config', listOfConfigs)   // react should render the list in TabTwo
@@ -175,6 +201,7 @@ function readConfig(entry: number) {
   console.log("listOfConfigs", listOfConfigs)
   console.log("User selected entry", entry)
   console.log(`selecting ${entry? "1st": "second"} configuration.\n` );
+  
 
   let config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
   console.log("loading webpack config", config)
@@ -190,6 +217,7 @@ function readConfig(entry: number) {
     parseConfig(configFile, config)
   });
 }
+//// using AST
 
 
 function parseConfig(entry: string, filepath: string) {
@@ -380,6 +408,7 @@ function loadStats(file: string) {
     //console.log(co)
     // console.log(content.substring(0, 40))
     mainWindow.webContents.send('display-stats-reply', sunBurstData)
+
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
   });
 }
