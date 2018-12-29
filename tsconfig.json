@@ -4,7 +4,7 @@
     "jsx": "react",
     "module": "ESNext",
     "moduleResolution": "node",
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitThis": true,
     "sourceMap": true,
     "target": "es2017",

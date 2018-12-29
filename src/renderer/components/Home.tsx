@@ -181,8 +181,8 @@ export default class Home extends React.Component<Props, StateType> {
     const arc: any = d3.arc()
       .startAngle(function (d) { return d.x0 })
       .endAngle(function (d) { return d.x1 })
-      .innerRadius(function (d) { return d.y0 * 1.5 })
-      .outerRadius(function (d) { return d.y1 * 1.5 })
+      .innerRadius(function (d) { return d.y0 })
+      .outerRadius(function (d) { return d.y1 })
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -588,8 +588,8 @@ export default class Home extends React.Component<Props, StateType> {
 
     nodes
       .append('rect')
-      .attr('width', function (d) { return d.x1 - d.x0; })
-      .attr('height', function (d) { return d.y1 - d.y0; })
+      .attr('width', function (d: any) { return d.x1 - d.x0; })
+      .attr('height', function (d: any) { return d.y1 - d.y0; })
       .style('stroke', '#FFFFFF')
 
     // nodes
