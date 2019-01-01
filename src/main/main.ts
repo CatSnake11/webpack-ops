@@ -163,8 +163,17 @@ function selectPackageJson (){
   }
 }
 
+let directory = ""
+
 function loadPackage(file: string) {
   console.log("loadPackage")
+//  let lastSlash = file.match(//g)
+
+  if (file.includes("/")) {
+    directory = file.substring(0, file.lastIndexOf("/"))
+  }else{
+    directory = file.substring(0, file.lastIndexOf("\\"))
+  }
   fs.readFile(file, (err, data) => {
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
@@ -202,17 +211,21 @@ function readConfig(entry: number) {
   console.log("User selected entry", entry)
   console.log(`selecting ${entry? "1st": "second"} configuration.\n` );
   
+  let config = "webpack.config.js";
+  if (listOfConfigs[entry].includes("--config" )) {
+    config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
+  }
 
-  let config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
-  console.log("loading webpack config", config)
-  fs.readFile(config, (err, data) => {
+  console.log("loading webpack config", directory + "/" + config)
+  fs.readFile(directory + "/" + config, (err, data) => {
     if (err) {
       console.log("An error ocurred loading: " + err.message);
       console.log(err);
       return;
     }
     const configFile: string = data.toString();
-    //console.log(configFile);
+    console.log("configuration file:")
+    console.log(configFile);
 
     parseConfig(configFile, config)
   });
@@ -221,9 +234,8 @@ function readConfig(entry: number) {
 
 
 function parseConfig(entry: string, filepath: string) {
-  // todo: use Acorn AST parsing instead 
   console.log("doing parseConfig")
-
+  
   // Parse it into an AST and retrieve the list of comments
   const comments: Array<string> = []
   var ast = acorn.parse(entry, {
@@ -231,7 +243,18 @@ function parseConfig(entry: string, filepath: string) {
     locations: true,
     onComment: comments,
   })
+  console.log("typeof AST")
+  console.log(typeof(ast))
   console.log(ast)
+  console.log(JSON.stringify(ast))
+
+  console.log("==============================")
+  // writing ast to disk for testing purposes
+  fs.writeFile("config.ast.json", JSON.stringify(ast, null, 2), (err) => {
+    console.log("The ast file has been succesfully saved");
+  });  
+
+
   // Attach comments to AST nodes
   astravel.attachComments(ast, comments)
   // add back in comments
@@ -248,47 +271,100 @@ function parseConfig(entry: string, filepath: string) {
   // we have found the config object. If it's an array, we need to find the config objects.
 
   // finding the config objects
-  let configNames = body[body.length-1].expression.right.elements;
+  // is there one config?
+  const moduleExports = body[body.length-1].expression.right
   let configs = [];
-
-  for (let i=0; i<configNames.length; i++) {
-    console.log(configNames[i].name);
-    let config;
-    try {
-      config = body.filter( (d: any) => {
-        return (
-          d.type === "VariableDeclaration" &&
-          d.declarations[0].id.name === configNames[i].name
-        )
-      })
-      console.log(config[0])
-      configs.push(config[0])
+  if (moduleExports.type === "ObjectExpression") {
+    // we've found the single config
+    configs.push(moduleExports)
+  } else if (moduleExports.type === "ArrayExpression") {
+    // there are multiple configs
+    let configNames = moduleExports.elements;
+  
+    for (let i=0; i<configNames.length; i++) {
+      console.log(configNames[i].name);
+      let config;
+      try {
+        config = body.filter( (d: any) => {
+          return (
+            d.type === "VariableDeclaration" &&
+            d.declarations[0].id.name === configNames[i].name
+          )
+        })
+        console.log(config[0].right)
+        configs.push(config[0].right)
+      }
+      catch(err) {
+        console.log("not that declaration");
+      }
     }
-    catch(err) {
-      console.log("not that declaration");
-    }
+    console.log(configs.length)
   }
-  console.log(configs.length)
 
+  // duplicate a plugins entry
+  
+  console.log("plugins ===========================")
+  let pluginsSection = configs[0].properties.filter(element => element.key.name === "plugins")[0]
+  let pluginsEntries = pluginsSection.value.elements
+  console.log("before")
+  console.log(pluginsEntries)
+  pluginsEntries.push( JSON.parse(JSON.stringify(pluginsEntries[0])) )  // duplicating first node
+  console.log("after")
+  console.log(pluginsEntries)
+
+
+  console.log(configs[0].properties.filter(element => element.key.name === "plugins")[0].value.elements)
+  console.log(configs[0].properties.map(element => element.key.name === "plugins"))
+  
+  // load a plugin
+  const plugins = [
+    {
+      description:"The SplitChunks plugin facilitates breaking modules into separate or combined files.", 
+      name:"Split Chunks plugin", 
+      file:"splitChunksPluginConfig.js"
+    }
+  ]
+  let plugin = plugins[0]
 
   // Add plugins
   // List of plugins
   // Assume first plugin
-  const plugins = [{description:"The SplitChunks plugin facilitates breaking modules into separate or combined files.", name:"Split Chunks plugin", file:"splitChunksPluginConfig.js"}]
-  let plugin = plugins[0]
 
-  fs.readFile(__dirname + "/../src/plugins/" + plugin.file, (err, data) => {  // todo: needs to be the plugins directory
+    /* Untested code 
+
+  fs.readFile(__dirname + "/../src/plugins/" + plugin.file, (err, data) => { 
     if (err) {
-      //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
       console.log(err);
       return;
     }
-    // run config through Acorn parser to make AST
-    // merge plugin config with selected webpack config
+    const content: string = data.toString();
+    
+    // Parse it into an AST and retrieve the list of comments
+    const comments: Array<string> = []
+    var ast = acorn.parse(entry, {
+      ecmaVersion: 6,
+      locations: true,
+      onComment: comments,
+    })
+
+    // Attach comments to AST nodes
+    astravel.attachComments(ast, comments)
+    // add back in comments
+
+    // console.log(obj.body[obj.body.length-1].expression.left.object.name)
+    // console.log(obj.body[obj.body.length-1].expression.left.property.name)
+    let body = ast.body;
+    console.log(body[body.length-1].expression.left.object.name)  // should be module
+    console.log(body[body.length-1].expression.left.property.name)  // should be exports
+
   });
 
-  
-  // Format it into a code string
+  // run plugin config through Acorn parser to make AST
+  // merge plugin config with selected webpack config
+
+*/
+
+  // Convert back to a JavaScript file
   var formattedCode = generate(ast, {
     comments: true,
   })
@@ -297,7 +373,7 @@ function parseConfig(entry: string, filepath: string) {
   // Check it
   //console.log(entry === formattedCode ? 'It works!' : 'Something went wrong…')
 
-  fs.writeFile(filepath+"v2", formattedCode, (err) => {  //need to do better versioning / archiving
+  fs.writeFile(filepath+"v200", formattedCode, (err) => {  //need to do better versioning / archiving
     if (err) {
   //    alert("An error ocurred updating the file" + err.message);
       console.log(err);
