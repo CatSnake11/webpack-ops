@@ -61,15 +61,6 @@ a {
   padding: 20px;
 }
 
-#sunburst {
-  // position: absolute; 
-}
-
-#treemap {
-  // position: absolute;
-  // color: rgb(85, 183, 218);
-}
-
 .btn {
   transition: 0.3s;
   background-color:none;
@@ -102,35 +93,35 @@ a {
 }
 
 .toolTip {
-        position: absolute;
-        display: none;
-        width: auto;
-        height: auto;
-        background: none repeat scroll 0 0 white;
-        border: 0 none;
-        border-radius: 8px 8px 8px 8px;
-        box-shadow: -3px 3px 15px #888888;
-        color: black;
-        font: 12px sans-serif;
-        padding: 5px;
-        text-align: center;
-    }
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  background: none repeat scroll 0 0 white;
+  border: 0 none;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: -3px 3px 15px #888888;
+  color: black;
+  font: 12px sans-serif;
+  padding: 5px;
+  text-align: center;
+}
 
 .slice {
-    cursor: pointer;
+  cursor: pointer;
 }
-
+  
 .slice .main-arc {
-    stroke: #E5E2E0;
-    stroke-width: 1px;
+  stroke: #E5E2E0;
+  stroke-width: 1px;
 }
-
+  
 .slice .hidden-arc {
-    fill: none;
+  fill: none;
 }
-
+  
 .slice text {
-    pointer-events: none;
-    dominant-baseline: middle;
-    text-anchor: middle;
+  pointer-events: none;
+  dominant-baseline: middle;
+  text-anchor: middle;
 }
