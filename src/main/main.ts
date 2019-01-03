@@ -8,6 +8,9 @@ const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
 import { any } from 'prop-types';
+import  parseHandler from './parseHandler';
+
+
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
@@ -117,15 +120,25 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
   var child;
+  /*
   if (arrPluginsChecked.indexOf('checkedMini') > -1) {
     child = exec("npm install --prefix /Users/heiyeunglam/Desktop/Project/ProductionProject/Webpack-Optimizer mini-css-extract-plugin",
       function (error: any, stdout: any, stderr: any) {
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if (error !== null) {
-          console.log('exec error: ' + error);
+            console.log('exec error: ' + error);
         }
-      })
+    })
+  }
+
+  */
+
+  if (arrPluginsChecked.indexOf('checkedMoment') > -1) {
+    parseHandler.loadPlugin()
+    // parse
+    // merge
+
   }
 });
 
@@ -167,6 +180,10 @@ function loadPackage(file: string) {
 // temp store variable. This shouldn't be global, but works for the moment.
 const listOfConfigs: Array<string> = [];
 
+let entryPoints: any = {}
+
+let ast: any = {}
+
 function selectConfig(packageFile: any) {
   console.log("selectConfig")
 
@@ -207,13 +224,31 @@ function readConfig(entry: number) {
     console.log("configuration file:")
     console.log(configFile);
 
-    parseConfig(configFile, config)
+    //parseConfig(configFile, config)
+
+    const tempObj = parseHandler.parseConfig( configFile, directory + "/" +config)  //configFile is the text file contents (.js) and config is the filepath
+    entryPoints = tempObj.entryPoints;
+    ast = tempObj.ast;
+
+    // present user list of plugins
+    // receive selected plugins
+    // * load and parse plugins
+    parseHandler.loadPlugin()
+    // * merge plugins - itterate
+    // write the config 
+
   });
 }
 //// using AST
 
+console.log(parseHandler.getWorkingDirectory());
 
-function parseConfig(entry: string, filepath: string) {
+parseHandler.setWorkingDirectory("new directory");
+
+console.log(parseHandler.getWorkingDirectory());
+
+
+function parseConfig(entry: string, filepath: string) {  //entry is the text file contents (.js) and filepath is the filepath
   console.log("doing parseConfig")
   
   // Parse it into an AST and retrieve the list of comments
@@ -283,14 +318,14 @@ function parseConfig(entry: string, filepath: string) {
 
   // duplicate a plugins entry
   
-  console.log("plugins ===========================")
-  let pluginsSection = configs[0].properties.filter(element => element.key.name === "plugins")[0]
-  let pluginsEntries = pluginsSection.value.elements
-  console.log("before")
-  console.log(pluginsEntries)
-  pluginsEntries.push( JSON.parse(JSON.stringify(pluginsEntries[0])) )  // duplicating first node
-  console.log("after")
-  console.log(pluginsEntries)
+  // console.log("plugins ===========================")
+  // let pluginsSection = configs[0].properties.filter(element => element.key.name === "plugins")[0]
+  // let pluginsEntries = pluginsSection.value.elements
+  // console.log("before")
+  // console.log(pluginsEntries)
+  // pluginsEntries.push( JSON.parse(JSON.stringify(pluginsEntries[0])) )  // duplicating first node
+  // console.log("after")
+  // console.log(pluginsEntries)
 
 
   console.log(configs[0].properties.filter(element => element.key.name === "plugins")[0].value.elements)
@@ -472,7 +507,7 @@ function loadStats(file: string) {
       return;
     }
 
-    let content = data.toString();
+    let content: any = data.toString();
     content = content.substr(content.indexOf("{"));
 
     //splits multiple JSON objects if more than one exists in file
@@ -482,7 +517,7 @@ function loadStats(file: string) {
     while (!content.hasOwnProperty("builtAt")) {
       content = content.children[0]
     }
-    let returnObj = {};
+    let returnObj: any = {};
     returnObj.timeStamp = Date.now();
     returnObj.time = content.time;
     returnObj.hash = content.hash;

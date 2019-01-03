@@ -59,7 +59,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
         <div></div>
         <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />Mini <br />
         <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxSplitChunks} />Split Chunks <br />
-        <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxMoment} />Moment <br />
+        <input type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />Moment <br />
         <button className="btn stats" onClick={this.installPluggins}>Install</button>
         
       </div>
