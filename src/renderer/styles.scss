@@ -1,3 +1,5 @@
+$m: 0; // margin
+
 html {
   padding: 0;
   margin: 0;
@@ -61,15 +63,6 @@ a {
   padding: 20px;
 }
 
-#sunburst {
-  // position: absolute; 
-}
-
-#treemap {
-  // position: absolute;
-  // color: rgb(85, 183, 218);
-}
-
 .btn {
   transition: 0.3s;
   background-color:none;
@@ -97,21 +90,107 @@ a {
   display: inline-block;
 }
 
+.chartButtons {
+  margin: 0 10px 0 0;
+}
+
 .stats {
   margin-bottom: 10px;
 }
 
 .toolTip {
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  background: none repeat scroll 0 0 white;
+  border: 0 none;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: -3px 3px 15px #888888;
+  color: black;
+  font: 12px sans-serif;
+  padding: 5px;
+  text-align: center;
+}
+
+.slice {
+  cursor: pointer;
+}
+  
+.slice .main-arc {
+  stroke: #E5E2E0;
+  stroke-width: 1px;
+}
+  
+.slice .hidden-arc {
+  fill: none;
+}
+  
+.slice text {
+  pointer-events: none;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.feature {
+    position: relative;
+    width: calc(100% - #{$m} * 2 * 1px);
+    height: calc(100% - #{$m} * 2 * 1px);
+    margin: $m * 1px;
+    //background: #aaa;
+    overflow: hidden;
+}
+.nodeTZ {
+    position: absolute;
+    background: transparent url('') no-repeat 50% / cover;
+    //border: 1px white solid;
+    overflow: hidden;
+    opacity: 0.8;
+    transition: opacity .8s;
+    cursor: pointer;
+    .label {
+        display: inline;
+        font-family: sans-serif;
+        color: hsla(0,0,100,.6);
+        //white-space: nowrap;
         position: absolute;
-        display: none;
-        width: auto;
-        height: auto;
-        background: none repeat scroll 0 0 white;
-        border: 0 none;
-        border-radius: 8px 8px 8px 8px;
-        box-shadow: -3px 3px 15px #888888;
-        color: black;
-        font: 12px sans-serif;
-        padding: 5px;
-        text-align: center;
+        padding: 0;
+        margin: 0;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        transition: color .4s, opacity .8s, filter .8s;
     }
+    &.hide { // zoom in
+        opacity: 0;
+        pointer-events: none;
+        .label {
+            filter: blur(10px);
+        }
+    }
+    &:hover {
+        //background-color: #222 !important;
+        //opacity: 1;
+        .label {
+            color: hsla(0,0,100,1);
+        }
+    }
+    &.level-0 {
+        z-index: 4;
+        font-size: 15vmin;
+        display: none;
+    }
+    &.level-1 {
+        z-index: 3;
+        font-size: 10vmin;
+    }
+    &.level-2 {
+        z-index: 2;
+        font-size: 5vmin;
+    }
+    &.level-3 {
+        z-index: 1;
+        font-size: 2.5vmin;
+    }
+    
+}
