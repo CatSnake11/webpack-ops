@@ -112,6 +112,7 @@ export default class Home extends React.Component<Props, StateType> {
       this.drawChart(root);
       this.drawZoom(root);
       this.drawTreemap(root);
+      this.drawTreemapZoom(root);
 
     })
 
@@ -202,7 +203,7 @@ export default class Home extends React.Component<Props, StateType> {
       .attr("fill-rule", "evenodd")
       .style("fill", function (d) { return loopColors() })
       .style("opacity", 1)
-      .on("mouseover", mouseover);
+      .on("mouseover", mouseover)
 
     let totalSize = path.datum().value;
     console.log(totalSize)
@@ -264,7 +265,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         entering.append("svg:polygon")
           .attr("points", breadcrumbPoints)
-          .style("fill", function (d) { return '#409dbf'; });
+          .style("fill", function (d) { return '#409dbf'; })
 
         entering.append("svg:text")
           .attr("x", (b.w + b.t) / 2)
@@ -394,7 +395,7 @@ export default class Home extends React.Component<Props, StateType> {
       '#42A5B3',
       '#0F8C79',
       '#6BBBA1',
-      '#5C8100'
+      '#489d82'
     ];
 
     const light = [
@@ -407,7 +408,7 @@ export default class Home extends React.Component<Props, StateType> {
       '#33B6D0',
       '#7ABFCC',
       '#C8D7A1',
-      '#A0B700'
+      '#489d82'
     ];
 
     const palettes = [light, mid, dark];
@@ -732,66 +733,249 @@ export default class Home extends React.Component<Props, StateType> {
 
     treemapLayout.tile(d3.treemapDice);
 
-    ////////////////////////////////////////////////////////
-
-    // var chart = d3.select("#treemap");
-    // var cells = chart
-    //   .selectAll(".node")
-    //   // .data(nodes.descendants())
-    //   .enter()
-    //   .append("div")
-    //   .attr("class", function (d) { return "node level-" + d.depth; })
-    //   .attr("title", function (d) { return d.data.name ? d.data.name : "null"; });
-
-    // cells
-    //   .style("left", function (d) { return x(d.x0) + "%"; })
-    //   .style("top", function (d) { return y(d.y0) + "%"; })
-    //   .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-    //   .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; })
-    //   //.style("background-image", function(d) { return d.value ? imgUrl + d.value : ""; })
-    //   //.style("background-image", function(d) { return d.value ? "url(http://placekitten.com/g/300/300)" : "none"; }) 
-    //   .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
-    //   .on("click", zoom)
-    //   .append("p")
-    //   .attr("class", "label")
-    //   .text(function (d) { return d.data.name ? d.data.name : "---"; });
-    // //.style("font-size", "")
-    // //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
-
-    // var parent = d3.select(".up")
-    //   .datum(nodes)
-    //   .on("click", zoom);
-
-    // function zoom(d) { // http://jsfiddle.net/ramnathv/amszcymq/
-
-    //   console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
-
-    //   let currentDepth = d.depth;
-    //   parent.datum(d.parent || nodes);
-
-    //   x.domain([d.x0, d.x1]);
-    //   y.domain([d.y0, d.y1]);
-
-    //   var t = d3.transition()
-    //     .duration(800)
-    //     .ease(d3.easeCubicOut);
-
-    //   cells
-    //     .transition(t)
-    //     .style("left", function (d) { return x(d.x0) + "%"; })
-    //     .style("top", function (d) { return y(d.y0) + "%"; })
-    //     .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-    //     .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
-
-    //   cells // hide this depth and above
-    //     .filter(function (d) { return d.ancestors(); })
-    //     .classed("hide", function (d) { return d.children ? true : false });
-
-    //   cells // show this depth + 1 and below
-    //     .filter(function (d) { return d.depth > currentDepth; })
-    //     .classed("hide", false);
-    // }
   }
+
+
+
+  private drawTreemapZoom(jsonData: any) {
+    var _self = this;
+    const b = {
+      w: 75, h: 30, s: 3, t: 10
+    };
+
+    const root = d3.hierarchy(jsonData);
+    const treemapLayout = d3.treemap();
+
+    treemapLayout
+      .size([900, 650])
+
+    root.sum(function (d: any) {
+      return d.value;
+    });
+
+    treemapLayout(root);
+
+    const initializeBreadcrumbTrail = () => {
+      // Add the svg area.
+      var trail2 = d3.select("#sequenceTreeMapZoom").append("svg:svg")
+        .attr("width", this.state.width)
+        .attr("height", 50)
+        .attr("id", "trail2");
+
+      // Add the label at the end, for the percentage.
+      trail2.append("svg:text")
+        .attr("id", "endlabel")
+        .style("fill", "#fff");   //controls the color of the percentage
+    }
+
+    initializeBreadcrumbTrail();
+
+    const nodes = d3.select('#treemapZoom')
+      .selectAll('g')
+      .data(root.descendants())
+      .enter()
+      .append('g')
+      .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+      .attr("fill", 'rgba(85, 183, 208, 0.2)')
+      .on('mouseover', mouseoverTreemap)
+      .on('mouseout', mouseoutTreemap);
+
+    nodes
+      .append('title')
+      .text(d => d.data.name + '\n' + d.value + '\n');
+
+    let totalSize = nodes.datum().value;
+    function mouseoutTreemap(d: any): void {
+      d3.select(this)
+        .attr("fill", 'rgba(85, 183, 208, 0.2)')
+    }
+    function mouseoverTreemap(d: any): void {
+      let percentage: number = (100 * d.value / totalSize)
+      let percentageString: string = ""
+      if (percentage < 0.1) {
+        percentageString = "< 0.1%";
+      } else percentageString = percentage.toPrecision(3) + '%';
+      d3.select('#treemapTextZoom')
+        .text(d.data.name)
+
+      d3.select('#percentageTreeZoom')
+        .text(percentageString)
+
+      d3.select('#filesizeTreeZoom')
+        .text(`Size: ${d.value / 1000} kb`)
+
+      d3.select('#explanationTreeZoom')
+        .style('visibility', '');
+
+
+      d3.select(this)
+        .attr("fill", 'rgba(10, 0, 218, 0.2)')
+
+      const ancestorsArray = d.ancestors().reverse()
+      ancestorsArray.shift();
+
+      let trickArray2 = ancestorsArray.slice(0);
+
+      for (var i = 1; i < trickArray2.length + 1; i++) {
+        updateBreadcrumbs(trickArray2.slice(0, i), percentageString);
+      }
+
+      const ancestorsNameArray = ancestorsArray.map(el => {
+        return el.data.name;
+      })
+
+      d3.select('#ancestorsZoom')
+        .text(ancestorsNameArray.join("/"));
+    }
+
+    function updateBreadcrumbs(nodeArray: any, percentageString: any) {
+
+      // Data join; key function combines name and depth (= position in sequence).
+      var trail = d3.select("#trail2")
+        .selectAll("g")
+        .data(nodeArray, function (d) { return d.data.name + d.depth; });
+
+      // Remove exiting nodes.
+      trail.exit().remove();
+
+      // Add breadcrumb and label for entering nodes.
+      var entering = trail.enter().append("svg:g");
+
+      entering.append("svg:polygon")
+        .attr("points", breadcrumbPoints)
+        .style("fill", function (d) { return '#409dbf'; });
+
+      entering.append("svg:text")
+        .attr("x", (b.w + b.t) / 2)
+        .attr("y", b.h / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "start")
+        .text(function (d) { return d.data.name; });
+
+      // Now move and update the percentage at the end.
+      var nodeAryFlat = '';
+
+      for (var i = 0; i < nodeArray.length; i++) {
+        nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name
+      }
+
+      var nodeAryFlatLength = 0;
+      var nodeAryFlatLengthPercentage = 0;
+      for (var i = 1; i < nodeArray.length; i++) {
+        nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t
+        nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15
+      }
+
+      entering.attr("transform", function (d, i) {
+        if (i === 0) {
+          return "translate(0, 0)"
+        } else {
+          return "translate(" + nodeAryFlatLength + ", 0)";   //POSITIONING OF WORDS
+        }
+      });
+
+      d3.select("#trail2").select("#endlabel")
+        .attr("x", (nodeAryFlatLengthPercentage))  //CONTROLS WHERE THE PERCENTAGE IS LOCATED
+        .attr("y", b.h / 2)
+        .attr("dy", "0.35em")
+        .attr("text-anchor", "start")
+        .text(percentageString);
+
+      // Make the breadcrumb trail visible, if it's hidden.
+      d3.select("#trail2")
+        .style("visibility", "");
+
+    }
+
+    // Generate a string that describes the points of a breadcrumb polygon.
+    function breadcrumbPoints(d: any, i: any) {
+      var points = [];
+      points.push("0,0");
+      points.push(b.w + d.data.name.length * 7.5 + ",0");  //CONTROLS THE SHAPE OF THE POLYGON
+      points.push(b.w + d.data.name.length * 7.5 + b.t + "," + (b.h / 2));
+      points.push(b.w + d.data.name.length * 7.5 + "," + b.h);
+      points.push("0," + b.h);
+      if (i > 0) { // Leftmost breadcrumb; don't include 6th vertex.
+        points.push(b.t + "," + (b.h / 2));
+      }
+      return points.join(" ");
+    }
+
+    nodes
+      .append('rect')
+      .attr('width', function (d: any) { return d.x1 - d.x0; })
+      .attr('height', function (d: any) { return d.y1 - d.y0; })
+      .style('stroke', '#FFFFFF');
+
+    const color = d3.scaleOrdinal()
+      .range(d3.schemeDark2
+        .map(function (c) {
+          c = d3.rgb(c);
+          //c.opacity = 0.5; 
+          return c;
+        })
+      )
+
+    nodes
+      .selectAll(".node")
+      // .data(nodes.descendants())
+      .enter()
+      .append("div")
+      .attr("class", function (d) { return "node level-" + d.depth; })
+      .attr("title", function (d) { return d.data.name ? d.data.name : "null"; });
+
+    nodes
+      .selectAll('x')
+      .selectAll('y')
+      .style("left", function (d) { return (d.x0) + "%"; })
+      .style("top", function (d) { return (d.y0) + "%"; })
+      .style("width", function (d) { return (d.x1) - (d.x0) + "%"; })
+      .style("height", function (d) { return (d.y1) - (d.y0) + "%"; })
+      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
+      .on("click", zoom)
+      .append("p")
+      .attr("class", "label")
+      .text(function (d) { return d.data.name ? d.data.name : "---"; });
+
+    var parent = d3.select(".up")
+      .datum(nodes)
+      .on("click", zoom);
+
+    function zoom(d) {
+
+      console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
+
+      let currentDepth = d.depth;
+      parent.datum(d.parent || nodes);
+
+      x.domain([d.x0, d.x1]);
+      y.domain([d.y0, d.y1]);
+
+      var t = d3.transition()
+        .duration(800)
+        .ease(d3.easeCubicOut);
+
+      nodes
+        .transition(t)
+        .style("left", (d) => x(d.x0) + "%")
+        .style("top", (d) => y(d.y0) + "%")
+        .style("width", (d) => x(d.x1) - x(d.x0) + "%")
+        .style("height", (d) => y(d.y1) - y(d.y0) + "%");
+
+      nodes // hide this depth and above
+        .filter(d => d.ancestors())
+        .classed("hide", function (d) { return d.children ? true : false });
+
+      nodes // show this depth + 1 and below
+        .filter(function (d) { return d.depth > currentDepth; })
+        .classed("hide", false);
+
+    }
+
+    treemapLayout.tile(d3.treemapDice);
+  }
+
+
 
   handleDrawChart = (arg): void => {
     this.drawChart(arg);
@@ -897,14 +1081,32 @@ export default class Home extends React.Component<Props, StateType> {
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
               </div>}
 
+            <div id="explanationTreeZoom">
+              <div id="ancestorsZoom"></div>
+              <span id="treemapTextZoom"></span>
+              <span id="filenameTreeZoom"></span><br />
+              <span id="percentageTreeZoom"></span><br />
+
+              <div>
+                <span id="filesizeTreeZoom"></span> <br />
+              </div>
+            </div>
+            <div id="sequenceTreeMapZoom"></div>
+            {store.isChartSelected &&
+              <div id="chartTreeMapZoom">
+                <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
+              </div>}
+
             <div id="zoomContainer">
               <svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />
             </div>
           </div>
 
           <div id="buttonContainer">
-            <button onClick={this.doSetIsChartSelectedTrue}>Draw Chart</button>
-            <button onClick={this.doSetIsChartSelectedFalse}>Draw Treemap</button>
+            <button className="chartButtons" onClick={this.doSetIsChartSelectedTrue}>Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetIsChartSelectedFalse}>Zoomable Sunburst</button>
+            <button className="chartButtons" >Treemap</button>
+            <button className="chartButtons2" >Zoomable Treemap</button>
           </div>
         </div>
       </div>

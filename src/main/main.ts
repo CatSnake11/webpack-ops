@@ -449,8 +449,6 @@ function loadStats(file: string) {
       return sum += parseInt(el[1])
     }, 0)
 
-
-
     console.log(sunBurstDataSum)
     //console.log(co)
     // console.log(content.substring(0, 40))
