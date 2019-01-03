@@ -174,7 +174,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style("opacity", 0);
 
     let nodes = sunburstLayout(root).descendants()
-      .filter(function (d) {
+      .filter(function (d: any) {
         return (d.x1 - d.x0 > 0.0092); // 0.005 radians = 0.29 degrees
       });
 
@@ -212,7 +212,7 @@ export default class Home extends React.Component<Props, StateType> {
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
       var percentageString = percentage + "%";
-      if (percentage < 0.1) {
+      if (Number(percentage) < 0.1) {
         percentageString = "< 0.1%";
       }
 
@@ -254,7 +254,7 @@ export default class Home extends React.Component<Props, StateType> {
         // Data join; key function combines name and depth (= position in sequence).
         var trail = d3.select("#trail")
           .selectAll("g")
-          .data(nodeArray, function (d) { return d.data.name + d.depth; });
+          .data(nodeArray, function (d: any) { return d.data.name + d.depth; });
 
         // Remove exiting nodes.
         trail.exit().remove();
@@ -598,7 +598,7 @@ export default class Home extends React.Component<Props, StateType> {
       .data(root.descendants())
       .enter()
       .append('g')
-      .attr('transform', function (d) { return 'translate(' + [d.x0, d.y0] + ')' })
+      .attr('transform', function (d: any) { return 'translate(' + [d.x0, d.y0] + ')' })
       .attr("fill", 'rgba(85, 183, 208, 0.2)')
       .on('mouseover', mouseoverTreemap)
       .on('mouseout', mouseoutTreemap);
@@ -656,7 +656,7 @@ export default class Home extends React.Component<Props, StateType> {
       // Data join; key function combines name and depth (= position in sequence).
       var trail = d3.select("#trail2")
         .selectAll("g")
-        .data(nodeArray, function (d) { return d.data.name + d.depth; });
+        .data(nodeArray, function (d: any) { return d.data.name + d.depth; });
 
       // Remove exiting nodes.
       trail.exit().remove();
@@ -793,11 +793,11 @@ export default class Home extends React.Component<Props, StateType> {
     // }
   }
 
-  handleDrawChart = (arg): void => {
+  handleDrawChart = (arg: any): void => {
     this.drawChart(arg);
   }
 
-  handleDrawTreeMap = (arg): void => {
+  handleDrawTreeMap = (arg: any): void => {
     this.drawTreemap(arg);
   }
 
@@ -820,12 +820,12 @@ export default class Home extends React.Component<Props, StateType> {
 
   getWebpackConfig = (event: any): void => {
     console.log("getWebpackConfig")   //getting this far
-    let radios = document.getElementsByName("config")
+    let radios = document.getElementsByName("config")// as HTMLInputElement
 
     for (var i = 0, length = radios.length; i < length; i++) {
-      if (radios[i].checked) {
+      if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', radios[i].value)
+        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value)
         break;
       }
     }
