@@ -551,14 +551,7 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
 
-
-
   //////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 
   private drawTreemap(jsonData: any) {
@@ -736,7 +729,6 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
 
-
   private drawTreemapZoom(jsonData: any) {
 
     const x = d3.scaleLinear().domain([0, 100]).range([0, 100])
@@ -757,7 +749,6 @@ export default class Home extends React.Component<Props, StateType> {
       .paddingInner(0)
       .round(false) //true
 
-
     const nodes = d3.hierarchy(jsonData)
       .sum(function (d) { return d.value ? 1 : 0; })
     //.sort(function(a, b) { return b.height - a.height || b.value - a.value });
@@ -772,19 +763,19 @@ export default class Home extends React.Component<Props, StateType> {
       .data(nodes.descendants())
       .enter()
       .append("div")
-      .attr("class", function (d) { return "nodeTZ level-" + d.depth; })
-      .attr("title", function (d) { return d.data.name ? d.data.name : "null"; });
+      .attr("class", (d: any) => "nodeTZ level-" + d.depth)
+      .attr("title", (d: any) => d.data.name ? d.data.name : "null");
 
     cells
-      .style("left", function (d) { return x(d.x0) + "%"; })
-      .style("top", function (d) { return y(d.y0) + "%"; })
-      .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-      .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; })
-      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
+      .style("left", (d: any) => x(d.x0) + "%")
+      .style("top", (d: any) => y(d.y0) + "%")
+      .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
+      .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
+      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
-      .text(function (d) { return d.data.name ? d.data.name : "---"; });
+      .text(function (d: any) { return d.data.name ? d.data.name : "---"; });
     //.style("font-size", "")
     //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
 
@@ -821,6 +812,8 @@ export default class Home extends React.Component<Props, StateType> {
         .filter(function (d) { return d.depth > currentDepth; })
         .classed("hide", false);
     }
+
+    treemap.tile(d3.treemapDice);
   }
 
 
@@ -947,7 +940,7 @@ export default class Home extends React.Component<Props, StateType> {
                   <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
                 </div>
               </div>}
-
+            
             <div id="zoomContainer">
               <svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />
             </div>
