@@ -10,7 +10,6 @@ type Props = {
   store?: StoreType
 }
 
-// declare var d3: any;
 const initialState = {
   isPackageSelected: false,
   width: 900,
@@ -108,11 +107,13 @@ export default class Home extends React.Component<Props, StateType> {
           }
         }
       }
-      console.log(root)
-      console.log(this.state.data)
-      this.drawChart(root);
-      this.drawZoom(root);
-      this.drawTreemap(root);
+      this.doSetBeforeRoot(root);
+      // console.log(root)
+      // console.log(this.state.data)
+      this.drawChart(this.props.store.beforeRoot);
+      this.drawZoom(this.props.store.beforeRoot);
+      this.drawTreemap(this.props.store.beforeRoot);
+      this.drawTreemapZoom(this.props.store.beforeRoot);
 
     })
 
@@ -124,14 +125,6 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   private drawChart(jsonData: any) {
-    // const svg = d3.select("svg")
-    //   .append("circle")
-    //   .attr("r", 250)
-    //   .attr("cx", this.state.width / 2)
-    //   .attr("cy", this.state.height / 2)
-    //   .attr("fill", "aquamarine")
-    //   .attr("transform", "translate(" + this.state.width / 10 + "," + this.state.height / 10 + ")");
-
     // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     var _self = this;
     const b = {
@@ -139,44 +132,9 @@ export default class Home extends React.Component<Props, StateType> {
     };
 
     const radius = (Math.min(this.state.width, this.state.height) / 2) - 10;
-    // const radius = (Math.min(this.state.width, this.state.height) / 2);
+
     const root = d3.hierarchy(jsonData);
-    // const handleEvents = function (selection: any) {
-    //   selection.on('mouseover', function (d: any, i: number, group: any) {
-    //     let g = d3.select(group[i]);
-    //     let n = g.select('.the-node');
 
-    //     if (n.classed('solid')) {
-    //       n.transition().duration(400)
-    //         .style('fill', "rgba(25,100,255,0.3)")
-    //         .attr('r', 18);
-    //     } else {
-    //       n.transition().duration(400)
-    //         .style('fill', "rgba(25,100,255,0.3)");
-    //     }
-
-    //     g.select('.label')
-    //       .transition().duration(700)
-    //       .style('fill', 'grey')
-
-    //   })
-    //     .on('mouseout', function (d: any, i: number, group: any) {
-    //       let g = d3.select(group[i]);
-    //       let n = g.select('.the-node');
-
-    //       if (n.classed('solid')) {
-    //         n.transition().duration(400)
-    //           .style('fill', "#696969")
-    //           .attr('r', 14);
-    //       } else {
-    //         n.transition().duration(400)
-    //           .style('fill', "rgba(25,100,255,0.5)")
-    //       }
-    //       g.select('.label')
-    //         .transition().duration(700)
-    //         .style('fill', "black")
-    //     });
-    // }
     const sunburstLayout = d3.partition();
 
     sunburstLayout.size([2 * Math.PI, radius]);
@@ -205,7 +163,6 @@ export default class Home extends React.Component<Props, StateType> {
       .sort(function (a, b) { return b.value - a.value; });
 
     sunburstLayout(root);
-    // console.log('root: ', root);
 
     const main = d3.select('.sunburst')
       .attr("width", this.state.width)
@@ -247,17 +204,11 @@ export default class Home extends React.Component<Props, StateType> {
       .attr("fill-rule", "evenodd")
       .style("fill", function (d) { return loopColors() })
       .style("opacity", 1)
-      .on("mouseover", mouseover);
+      .on("mouseover", mouseover)
 
     let totalSize = path.datum().value;
     console.log(totalSize)
-    // https://bl.ocks.org/denjn5/f059c1f78f9c39d922b1c208815d18af
-    // function computeTextRotation(d) {
-    //   var angle = (d.x0 + d.x1) / Math.PI * 90;
-    //   return (angle < 180) ? angle - 90 : angle + 90;
-    // }
 
-    //////////////
 
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
@@ -283,8 +234,6 @@ export default class Home extends React.Component<Props, StateType> {
       sequenceArray.shift(); // remove root node from the array
       let trickArray = sequenceArray.slice(0);
       // convert path array to a '/' seperated path string. add '/' at the end if it's a directory.
-      // const path = "./" + trickArray.map(node => node.data.name).join("/") + (trickArray[trickArray.length - 1].children ? "/" : "");
-      // _self.props.onHover(path);
 
       for (var i = 1; i < trickArray.length + 1; i++) {
         updateBreadcrumbs(trickArray.slice(0, i), percentageString);
@@ -316,7 +265,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         entering.append("svg:polygon")
           .attr("points", breadcrumbPoints)
-          .style("fill", function (d) { return '#409dbf'; });
+          .style("fill", function (d) { return '#409dbf'; })
 
         entering.append("svg:text")
           .attr("x", (b.w + b.t) / 2)
@@ -404,6 +353,8 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
 
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   private drawZoom(jsonData: any) {
     const width = 900,
@@ -444,7 +395,7 @@ export default class Home extends React.Component<Props, StateType> {
       '#42A5B3',
       '#0F8C79',
       '#6BBBA1',
-      '#5C8100'
+      '#489d82'
     ];
 
     const light = [
@@ -457,7 +408,7 @@ export default class Home extends React.Component<Props, StateType> {
       '#33B6D0',
       '#7ABFCC',
       '#C8D7A1',
-      '#A0B700'
+      '#489d82'
     ];
 
     const palettes = [light, mid, dark];
@@ -475,6 +426,21 @@ export default class Home extends React.Component<Props, StateType> {
       .endAngle(d => x(d.x1))
       .innerRadius(d => y(Math.max(0, d.y0)))
       .outerRadius(d => y(Math.max(0, d.y1)));
+
+    const initializeBreadcrumbTrail = () => {
+      // Add the svg area.
+      var trail = d3.select("#sequence").append("svg:svg")
+        .attr("width", this.state.width)
+        .attr("height", 50)
+        .attr("id", "trail");
+
+      // Add the label at the end, for the percentage.
+      trail.append("svg:text")
+        .attr("id", "endlabel")
+        .style("fill", "#fff");   //controls the color of the percentage
+    }
+
+    initializeBreadcrumbTrail();
 
     const middleArcLine = d => {
       const halfPi = Math.PI / 2;
@@ -503,10 +469,11 @@ export default class Home extends React.Component<Props, StateType> {
     };
 
     const svg = d3
-      .select('body')
+      // .select('body')
+      .select('#zoomContainer')
       .append('svg')
-      .style('width', '100vw')
-      .style('height', '100vh')
+      // .style('width', '100vw')
+      // .style('height', '100vh')
       .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
       .on('click', () => focusOn()); // Reset zoom on canvas click
 
@@ -532,7 +499,8 @@ export default class Home extends React.Component<Props, StateType> {
 
     newSlice
       .append('title')
-      .text(d => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' + ((d.value / totalSize) * 100).toPrecision(3) + '%');
+      .text(d => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+        ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
       .append('path')
@@ -549,17 +517,6 @@ export default class Home extends React.Component<Props, StateType> {
     const text = newSlice
       .append('text')
       .attr('display', d => (textFits(d) ? null : 'none'));
-
-    // Add white contour
-    // text
-    //   .append('textPath')
-    //   .attr('startOffset', '50%')
-    //   .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-    //   .text(d => d.data.name)
-    //   .style('fill', 'none')
-    //   // .style('stroke', '#E5E2E0')
-    //   // .style('stroke-width', 20)
-    //   // .style('stroke-linejoin', 'round');
 
     text
       .append('textPath')
@@ -594,8 +551,6 @@ export default class Home extends React.Component<Props, StateType> {
 
       moveStackToFront(d);
 
-      //
-
       function moveStackToFront(elD) {
         svg
           .selectAll('.slice')
@@ -608,28 +563,11 @@ export default class Home extends React.Component<Props, StateType> {
           });
       }
     }
+
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   private drawTreemap(jsonData: any) {
@@ -671,16 +609,19 @@ export default class Home extends React.Component<Props, StateType> {
       .enter()
       .append('g')
       .attr('transform', function (d: any) { return 'translate(' + [d.x0, d.y0] + ')' })
-      .attr("fill", 'rgba(85, 183, 218, 0.2)')
-      .on('mouseover', mouseoverTreemap);
+      .attr("fill", 'rgba(85, 183, 208, 0.2)')
+      .on('mouseover', mouseoverTreemap)
+      .on('mouseout', mouseoutTreemap);
 
     nodes
       .append('title')
       .text(d => d.data.name + '\n' + d.value + '\n');
 
-
     let totalSize = nodes.datum().value;
-
+    function mouseoutTreemap(d: any): void {
+      d3.select(this)
+        .attr("fill", 'rgba(85, 183, 208, 0.2)')
+    }
     function mouseoverTreemap(d: any): void {
       let percentage: number = (100 * d.value / totalSize)
       let percentageString: string = ""
@@ -699,16 +640,14 @@ export default class Home extends React.Component<Props, StateType> {
       d3.select('#explanationTree')
         .style('visibility', '');
 
-      d3.selectAll('#treemap').selectAll("nodes")
-        .style("opacity", 0.2)
+
+      d3.select(this)
+        .attr("fill", 'rgba(10, 0, 218, 0.2)')
 
       const ancestorsArray = d.ancestors().reverse()
       ancestorsArray.shift();
 
       let trickArray2 = ancestorsArray.slice(0);
-      // convert path array to a '/' seperated path string. add '/' at the end if it's a directory.
-      // const path = "./" + trickArray.map(node => node.data.name).join("/") + (trickArray[trickArray.length - 1].children ? "/" : "");
-      // _self.props.onHover(path);
 
       for (var i = 1; i < trickArray2.length + 1; i++) {
         updateBreadcrumbs(trickArray2.slice(0, i), percentageString);
@@ -720,7 +659,6 @@ export default class Home extends React.Component<Props, StateType> {
 
       d3.select('#ancestors')
         .text(ancestorsNameArray.join("/"));
-      // console.log(ancestorsNameArray)
     }
 
     function updateBreadcrumbs(nodeArray: any, percentageString: any) {
@@ -802,98 +740,127 @@ export default class Home extends React.Component<Props, StateType> {
       .attr('height', function (d: any) { return d.y1 - d.y0; })
       .style('stroke', '#FFFFFF')
 
-    // nodes
-    //   .append('text')
-    //   .attr('dx', 4)
-    //   .attr('dy', 4)
-    //   .style('fill', "#696969")
-    //   .style('font-size', 10)
-    //   .attr("transform", "translate(" + "10" + "," + "10" + ")")
-    //   .text(function (d) {
-    //     return d.data.name;
-    //   })
-
     treemapLayout.tile(d3.treemapDice);
 
-    ////////////////////////////////////////////////////////
-
-    // var chart = d3.select("#treemap");
-    // var cells = chart
-    //   .selectAll(".node")
-    //   // .data(nodes.descendants())
-    //   .enter()
-    //   .append("div")
-    //   .attr("class", function (d) { return "node level-" + d.depth; })
-    //   .attr("title", function (d) { return d.data.name ? d.data.name : "null"; });
-
-    // cells
-    //   .style("left", function (d) { return x(d.x0) + "%"; })
-    //   .style("top", function (d) { return y(d.y0) + "%"; })
-    //   .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-    //   .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; })
-    //   //.style("background-image", function(d) { return d.value ? imgUrl + d.value : ""; })
-    //   //.style("background-image", function(d) { return d.value ? "url(http://placekitten.com/g/300/300)" : "none"; }) 
-    //   .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
-    //   .on("click", zoom)
-    //   .append("p")
-    //   .attr("class", "label")
-    //   .text(function (d) { return d.data.name ? d.data.name : "---"; });
-    // //.style("font-size", "")
-    // //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
-
-    // var parent = d3.select(".up")
-    //   .datum(nodes)
-    //   .on("click", zoom);
-
-    // function zoom(d) { // http://jsfiddle.net/ramnathv/amszcymq/
-
-    //   console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
-
-    //   let currentDepth = d.depth;
-    //   parent.datum(d.parent || nodes);
-
-    //   x.domain([d.x0, d.x1]);
-    //   y.domain([d.y0, d.y1]);
-
-    //   var t = d3.transition()
-    //     .duration(800)
-    //     .ease(d3.easeCubicOut);
-
-    //   cells
-    //     .transition(t)
-    //     .style("left", function (d) { return x(d.x0) + "%"; })
-    //     .style("top", function (d) { return y(d.y0) + "%"; })
-    //     .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-    //     .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
-
-    //   cells // hide this depth and above
-    //     .filter(function (d) { return d.ancestors(); })
-    //     .classed("hide", function (d) { return d.children ? true : false });
-
-    //   cells // show this depth + 1 and below
-    //     .filter(function (d) { return d.depth > currentDepth; })
-    //     .classed("hide", false);
-    // }
   }
 
-  handleDrawChart = (): void => {
-    // drawChart requires json to be passed as parameter
-    // this.drawChart();
-    console.log("this.drawChart needs JSON passed")
+
+  private drawTreemapZoom(jsonData: any) {
+
+    const x = d3.scaleLinear().domain([0, 100]).range([0, 100])
+    const y = d3.scaleLinear().domain([0, 100]).range([0, 100])
+
+    const color = d3.scaleOrdinal()
+      .range(d3.schemeDark2
+        .map(function (c) {
+          c = d3.rgb(c);
+          //c.opacity = 0.5; 
+          return c;
+        })
+      )
+
+    const treemap = d3.treemap()
+      .size([100, 100])
+      //.tile(d3.treemapResquarify) // doesn't work - height & width is 100%
+      .paddingInner(0)
+      .round(false) //true
+
+    const nodes = d3.hierarchy(jsonData)
+      .sum(function (d) { return d.value ? 1 : 0; })
+    //.sort(function(a, b) { return b.height - a.height || b.value - a.value });
+
+    let currentDepth;
+
+    treemap(nodes);
+
+    var chart = d3.select("#chartTreeMapZoom");
+    var cells = chart
+      .selectAll(".nodeTZ")
+      .data(nodes.descendants())
+      .enter()
+      .append("div")
+      .attr("class", (d: any) => "nodeTZ level-" + d.depth)
+      .attr("title", (d: any) => d.data.name ? d.data.name : "null");
+
+    cells
+      .style("left", (d: any) => x(d.x0) + "%")
+      .style("top", (d: any) => y(d.y0) + "%")
+      .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
+      .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
+      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
+      .on("click", zoom)
+      .append("p")
+      .attr("class", "label")
+      .text(function (d: any) { return d.data.name ? d.data.name : "---"; });
+    //.style("font-size", "")
+    //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
+
+    var parent = d3.select(".up")
+      .datum(nodes)
+      .on("click", zoom);
+
+    function zoom(d) {
+
+      console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
+
+      currentDepth = d.depth;
+      parent.datum(d.parent || nodes);
+
+      x.domain([d.x0, d.x1]);
+      y.domain([d.y0, d.y1]);
+
+      var t = d3.transition()
+        .duration(400)
+        .ease(d3.easeCubicOut);
+
+      cells
+        .transition(t)
+        .style("left", function (d) { return x(d.x0) + "%"; })
+        .style("top", function (d) { return y(d.y0) + "%"; })
+        .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
+        .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
+
+      cells // hide this depth and above
+        .filter(function (d) { return d.ancestors(); })
+        .classed("hide", function (d) { return d.children ? true : false });
+
+      cells // show this depth + 1 and below
+        .filter(function (d) { return d.depth > currentDepth; })
+        .classed("hide", false);
+    }
+
+    treemap.tile(d3.treemapDice);
   }
 
-  handleDrawTreeMap = (): void => {
-    // drawChart requires json to be passed as parameter
-    // this.drawTreemap();
-    console.log("this.drawTreeMap needs JSON passed")
+
+  handleDrawChart = (arg): void => {
+    this.drawChart(arg);
   }
 
-  doSetIsChartSelectedTrue = (): void => {
-    this.props.store.setIsChartSelectedTrue();
+  handleDrawTreeMap = (arg: any): void => {
+    this.drawTreemap(arg);
   }
 
-  doSetIsChartSelectedFalse = (): void => {
-    this.props.store.setIsChartSelectedFalse();
+  doSetBeforeRoot = (root: any): void => {
+    this.props.store.setBeforeRoot(root);
+  }
+
+  doSetDisplaySunburst = (): void => {
+    this.props.store.setDisplaySunburst();
+    //this.drawChart(this.props.store.beforeRoot);
+  }
+
+  doSetDisplaySunburstZoom = (): void => {
+    this.props.store.setDisplaySunburstZoom();
+    //this.drawZoom(this.props.store.beforeRoot);
+  }
+  doSetDisplayTreemap = (): void => {
+    this.props.store.setDisplayTreemap();
+    //this.drawTreemap(this.props.store.beforeRoot);
+  }
+  doSetDisplayTreemapZoom = (): void => {
+    this.props.store.setDisplayTreemapZoom();
+    //this.drawTreemapZoom(this.props.store.beforeRoot);
   }
 
   doSetIsLoadingTrue = (): void => {
@@ -904,8 +871,6 @@ export default class Home extends React.Component<Props, StateType> {
     ipcRenderer.send('load-package.json', 'ping')
     this.doSetIsLoadingTrue();
   }
-
-  //document.querySelector('#btn-package').addEventListener('click', getPackageJson)
 
   getWebpackConfig = (event: any): void => {
     console.log("getWebpackConfig")   //getting this far
@@ -921,9 +886,7 @@ export default class Home extends React.Component<Props, StateType> {
     event.preventDefault();
     this.setState({
       isPackageSelected: true
-    })
-
-
+    });
   }
 
   getWebpackStats = (): void => {
@@ -959,7 +922,8 @@ export default class Home extends React.Component<Props, StateType> {
 
           <div id="graphsContainer">
             <div id="sequence"></div>
-            {store.isChartSelected &&
+
+            <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <div id="chart">
                 <div id="explanation">
                   <span id="filename"></span><br />
@@ -971,29 +935,57 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
                 <svg width={this.state.width} height={this.state.height} className="sunburst" />
               </div>
-            }
-            <div id="explanationTree">
-              <div id="ancestors"></div>
-              <span id="treemapText"></span>
-              <span id="filenameTree"></span><br />
-              <span id="percentageTree"></span><br />
 
-              <div>
-                <span id="filesizeTree"></span> <br />
-              </div>
             </div>
-            <div id="sequenceTreeMap"></div>
-            {store.isChartSelected &&
+
+            <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              <div id="explanationTree">
+                <div id="ancestors"></div>
+                <span id="treemapText"></span>
+                <span id="filenameTree"></span><br />
+                <span id="percentageTree"></span><br />
+
+                <div>
+                  <span id="filesizeTree"></span> <br />
+                </div>
+              </div>
+              <div id="sequenceTreeMap"></div>
               <div id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
-              </div>}
+              </div>
+            </div>
+
+            <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              <div id="explanationTreeZoom">
+                <div id="ancestorsZoom"></div>
+                <span id="treemapTextZoom"></span>
+                <span id="filenameTreeZoom"></span><br />
+                <span id="percentageTreeZoom"></span><br />
+                <div>
+                  <span id="filesizeTreeZoom"></span> <br />
+                </div>
+              </div>
+              <div id="sequenceTreeMapZoom"></div>
+              <div>
+                <div className="up">&larr; UP</div>
+                <div className="feature" id="chartTreeMapZoom">
+                  <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
+                </div>
+              </div>
+            </div>
+
+            <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              <svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />
+            </div>
+
+
           </div>
-          <div id="zoomSunburstChart">
-            <svg width={this.state.width} height={this.state.height} className="zoomChart" />
-          </div>
+
           <div id="buttonContainer">
-            <button onClick={this.doSetIsChartSelectedTrue}>Draw Chart</button>
-            <button onClick={this.doSetIsChartSelectedFalse}>Draw Treemap</button>
+            <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
+            <button className="chartButtons2" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
           </div>
         </div>
       </div>
