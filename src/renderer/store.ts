@@ -46,13 +46,13 @@ export default class Store {
     displaySunburst = true;
 
     @observable
-    displaySunburstZoom = true;
+    displaySunburstZoom = false;
 
     @observable
-    displayTreemap = true;
+    displayTreemap = false;
 
     @observable
-    displayTreemapZoom = true;
+    displayTreemapZoom = false;
 
     @observable
     displayConfigSelection = false;
