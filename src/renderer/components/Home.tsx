@@ -107,12 +107,13 @@ export default class Home extends React.Component<Props, StateType> {
           }
         }
       }
+      this.doSetBeforeRoot(root);
       // console.log(root)
       // console.log(this.state.data)
-      this.drawChart(root);
-      this.drawZoom(root);
-      this.drawTreemap(root);
-      this.drawTreemapZoom(root);
+      this.drawChart(this.props.store.beforeRoot);
+      this.drawZoom(this.props.store.beforeRoot);
+      this.drawTreemap(this.props.store.beforeRoot);
+      this.drawTreemapZoom(this.props.store.beforeRoot);
 
     })
 
@@ -208,7 +209,6 @@ export default class Home extends React.Component<Props, StateType> {
     let totalSize = path.datum().value;
     console.log(totalSize)
 
-    ////////////////////////////////////////////////////////////////////////////////////
 
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
@@ -427,6 +427,21 @@ export default class Home extends React.Component<Props, StateType> {
       .innerRadius(d => y(Math.max(0, d.y0)))
       .outerRadius(d => y(Math.max(0, d.y1)));
 
+    const initializeBreadcrumbTrail = () => {
+      // Add the svg area.
+      var trail = d3.select("#sequence").append("svg:svg")
+        .attr("width", this.state.width)
+        .attr("height", 50)
+        .attr("id", "trail");
+
+      // Add the label at the end, for the percentage.
+      trail.append("svg:text")
+        .attr("id", "endlabel")
+        .style("fill", "#fff");   //controls the color of the percentage
+    }
+
+    initializeBreadcrumbTrail();
+
     const middleArcLine = d => {
       const halfPi = Math.PI / 2;
       const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
@@ -548,6 +563,7 @@ export default class Home extends React.Component<Props, StateType> {
           });
       }
     }
+
   }
 
 
@@ -817,7 +833,6 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
 
-
   handleDrawChart = (arg): void => {
     this.drawChart(arg);
   }
@@ -826,12 +841,26 @@ export default class Home extends React.Component<Props, StateType> {
     this.drawTreemap(arg);
   }
 
-  doSetIsChartSelectedTrue = (): void => {
-    this.props.store.setIsChartSelectedTrue();
+  doSetBeforeRoot = (root: any): void => {
+    this.props.store.setBeforeRoot(root);
   }
 
-  doSetIsChartSelectedFalse = (): void => {
-    this.props.store.setIsChartSelectedFalse();
+  doSetDisplaySunburst = (): void => {
+    this.props.store.setDisplaySunburst();
+    //this.drawChart(this.props.store.beforeRoot);
+  }
+
+  doSetDisplaySunburstZoom = (): void => {
+    this.props.store.setDisplaySunburstZoom();
+    //this.drawZoom(this.props.store.beforeRoot);
+  }
+  doSetDisplayTreemap = (): void => {
+    this.props.store.setDisplayTreemap();
+    //this.drawTreemap(this.props.store.beforeRoot);
+  }
+  doSetDisplayTreemapZoom = (): void => {
+    this.props.store.setDisplayTreemapZoom();
+    //this.drawTreemapZoom(this.props.store.beforeRoot);
   }
 
   doSetIsLoadingTrue = (): void => {
@@ -893,7 +922,8 @@ export default class Home extends React.Component<Props, StateType> {
 
           <div id="graphsContainer">
             <div id="sequence"></div>
-            {store.isChartSelected &&
+
+            <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <div id="chart">
                 <div id="explanation">
                   <span id="filename"></span><br />
@@ -905,52 +935,57 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
                 <svg width={this.state.width} height={this.state.height} className="sunburst" />
               </div>
-            }
-            <div id="explanationTree">
-              <div id="ancestors"></div>
-              <span id="treemapText"></span>
-              <span id="filenameTree"></span><br />
-              <span id="percentageTree"></span><br />
 
-              <div>
-                <span id="filesizeTree"></span> <br />
-              </div>
             </div>
-            <div id="sequenceTreeMap"></div>
-            {store.isChartSelected &&
+
+            <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              <div id="explanationTree">
+                <div id="ancestors"></div>
+                <span id="treemapText"></span>
+                <span id="filenameTree"></span><br />
+                <span id="percentageTree"></span><br />
+
+                <div>
+                  <span id="filesizeTree"></span> <br />
+                </div>
+              </div>
+              <div id="sequenceTreeMap"></div>
               <div id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
-              </div>}
-
-            <div id="explanationTreeZoom">
-              <div id="ancestorsZoom"></div>
-              <span id="treemapTextZoom"></span>
-              <span id="filenameTreeZoom"></span><br />
-              <span id="percentageTreeZoom"></span><br />
-
-              <div>
-                <span id="filesizeTreeZoom"></span> <br />
               </div>
             </div>
-            <div id="sequenceTreeMapZoom"></div>
-            {store.isChartSelected &&
+
+            <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              <div id="explanationTreeZoom">
+                <div id="ancestorsZoom"></div>
+                <span id="treemapTextZoom"></span>
+                <span id="filenameTreeZoom"></span><br />
+                <span id="percentageTreeZoom"></span><br />
+                <div>
+                  <span id="filesizeTreeZoom"></span> <br />
+                </div>
+              </div>
+              <div id="sequenceTreeMapZoom"></div>
               <div>
                 <div className="up">&larr; UP</div>
                 <div className="feature" id="chartTreeMapZoom">
                   <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
                 </div>
-              </div>}
-            
-            <div id="zoomContainer">
+              </div>
+            </div>
+
+            <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />
             </div>
+
+
           </div>
 
           <div id="buttonContainer">
-            <button className="chartButtons" onClick={this.doSetIsChartSelectedTrue}>Sunburst</button>
-            <button className="chartButtons" onClick={this.doSetIsChartSelectedFalse}>Zoomable Sunburst</button>
-            <button className="chartButtons" >Treemap</button>
-            <button className="chartButtons2" >Zoomable Treemap</button>
+            <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
+            <button className="chartButtons2" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
           </div>
         </div>
       </div>
