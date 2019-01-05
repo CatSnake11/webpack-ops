@@ -759,6 +759,8 @@ export default class Home extends React.Component<Props, StateType> {
         })
       )
 
+    // const color = () => '#265e73';
+
     const treemap = d3.treemap()
       .size([100, 100])
       //.tile(d3.treemapResquarify) // doesn't work - height & width is 100%
