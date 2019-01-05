@@ -18,10 +18,13 @@ body {
 
 .mainContainer {
   padding: 20px 100px;
+  width: "900px";
 }
 
 .mainContainerHome {
   padding: 20px 100px;
+  width: "900px"
+
   // display: flex;
   // justify-content: center;
 }
@@ -86,12 +89,45 @@ a {
 }
 
 #buttonContainer {
-  border: 1px solid black;
+  // border: 1px solid black;
   display: inline-block;
+  margin-top: 30px;
 }
 
 .chartButtons {
   margin: 0 10px 0 0;
+  transition: 0.3s;
+  background-color: rgb(67, 144, 227);
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  box-shadow: 0px 2px 5px 2px rgb(183, 198, 218);
+  color:white;
+  font-size: 16px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.chartButtons:hover {
+  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
+}
+
+#treemapButton {
+  margin: 0 10px 0 0;
+  transition: 0.3s;
+  background-color: rgb(67, 144, 227);
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  box-shadow: 0px 2px 5px 2px rgb(183, 198, 218);
+  color:white;
+  font-size: 16px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+#treemapButton:hover {
+  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
 }
 
 .stats {
@@ -134,8 +170,8 @@ a {
 
 .feature {
 	position: relative;
-	width: calc(100% - #{$m} * 2 * 1px);
-	height: calc(100% - #{$m} * 2 * 1px);
+	width: 700px;
+	height: 700px;
 	margin: $m * 1px;
 	//background: #aaa;
 	overflow: hidden;

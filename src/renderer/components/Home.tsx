@@ -12,8 +12,8 @@ type Props = {
 
 const initialState = {
   isPackageSelected: false,
-  width: 900,
-  height: 900,
+  width: 600,
+  height: 600,
   data: {
     "name": "A1",
     "children": [
@@ -147,7 +147,7 @@ export default class Home extends React.Component<Props, StateType> {
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
       var trail = d3.select("#sequence").append("svg:svg")
-        .attr("width", this.state.width)
+        .attr("width", 800)
         .attr("height", 50)
         .attr("id", "trail");
 
@@ -357,8 +357,8 @@ export default class Home extends React.Component<Props, StateType> {
 
 
   private drawZoom(jsonData: any) {
-    const width = 900,
-      height = 900,
+    const width = 600,
+      height = 600,
       maxRadius = (Math.min(width, height) / 2) - 5;
 
     const formatNumber = d3.format(',d');
@@ -429,13 +429,13 @@ export default class Home extends React.Component<Props, StateType> {
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
-      var trail = d3.select("#sequence").append("svg:svg")
-        .attr("width", this.state.width)
+      var trail3 = d3.select("#sequence3").append("svg:svg")
+        .attr("width", 800)
         .attr("height", 50)
-        .attr("id", "trail");
+        .attr("id", "trail3");
 
       // Add the label at the end, for the percentage.
-      trail.append("svg:text")
+      trail3.append("svg:text")
         .attr("id", "endlabel")
         .style("fill", "#fff");   //controls the color of the percentage
     }
@@ -580,7 +580,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([900, 650])
+      .size([600, 600])
 
     root.sum(function (d: any) {
       return d.value;
@@ -759,6 +759,8 @@ export default class Home extends React.Component<Props, StateType> {
         })
       )
 
+    // const color = () => '#265e73';
+
     const treemap = d3.treemap()
       .size([100, 100])
       //.tile(d3.treemapResquarify) // doesn't work - height & width is 100%
@@ -884,9 +886,9 @@ export default class Home extends React.Component<Props, StateType> {
       }
     }
     event.preventDefault();
-    this.setState({
-      isPackageSelected: true
-    });
+    this.props.store.setIsPackageSelectedTrue()
+      
+    
   }
 
   getWebpackStats = (): void => {
@@ -898,12 +900,12 @@ export default class Home extends React.Component<Props, StateType> {
     return (
       <div className="mainContainerHome">
         <div>
-          {!this.state.isPackageSelected && <div id="package-selector" className="">
+          {!store.isPackageSelected && <div id="package-selector" className="">
             <h4>Select your package.json</h4>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
           </div>}
 
-          {this.props.store.displayConfigSelection && !this.state.isPackageSelected
+          {this.props.store.displayConfigSelection && !store.isPackageSelected
             && <div id="webpack-config-selector">
               <h4>Select desired configuration</h4>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
@@ -913,7 +915,7 @@ export default class Home extends React.Component<Props, StateType> {
               </form>
             </div>}
 
-          {this.state.isPackageSelected! && <div id="stats-file-selector" className="">
+          {store.isPackageSelected && <div id="stats-file-selector" className="">
             <h4>Load Webpack Stats</h4>
             <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
           </div>}
@@ -921,10 +923,11 @@ export default class Home extends React.Component<Props, StateType> {
         <div className="smallerMainContainer">
 
           <div id="graphsContainer">
-            <div id="sequence"></div>
+            
 
             <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <div id="chart">
+              <div id="sequence"></div>
                 <div id="explanation">
                   <span id="filename"></span><br />
                   <span id="percentage"></span><br />
@@ -939,6 +942,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
 
             <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
+            <div id="sequenceTreeMap"></div>
               <div id="explanationTree">
                 <div id="ancestors"></div>
                 <span id="treemapText"></span>
@@ -949,7 +953,7 @@ export default class Home extends React.Component<Props, StateType> {
                   <span id="filesizeTree"></span> <br />
                 </div>
               </div>
-              <div id="sequenceTreeMap"></div>
+              
               <div id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
               </div>
@@ -975,7 +979,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
 
             <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              <svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />
+              {/*<svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />*/}
             </div>
 
 
@@ -985,7 +989,7 @@ export default class Home extends React.Component<Props, StateType> {
             <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
             <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
             <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
-            <button className="chartButtons2" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
+            <button className="chartButtons2" id="treemapButton" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
           </div>
         </div>
       </div>

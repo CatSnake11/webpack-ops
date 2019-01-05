@@ -16,6 +16,7 @@ export type StoreType = {
     displaySunburstZoom: boolean,
     displayTreemap: boolean,
     displayTreemapZoom: boolean,
+    isPackageSelected: boolean,
     setDisplaySunburst(): void,
     setDisplaySunburstZoom(): void,
     setDisplayTreemap(): void,
@@ -27,6 +28,7 @@ export type StoreType = {
     storeDataArray(data: string[][]): void,
     beforeRoot: any,
     setBeforeRoot(root: any): void,
+    setIsPackageSelectedTrue(): void,
 };
 
 export default class Store {
@@ -62,6 +64,9 @@ export default class Store {
 
     @observable
     beforeRoot = {};
+
+    @observable
+    isPackageSelected = false;
 
     @action.bound
     addAge() {
@@ -159,7 +164,11 @@ export default class Store {
     storeDataArray(data: string[][]) {
         this.data_array = data
     }
-
+    
+    @action.bound
+    setIsPackageSelectedTrue() {
+        this.isPackageSelected = true;
+    }
 }
 
 
