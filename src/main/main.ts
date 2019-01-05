@@ -135,10 +135,19 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   */
 
   if (arrPluginsChecked.indexOf('checkedMoment') > -1) {
-    parseHandler.loadPlugin()
+    parseHandler.loadPluginMoment()
     // parse
     // merge
-
+  }
+  if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
+    parseHandler.loadPluginSplitChunks()
+    // parse
+    // merge
+  }
+  if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
+    parseHandler.loadPluginMini()
+    // parse
+    // merge
   }
 });
 
@@ -233,7 +242,7 @@ function readConfig(entry: number) {
     // present user list of plugins
     // receive selected plugins
     // * load and parse plugins
-    parseHandler.loadPlugin()
+    // parseHandler.loadPlugin()
     // * merge plugins - itterate
     // write the config 
 
