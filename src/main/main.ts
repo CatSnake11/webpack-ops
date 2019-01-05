@@ -254,12 +254,13 @@ console.log(parseHandler.getWorkingDirectory());
 
 parseHandler.setWorkingDirectory("new directory");
 
-console.log(parseHandler.getWorkingDirectory());
 
 
 function parseConfig(entry: string, filepath: string) {  //entry is the text file contents (.js) and filepath is the filepath
   console.log("doing parseConfig")
 
+
+  
   // Parse it into an AST and retrieve the list of comments
   const comments: Array<string> = []
   var ast = acorn.parse(entry, {
@@ -326,7 +327,7 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   }
 
   // duplicate a plugins entry
-
+  
   // console.log("plugins ===========================")
   // let pluginsSection = configs[0].properties.filter(element => element.key.name === "plugins")[0]
   // let pluginsEntries = pluginsSection.value.elements
@@ -336,6 +337,8 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   // console.log("after")
   // console.log(pluginsEntries)
 
+
+  
 
   console.log(configs[0].properties.filter(element => element.key.name === "plugins")[0].value.elements)
   console.log(configs[0].properties.map(element => element.key.name === "plugins"))
@@ -354,37 +357,37 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   // List of plugins
   // Assume first plugin
 
-  /* Untested code 
+    /* Untested code 
 
-fs.readFile(__dirname + "/../src/plugins/" + plugin.file, (err, data) => { 
-  if (err) {
-    console.log(err);
-    return;
-  }
-  const content: string = data.toString();
-  
-  // Parse it into an AST and retrieve the list of comments
-  const comments: Array<string> = []
-  var ast = acorn.parse(entry, {
-    ecmaVersion: 6,
-    locations: true,
-    onComment: comments,
-  })
+  fs.readFile(__dirname + "/../src/plugins/" + plugin.file, (err, data) => { 
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const content: string = data.toString();
+    
+    // Parse it into an AST and retrieve the list of comments
+    const comments: Array<string> = []
+    var ast = acorn.parse(entry, {
+      ecmaVersion: 6,
+      locations: true,
+      onComment: comments,
+    })
 
-  // Attach comments to AST nodes
-  astravel.attachComments(ast, comments)
-  // add back in comments
+    // Attach comments to AST nodes
+    astravel.attachComments(ast, comments)
+    // add back in comments
 
-  // console.log(obj.body[obj.body.length-1].expression.left.object.name)
-  // console.log(obj.body[obj.body.length-1].expression.left.property.name)
-  let body = ast.body;
-  console.log(body[body.length-1].expression.left.object.name)  // should be module
-  console.log(body[body.length-1].expression.left.property.name)  // should be exports
+    // console.log(obj.body[obj.body.length-1].expression.left.object.name)
+    // console.log(obj.body[obj.body.length-1].expression.left.property.name)
+    let body = ast.body;
+    console.log(body[body.length-1].expression.left.object.name)  // should be module
+    console.log(body[body.length-1].expression.left.property.name)  // should be exports
 
-});
+  });
 
-// run plugin config through Acorn parser to make AST
-// merge plugin config with selected webpack config
+  // run plugin config through Acorn parser to make AST
+  // merge plugin config with selected webpack config
 
 */
 
