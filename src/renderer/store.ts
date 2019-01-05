@@ -12,14 +12,23 @@ export type StoreType = {
     setPath(input: string): void,
     isLoading: boolean,
     setIsLoadingTrue(): void,
-    isChartSelected: boolean,
-    setIsChartSelectedTrue(): void,
-    setIsChartSelectedFalse(): void,
+    displaySunburst: boolean,
+    displaySunburstZoom: boolean,
+    displayTreemap: boolean,
+    displayTreemapZoom: boolean,
+    isPackageSelected: boolean,
+    setDisplaySunburst(): void,
+    setDisplaySunburstZoom(): void,
+    setDisplayTreemap(): void,
+    setDisplayTreemapZoom(): void,
     displayConfigSelection: boolean,
     setDisplayConfigSelectionTrue(): void,
     setDisplayConfigSelectionFalse(): void,
     data_array: string[][],
-    storeDataArray(data:string[][]): void,
+    storeDataArray(data: string[][]): void,
+    beforeRoot: any,
+    setBeforeRoot(root: any): void,
+    setIsPackageSelectedTrue(): void,
 };
 
 export default class Store {
@@ -36,13 +45,28 @@ export default class Store {
     isLoading = false;
 
     @observable
-    isChartSelected = true;
+    displaySunburst = true;
+
+    @observable
+    displaySunburstZoom = false;
+
+    @observable
+    displayTreemap = false;
+
+    @observable
+    displayTreemapZoom = false;
 
     @observable
     displayConfigSelection = false;
 
     @observable
     data_array = [['']];
+
+    @observable
+    beforeRoot = {};
+
+    @observable
+    isPackageSelected = false;
 
     @action.bound
     addAge() {
@@ -70,13 +94,60 @@ export default class Store {
     }
 
     @action.bound
-    setIsChartSelectedTrue() {
-        this.isChartSelected = true;
+    setBeforeRoot(root: any) {
+        this.beforeRoot = root;
     }
 
     @action.bound
-    setIsChartSelectedFalse() {
-        this.isChartSelected = false;
+    setDisplaySunburst() {
+        this.displaySunburst = true;
+        console.log('this.displaySunburst: ', this.displaySunburst);
+        this.displaySunburstZoom = false;
+        console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
+        this.displayTreemap = false;
+        console.log('this.displayTreemap: ', this.displayTreemap);
+        this.displayTreemapZoom = false;
+        console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
+        console.log('------------------------')
+    }
+
+    @action.bound
+    setDisplaySunburstZoom() {
+        this.displaySunburst = false;
+        this.displaySunburstZoom = true;
+        this.displayTreemap = false;
+        this.displayTreemapZoom = false;
+        console.log('this.displaySunburst: ', this.displaySunburst);
+        console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
+        console.log('this.displayTreemap: ', this.displayTreemap);
+        console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
+        console.log('------------------------')
+    }
+
+    @action.bound
+    setDisplayTreemap() {
+        this.displaySunburst = false;
+        this.displaySunburstZoom = false;
+        this.displayTreemap = true;
+        this.displayTreemapZoom = false;
+        console.log('this.displaySunburst: ', this.displaySunburst);
+        console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
+        console.log('this.displayTreemap: ', this.displayTreemap);
+        console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
+        console.log('------------------------')
+    }
+
+    @action.bound
+    setDisplayTreemapZoom() {
+        this.displaySunburst = false;
+        this.displaySunburstZoom = false;
+        this.displayTreemap = false;
+        this.displayTreemapZoom = true;
+        console.log('this.displaySunburst: ', this.displaySunburst);
+        console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
+        console.log('this.displayTreemap: ', this.displayTreemap);
+        console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
+        console.log('------------------------')
     }
 
     @action.bound
@@ -89,11 +160,15 @@ export default class Store {
         this.displayConfigSelection = false;
     }
 
-    @action.bound    
-    storeDataArray(data:string[][]) {
+    @action.bound
+    storeDataArray(data: string[][]) {
         this.data_array = data
     }
-
+    
+    @action.bound
+    setIsPackageSelectedTrue() {
+        this.isPackageSelected = true;
+    }
 }
 
 
