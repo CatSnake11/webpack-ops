@@ -8,7 +8,7 @@ const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
 import { any } from 'prop-types';
-import  parseHandler from './parseHandler';
+import parseHandler from './parseHandler';
 
 
 
@@ -135,10 +135,19 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   */
 
   if (arrPluginsChecked.indexOf('checkedMoment') > -1) {
-    parseHandler.loadPlugin()
+    parseHandler.loadPluginMoment()
     // parse
     // merge
-
+  }
+  if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
+    parseHandler.loadPluginSplitChunks()
+    // parse
+    // merge
+  }
+  if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
+    parseHandler.loadPluginMini()
+    // parse
+    // merge
   }
 });
 
@@ -160,11 +169,11 @@ let directory = ""
 
 function loadPackage(file: string) {
   console.log("loadPackage")
-//  let lastSlash = file.match(//g)
+  //  let lastSlash = file.match(//g)
 
   if (file.includes("/")) {
     directory = file.substring(0, file.lastIndexOf("/"))
-  }else{
+  } else {
     directory = file.substring(0, file.lastIndexOf("\\"))
   }
   fs.readFile(file, (err, data) => {
@@ -206,11 +215,11 @@ function readConfig(entry: number) {
   console.log("readConfig")
   console.log("listOfConfigs", listOfConfigs)
   console.log("User selected entry", entry)
-  console.log(`selecting ${entry? "1st": "second"} configuration.\n` );
-  
+  console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
+
   let config = "webpack.config.js";
-  if (listOfConfigs[entry].includes("--config" )) {
-    config = listOfConfigs[entry].split("--config" )[1].trimLeft().split(" ")[0]
+  if (listOfConfigs[entry].includes("--config")) {
+    config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0]
   }
 
   console.log("loading webpack config", directory + "/" + config)
@@ -226,14 +235,14 @@ function readConfig(entry: number) {
 
     //parseConfig(configFile, config)
 
-    const tempObj = parseHandler.parseConfig( configFile, directory + "/" +config)  //configFile is the text file contents (.js) and config is the filepath
+    const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
 
     // present user list of plugins
     // receive selected plugins
     // * load and parse plugins
-    parseHandler.loadPlugin()
+    // parseHandler.loadPlugin()
     // * merge plugins - itterate
     // write the config 
 
@@ -245,11 +254,12 @@ console.log(parseHandler.getWorkingDirectory());
 
 parseHandler.setWorkingDirectory("new directory");
 
-console.log(parseHandler.getWorkingDirectory());
 
 
 function parseConfig(entry: string, filepath: string) {  //entry is the text file contents (.js) and filepath is the filepath
   console.log("doing parseConfig")
+
+
   
   // Parse it into an AST and retrieve the list of comments
   const comments: Array<string> = []
@@ -259,7 +269,7 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
     onComment: comments,
   })
   console.log("typeof AST")
-  console.log(typeof(ast))
+  console.log(typeof (ast))
   console.log(ast)
   console.log(JSON.stringify(ast))
 
@@ -267,7 +277,7 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   // writing ast to disk for testing purposes
   fs.writeFile("config.ast.json", JSON.stringify(ast, null, 2), (err) => {
     console.log("The ast file has been succesfully saved");
-  });  
+  });
 
 
   // Attach comments to AST nodes
@@ -287,7 +297,7 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
 
   // finding the config objects
   // is there one config?
-  const moduleExports = body[body.length-1].expression.right
+  const moduleExports = body[body.length - 1].expression.right
   let configs = [];
   if (moduleExports.type === "ObjectExpression") {
     // we've found the single config
@@ -295,12 +305,12 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   } else if (moduleExports.type === "ArrayExpression") {
     // there are multiple configs
     let configNames = moduleExports.elements;
-  
-    for (let i=0; i<configNames.length; i++) {
+
+    for (let i = 0; i < configNames.length; i++) {
       console.log(configNames[i].name);
       let config;
       try {
-        config = body.filter( (d: any) => {
+        config = body.filter((d: any) => {
           return (
             d.type === "VariableDeclaration" &&
             d.declarations[0].id.name === configNames[i].name
@@ -309,7 +319,7 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
         console.log(config[0].right)
         configs.push(config[0].right)
       }
-      catch(err) {
+      catch (err) {
         console.log("not that declaration");
       }
     }
@@ -328,15 +338,17 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   // console.log(pluginsEntries)
 
 
+  
+
   console.log(configs[0].properties.filter(element => element.key.name === "plugins")[0].value.elements)
   console.log(configs[0].properties.map(element => element.key.name === "plugins"))
-  
+
   // load a plugin
   const plugins = [
     {
-      description:"The SplitChunks plugin facilitates breaking modules into separate or combined files.", 
-      name:"Split Chunks plugin", 
-      file:"splitChunksPluginConfig.js"
+      description: "The SplitChunks plugin facilitates breaking modules into separate or combined files.",
+      name: "Split Chunks plugin",
+      file: "splitChunksPluginConfig.js"
     }
   ]
   let plugin = plugins[0]
@@ -388,7 +400,7 @@ function parseConfig(entry: string, filepath: string) {  //entry is the text fil
   // Check it
   //console.log(entry === formattedCode ? 'It works!' : 'Something went wrong…')
 
-  fs.writeFile(filepath+"v200", formattedCode, (err) => {  //need to do better versioning / archiving
+  fs.writeFile(filepath + "v200", formattedCode, (err) => {  //need to do better versioning / archiving
     if (err) {
       //    alert("An error ocurred updating the file" + err.message);
       console.log(err);
@@ -432,14 +444,14 @@ function loadStats(file: string) {
     content = content.split(/}[\n\r\s]+{/);
     // repair brackets from split
 
-    console.log("content array length is",content.length)
+    console.log("content array length is", content.length)
     if (content.length > 1) {
-      for (let i=0; i<content.length; i++){
-        content[i] = (i>0)?"{":"" + content[i] + (i<content.length-1)?"}":""
+      for (let i = 0; i < content.length; i++) {
+        content[i] = (i > 0) ? "{" : "" + content[i] + (i < content.length - 1) ? "}" : ""
       }
     }
     console.log("Stats File")
-    console.log(content[0].substring(0,40))
+    console.log(content[0].substring(0, 40))
     // console.log("Stats 2")
     // console.log(content[1].substring(0,40))
     // content is now an array of one or more stats json
@@ -452,7 +464,7 @@ function loadStats(file: string) {
     returnObj.time = content.time;
     returnObj.hash = content.hash;
     returnObj.errors = content.errors
-    returnObj.size = content.assets.reduce((size: number , asset: any): void => size + asset.size, 0)
+    returnObj.size = content.assets.reduce((size: number, asset: any): void => size + asset.size, 0)
     returnObj.assets = content.assets.map((asset: any) => ({
       name: asset.name,
       chunks: asset.chunks,

@@ -12,8 +12,8 @@ type Props = {
 
 const initialState = {
   isPackageSelected: false,
-  width: 900,
-  height: 900,
+  width: 600,
+  height: 600,
   data: {
     "name": "A1",
     "children": [
@@ -107,12 +107,13 @@ export default class Home extends React.Component<Props, StateType> {
           }
         }
       }
+      this.doSetBeforeRoot(root);
       // console.log(root)
       // console.log(this.state.data)
-      this.drawChart(root);
-      this.drawZoom(root);
-      this.drawTreemap(root);
-      this.drawTreemapZoom(root);
+      this.drawChart(this.props.store.beforeRoot);
+      this.drawZoom(this.props.store.beforeRoot);
+      this.drawTreemap(this.props.store.beforeRoot);
+      this.drawTreemapZoom(this.props.store.beforeRoot);
 
     })
 
@@ -146,7 +147,7 @@ export default class Home extends React.Component<Props, StateType> {
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
       var trail = d3.select("#sequence").append("svg:svg")
-        .attr("width", this.state.width)
+        .attr("width", 800)
         .attr("height", 50)
         .attr("id", "trail");
 
@@ -208,7 +209,6 @@ export default class Home extends React.Component<Props, StateType> {
     let totalSize = path.datum().value;
     console.log(totalSize)
 
-    ////////////////////////////////////////////////////////////////////////////////////
 
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
@@ -357,8 +357,8 @@ export default class Home extends React.Component<Props, StateType> {
 
 
   private drawZoom(jsonData: any) {
-    const width = 900,
-      height = 900,
+    const width = 600,
+      height = 600,
       maxRadius = (Math.min(width, height) / 2) - 5;
 
     const formatNumber = d3.format(',d');
@@ -426,6 +426,21 @@ export default class Home extends React.Component<Props, StateType> {
       .endAngle(d => x(d.x1))
       .innerRadius(d => y(Math.max(0, d.y0)))
       .outerRadius(d => y(Math.max(0, d.y1)));
+
+    const initializeBreadcrumbTrail = () => {
+      // Add the svg area.
+      var trail3 = d3.select("#sequence3").append("svg:svg")
+        .attr("width", 800)
+        .attr("height", 50)
+        .attr("id", "trail3");
+
+      // Add the label at the end, for the percentage.
+      trail3.append("svg:text")
+        .attr("id", "endlabel")
+        .style("fill", "#fff");   //controls the color of the percentage
+    }
+
+    initializeBreadcrumbTrail();
 
     const middleArcLine = d => {
       const halfPi = Math.PI / 2;
@@ -548,17 +563,11 @@ export default class Home extends React.Component<Props, StateType> {
           });
       }
     }
+
   }
 
 
-
-
   //////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
 
 
   private drawTreemap(jsonData: any) {
@@ -571,7 +580,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([900, 650])
+      .size([600, 600])
 
     root.sum(function (d: any) {
       return d.value;
@@ -736,7 +745,6 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
 
-
   private drawTreemapZoom(jsonData: any) {
 
     const x = d3.scaleLinear().domain([0, 100]).range([0, 100])
@@ -750,6 +758,8 @@ export default class Home extends React.Component<Props, StateType> {
           return c;
         })
       )
+
+    // const color = () => '#265e73';
 
     const treemap = d3.treemap()
       .size([100, 100])
@@ -771,20 +781,19 @@ export default class Home extends React.Component<Props, StateType> {
       .data(nodes.descendants())
       .enter()
       .append("div")
-      .attr("class", function (d) { return "nodeTZ level-" + d.depth; })
-      .attr("title", function (d) { return d.data.name ? d.data.name : "null"; });
+      .attr("class", (d: any) => "nodeTZ level-" + d.depth)
+      .attr("title", (d: any) => d.data.name ? d.data.name : "null");
 
     cells
-      .style("left", function (d) { return x(d.x0) + "%"; })
-      .style("top", function (d) { return y(d.y0) + "%"; })
-      .style('stroke', '#FFFFFF')
-      .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-      .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; })
-      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name); })
+      .style("left", (d: any) => x(d.x0) + "%")
+      .style("top", (d: any) => y(d.y0) + "%")
+      .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
+      .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
+      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
-      .text(function (d) { return d.data.name ? d.data.name : "---"; });
+      .text(function (d: any) { return d.data.name ? d.data.name : "---"; });
     //.style("font-size", "")
     //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
 
@@ -826,7 +835,6 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
 
-
   handleDrawChart = (arg): void => {
     this.drawChart(arg);
   }
@@ -835,12 +843,26 @@ export default class Home extends React.Component<Props, StateType> {
     this.drawTreemap(arg);
   }
 
-  doSetIsChartSelectedTrue = (): void => {
-    this.props.store.setIsChartSelectedTrue();
+  doSetBeforeRoot = (root: any): void => {
+    this.props.store.setBeforeRoot(root);
   }
 
-  doSetIsChartSelectedFalse = (): void => {
-    this.props.store.setIsChartSelectedFalse();
+  doSetDisplaySunburst = (): void => {
+    this.props.store.setDisplaySunburst();
+    //this.drawChart(this.props.store.beforeRoot);
+  }
+
+  doSetDisplaySunburstZoom = (): void => {
+    this.props.store.setDisplaySunburstZoom();
+    //this.drawZoom(this.props.store.beforeRoot);
+  }
+  doSetDisplayTreemap = (): void => {
+    this.props.store.setDisplayTreemap();
+    //this.drawTreemap(this.props.store.beforeRoot);
+  }
+  doSetDisplayTreemapZoom = (): void => {
+    this.props.store.setDisplayTreemapZoom();
+    //this.drawTreemapZoom(this.props.store.beforeRoot);
   }
 
   doSetIsLoadingTrue = (): void => {
@@ -864,9 +886,9 @@ export default class Home extends React.Component<Props, StateType> {
       }
     }
     event.preventDefault();
-    this.setState({
-      isPackageSelected: true
-    });
+    this.props.store.setIsPackageSelectedTrue()
+      
+    
   }
 
   getWebpackStats = (): void => {
@@ -878,12 +900,12 @@ export default class Home extends React.Component<Props, StateType> {
     return (
       <div className="mainContainerHome">
         <div>
-          {!this.state.isPackageSelected && <div id="package-selector" className="">
+          {!store.isPackageSelected && <div id="package-selector" className="">
             <h4>Select your package.json</h4>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
           </div>}
 
-          {this.props.store.displayConfigSelection && !this.state.isPackageSelected
+          {this.props.store.displayConfigSelection && !store.isPackageSelected
             && <div id="webpack-config-selector">
               <h4>Select desired configuration</h4>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
@@ -893,7 +915,7 @@ export default class Home extends React.Component<Props, StateType> {
               </form>
             </div>}
 
-          {this.state.isPackageSelected! && <div id="stats-file-selector" className="">
+          {store.isPackageSelected && <div id="stats-file-selector" className="">
             <h4>Load Webpack Stats</h4>
             <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
           </div>}
@@ -901,9 +923,11 @@ export default class Home extends React.Component<Props, StateType> {
         <div className="smallerMainContainer">
 
           <div id="graphsContainer">
-            <div id="sequence"></div>
-            {store.isChartSelected &&
+            
+
+            <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <div id="chart">
+              <div id="sequence"></div>
                 <div id="explanation">
                   <span id="filename"></span><br />
                   <span id="percentage"></span><br />
@@ -914,52 +938,58 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
                 <svg width={this.state.width} height={this.state.height} className="sunburst" />
               </div>
-            }
-            <div id="explanationTree">
-              <div id="ancestors"></div>
-              <span id="treemapText"></span>
-              <span id="filenameTree"></span><br />
-              <span id="percentageTree"></span><br />
 
-              <div>
-                <span id="filesizeTree"></span> <br />
-              </div>
             </div>
+
+            <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
             <div id="sequenceTreeMap"></div>
-            {store.isChartSelected &&
+              <div id="explanationTree">
+                <div id="ancestors"></div>
+                <span id="treemapText"></span>
+                <span id="filenameTree"></span><br />
+                <span id="percentageTree"></span><br />
+
+                <div>
+                  <span id="filesizeTree"></span> <br />
+                </div>
+              </div>
+              
               <div id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
-              </div>}
-
-            <div id="explanationTreeZoom">
-              <div id="ancestorsZoom"></div>
-              <span id="treemapTextZoom"></span>
-              <span id="filenameTreeZoom"></span><br />
-              <span id="percentageTreeZoom"></span><br />
-
-              <div>
-                <span id="filesizeTreeZoom"></span> <br />
               </div>
             </div>
-            <div id="sequenceTreeMapZoom"></div>
-            {store.isChartSelected &&
+
+            <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              <div id="explanationTreeZoom">
+                <div id="ancestorsZoom"></div>
+                <span id="treemapTextZoom"></span>
+                <span id="filenameTreeZoom"></span><br />
+                <span id="percentageTreeZoom"></span><br />
+                <div>
+                  <span id="filesizeTreeZoom"></span> <br />
+                </div>
+              </div>
+              <div id="sequenceTreeMapZoom"></div>
               <div>
                 <div className="up">&larr; UP</div>
                 <div className="feature" id="chartTreeMapZoom">
                   <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
                 </div>
-              </div>}
-
-            <div id="zoomContainer">
-              <svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />
+              </div>
             </div>
+
+            <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              {/*<svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />*/}
+            </div>
+
+
           </div>
 
           <div id="buttonContainer">
-            <button className="chartButtons" onClick={this.doSetIsChartSelectedTrue}>Sunburst</button>
-            <button className="chartButtons" onClick={this.doSetIsChartSelectedFalse}>Zoomable Sunburst</button>
-            <button className="chartButtons" >Treemap</button>
-            <button className="chartButtons2" >Zoomable Treemap</button>
+            <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
+            <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
+            <button className="chartButtons2" id="treemapButton" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
           </div>
         </div>
       </div>
