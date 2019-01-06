@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
+import ChartButtons from './ChartButtons';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 
@@ -165,8 +166,8 @@ export default class Home extends React.Component<Props, StateType> {
     sunburstLayout(root);
 
     const main = d3.select('.sunburst')
-      .attr("width", this.state.width)
-      .attr("height", this.state.height)
+      .attr("width", 600)
+      .attr("height", 600)
       .append("svg:g")
       .attr("id", "container")
       .attr("transform", "translate(" + this.state.width / 2 + "," + this.state.height / 2 + ")");
@@ -887,8 +888,8 @@ export default class Home extends React.Component<Props, StateType> {
     }
     event.preventDefault();
     this.props.store.setIsPackageSelectedTrue()
-      
-    
+
+
   }
 
   getWebpackStats = (): void => {
@@ -923,11 +924,11 @@ export default class Home extends React.Component<Props, StateType> {
         <div className="smallerMainContainer">
 
           <div id="graphsContainer">
-            
+
 
             <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <div id="chart">
-              <div id="sequence"></div>
+                <div id="sequence"></div>
                 <div id="explanation">
                   <span id="filename"></span><br />
                   <span id="percentage"></span><br />
@@ -942,7 +943,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
 
             <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
-            <div id="sequenceTreeMap"></div>
+              <div id="sequenceTreeMap"></div>
               <div id="explanationTree">
                 <div id="ancestors"></div>
                 <span id="treemapText"></span>
@@ -953,7 +954,7 @@ export default class Home extends React.Component<Props, StateType> {
                   <span id="filesizeTree"></span> <br />
                 </div>
               </div>
-              
+
               <div id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
               </div>
@@ -985,12 +986,18 @@ export default class Home extends React.Component<Props, StateType> {
 
           </div>
 
-          <div id="buttonContainer">
+          {/* < ChartButtons
+            doSetDisplaySunburst={this.doSetDisplaySunburst}
+            doSetDisplaySunburstZoom={this.doSetDisplaySunburstZoom}
+            doSetDisplayTreemap={this.doSetDisplayTreemap}
+            doSetDisplayTreemapZoom={this.doSetDisplayTreemapZoom}
+          /> */}
+          {/* <div id="buttonContainer">
             <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
             <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
             <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
             <button className="chartButtons2" id="treemapButton" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
-          </div>
+          </div> */}
         </div>
       </div>
     );
