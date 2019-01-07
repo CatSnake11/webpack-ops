@@ -581,7 +581,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([600, 600])
+      .size([600, 450])
 
     root.sum(function (d: any) {
       return d.value;
@@ -718,7 +718,6 @@ export default class Home extends React.Component<Props, StateType> {
       // Make the breadcrumb trail visible, if it's hidden.
       d3.select("#trail2")
         .style("visibility", "");
-
     }
 
     // Generate a string that describes the points of a breadcrumb polygon.
@@ -742,7 +741,6 @@ export default class Home extends React.Component<Props, StateType> {
       .style('stroke', '#FFFFFF')
 
     treemapLayout.tile(d3.treemapDice);
-
   }
 
 
@@ -760,17 +758,13 @@ export default class Home extends React.Component<Props, StateType> {
         })
       )
 
-    // const color = () => '#265e73';
-
     const treemap = d3.treemap()
       .size([100, 100])
-      //.tile(d3.treemapResquarify) // doesn't work - height & width is 100%
       .paddingInner(0)
       .round(false) //true
 
     const nodes = d3.hierarchy(jsonData)
       .sum(function (d) { return d.value ? 1 : 0; })
-    //.sort(function(a, b) { return b.height - a.height || b.value - a.value });
 
     let currentDepth;
 
@@ -795,8 +789,6 @@ export default class Home extends React.Component<Props, StateType> {
       .append("p")
       .attr("class", "label")
       .text(function (d: any) { return d.data.name ? d.data.name : "---"; });
-    //.style("font-size", "")
-    //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
 
     var parent = d3.select(".up")
       .datum(nodes)
@@ -850,20 +842,16 @@ export default class Home extends React.Component<Props, StateType> {
 
   doSetDisplaySunburst = (): void => {
     this.props.store.setDisplaySunburst();
-    //this.drawChart(this.props.store.beforeRoot);
   }
 
   doSetDisplaySunburstZoom = (): void => {
     this.props.store.setDisplaySunburstZoom();
-    //this.drawZoom(this.props.store.beforeRoot);
   }
   doSetDisplayTreemap = (): void => {
     this.props.store.setDisplayTreemap();
-    //this.drawTreemap(this.props.store.beforeRoot);
   }
   doSetDisplayTreemapZoom = (): void => {
     this.props.store.setDisplayTreemapZoom();
-    //this.drawTreemapZoom(this.props.store.beforeRoot);
   }
 
   doSetIsLoadingTrue = (): void => {
@@ -955,7 +943,7 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
               </div>
 
-              <div id="chartTreeMap">
+              <div style={{ paddingTop: '10px' }} id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
               </div>
             </div>
@@ -973,7 +961,7 @@ export default class Home extends React.Component<Props, StateType> {
               <div id="sequenceTreeMapZoom"></div>
               <div>
                 <div className="up">&larr; UP</div>
-                <div className="feature" id="chartTreeMapZoom">
+                <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
                   <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
                 </div>
               </div>
@@ -983,21 +971,7 @@ export default class Home extends React.Component<Props, StateType> {
               {/*<svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />*/}
             </div>
 
-
           </div>
-
-          {/* < ChartButtons
-            doSetDisplaySunburst={this.doSetDisplaySunburst}
-            doSetDisplaySunburstZoom={this.doSetDisplaySunburstZoom}
-            doSetDisplayTreemap={this.doSetDisplayTreemap}
-            doSetDisplayTreemapZoom={this.doSetDisplayTreemapZoom}
-          /> */}
-          {/* <div id="buttonContainer">
-            <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
-            <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
-            <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
-            <button className="chartButtons2" id="treemapButton" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
-          </div> */}
         </div>
       </div>
     );
