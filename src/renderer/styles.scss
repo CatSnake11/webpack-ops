@@ -57,7 +57,7 @@ body {
 .Nav__container {
   display: flex;
   flex-direction: column;
-  height: 1500px;
+  height: 900px;
   width: 174px;
 }
 
@@ -353,4 +353,8 @@ a {
   border-radius: 4px 4px 4px 4px;
   box-shadow: 8px 10px 15px #292929;
   cursor: pointer
+}
+
+#zoomContainer {
+  margin-top: 10px;
 }

@@ -971,7 +971,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
 
             <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              {/*<svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />*/}
+
             </div>
 
           </div>
