@@ -889,7 +889,7 @@ export default class Home extends React.Component<Props, StateType> {
     return (
       <div className="mainContainerHome">
         <div id="welcomeCard">
-          Welcome to WebpackOps! Please load your package.json file to begin optimizing your Webpack bundle!”
+          Welcome to WebpackOps! Please load your <span style={{ color: 'blue' }}>package.json</span> file to begin optimizing your Webpack bundle
         </div>
         <div id="welcomeCardBottom">
           {!store.isPackageSelected && <div id="package-selector" className="">
