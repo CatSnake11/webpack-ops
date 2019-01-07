@@ -145,7 +145,7 @@ a {
 }
 
 .chartNavLinks {
-  color:rgba(255, 255, 255, 0.3);
+  color:rgba(255, 255, 255, 0.4);
   padding: 10px;
   cursor: pointer;
   font-size: 13px;
@@ -154,6 +154,10 @@ a {
 
 .chartNavOff {
   display: none;
+}
+
+.chartNavLinkSelected {
+  color: rgba(237, 237, 237, 0.9);
 }
 
 .chartNavLinks:hover {

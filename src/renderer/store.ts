@@ -38,6 +38,10 @@ export type StoreType = {
 	setHomeSelected(): void,
 	setTabTwoSelected(): void,
 	setTabThreeSelected(): void,
+	isSunburstSelected: boolean,
+	isSunburstZoomSelected: boolean,
+	isTreemapSelected: boolean,
+	isTreemapZoomSelected: boolean,
 };
 
 export default class Store {
@@ -89,6 +93,20 @@ export default class Store {
 	@observable
 	isTabThreeSelected = false;
 
+	@observable
+	isSunburstSelected = false;
+
+	@observable
+	isSunburstZoomSelected = false;
+
+	@observable
+	isTreemapSelected = false;
+
+	@observable
+	isTreemapZoomSelected = false;
+
+
+	// ACTIONS //
 
 	@action.bound
 	addAge() {
@@ -136,6 +154,11 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = false;
+
+		this.isSunburstSelected = true;
+		this.isSunburstZoomSelected = false;
+		this.isTreemapSelected = false;
+		this.isTreemapZoomSelected = false;
 	}
 
 	@action.bound
@@ -144,6 +167,11 @@ export default class Store {
 		this.displaySunburstZoom = true;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = false;
+
+		this.isSunburstSelected = false;
+		this.isSunburstZoomSelected = true;
+		this.isTreemapSelected = false;
+		this.isTreemapZoomSelected = false;
 	}
 
 	@action.bound
@@ -152,6 +180,11 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = true;
 		this.displayTreemapZoom = false;
+
+		this.isSunburstSelected = false;
+		this.isSunburstZoomSelected = false;
+		this.isTreemapSelected = true;
+		this.isTreemapZoomSelected = false;
 	}
 
 	@action.bound
@@ -160,6 +193,11 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = true;
+
+		this.isSunburstSelected = false;
+		this.isSunburstZoomSelected = false;
+		this.isTreemapSelected = false;
+		this.isTreemapZoomSelected = true;
 	}
 
 	@action.bound

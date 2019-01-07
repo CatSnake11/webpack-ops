@@ -78,10 +78,30 @@ class Nav extends React.Component<Props, {}> {
             </li>
 
             <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
-              <li className="chartNavLinks" onClick={this.doSetDisplaySunburst}>Sunburst</li>
-              <li className="chartNavLinks" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</li>
-              <li className="chartNavLinks" onClick={this.doSetDisplayTreemap}>Treemap</li>
-              <li className="chartNavLinks" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</li>
+              <li
+                className={store.isSunburstSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
+                onClick={this.doSetDisplaySunburst}
+              >
+                Sunburst
+              </li>
+              <li
+                className={store.isSunburstZoomSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
+                onClick={this.doSetDisplaySunburstZoom}
+              >
+                Zoomable Sunburst
+              </li>
+              <li
+                className={store.isTreemapSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
+                onClick={this.doSetDisplayTreemap}
+              >
+                Treemap
+              </li>
+              <li
+                className={store.isTreemapZoomSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
+                onClick={this.doSetDisplayTreemapZoom}
+              >
+                Zoomable Treemap
+              </li>
             </ul>
             <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
               <Link
