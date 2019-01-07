@@ -888,7 +888,10 @@ export default class Home extends React.Component<Props, StateType> {
     const { store } = this.props
     return (
       <div className="mainContainerHome">
-        <div>
+        <div id="welcomeCard">
+          Welcome to WebpackOps! Please load your package.json file to begin optimizing your Webpack bundle!”
+        </div>
+        <div id="welcomeCardBottom">
           {!store.isPackageSelected && <div id="package-selector" className="">
             <h4>Select your package.json</h4>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
