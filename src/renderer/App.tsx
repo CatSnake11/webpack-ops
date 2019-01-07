@@ -44,27 +44,64 @@ class Nav extends React.Component<Props, {}> {
     this.props.store.setChartNavClassOff();
   }
 
+  doSetHomeSelected = (): void => {
+    this.props.store.setHomeSelected();
+  }
+
+  doSetTabTwoSelected = (): void => {
+    this.props.store.setTabTwoSelected();
+  }
+
+  doSetTabThreeSelected = (): void => {
+    this.props.store.setTabThreeSelected();
+  }
+
   render() {
+    const iconStyle = {
+      fontSize: '22px',
+      paddingRight: '10px'
+    };
     const { store } = this.props;
     return (
       <nav className="Nav">
         <div className="Nav__container">
           <ul className="Nav__item-wrapper">
             <li className="Nav__item" onClick={this.doSetChartNavClassOn}>
-              <Link className="Nav__link" to="/">Home  <FaHome /></Link>
+              <Link
+                className={store.isHomeSelected ? "Nav__link selected" : "Nav__link"}
+                to="/"
+                onClick={this.doSetHomeSelected}
+              >
+                <FaHome style={iconStyle} />
+                Home
+              </Link>
             </li>
 
-            <ul className={store.displayChartNav ? 'chartNav' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
+            <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
               <li className="chartNavLinks" onClick={this.doSetDisplaySunburst}>Sunburst</li>
               <li className="chartNavLinks" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</li>
               <li className="chartNavLinks" onClick={this.doSetDisplayTreemap}>Treemap</li>
               <li className="chartNavLinks" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</li>
             </ul>
             <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
-              <Link className="Nav__link" to="/two">Plugins <FaCube /></Link>
+              <Link
+                className={store.isTabTwoSelected ? "Nav__link selected" : "Nav__link"}
+                to="/two"
+                onClick={this.doSetTabTwoSelected}
+              >
+                <FaCube style={iconStyle} />
+                Plugins
+              </Link>
             </li>
             <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
-              <Link className="Nav__link" to="/three">Webpack Config <IoLogoBuffer /></Link>
+              <Link
+                className={store.isTabThreeSelected ? "Nav__link selected" : "Nav__link"}
+                to="/three"
+                onClick={this.doSetTabThreeSelected}
+              >
+                <IoLogoBuffer style={iconStyle} />
+                Webpack Config
+              </Link>
             </li>
           </ul>
         </div>

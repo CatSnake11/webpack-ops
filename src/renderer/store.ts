@@ -18,6 +18,9 @@ export type StoreType = {
 	displayTreemapZoom: boolean,
 	displayChartNav: boolean,
 	isPackageSelected: boolean,
+	isHomeSelected: boolean,
+	isTabTwoSelected: boolean,
+	isTabThreeSelected: boolean,
 	setChartNavClassOn(): void,
 	setChartNavClassOff(): void,
 	setDisplaySunburst(): void,
@@ -32,6 +35,9 @@ export type StoreType = {
 	beforeRoot: any,
 	setBeforeRoot(root: any): void,
 	setIsPackageSelectedTrue(): void,
+	setHomeSelected(): void,
+	setTabTwoSelected(): void,
+	setTabThreeSelected(): void,
 };
 
 export default class Store {
@@ -73,6 +79,16 @@ export default class Store {
 
 	@observable
 	displayChartNav = true;
+
+	@observable
+	isHomeSelected = true;
+
+	@observable
+	isTabTwoSelected = false;
+
+	@observable
+	isTabThreeSelected = false;
+
 
 	@action.bound
 	addAge() {
@@ -117,14 +133,9 @@ export default class Store {
 	@action.bound
 	setDisplaySunburst() {
 		this.displaySunburst = true;
-		console.log('this.displaySunburst: ', this.displaySunburst);
 		this.displaySunburstZoom = false;
-		console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
 		this.displayTreemap = false;
-		console.log('this.displayTreemap: ', this.displayTreemap);
 		this.displayTreemapZoom = false;
-		console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
-		console.log('------------------------')
 	}
 
 	@action.bound
@@ -133,11 +144,6 @@ export default class Store {
 		this.displaySunburstZoom = true;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = false;
-		console.log('this.displaySunburst: ', this.displaySunburst);
-		console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
-		console.log('this.displayTreemap: ', this.displayTreemap);
-		console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
-		console.log('------------------------')
 	}
 
 	@action.bound
@@ -146,11 +152,6 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = true;
 		this.displayTreemapZoom = false;
-		console.log('this.displaySunburst: ', this.displaySunburst);
-		console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
-		console.log('this.displayTreemap: ', this.displayTreemap);
-		console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
-		console.log('------------------------')
 	}
 
 	@action.bound
@@ -159,11 +160,6 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = true;
-		console.log('this.displaySunburst: ', this.displaySunburst);
-		console.log('this.displaySunburstZoom: ', this.displaySunburstZoom);
-		console.log('this.displayTreemap: ', this.displayTreemap);
-		console.log('this.displayTreemapZoom: ', this.displayTreemapZoom);
-		console.log('------------------------')
 	}
 
 	@action.bound
@@ -184,6 +180,27 @@ export default class Store {
 	@action.bound
 	setIsPackageSelectedTrue() {
 		this.isPackageSelected = true;
+	}
+
+	@action.bound
+	setHomeSelected() {
+		this.isHomeSelected = true;
+		this.isTabTwoSelected = false;
+		this.isTabThreeSelected = false;
+	}
+
+	@action.bound
+	setTabTwoSelected() {
+		this.isTabTwoSelected = true;
+		this.isHomeSelected = false;
+		this.isTabThreeSelected = false;
+	}
+
+	@action.bound
+	setTabThreeSelected() {
+		this.isTabThreeSelected = true;
+		this.isHomeSelected = false;
+		this.isTabTwoSelected = false;
 	}
 }
 

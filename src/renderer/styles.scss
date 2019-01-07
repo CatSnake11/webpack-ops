@@ -58,35 +58,38 @@ body {
   display: flex;
   flex-direction: column;
   height: 1500px;
-}
-
-.Nav__item:hover {
-  background-color: darken($nav-color, 10%);
+  width: 174px;
 }
 
 .Nav__item-wrapper {
   display: flex;
   flex-direction: column;
-  // margin-left: 20px;
-  // flex-direction: horizontal;
   padding-left: 20px;
   align-content: center;
-  width: 100%;
+  width: 174px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .Nav__item {
   display: flex;
   flex-direction: row;
-  padding: 20px 0 20px 0;
-  margin-left: -20px;
+  padding: 20px 0 30px 10px;
+  margin-left: -30px;
   list-style-type: none;
-  justify-content: center;
-  width: 100%;
+  justify-content: left;
+  width: 174px;
 }
 
 .Nav__link {
+  display: flex;
   clear: right;
+  align-items: center;
+  padding-left: 10px;
+  color: rgba(255, 255, 255, 0.6)
+}
+
+.Nav__link:hover {
+  color: rgba(255, 255, 255, 1)
 }
 
 a {
@@ -138,15 +141,15 @@ a {
   margin-left: -60px;
   margin-bottom: 12px;
   width: 100%;
+  color: rgba(255, 255, 255, 1)
 }
 
 .chartNavLinks {
-  color:rgb(206, 203, 203);
+  color:rgba(255, 255, 255, 0.3);
   padding: 10px;
   cursor: pointer;
-  font-size: 12px;
-  padding-left: 60px;
-  // margin: auto;
+  font-size: 13px;
+  padding-left: 40px;
 }
 
 .chartNavOff {
@@ -154,7 +157,7 @@ a {
 }
 
 .chartNavLinks:hover {
-  background-color: darken($nav-color, 10%);
+  color: rgba(237, 237, 237, 0.9);
 }
 
 .chartButtons {
@@ -303,4 +306,8 @@ a {
 
 #trail2 {
   width: 100%;
+}
+
+.selected {
+  color: rgba(255, 255, 255, 1);
 }
