@@ -759,7 +759,7 @@ export default class Home extends React.Component<Props, StateType> {
       )
 
     const treemap = d3.treemap()
-      .size([100, 100])
+      .size([86, 70])
       .paddingInner(0)
       .round(false) //true
 
