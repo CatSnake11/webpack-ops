@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
+import ChartButtons from './ChartButtons';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 
@@ -165,8 +166,8 @@ export default class Home extends React.Component<Props, StateType> {
     sunburstLayout(root);
 
     const main = d3.select('.sunburst')
-      .attr("width", this.state.width)
-      .attr("height", this.state.height)
+      .attr("width", 600)
+      .attr("height", 600)
       .append("svg:g")
       .attr("id", "container")
       .attr("transform", "translate(" + this.state.width / 2 + "," + this.state.height / 2 + ")");
@@ -580,7 +581,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([600, 600])
+      .size([600, 450])
 
     root.sum(function (d: any) {
       return d.value;
@@ -717,7 +718,6 @@ export default class Home extends React.Component<Props, StateType> {
       // Make the breadcrumb trail visible, if it's hidden.
       d3.select("#trail2")
         .style("visibility", "");
-
     }
 
     // Generate a string that describes the points of a breadcrumb polygon.
@@ -741,7 +741,6 @@ export default class Home extends React.Component<Props, StateType> {
       .style('stroke', '#FFFFFF')
 
     treemapLayout.tile(d3.treemapDice);
-
   }
 
 
@@ -759,17 +758,13 @@ export default class Home extends React.Component<Props, StateType> {
         })
       )
 
-    // const color = () => '#265e73';
-
     const treemap = d3.treemap()
-      .size([100, 100])
-      //.tile(d3.treemapResquarify) // doesn't work - height & width is 100%
+      .size([86, 70])
       .paddingInner(0)
       .round(false) //true
 
     const nodes = d3.hierarchy(jsonData)
       .sum(function (d) { return d.value ? 1 : 0; })
-    //.sort(function(a, b) { return b.height - a.height || b.value - a.value });
 
     let currentDepth;
 
@@ -794,8 +789,6 @@ export default class Home extends React.Component<Props, StateType> {
       .append("p")
       .attr("class", "label")
       .text(function (d: any) { return d.data.name ? d.data.name : "---"; });
-    //.style("font-size", "")
-    //.style("opacity", function(d) { return isOverflowed( d.parent ) ? 1 : 0; });
 
     var parent = d3.select(".up")
       .datum(nodes)
@@ -849,20 +842,16 @@ export default class Home extends React.Component<Props, StateType> {
 
   doSetDisplaySunburst = (): void => {
     this.props.store.setDisplaySunburst();
-    //this.drawChart(this.props.store.beforeRoot);
   }
 
   doSetDisplaySunburstZoom = (): void => {
     this.props.store.setDisplaySunburstZoom();
-    //this.drawZoom(this.props.store.beforeRoot);
   }
   doSetDisplayTreemap = (): void => {
     this.props.store.setDisplayTreemap();
-    //this.drawTreemap(this.props.store.beforeRoot);
   }
   doSetDisplayTreemapZoom = (): void => {
     this.props.store.setDisplayTreemapZoom();
-    //this.drawTreemapZoom(this.props.store.beforeRoot);
   }
 
   doSetIsLoadingTrue = (): void => {
@@ -887,8 +876,8 @@ export default class Home extends React.Component<Props, StateType> {
     }
     event.preventDefault();
     this.props.store.setIsPackageSelectedTrue()
-      
-    
+
+
   }
 
   getWebpackStats = (): void => {
@@ -899,7 +888,10 @@ export default class Home extends React.Component<Props, StateType> {
     const { store } = this.props
     return (
       <div className="mainContainerHome">
-        <div>
+        <div id="welcomeCard">
+          Welcome to WebpackOps! Please load your <span style={{ color: 'blue' }}>package.json</span> file to begin optimizing your Webpack bundle
+        </div>
+        <div id="welcomeCardBottom">
           {!store.isPackageSelected && <div id="package-selector" className="">
             <h4>Select your package.json</h4>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
@@ -923,11 +915,11 @@ export default class Home extends React.Component<Props, StateType> {
         <div className="smallerMainContainer">
 
           <div id="graphsContainer">
-            
+
 
             <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
               <div id="chart">
-              <div id="sequence"></div>
+                <div id="sequence"></div>
                 <div id="explanation">
                   <span id="filename"></span><br />
                   <span id="percentage"></span><br />
@@ -942,7 +934,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
 
             <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
-            <div id="sequenceTreeMap"></div>
+              <div id="sequenceTreeMap"></div>
               <div id="explanationTree">
                 <div id="ancestors"></div>
                 <span id="treemapText"></span>
@@ -953,8 +945,8 @@ export default class Home extends React.Component<Props, StateType> {
                   <span id="filesizeTree"></span> <br />
                 </div>
               </div>
-              
-              <div id="chartTreeMap">
+
+              <div style={{ paddingTop: '10px' }} id="chartTreeMap">
                 <svg width={this.state.width} height={this.state.height} id="treemap" />
               </div>
             </div>
@@ -972,24 +964,16 @@ export default class Home extends React.Component<Props, StateType> {
               <div id="sequenceTreeMapZoom"></div>
               <div>
                 <div className="up">&larr; UP</div>
-                <div className="feature" id="chartTreeMapZoom">
+                <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
                   <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
                 </div>
               </div>
             </div>
 
             <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              {/*<svg width={this.state.width} height={this.state.height} id="zoomSunburstChart" className="zoomChart" />*/}
+
             </div>
 
-
-          </div>
-
-          <div id="buttonContainer">
-            <button className="chartButtons" onClick={this.doSetDisplaySunburst}>Sunburst</button>
-            <button className="chartButtons" onClick={this.doSetDisplaySunburstZoom}>Zoomable Sunburst</button>
-            <button className="chartButtons" onClick={this.doSetDisplayTreemap}>Treemap</button>
-            <button className="chartButtons2" id="treemapButton" onClick={this.doSetDisplayTreemapZoom}>Zoomable Treemap</button>
           </div>
         </div>
       </div>
