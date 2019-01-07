@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
+
 import AwesomeComponent from './AwesomeComponent';
 
 type Props = {
@@ -30,9 +31,9 @@ export default class TabTwo extends React.Component<Props, StateType> {
     })
   }
 
-  installPluggins = () :void => {
+  installPluggins = (): void => {
     const arr_plugins: string[] = ['checkedMini', 'checkedSplitChunks', 'checkedMoment'];
-    let arrToInstall: string[] = arr_plugins.reduce((accum:string[] ,el:string): string[] => {
+    let arrToInstall: string[] = arr_plugins.reduce((accum: string[], el: string): string[] => {
       console.log(el)
       if (this.state[el] === true) accum.push(el);
       return accum;
@@ -42,26 +43,50 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   handleChangeCheckboxMini = (event: any): void => {
-    this.setState({checkedMini :!this.state.checkedMini})
+    this.setState({ checkedMini: !this.state.checkedMini })
   }
   handleChangeCheckboxSplitChunks = (event: any): void => {
-    this.setState({checkedSplitChunks :!this.state.checkedSplitChunks})
+    this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks })
   }
   handleChangeCheckboxMoment = (event: any): void => {
-    this.setState({checkedMoment :!this.state.checkedMoment})
+    this.setState({ checkedMoment: !this.state.checkedMoment })
   }
 
   render() {
     const { store } = this.props
     return (
       <div className="mainContainer">
-        <div>Optimization Plugins</div>
-        <div></div>
-        <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />Mini <br />
-        <input type="checkbox" value="mini" onChange={this.handleChangeCheckboxSplitChunks} />Split Chunks <br />
-        <input type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />Moment <br />
-        <button className="btn stats" onClick={this.installPluggins}>Install</button>
-        
+        <div className="whiteCard">
+          <div className="tabTwoHeading">Optimization Plugins</div>
+
+          <div className="checkboxContainer">
+            <div className="checkBoxPadding">
+              <div className="pretty p-default p-round p-smooth">
+                <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
+                  <div className="state p-primary">
+                    <label>Mini </label><br />
+                  </div>
+              </div>
+            </div>
+            <div className="checkBoxPadding">
+            <div className="pretty p-default p-round p-smooth">
+              <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxSplitChunks} />
+                <div className="state p-primary">
+                  <label>Split Chunks</label> <br />
+                </div>
+            </div>
+            </div>
+            <div className="checkBoxPadding">
+            <div className="pretty p-default p-round p-smooth">    
+              <input className="tabTwoCheckbox" type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />
+                <div className="state p-primary">
+                  <label>Moment</label> <br />
+                </div>
+            </div>
+            </div>
+          </div>
+          <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
+        </div>
       </div>
     );
   }

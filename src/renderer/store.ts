@@ -42,6 +42,8 @@ export type StoreType = {
 	isSunburstZoomSelected: boolean,
 	isTreemapSelected: boolean,
 	isTreemapZoomSelected: boolean,
+	displayChartCard: boolean,
+	displayWelcomeCard: boolean,
 };
 
 export default class Store {
@@ -105,6 +107,11 @@ export default class Store {
 	@observable
 	isTreemapZoomSelected = false;
 
+	@observable
+	displayChartCard = false;
+
+	@observable
+	displayWelcomeCard = true;
 
 	// ACTIONS //
 
@@ -155,6 +162,9 @@ export default class Store {
 		this.displayTreemap = false;
 		this.displayTreemapZoom = false;
 
+		this.displayChartCard = true;
+		this.displayWelcomeCard = false;
+
 		this.isSunburstSelected = true;
 		this.isSunburstZoomSelected = false;
 		this.isTreemapSelected = false;
@@ -167,6 +177,7 @@ export default class Store {
 		this.displaySunburstZoom = true;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = false;
+		this.displayChartCard = true;
 
 		this.isSunburstSelected = false;
 		this.isSunburstZoomSelected = true;
@@ -180,6 +191,7 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = true;
 		this.displayTreemapZoom = false;
+		this.displayChartCard = true;
 
 		this.isSunburstSelected = false;
 		this.isSunburstZoomSelected = false;
@@ -193,6 +205,7 @@ export default class Store {
 		this.displaySunburstZoom = false;
 		this.displayTreemap = false;
 		this.displayTreemapZoom = true;
+		this.displayChartCard = true;
 
 		this.isSunburstSelected = false;
 		this.isSunburstZoomSelected = false;

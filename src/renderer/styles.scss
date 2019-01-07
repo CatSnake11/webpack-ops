@@ -1,7 +1,11 @@
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+
 $m: 0; // margin
+
 
 $nav-color: rgb(49, 56, 63);
 $bg-color: rgb(242, 242, 242);
+$body-bg-color: rgb(227, 227, 227);
 
 $box-shadow: 0px 9px 25px 2px darken($bg-color, 8%);
 
@@ -21,13 +25,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: rgb(227, 227, 227);
-  // background-image:
-  //  radial-gradient(
-  //  rgb(235, 235, 235), 
-  //    #9d9d9d
-  //  );
-  // background: rgb(40, 40, 41);
+  background: $body-bg-color;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -40,14 +38,13 @@ body {
 }
 
 .mainContainer {
-  padding: 20px 100px;
+  padding: 20px;
   width: 900px;
 }
 
 .mainContainerHome {
-  padding: 20px 100px;
+  padding: 20px;
   width: 900px;
-  // float: left;
 }
 
 .smallermainContainer {
@@ -58,12 +55,14 @@ body {
 }
 
 .Nav {
-  background-color: $nav-color;
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
   width: 174px;
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 25px;
+  box-shadow: 9px 0px 25px 2px darken($bg-color, 13%);
+  // box-shadow: $box-shadow;
 }
 
 .Nav__container {
@@ -135,7 +134,7 @@ a {
   box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
   color: white;
   background: rgb(245, 39, 111);
-  
+
 }
 
 #resetButton {
@@ -214,10 +213,6 @@ a {
 
 #treemapButton:hover {
   box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
-}
-
-.stats {
-  margin: 10px 0;
 }
 
 .toolTip {
@@ -329,7 +324,7 @@ a {
 }
 
 .selected {
-  color: rgba(255, 255, 255, 1);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 #logoContainer {
@@ -339,27 +334,37 @@ a {
   margin: auto;
 }
 
-#welcomeCard {
+.whiteCard {
   background-color: white;
-  border-radius: 4px;
   padding: 20px;
   margin: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 24px;
-  width: 90%;
-  box-shadow: $box-shadow;
-}
-
-#welcomeCardBottom {
-  background-color: white;
-  padding: 20px;
-  margin: 20px 20px 20px 20px;
-  // font-family: 'Lucida Sans', Arial, sans-serif;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 14px;
   width: 90%;
   border-radius: 4px;
   box-shadow: $box-shadow;
+}
+
+.whiteCardOff {
+  background-color: $body-bg-color;
+  padding: 20px;
+  margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 90%;
+  border-radius: 4px;
+}
+
+.welcomeCard {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+}
+
+.welcomeCardBottom {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+}
+
+.welcomeCardOff {
+  display: none;
 }
 
 .up {
@@ -376,3 +381,31 @@ a {
 #zoomContainer {
   margin-top: 10px;
 }
+
+.stats {
+  margin: 20px 0 10px 0;
+}
+
+#tabTwoStatsButton {
+  margin-bottom: 0px;
+}
+
+.tabTwoHeading {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.tabTwoCheckbox {
+  margin-right: 8px;
+  // font-size: 85px;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkBoxPadding {
+  padding: 10px;
+}
+
