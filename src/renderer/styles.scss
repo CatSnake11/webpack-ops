@@ -1,6 +1,17 @@
 $m: 0; // margin
 
-$nav-color: rgb(67, 144, 227);
+$nav-color: rgb(49, 56, 63);
+$bg-color: rgb(242, 242, 242);
+
+$box-shadow: 0px 9px 25px 2px darken($bg-color, 8%);
+
+$beforeNavHover: rgba(255, 255, 255, 0.4);
+$afterNavHover: rgba(237, 237, 237, 0.9);
+
+@keyframes onHoverNavItem {
+  0%   { color: $beforeNavHover; }
+  100% { color: $afterNavHover; }
+}
 
 html {
   padding: 0;
@@ -10,12 +21,12 @@ html {
 body {
   margin: 0;
   padding: 0;
-  // background: rgb(207, 226, 250);
-  background-image:
-    radial-gradient(
-    rgb(49, 110, 184), 
-      #2f1d5b
-    );
+  background: rgb(227, 227, 227);
+  // background-image:
+  //  radial-gradient(
+  //  rgb(235, 235, 235), 
+  //    #9d9d9d
+  //  );
   // background: rgb(40, 40, 41);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -52,6 +63,7 @@ body {
   height: 100%;
   display: flex;
   flex-direction: column;
+  padding: 25px;
 }
 
 .Nav__container {
@@ -108,12 +120,12 @@ a {
 .btn {
   transition: 0.3s;
   background-color:none;
-  background-color: darken($nav-color, 30%);
+  background-color: "white";
   border-radius: 4px;
   outline: none;
   border:none;
-  box-shadow: 0px 2px 5px 2px rgb(10, 10, 11);
-  color:white;
+  box-shadow: 0px 2px 15px 2px rgb(232, 232, 232);
+  color:rgb(245, 39, 111);
   font-size: 16px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
@@ -121,6 +133,9 @@ a {
 
 .btn:hover {
   box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
+  color: white;
+  background: rgb(245, 39, 111);
+  
 }
 
 #resetButton {
@@ -161,7 +176,8 @@ a {
 }
 
 .chartNavLinks:hover {
-  color: rgba(237, 237, 237, 0.9);
+  animation: onHoverNavItem 0.6s ;
+  color: $afterNavHover;
 }
 
 .chartButtons {
@@ -179,7 +195,7 @@ a {
 }
 
 .chartButtons:hover {
-  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
+  box-shadow: 0px 2px 5px 3px rgba(228, 228, 228, 0.2);
 }
 
 #treemapButton {
@@ -317,31 +333,33 @@ a {
 }
 
 #logoContainer {
-  height: 172px;
-  width: 172px;
-  border: solid 1px white;
+  height: 120px;
+  width: 120px;
+  border: solid 3px white;
+  margin: auto;
 }
 
 #welcomeCard {
   background-color: white;
-  border-radius: 4px 4px 0 0;
-  padding: 8px;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 24px;
-  width: 500px;
-  box-shadow: 8px 10px 15px #292929;
+  width: 90%;
+  box-shadow: $box-shadow;
 }
 
 #welcomeCardBottom {
   background-color: white;
-  padding: 8px;
-  padding-bottom: 20px;
+  padding: 20px;
+  margin: 20px 20px 20px 20px;
   // font-family: 'Lucida Sans', Arial, sans-serif;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
-  width: 500px;
-  border-radius: 0 0 4px 4px;
-  box-shadow: 8px 10px 15px #292929;
+  width: 90%;
+  border-radius: 4px;
+  box-shadow: $box-shadow;
 }
 
 .up {
