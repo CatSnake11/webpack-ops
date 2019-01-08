@@ -456,26 +456,36 @@ a {
   padding-top: 10px;
 }
 
-.chart rect:first-of-type {
-  color: #fff;
-  stroke: #3994b6;
-  fill: green;
+.progressChart rect:first-of-type {
+  color: #9c63ed;
+  stroke: #9c63ed;
+  fill: #9c63ed;
 }
 
-text:first-of-type {
-  fill: #3994b6;
-  font-family: sans-serif;
-  font-size: 12px;
-}
+// text:first-of-type {
+//   fill: #3994b6;
+//   font-family: sans-serif;
+//   font-size: 12px;
+// }
 
-.chart rect:nth-of-type(2) {
+.progressChart rect:nth-of-type(2) {
   color: #fff;
   stroke: transparent;
-  fill: #3994b6;
+  fill: #86e1c7;
 }
 
-text:nth-of-type(2) {
-  fill: #a8d4e4;
-  font-family: sans-serif;
-  font-size: 12px;
-}
+// text:nth-of-type(2) {
+//   fill: #3994b6;
+//   font-family: sans-serif;
+//   font-size: 12px;
+// }
+
+// .progressChart {
+//   width: 600px;
+//   height: 100px;
+// }
+
+// rect {
+//   width: 600px;
+//   height: 100px;
+// }

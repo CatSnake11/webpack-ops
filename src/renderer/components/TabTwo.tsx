@@ -36,14 +36,14 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
 
-    var chart = d3.select("#container").append("svg") // creating the svg object inside the container div
-      .attr("class", "chart")
-      .attr("width", 200) // bar has a fixed width
+    var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
+      .attr("class", "progressChart")
+      .attr("width", 600)
       .attr("height", 20 * data.length);
 
     var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
       .domain([0, d3.max(data)])
-      .range([0, 200]);
+      .range([0, 600]);
 
     chart.selectAll("rect") // this is what actually creates the bars
       .data(data)
@@ -122,7 +122,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
         </div>
         <div className="whiteCard">
-          <div id='container'>
+          <div id='progressChartContainer'>
 
           </div>
         </div>
