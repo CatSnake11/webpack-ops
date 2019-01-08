@@ -372,7 +372,7 @@ export default class Home extends React.Component<Props, StateType> {
     const y = d3.scaleSqrt().range([maxRadius * 0.1, maxRadius]);
 
     // sunlight style guide network colors
-    
+
     const dark = [
       '#B08B12',
       '#BA5F06',
@@ -476,7 +476,8 @@ export default class Home extends React.Component<Props, StateType> {
       // .style('width', '100vw')
       // .style('height', '100vh')
       .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
-      .on('click', () => focusOn()); // Reset zoom on canvas click
+      .on('click', () => focusOn()) // Reset zoom on canvas click
+      .attr('id', 'viewBox');
 
     const root = d3.hierarchy(jsonData);
     root.sum(d => d.value)
@@ -891,26 +892,49 @@ export default class Home extends React.Component<Props, StateType> {
 
         <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
           <div className="boxContainer">
-            <div className="chartStatsHeadingBox">{store.beforeTotalSize}kb</div>
-            <div className="chartStatsHeadingBox"></div>
-            <div className="chartStatsHeadingBox"></div>
-            <div className="chartStatsHeadingBox"></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Total Size</div>
+                <div>{store.beforeTotalSize}kb</div>
+              </div>
+            </div>
+            <div className='boxLine'></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Chunks</div>
+                <div>{store.chunks}</div>
+              </div>
+            </div>
+            <div className='boxLine'></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Modules</div>
+                <div>{store.modules}</div>
+              </div>
+            </div>
+            <div className='boxLine'></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Assets</div>
+                <div>{store.assets}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
           <div id="welcomeHeader" >Welcome to WebpackOps</div>
-          
+
           <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>
         </div>
         <div className={store.displayWelcomeCard ? 'whiteCard welcomeCardBottom' : 'displayOff'} >
           {!store.isPackageSelected && <div id="package-selector" className="">
-            <h4>Select your package.json</h4>
+            <div className='configMessageText'>Select your package.json</div>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
           </div>}
 
           {this.props.store.displayConfigSelection && !store.isPackageSelected
             && <div id="webpack-config-selector">
-              <h4>Select desired configuration</h4>
+              <div className='configMessageText'>Select desired configuration</div>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
                 <input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br />
                 <input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br />
@@ -963,7 +987,7 @@ export default class Home extends React.Component<Props, StateType> {
 
                 <div style={{ paddingTop: '10px' }} id="chartTreeMap">
                   <div className="chartSVGContainer">
-                  <svg width={this.state.width} height={this.state.height} id="treemap" />
+                    <svg width={this.state.width} height={this.state.height} id="treemap" />
                   </div>
                 </div>
               </div>

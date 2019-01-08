@@ -46,6 +46,10 @@ export type StoreType = {
 	displayWelcomeCard: boolean,
 	beforeTotalSize: number,
 	afterTotalSize: number,
+	totalSize: number,
+	chunks: number,
+	modules: number,
+	assets: number,
 };
 
 export default class Store {
@@ -120,6 +124,18 @@ export default class Store {
 
 	@observable
 	afterTotalSize = 999999;
+
+	@observable
+	totalSize = 1334337;
+
+	@observable
+	chunks = 1;
+
+	@observable
+	modules = 52;
+
+	@observable
+	assets = 3;
 
 	// ACTIONS //
 

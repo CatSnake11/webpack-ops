@@ -12,9 +12,17 @@ $box-shadow: 0px 7px 22px 2px darken($bg-color, 3%);
 $beforeNavHover: rgba(255, 255, 255, 0.4);
 $afterNavHover: rgba(237, 237, 237, 0.9);
 
+$beforeNavLinkHover: rgba(255, 255, 255, 0.6);
+$afterNavLinkHover: rgba(237, 237, 237, 1);
+
 @keyframes onHoverNavItem {
   0%   { color: $beforeNavHover; }
   100% { color: $afterNavHover; }
+}
+
+@keyframes onHoverNavLink {
+  0%   { color: $beforeNavLinkHover; }
+  100% { color: $afterNavLinkHover; }
 }
 
 @keyframes whiteCardFadeIn {
@@ -101,11 +109,13 @@ body {
   clear: right;
   align-items: center;
   padding-left: 10px;
-  color: rgba(255, 255, 255, 0.6)
+  color: $beforeNavLinkHover;
 }
 
 .Nav__link:hover {
-  color: rgba(255, 255, 255, 1)
+  // color: rgba(255, 255, 255, 1);
+  animation: onHoverNavLink 0.6s;
+  color: $afterNavLinkHover;
 }
 
 a {
@@ -124,22 +134,26 @@ a {
 .btn {
   transition: 0.3s;
   background-color:none;
-  background-color: "white";
+  background-color: white;
   border-radius: 4px;
   outline: none;
   border:none;
-  box-shadow: 0px 2px 15px 2px rgb(232, 232, 232);
-  color:rgb(245, 39, 111);
-  font-size: 16px;
+  // box-shadow: $box-shadow;
+  color:rgb(225, 102, 114);
+  // color: rgb(123, 242, 187);
+  // color: rgb(55, 70, 63);
+  font-size: 14px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
 }
 
 .btn:hover {
-  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
+  box-shadow: $box-shadow;
   color: white;
-  background: rgb(245, 39, 111);
-
+  background: rgb(247, 101, 116);
+  // background: rgb(225, 102, 114);
+  // background: none;
+  // border: 2px solid rgb(235, 178, 183);
 }
 
 #resetButton {
@@ -176,7 +190,7 @@ a {
 }
 
 .chartNavLinkSelected {
-  color: rgba(237, 237, 237, 0.9);
+  color: $afterNavHover;
 }
 
 .chartNavLinks:hover {
@@ -329,7 +343,7 @@ a {
 }
 
 .selected {
-  color: rgba(255, 255, 255, 0.9);
+  color: $afterNavLinkHover;
 }
 
 #logoContainer {
@@ -392,7 +406,11 @@ a {
 }
 
 #zoomContainer {
-  margin-top: 10px;
+  margin-top: 3px;
+}
+
+#viewBox {
+  margin-top: -20px;
 }
 
 .stats {
@@ -423,9 +441,13 @@ a {
 }
 
 .chartStatsHeadingBoxes {
-  width: 885px;
-  height: auto;
-  // border: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 845px;
+  height: 100px;
+  background: white;
+  margin-left: 20px;
 }
 
 .boxContainer {
@@ -436,13 +458,16 @@ a {
 }
 
 .chartStatsHeadingBox {
-  background: white;
-  width: 165px;
-  // height: 80%;
-  height: 165px;
-  box-shadow: $box-shadow;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 130px;
   border-radius: 3px;
-  // border: 1px solid black;
+}
+
+.boxLine {
+  border-right: 1px solid $bg-color;
+  height: 70px;
 }
 
 .chartSVGContainer {
@@ -495,3 +520,16 @@ a {
 //   width: 600px;
 //   height: 100px;
 // }
+
+.boxTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.configMessageText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding-bottom: 10px;
+}
