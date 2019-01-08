@@ -44,6 +44,8 @@ export type StoreType = {
 	isTreemapZoomSelected: boolean,
 	displayChartCard: boolean,
 	displayWelcomeCard: boolean,
+	beforeTotalSize: number,
+	afterTotalSize: number,
 };
 
 export default class Store {
@@ -112,6 +114,12 @@ export default class Store {
 
 	@observable
 	displayWelcomeCard = true;
+
+	@observable
+	beforeTotalSize = 1334337;
+
+	@observable
+	afterTotalSize = 999999;
 
 	// ACTIONS //
 

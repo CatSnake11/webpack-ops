@@ -13,8 +13,8 @@ type Props = {
 
 const initialState = {
   isPackageSelected: false,
-  width: 600,
-  height: 600,
+  width: 550,
+  height: 550,
   data: {
     "name": "A1",
     "children": [
@@ -166,8 +166,8 @@ export default class Home extends React.Component<Props, StateType> {
     sunburstLayout(root);
 
     const main = d3.select('.sunburst')
-      .attr("width", 600)
-      .attr("height", 600)
+      .attr("width", 550)
+      .attr("height", 550)
       .append("svg:g")
       .attr("id", "container")
       .attr("transform", "translate(" + this.state.width / 2 + "," + this.state.height / 2 + ")");
@@ -358,8 +358,8 @@ export default class Home extends React.Component<Props, StateType> {
 
 
   private drawZoom(jsonData: any) {
-    const width = 600,
-      height = 600,
+    const width = 550,
+      height = 550,
       maxRadius = (Math.min(width, height) / 2) - 5;
 
     const formatNumber = d3.format(',d');
@@ -372,7 +372,7 @@ export default class Home extends React.Component<Props, StateType> {
     const y = d3.scaleSqrt().range([maxRadius * 0.1, maxRadius]);
 
     // sunlight style guide network colors
-    // https://github.com/amycesal/dataviz-style-guide/blob/master/Sunlight-StyleGuide-DataViz.pdf
+    
     const dark = [
       '#B08B12',
       '#BA5F06',
@@ -759,7 +759,7 @@ export default class Home extends React.Component<Props, StateType> {
       )
 
     const treemap = d3.treemap()
-      .size([86, 70])
+      .size([100, 100])
       .paddingInner(0)
       .round(false) //true
 
@@ -888,10 +888,21 @@ export default class Home extends React.Component<Props, StateType> {
     const { store } = this.props;
     return (
       <div className="mainContainerHome">
-        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'welcomeCardOff'} >
-          Welcome to WebpackOps! Please load your <span style={{ color: 'blue' }}>package.json</span> file to begin optimizing your Webpack bundle
+
+        <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
+          <div className="boxContainer">
+            <div className="chartStatsHeadingBox">{store.beforeTotalSize}kb</div>
+            <div className="chartStatsHeadingBox"></div>
+            <div className="chartStatsHeadingBox"></div>
+            <div className="chartStatsHeadingBox"></div>
+          </div>
         </div>
-        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCardBottom' : 'welcomeCardOff'} >
+        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
+          <div id="welcomeHeader" >Welcome to WebpackOps</div>
+          
+          <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>
+        </div>
+        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCardBottom' : 'displayOff'} >
           {!store.isPackageSelected && <div id="package-selector" className="">
             <h4>Select your package.json</h4>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
@@ -930,7 +941,9 @@ export default class Home extends React.Component<Props, StateType> {
                       <span id="filesize"></span> <br />
                     </div>
                   </div>
-                  <svg width={this.state.width} height={this.state.height} className="sunburst" />
+                  <div className="chartSVGContainer">
+                    <svg width={this.state.width} height={this.state.height} className="sunburst" />
+                  </div>
                 </div>
 
               </div>
@@ -949,7 +962,9 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
 
                 <div style={{ paddingTop: '10px' }} id="chartTreeMap">
+                  <div className="chartSVGContainer">
                   <svg width={this.state.width} height={this.state.height} id="treemap" />
+                  </div>
                 </div>
               </div>
 
@@ -964,16 +979,16 @@ export default class Home extends React.Component<Props, StateType> {
                   </div>
                 </div>
                 <div id="sequenceTreeMapZoom"></div>
-                <div>
-                  <div className="up">&larr; UP</div>
-                  <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
-                    <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
+                <div className="chartSVGContainer">
+                  <div className='zoomTreemapColumnContainer'>
+                    <div className="up">&larr; UP</div>
+                    <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
+                      <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
+                    </div>
                   </div>
                 </div>
               </div>
-
               <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-
               </div>
 
             </div>

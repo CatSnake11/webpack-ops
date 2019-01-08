@@ -1,7 +1,7 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto');
 
 $m: 0; // margin
-
 
 $nav-color: rgb(49, 56, 63);
 $bg-color: rgb(242, 242, 242);
@@ -363,19 +363,26 @@ a {
   font-size: 14px;
 }
 
-.welcomeCardOff {
+.displayOff {
   display: none;
 }
 
 .up {
   background: white;
   width: 45px;
+  height: 18px;
   padding: 8px;
   margin-bottom: 8px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  border-radius: 4px 4px 4px 4px;
-  box-shadow: 8px 10px 15px #292929;
-  cursor: pointer
+  border-radius: 4px;
+  box-shadow: $box-shadow;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.zoomTreemapColumnContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 #zoomContainer {
@@ -409,3 +416,66 @@ a {
   padding: 10px;
 }
 
+.chartStatsHeadingBoxes {
+  width: 885px;
+  height: auto;
+  // border: 3px solid black;
+}
+
+.boxContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+.chartStatsHeadingBox {
+  background: white;
+  width: 165px;
+  // height: 80%;
+  height: 165px;
+  box-shadow: $box-shadow;
+  border-radius: 3px;
+  // border: 1px solid black;
+}
+
+.chartSVGContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#welcomeHeader {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+}
+
+#welcomeMessage {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding-top: 10px;
+}
+
+.chart rect:first-of-type {
+  color: #fff;
+  stroke: #3994b6;
+  fill: green;
+}
+
+text:first-of-type {
+  fill: #3994b6;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.chart rect:nth-of-type(2) {
+  color: #fff;
+  stroke: transparent;
+  fill: #3994b6;
+}
+
+text:nth-of-type(2) {
+  fill: #a8d4e4;
+  font-family: sans-serif;
+  font-size: 12px;
+}
