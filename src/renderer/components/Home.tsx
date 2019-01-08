@@ -302,7 +302,7 @@ export default class Home extends React.Component<Props, StateType> {
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "start")
-          .text(percentageString);
+          .text(percentageString)
 
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select("#trail")
