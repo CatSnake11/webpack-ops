@@ -1,11 +1,13 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav');
 
 $m: 0; // margin
 
 $nav-color: rgb(49, 56, 63);
 $bg-color: rgb(242, 242, 242);
 $body-bg-color: #f6f6f6;
+$text-black: #485563;
+$text-primary: #e16672;
 
 $box-shadow: 0px 7px 22px 2px darken($bg-color, 3%);
 
@@ -90,7 +92,7 @@ body {
   flex-direction: column;
   padding-left: 20px;
   align-content: center;
-  width: 174px;
+  width: 180px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -110,6 +112,7 @@ body {
   align-items: center;
   padding-left: 10px;
   color: $beforeNavLinkHover;
+  font-family: Raleway;
 }
 
 .Nav__link:hover {
@@ -183,6 +186,7 @@ a {
   cursor: pointer;
   font-size: 13px;
   padding-left: 40px;
+  font-family: "Raleway", sans-serif;
 }
 
 .chartNavOff {
@@ -428,6 +432,9 @@ a {
 .tabTwoHeading {
   font-size: 30px;
   margin-bottom: 10px;
+  color: darken($text-black, 2%);
+  font-family: 'Oswald', sans-serif;
+  padding-left: 8px;
 }
 
 .tabTwoCheckbox {
@@ -530,10 +537,48 @@ a {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: darken($text-black, 2%);
+  font-size: 22px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 530;
+}
+
+.textPrimaryColor {
+  color: lighten($text-primary, 3%);
+  font-size: 17px;
+  font-family: 'Oswald', sans-serif;
 }
 
 .configMessageText {
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   padding-bottom: 10px;
+}
+
+// Nobile|Exo+2|Yantramanav
+
+#filename {
+  color: $text-black;
+  font-family: 'Yantramanav', sans-serif;
+  font-size: 17px;
+}
+
+#percentage {
+  color: $text-black;
+  font-family: 'Yantramanav', sans-serif;
+  font-size: 17px;
+}
+
+#filesize {
+  color: $text-black;
+  font-family: 'Yantramanav', sans-serif;
+  font-size: 17px;
+}
+
+.displaySelectJsonOff {
+  display: none;
+}
+
+.configRadios {
+  padding-bottom: 8px;
 }

@@ -155,7 +155,7 @@ export default class Home extends React.Component<Props, StateType> {
       // Add the label at the end, for the percentage.
       trail.append("svg:text")
         .attr("id", "endlabel")
-        .style("fill", "#fff");   //controls the color of the percentage
+        .style("fill", "#44505d");   //controls the color of the percentage
     }
 
     initializeBreadcrumbTrail();
@@ -184,6 +184,7 @@ export default class Home extends React.Component<Props, StateType> {
     let color = function () {
       let ctr = 0;
       const hex = ['#8cc4d9', '#64b0cc', '#409dbf', '#337e99', '#265e73', '#193f4d']
+      // const hex = ['#cbedef', '#b6e7ed', '#9befee', '#d3e6e8', '#7df2ec', '#cdf2e4']
       return function () {
         if (ctr === hex.length - 1) {
           ctr = 0;
@@ -219,14 +220,14 @@ export default class Home extends React.Component<Props, StateType> {
       }
 
       d3.select("#percentage")
-        .text(percentageString);
+        .text('% of Total: ' + percentageString);
       //ADDED FILE NAME
       d3.select("#filename")
         .text(d.data.name)
 
       //ADDED FILE SIZE
       d3.select("#filesize")
-        .text('Size:' + d.value / 1000 + 'kb')
+        .text('Size: ' + d.value / 1000 + 'kb')
 
       d3.select("#explanation")
         .style("visibility", "");
@@ -266,7 +267,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         entering.append("svg:polygon")
           .attr("points", breadcrumbPoints)
-          .style("fill", function (d) { return '#409dbf'; })
+          .style("fill", function (d) { return '#f7aab2'; })
 
         entering.append("svg:text")
           .attr("x", (b.w + b.t) / 2)
@@ -307,7 +308,6 @@ export default class Home extends React.Component<Props, StateType> {
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select("#trail")
           .style("visibility", "");
-
       }
 
       // Generate a string that describes the points of a breadcrumb polygon.
@@ -861,7 +861,16 @@ export default class Home extends React.Component<Props, StateType> {
 
   getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping');
+    this.props.store.setIsPackageSelectedTrue();
     this.doSetIsLoadingTrue();
+  }
+
+  doSetDisplayConfigSelectionFalse = (): void => {
+    this.props.store.setDisplayConfigSelectionFalse();
+  }
+
+  doSetLoadStatsFalse = (): void => {
+    this.props.store.setLoadStatsFalse();
   }
 
   getWebpackConfig = (event: any): void => {
@@ -876,13 +885,12 @@ export default class Home extends React.Component<Props, StateType> {
       }
     }
     event.preventDefault();
-    this.props.store.setIsPackageSelectedTrue();
-
-
+    this.doSetDisplayConfigSelectionFalse();
   }
 
   getWebpackStats = (): void => {
     ipcRenderer.send('load-stats.json', 'ping');
+    this.doSetLoadStatsFalse();
   }
 
   render() {
@@ -895,58 +903,70 @@ export default class Home extends React.Component<Props, StateType> {
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Total Size</div>
-                <div>{store.beforeTotalSize}kb</div>
+                <div className="textPrimaryColor">{store.beforeTotalSize}kb</div>
               </div>
             </div>
             <div className='boxLine'></div>
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Chunks</div>
-                <div>{store.chunks}</div>
+                <div className="textPrimaryColor">{store.chunks}</div>
               </div>
             </div>
             <div className='boxLine'></div>
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Modules</div>
-                <div>{store.modules}</div>
+                <div className="textPrimaryColor">{store.modules}</div>
               </div>
             </div>
             <div className='boxLine'></div>
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Assets</div>
-                <div>{store.assets}</div>
+                <div className="textPrimaryColor">{store.assets}</div>
               </div>
             </div>
           </div>
         </div>
+
         <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
           <div id="welcomeHeader" >Welcome to WebpackOps</div>
 
           <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>
         </div>
-        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCardBottom' : 'displayOff'} >
+
+        {!store.isPackageSelected && <div className='whiteCard' >
+
           {!store.isPackageSelected && <div id="package-selector" className="">
+
             <div className='configMessageText'>Select your package.json</div>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
           </div>}
+        </div>}
 
-          {this.props.store.displayConfigSelection && !store.isPackageSelected
-            && <div id="webpack-config-selector">
+        {this.props.store.displayConfigSelection && store.isPackageSelected
+          &&
+          <div className="whiteCard">
+            <div id="webpack-config-selector">
               <div className='configMessageText'>Select desired configuration</div>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-                <input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br />
-                <input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br />
-                <input type="submit" value="Submit" />
+                <div className="configRadios"><input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br /></div>
+                <div className="configRadios"><input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br /></div>
+                <input className='btn package' type="submit" value="Select Config" />
               </form>
-            </div>}
+            </div>
+          </div>
+        }
 
-          {store.isPackageSelected && <div id="stats-file-selector" className="">
-            <h4>Load Webpack Stats</h4>
-            <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
-          </div>}
-        </div>
+        {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
+          <div className="whiteCard">
+            <div id="stats-file-selector" className="">
+              <h4>Load Webpack Stats</h4>
+              <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
+            </div>
+          </div>
+        }
 
         <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
           <div className="smallerMainContainer">
@@ -987,7 +1007,7 @@ export default class Home extends React.Component<Props, StateType> {
 
                 <div style={{ paddingTop: '10px' }} id="chartTreeMap">
                   <div className="chartSVGContainer">
-                    <svg width={this.state.width} height={this.state.height} id="treemap" />
+                    <svg width='650px' height={this.state.height} id="treemap" />
                   </div>
                 </div>
               </div>
@@ -1018,7 +1038,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     );
   }
 }

@@ -38,18 +38,22 @@ export type StoreType = {
 	setHomeSelected(): void,
 	setTabTwoSelected(): void,
 	setTabThreeSelected(): void,
+	setLoadStatsFalse(): void,
 	isSunburstSelected: boolean,
 	isSunburstZoomSelected: boolean,
 	isTreemapSelected: boolean,
 	isTreemapZoomSelected: boolean,
 	displayChartCard: boolean,
 	displayWelcomeCard: boolean,
+	displayWelcomeCardBottom: boolean,
 	beforeTotalSize: number,
 	afterTotalSize: number,
 	totalSize: number,
 	chunks: number,
 	modules: number,
 	assets: number,
+	displaySelectJson: boolean,
+	displayLoadStats: boolean,
 };
 
 export default class Store {
@@ -120,6 +124,9 @@ export default class Store {
 	displayWelcomeCard = true;
 
 	@observable
+	displayWelcomeCardBottom = true;
+
+	@observable
 	beforeTotalSize = 1334337;
 
 	@observable
@@ -136,6 +143,12 @@ export default class Store {
 
 	@observable
 	assets = 3;
+
+	@observable
+	displaySelectJson = false;
+
+	@observable
+	displayLoadStats = true;
 
 	// ACTIONS //
 
@@ -162,6 +175,7 @@ export default class Store {
 	@action.bound
 	setIsLoadingTrue() {
 		this.isLoading = true;
+		this.displaySelectJson = false;
 	}
 
 	@action.bound
@@ -188,7 +202,7 @@ export default class Store {
 
 		this.displayChartCard = true;
 		this.displayWelcomeCard = false;
-
+		this.displayWelcomeCardBottom = false;
 		this.isSunburstSelected = true;
 		this.isSunburstZoomSelected = false;
 		this.isTreemapSelected = false;
@@ -245,6 +259,11 @@ export default class Store {
 	@action.bound
 	setDisplayConfigSelectionFalse() {
 		this.displayConfigSelection = false;
+	}
+
+	@action.bound
+	setLoadStatsFalse() {
+		this.displayLoadStats = false;
 	}
 
 	@action.bound
