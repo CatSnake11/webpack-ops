@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
 import * as d3 from 'd3';
+import { FaCheck } from "react-icons/fa";
 
 import AwesomeComponent from './AwesomeComponent';
 
@@ -29,7 +30,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
       console.log("finished installation")
       console.log(arg)
-    })
+    });
 
     if (this.props.store.isOptimizationSelected) {
       this.drawProgressChart();
@@ -63,7 +64,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
       chart.selectAll("text") // adding the text labels to the bar
         .data(data)
         .enter().append("text")
-        // .attr('id', 'chartText')
         .attr("x", x)
         .attr("y", 10) // y position of the text inside bar
         .attr("dx", -10) // padding-right
@@ -81,17 +81,17 @@ export default class TabTwo extends React.Component<Props, StateType> {
       return accum;
     }, [])
     console.log(arrToInstall)
-    ipcRenderer.send('install-pluggins', arrToInstall)
+    ipcRenderer.send('install-pluggins', arrToInstall);
   }
 
   handleChangeCheckboxMini = (event: any): void => {
-    this.setState({ checkedMini: !this.state.checkedMini })
+    this.setState({ checkedMini: !this.state.checkedMini });
   }
   handleChangeCheckboxSplitChunks = (event: any): void => {
-    this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks })
+    this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks });
   }
   handleChangeCheckboxMoment = (event: any): void => {
-    this.setState({ checkedMoment: !this.state.checkedMoment })
+    this.setState({ checkedMoment: !this.state.checkedMoment });
   }
 
   doSelectOptimization = (): void => {
@@ -131,8 +131,15 @@ export default class TabTwo extends React.Component<Props, StateType> {
               </div>
             </div>
           </div>
-          <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
-          <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
+          {!store.isOptimizationSelected &&
+            <div>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
+            </div>}
+          {store.isOptimizationSelected &&
+            <div className="tabTwoCompleteText">
+              <FaCheck id="greenCheck" /> Optimization Complete
+            </div>}
         </div>
 
         {store.isOptimizationSelected && <div className="whiteCard">

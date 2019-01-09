@@ -1,7 +1,5 @@
 import { observable, action } from 'mobx'
 
-
-
 export type StoreType = {
 	name: string,
 	age: number,
@@ -282,7 +280,7 @@ export default class Store {
 
 	@action.bound
 	storeDataArray(data: string[][]) {
-		this.data_array = data
+		this.data_array = data;
 	}
 
 	@action.bound
@@ -311,5 +309,3 @@ export default class Store {
 		this.isTabTwoSelected = false;
 	}
 }
-
-

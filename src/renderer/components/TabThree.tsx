@@ -26,12 +26,12 @@ export default class TabThree extends React.Component<Props, StateType> {
 
   componentDidMount() {
     ipcRenderer.on('customRootDirectrySet', (event: any, customDirectory: string): void => {
-      this.setState({rootCustomDirectory:customDirectory})
+      this.setState({ rootCustomDirectory: customDirectory });
     })
 
     ipcRenderer.send('CustomAST', 'ping')
     ipcRenderer.on('transferCustomAST', (event: any, astCustomConfig: any): void => {
-      this.setState({AST: astCustomConfig})
+      this.setState({ AST: astCustomConfig });
       console.log(this.state.AST)
     })
 
@@ -39,20 +39,20 @@ export default class TabThree extends React.Component<Props, StateType> {
 
   handleChangeCheckboxReact = (event: any): void => {
     if (this.state.checkedReact === false) ipcRenderer.send('addReactToAST')
-    this.setState({checkedReact :!this.state.checkedReact})
+    this.setState({ checkedReact: !this.state.checkedReact });
   }
 
   handleChangeCheckboxCSS = (event: any): void => {
     if (this.state.checkedCSS === false) ipcRenderer.send('addCSSToAST')
-    this.setState({checkedCSS :!this.state.checkedReact})
+    this.setState({ checkedCSS: !this.state.checkedReact });
   }
 
   handleChangeCheckboxSass = (event: any): void => {
-    this.setState({checkedSass :!this.state.checkedReact})
+    this.setState({ checkedSass: !this.state.checkedReact });
   }
 
   selectCustomWebConfigRoot = (event: any): void => {
-    ipcRenderer.send('selectCustomWebConfig', 'ping')
+    ipcRenderer.send('selectCustomWebConfig', 'ping');
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
@@ -60,7 +60,7 @@ export default class TabThree extends React.Component<Props, StateType> {
   }
 
   render() {
-    const { store } = this.props
+    const { store } = this.props;
     return (
       <div className="mainContainerHome">
         <div>

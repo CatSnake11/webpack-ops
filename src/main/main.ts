@@ -27,13 +27,6 @@ let generate1 = async function generateStats() {
   return { stats }
 };
 
-
-/*
-installExtension(MOBX_DEVTOOLS)
-  .then((name: any) => console.log(`Added Extension: ${name}`))
-  .catch((err: any) => console.log(`An error occurred: `, err));
-*/
-
 let mainWindow: Electron.BrowserWindow;
 
 function createWindow() {
