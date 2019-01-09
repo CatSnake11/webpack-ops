@@ -1,7 +1,11 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react'
-import { StoreType } from '../store'
+import { observer, inject } from 'mobx-react';
+import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco, tomorrowNight } from 'react-syntax-highlighter/dist/styles/hljs';
+import { dark } from 'react-syntax-highlighter/dist/styles/prism';
+
 
 type Props = {
   store?: StoreType
@@ -12,6 +16,10 @@ const initialState = {
   checkedTypescript: false,
   checkedCSS: false,
   checkedSass: false,
+  checkedLess: false,
+  checkedStylus: false,
+  checkedSVG: false,
+  checkedPNG: false,
   rootCustomDirectory: '',
   AST: {},
 }
@@ -38,17 +46,53 @@ export default class TabThree extends React.Component<Props, StateType> {
   }
 
   handleChangeCheckboxReact = (event: any): void => {
-    if (this.state.checkedReact === false) ipcRenderer.send('addReactToAST')
+    if (this.state.checkedReact === false) ipcRenderer.send('addReactToAST');
+    else ipcRenderer.send('removeReactToAST');
+
     this.setState({checkedReact :!this.state.checkedReact})
   }
 
   handleChangeCheckboxCSS = (event: any): void => {
-    if (this.state.checkedCSS === false) ipcRenderer.send('addCSSToAST')
-    this.setState({checkedCSS :!this.state.checkedReact})
+    if (this.state.checkedCSS === false) ipcRenderer.send('addCSSToAST');
+    else ipcRenderer.send('removeCSSToAST');
+
+    this.setState({checkedCSS :!this.state.checkedCSS});
   }
 
   handleChangeCheckboxSass = (event: any): void => {
-    this.setState({checkedSass :!this.state.checkedReact})
+    if (this.state.checkedSass === false) ipcRenderer.send('addSassToAST');
+    else ipcRenderer.send('removeSassToAST');
+
+    this.setState({checkedSass :!this.state.checkedSass});
+  }
+
+  handleChangeCheckboxLess = (event: any): void => {
+    if (this.state.checkedLess === false) ipcRenderer.send('addLessToAST');
+    else ipcRenderer.send('removeLessToAST');
+
+    this.setState({checkedLess :!this.state.checkedLess});
+  }
+
+  handleChangeCheckboxStylus = (event: any): void => {
+    if (this.state.checkedStylus === false) ipcRenderer.send('addStylusToAST');
+    else ipcRenderer.send('removeStylusToAST');
+
+    this.setState({checkedStylus :!this.state.checkedStylus});
+  }
+
+  handleChangeCheckboxSVG = (event: any): void => {
+    console.log('infunction first')
+    if (this.state.checkedSVG === false) ipcRenderer.send('addSVGToAST');
+    else ipcRenderer.send('removeSVGToAST');
+
+    this.setState({checkedSVG :!this.state.checkedSVG});
+  }
+
+  handleChangeCheckboxPNG = (event: any): void => {
+    if (this.state.checkedPNG === false) ipcRenderer.send('addPNGToAST');
+    else ipcRenderer.send('removePNGToAST');
+
+    this.setState({checkedPNG :!this.state.checkedPNG});
   }
 
   selectCustomWebConfigRoot = (event: any): void => {
@@ -60,22 +104,34 @@ export default class TabThree extends React.Component<Props, StateType> {
   }
 
   render() {
+    const codeString = '(num) => num + 1';
     const { store } = this.props
     return (
       <div className="mainContainerHome">
         <div>
-          <div className="whiteCardTabThree">
+          <div className="whiteCard">
             <div>Select your root directory</div>
             <button onClick={this.selectCustomWebConfigRoot}>Select</button>
+          </div>
+          <div className="whiteCard">
             <div>Select your feature</div>
-            <div>Here's your {this.state.rootCustomDirectory}</div>
+            <div className="tabThreeSelectionCodeContainer">
+            <div className="tabThreeSelectionContainer">
             <input type="checkbox" value="React" onChange={this.handleChangeCheckboxReact} />React <br />
             <input type="checkbox" value="CSS" onChange={this.handleChangeCheckboxCSS} />CSS <br />
-            <input type="checkbox" value="React" onChange={this.handleChangeCheckboxSass} />Sass <br />
+            <input type="checkbox" value="Sass" onChange={this.handleChangeCheckboxSass} />Sass <br />
+            <input type="checkbox" value="Less" onChange={this.handleChangeCheckboxLess} />Less <br />
+            <input type="checkbox" value="stylus" onChange={this.handleChangeCheckboxStylus} />stylus <br />
+            <input type="checkbox" value="SVG" onChange={this.handleChangeCheckboxSVG} />SVG <br />
+            <input type="checkbox" value="PNG" onChange={this.handleChangeCheckboxPNG} />PNG <br />
+            </div>
+            <div className="tabThreeCodeContainer"></div>
+            <SyntaxHighlighter language='javascript' style={tomorrowNight} customStyle={{'borderRadius':'5px'}}>{codeString}</SyntaxHighlighter>
+            </div>
+            </div>
             <button onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>
           </div>
         </div>
-      </div>
     );
   }
 }
