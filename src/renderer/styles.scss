@@ -79,7 +79,6 @@ body {
   flex-direction: column;
   padding: 25px;
   box-shadow: 9px 0px 25px 2px darken($bg-color, 13%);
-  // box-shadow: $box-shadow;
 }
 
 .Nav__container {
@@ -604,4 +603,5 @@ text:nth-of-type(2) {
 .dataFont {
   font-family: 'Quantico', sans-serif;
   font-size: 16px;
+  
 }

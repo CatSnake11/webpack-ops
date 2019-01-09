@@ -912,7 +912,9 @@ export default class Home extends React.Component<Props, StateType> {
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Total Size</div>
-                <div className="textPrimaryColor">{store.beforeTotalSize}kb</div>
+                <div className="textPrimaryColor">
+                  {(store.beforeTotalSize / 1000000).toPrecision(3)} Mb
+                </div>
               </div>
             </div>
             <div className='boxLine'></div>
