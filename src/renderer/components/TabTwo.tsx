@@ -103,7 +103,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     return (
       <div className="mainContainer">
         <div className="whiteCard">
-          <div className="tabTwoHeading">Optimization Plugins</div>
+          <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
 
           <div className="checkboxContainer">
             <div className="checkBoxPadding">
