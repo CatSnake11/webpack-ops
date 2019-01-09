@@ -39,6 +39,7 @@ export type StoreType = {
 	setTabTwoSelected(): void,
 	setTabThreeSelected(): void,
 	setLoadStatsFalse(): void,
+	setWereChartsEverDrawn(): void,
 	isSunburstSelected: boolean,
 	isSunburstZoomSelected: boolean,
 	isTreemapSelected: boolean,
@@ -54,6 +55,8 @@ export type StoreType = {
 	assets: number,
 	displaySelectJson: boolean,
 	displayLoadStats: boolean,
+	isOptimizationSelected: boolean,
+	wereChartsEverDrawn: boolean,
 };
 
 export default class Store {
@@ -150,6 +153,12 @@ export default class Store {
 	@observable
 	displayLoadStats = true;
 
+	@observable
+	isOptimizationSelected = false;
+
+	@observable
+	wereChartsEverDrawn = false;
+
 	// ACTIONS //
 
 	@action.bound
@@ -191,6 +200,11 @@ export default class Store {
 	@action.bound
 	setChartNavClassOff() {
 		this.displayChartNav = false;
+	}
+
+	@action.bound
+	setWereChartsEverDrawn() {
+		this.wereChartsEverDrawn = true;
 	}
 
 	@action.bound
