@@ -14,6 +14,7 @@ const initialState = {
   checkedMini: false,
   checkedSplitChunks: false,
   checkedMoment: false,
+  value: "",
 }
 
 type StateType = Readonly<typeof initialState>
@@ -34,6 +35,13 @@ export default class TabTwo extends React.Component<Props, StateType> {
     if (this.props.store.isOptimizationSelected) {
       this.drawProgressChart();
     }
+
+    // Added for displaying webpack config
+    ipcRenderer.on('display-config', (event: any, data: any): void => {
+      console.log("display updated config")
+      this.setState({value: data});
+    })
+
   }
 
   drawProgressChart = (): void => {
@@ -84,14 +92,33 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.send('install-pluggins', arrToInstall)
   }
 
+  updateConfig = (event: any, data): void => {
+    this.setState({value: data});
+  }
+
+  saveConfig = () :void => {
+    this.installPluggins
+    let temp = this.state.value
+//    setTimeout(function(){ipcRenderer.send('save-config', temp)}, 600)
+    ipcRenderer.send('save-config', this.state.value)
+  }
+
   handleChangeCheckboxMini = (event: any): void => {
-    this.setState({ checkedMini: !this.state.checkedMini })
+    this.setState({checkedMini :!this.state.checkedMini})
+//    setTimeout(this.installPluggins, 100)
   }
   handleChangeCheckboxSplitChunks = (event: any): void => {
-    this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks })
+    this.setState({checkedSplitChunks :!this.state.checkedSplitChunks})
+//    setTimeout(this.installPluggins, 100)
   }
   handleChangeCheckboxMoment = (event: any): void => {
-    this.setState({ checkedMoment: !this.state.checkedMoment })
+    this.setState({checkedMoment :!this.state.checkedMoment})
+//    setTimeout(this.installPluggins, 100)
+  }
+
+  // Added for handling webpack config editing
+  handleConfigEdit = (event: any): void => {
+    this.setState({value: event.target.value});
   }
 
   doSelectOptimization = (): void => {
@@ -116,7 +143,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
             </div>
             <div className="checkBoxPadding">
               <div className="pretty p-default p-round p-smooth">
-                <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxSplitChunks} />
+                <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
                 <div className="state p-primary">
                   <label>Split Chunks</label> <br />
                 </div>
@@ -133,6 +160,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
           </div>
           <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
           <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
+
+          <div id="configbox">
+            <textarea value={this.state.value} onChange={this.handleConfigEdit} />
+          </div>
+
         </div>
 
         {store.isOptimizationSelected && <div className="whiteCard">

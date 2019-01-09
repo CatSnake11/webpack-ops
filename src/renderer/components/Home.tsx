@@ -149,10 +149,14 @@ export default class Home extends React.Component<Props, StateType> {
 
     sunburstLayout.size([2 * Math.PI, radius]);
     const arc: any = d3.arc()
-      .startAngle((d) => d.x0)
-      .endAngle((d) => d.x1)
-      .innerRadius((d) => d.y0 * 1.5)
-      .outerRadius((d) => d.y1 * 1.5)
+      // .startAngle((d) => d.x0)
+      // .endAngle((d) => d.x1)
+      // .innerRadius((d) => d.y0 * 1.5)
+      // .outerRadius((d) => d.y1 * 1.5)
+      .startAngle(function (d: any) { return d.x0 })
+      .endAngle(function (d: any) { return d.x1 })
+      .innerRadius(function (d: any) { return d.y0 * 1.5 })
+      .outerRadius(function (d: any) { return d.y1 * 1.5 })
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -432,10 +436,14 @@ export default class Home extends React.Component<Props, StateType> {
 
     const arc = d3
       .arc()
-      .startAngle(d => x(d.x0))
-      .endAngle(d => x(d.x1))
-      .innerRadius(d => y(Math.max(0, d.y0)))
-      .outerRadius(d => y(Math.max(0, d.y1)));
+      // .startAngle(d => x(d.x0))
+      // .endAngle(d => x(d.x1))
+      // .innerRadius(d => y(Math.max(0, d.y0)))
+      // .outerRadius(d => y(Math.max(0, d.y1)));
+      .startAngle(function (d: any) { return x(d.x0) })
+      .endAngle(function (d: any) { return x(d.x1) })
+      .innerRadius(function (d: any) { return y(Math.max(0, d.y0)) })
+      .outerRadius(function (d: any) { return y(Math.max(0, d.y1)) })
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
