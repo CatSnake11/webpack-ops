@@ -148,10 +148,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     sunburstLayout.size([2 * Math.PI, radius]);
     const arc: any = d3.arc()
-      .startAngle((d) => d.x0)
-      .endAngle((d) => d.x1)
-      .innerRadius((d) => d.y0 * 1.5)
-      .outerRadius((d) => d.y1 * 1.5);
+      .startAngle(function (d: any) { return d.x0 })
+      .endAngle(function (d: any) { return d.x1 })
+      .innerRadius(function (d: any) { return d.y0 * 1.5 })
+      .outerRadius(function (d: any) { return d.y1 * 1.5 });
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -429,10 +429,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     const arc = d3
       .arc()
-      .startAngle(d => x(d.x0))
-      .endAngle(d => x(d.x1))
-      .innerRadius(d => y(Math.max(0, d.y0)))
-      .outerRadius(d => y(Math.max(0, d.y1)));
+      .startAngle(function (d: any) { return x(d.x0) })
+      .endAngle(function (d: any) { return x(d.x1) })
+      .innerRadius(function (d: any) { return y(Math.max(0, d.y0)) })
+      .outerRadius(function (d: any) { return y(Math.max(0, d.y1)) });
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -499,20 +499,20 @@ export default class Home extends React.Component<Props, StateType> {
       .enter()
       .append('g')
       .attr('class', 'slice')
-      .on('click', d => {
+      .on('click', (d: any) => {
         d3.event.stopPropagation();
         focusOn(d);
       });
 
     newSlice
       .append('title')
-      .text(d => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
         ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
       .append('path')
       .attr('class', 'main-arc')
-      .style('fill', d => color((d.children ? d : d.parent).data.name))
+      .style('fill', (d: any) => color((d.children ? d : d.parent).data.name))
       .attr('d', arc);
 
     newSlice
@@ -529,7 +529,7 @@ export default class Home extends React.Component<Props, StateType> {
       .append('textPath')
       .attr('startOffset', '50%')
       .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-      .text(d => d.data.name);
+      .text((d: any) => d.data.name);
 
     function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
       // Reset to top-level if no data point specified
@@ -546,7 +546,7 @@ export default class Home extends React.Component<Props, StateType> {
           };
         });
 
-      transition.selectAll('path.main-arc').attrTween('d', d => () => arc(d));
+      transition.selectAll('path.main-arc').attrTween('d', (d: any) => () => arc(d));
 
       transition
         .selectAll('path.hidden-arc')
@@ -562,7 +562,7 @@ export default class Home extends React.Component<Props, StateType> {
         svg
           .selectAll('.slice')
           .filter(d => d === elD)
-          .each(function (d) {
+          .each(function (d: any) {
             this.parentNode.appendChild(this);
             if (d.parent) {
               moveStackToFront(d.parent);
@@ -756,12 +756,12 @@ export default class Home extends React.Component<Props, StateType> {
 
     const color = d3.scaleOrdinal()
       .range(d3.schemeDark2
-        .map(function (c) {
+        .map(function (c: any) {
           c = d3.rgb(c);
           //c.opacity = 0.5; 
           return c;
         })
-      )
+      );
 
     const treemap = d3.treemap()
       .size([100, 100])
@@ -815,13 +815,13 @@ export default class Home extends React.Component<Props, StateType> {
 
       cells
         .transition(t)
-        .style("left", function (d) { return x(d.x0) + "%"; })
-        .style("top", function (d) { return y(d.y0) + "%"; })
-        .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-        .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
+        .style("left", (d: any) => x(d.x0) + "%")
+        .style("top", (d: any) => y(d.y0) + "%")
+        .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
+        .style("height", (d: any) => y(d.y1) - y(d.y0) + "%");
 
       cells // hide this depth and above
-        .filter(function (d) { return d.ancestors(); })
+        .filter((d: any) => d.ancestors())
         .classed("hide", function (d) { return d.children ? true : false });
 
       cells // show this depth + 1 and below
@@ -831,7 +831,6 @@ export default class Home extends React.Component<Props, StateType> {
 
     treemap.tile(d3.treemapDice);
   }
-
 
   handleDrawChart = (arg): void => {
     this.drawChart(arg);
@@ -1044,7 +1043,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 }
