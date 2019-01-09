@@ -30,38 +30,47 @@ export default class TabTwo extends React.Component<Props, StateType> {
       console.log("finished installation")
       console.log(arg)
     })
+
+    if (this.props.store.isOptimizationSelected) {
+      this.drawProgressChart();
+    }
   }
 
   drawProgressChart = (): void => {
+    this.doSelectOptimization();
+    setTimeout(() => {
+      var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
 
-    var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
+      var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
+        .attr("class", "progressChart")
+        .attr("width", 700)
+        .attr("height", 20 * data.length);
 
-    var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
-      .attr("class", "progressChart")
-      .attr("width", 600)
-      .attr("height", 20 * data.length);
+      var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
+        .domain([0, d3.max(data)])
+        .range([0, 700]);
 
-    var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
-      .domain([0, d3.max(data)])
-      .range([0, 600]);
+      chart.selectAll("rect") // this is what actually creates the bars
+        .data(data)
+        .enter().append("rect")
+        .attr("width", x)
+        .attr("height", 35)
+        .attr("rx", 18) // rounded corners
+        .attr("ry", 18);
 
-    chart.selectAll("rect") // this is what actually creates the bars
-      .data(data)
-      .enter().append("rect")
-      .attr("width", x)
-      .attr("height", 20)
-      .attr("rx", 5) // rounded corners
-      .attr("ry", 5);
+      // const dataStr = data.map(num => num + 'mb');
 
-    chart.selectAll("text") // adding the text labels to the bar
-      .data(data)
-      .enter().append("text")
-      .attr("x", x)
-      .attr("y", 10) // y position of the text inside bar
-      .attr("dx", -3) // padding-right
-      .attr("dy", ".35em") // vertical-align: middle
-      .attr("text-anchor", "end") // text-align: right
-      .text(String);
+      chart.selectAll("text") // adding the text labels to the bar
+        .data(data)
+        .enter().append("text")
+        // .attr('id', 'chartText')
+        .attr("x", x)
+        .attr("y", 10) // y position of the text inside bar
+        .attr("dx", -10) // padding-right
+        .attr("dy", ".80em") // vertical-align: middle
+        .attr("text-anchor", "end") // text-align: right
+        .text(function (d) { return (d / 1000000).toPrecision(3) + ' Mb' });
+    }, 0);
   }
 
   installPluggins = (): void => {
@@ -83,6 +92,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
   handleChangeCheckboxMoment = (event: any): void => {
     this.setState({ checkedMoment: !this.state.checkedMoment })
+  }
+
+  doSelectOptimization = (): void => {
+    this.props.store.isOptimizationSelected = true;
   }
 
   render() {
@@ -121,11 +134,16 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
           <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
         </div>
-        <div className="whiteCard">
-          <div id='progressChartContainer'>
 
-          </div>
-        </div>
+        {store.isOptimizationSelected && <div className="whiteCard">
+          <div className="tabTwoHeading">View bundle optimization below:</div>
+          <div id='progressChartContainer'></div>
+          <div className="lineBreak"></div>
+          <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
+          <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
+          <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
+          <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>
+        </div>}
       </div>
     );
   }

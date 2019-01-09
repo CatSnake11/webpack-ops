@@ -116,6 +116,7 @@ export default class Home extends React.Component<Props, StateType> {
       this.drawTreemap(this.props.store.beforeRoot);
       this.drawTreemapZoom(this.props.store.beforeRoot);
       this.doSetDisplaySunburst();
+      this.props.store.setWereChartsEverDrawn();
     })
 
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
@@ -123,6 +124,14 @@ export default class Home extends React.Component<Props, StateType> {
       this.props.store.setDisplayConfigSelectionTrue();
       console.log(arg)
     })
+
+    if (this.props.store.wereChartsEverDrawn) {
+      this.drawChart(this.props.store.beforeRoot);
+      this.drawZoom(this.props.store.beforeRoot);
+      this.drawTreemap(this.props.store.beforeRoot);
+      this.drawTreemapZoom(this.props.store.beforeRoot);
+      this.doSetDisplaySunburst();
+    }
   }
 
   private drawChart(jsonData: any) {

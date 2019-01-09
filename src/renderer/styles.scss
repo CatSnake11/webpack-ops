@@ -1,5 +1,5 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav|Ubunto+Mono|Quantico');
 
 $m: 0; // margin
 
@@ -8,6 +8,8 @@ $bg-color: rgb(242, 242, 242);
 $body-bg-color: #f6f6f6;
 $text-black: #485563;
 $text-primary: #e16672;
+
+$body-font: 'Yantramanav', sans-serif;
 
 $box-shadow: 0px 7px 22px 2px darken($bg-color, 3%);
 
@@ -41,7 +43,7 @@ body {
   margin: 0;
   padding: 0;
   background: $body-bg-color;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: $body-font;
 }
 
 .app {
@@ -437,6 +439,14 @@ a {
   padding-left: 8px;
 }
 
+.tabTwoInfoText {
+  font-size: 18px;
+  margin: 10px 0;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 8px;
+}
+
 .tabTwoCheckbox {
   margin-right: 8px;
   // font-size: 85px;
@@ -499,28 +509,31 @@ a {
 }
 
 .progressChart rect:first-of-type {
-  color: #9c63ed;
-  stroke: #9c63ed;
-  fill: #9c63ed;
+  color: #79f58c;
+  stroke: #79f58c;
+  fill: #9cedaa;
 }
 
-// text:first-of-type {
-//   fill: #3994b6;
-//   font-family: sans-serif;
-//   font-size: 12px;
-// }
+text:first-of-type {
+  fill: #1f1f1f;
+  font-family: sans-serif;
+  font-size: 17px;
+  padding: 10px;
+}
 
 .progressChart rect:nth-of-type(2) {
   color: #fff;
-  stroke: transparent;
-  fill: #86e1c7;
+  stroke: #ededed;
+  stroke-width: 2px;
+  fill: #ededed;
 }
 
-// text:nth-of-type(2) {
-//   fill: #3994b6;
-//   font-family: sans-serif;
-//   font-size: 12px;
-// }
+text:nth-of-type(2) {
+  fill: #1f1f1f;
+  font-family: sans-serif;
+  font-size: 17px;
+  padding: 10px;
+}
 
 // .progressChart {
 //   width: 600px;
@@ -550,8 +563,8 @@ a {
 }
 
 .configMessageText {
-  font-family: 'Roboto', sans-serif;
-  font-size: 18px;
+  // font-family: 'Roboto', sans-serif;
+  font-size: 14px;
   padding-bottom: 10px;
 }
 
@@ -581,4 +594,14 @@ a {
 
 .configRadios {
   padding-bottom: 8px;
+}
+
+.lineBreak {
+  border-bottom: 2px solid $bg-color;
+  margin: 15px 0 25px 0;
+}
+
+.dataFont {
+  font-family: 'Quantico', sans-serif;
+  font-size: 16px;
 }
