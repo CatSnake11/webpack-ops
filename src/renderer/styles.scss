@@ -1,3 +1,4 @@
+
 $m: 0; // margin
 
 $nav-color: rgb(49, 56, 63);
@@ -11,6 +12,17 @@ $afterNavHover: rgba(237, 237, 237, 0.9);
 @keyframes onHoverNavItem {
   0%   { color: $beforeNavHover; }
   100% { color: $afterNavHover; }
+}
+
+.whiteCardTabThree {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 90%;
+  border-radius: 4px;
+  height: 200px;
+  box-shadow: $box-shadow;
 }
 
 html {
@@ -40,12 +52,12 @@ body {
 }
 
 .mainContainer {
-  padding: 20px 100px;
+  padding: 20px 20px;
   width: 900px;
 }
 
 .mainContainerHome {
-  padding: 20px 100px;
+  padding: 20px 20px;
   width: 900px;
   // float: left;
 }
