@@ -13,8 +13,8 @@ type Props = {
 
 const initialState = {
   isPackageSelected: false,
-  width: 600,
-  height: 600,
+  width: 550,
+  height: 550,
   data: {
     "name": "A1",
     "children": [
@@ -115,7 +115,8 @@ export default class Home extends React.Component<Props, StateType> {
       this.drawZoom(this.props.store.beforeRoot);
       this.drawTreemap(this.props.store.beforeRoot);
       this.drawTreemapZoom(this.props.store.beforeRoot);
-
+      this.doSetDisplaySunburst();
+      this.props.store.setWereChartsEverDrawn();
     })
 
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
@@ -123,6 +124,14 @@ export default class Home extends React.Component<Props, StateType> {
       this.props.store.setDisplayConfigSelectionTrue();
       console.log(arg)
     })
+
+    if (this.props.store.wereChartsEverDrawn) {
+      this.drawChart(this.props.store.beforeRoot);
+      this.drawZoom(this.props.store.beforeRoot);
+      this.drawTreemap(this.props.store.beforeRoot);
+      this.drawTreemapZoom(this.props.store.beforeRoot);
+      this.doSetDisplaySunburst();
+    }
   }
 
   private drawChart(jsonData: any) {
@@ -155,7 +164,7 @@ export default class Home extends React.Component<Props, StateType> {
       // Add the label at the end, for the percentage.
       trail.append("svg:text")
         .attr("id", "endlabel")
-        .style("fill", "#fff");   //controls the color of the percentage
+        .style("fill", "#44505d");   //controls the color of the percentage
     }
 
     initializeBreadcrumbTrail();
@@ -166,8 +175,8 @@ export default class Home extends React.Component<Props, StateType> {
     sunburstLayout(root);
 
     const main = d3.select('.sunburst')
-      .attr("width", 600)
-      .attr("height", 600)
+      .attr("width", 550)
+      .attr("height", 550)
       .append("svg:g")
       .attr("id", "container")
       .attr("transform", "translate(" + this.state.width / 2 + "," + this.state.height / 2 + ")");
@@ -184,6 +193,7 @@ export default class Home extends React.Component<Props, StateType> {
     let color = function () {
       let ctr = 0;
       const hex = ['#8cc4d9', '#64b0cc', '#409dbf', '#337e99', '#265e73', '#193f4d']
+      // const hex = ['#cbedef', '#b6e7ed', '#9befee', '#d3e6e8', '#7df2ec', '#cdf2e4']
       return function () {
         if (ctr === hex.length - 1) {
           ctr = 0;
@@ -219,14 +229,14 @@ export default class Home extends React.Component<Props, StateType> {
       }
 
       d3.select("#percentage")
-        .text(percentageString);
+        .text('% of Total: ' + percentageString);
       //ADDED FILE NAME
       d3.select("#filename")
         .text(d.data.name)
 
       //ADDED FILE SIZE
       d3.select("#filesize")
-        .text('Size:' + d.value / 1000 + 'kb')
+        .text('Size: ' + d.value / 1000 + 'kb')
 
       d3.select("#explanation")
         .style("visibility", "");
@@ -266,7 +276,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         entering.append("svg:polygon")
           .attr("points", breadcrumbPoints)
-          .style("fill", function (d) { return '#409dbf'; })
+          .style("fill", function (d) { return '#f7aab2'; })
 
         entering.append("svg:text")
           .attr("x", (b.w + b.t) / 2)
@@ -302,12 +312,11 @@ export default class Home extends React.Component<Props, StateType> {
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "start")
-          .text(percentageString);
+          .text(percentageString)
 
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select("#trail")
           .style("visibility", "");
-
       }
 
       // Generate a string that describes the points of a breadcrumb polygon.
@@ -358,8 +367,8 @@ export default class Home extends React.Component<Props, StateType> {
 
 
   private drawZoom(jsonData: any) {
-    const width = 600,
-      height = 600,
+    const width = 550,
+      height = 550,
       maxRadius = (Math.min(width, height) / 2) - 5;
 
     const formatNumber = d3.format(',d');
@@ -372,7 +381,7 @@ export default class Home extends React.Component<Props, StateType> {
     const y = d3.scaleSqrt().range([maxRadius * 0.1, maxRadius]);
 
     // sunlight style guide network colors
-    // https://github.com/amycesal/dataviz-style-guide/blob/master/Sunlight-StyleGuide-DataViz.pdf
+
     const dark = [
       '#B08B12',
       '#BA5F06',
@@ -476,7 +485,8 @@ export default class Home extends React.Component<Props, StateType> {
       // .style('width', '100vw')
       // .style('height', '100vh')
       .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
-      .on('click', () => focusOn()); // Reset zoom on canvas click
+      .on('click', () => focusOn()) // Reset zoom on canvas click
+      .attr('id', 'viewBox');
 
     const root = d3.hierarchy(jsonData);
     root.sum(d => d.value)
@@ -759,7 +769,7 @@ export default class Home extends React.Component<Props, StateType> {
       )
 
     const treemap = d3.treemap()
-      .size([86, 70])
+      .size([100, 100])
       .paddingInner(0)
       .round(false) //true
 
@@ -859,8 +869,17 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   getPackageJson = (): void => {
-    ipcRenderer.send('load-package.json', 'ping')
+    ipcRenderer.send('load-package.json', 'ping');
+    this.props.store.setIsPackageSelectedTrue();
     this.doSetIsLoadingTrue();
+  }
+
+  doSetDisplayConfigSelectionFalse = (): void => {
+    this.props.store.setDisplayConfigSelectionFalse();
+  }
+
+  doSetLoadStatsFalse = (): void => {
+    this.props.store.setLoadStatsFalse();
   }
 
   getWebpackConfig = (event: any): void => {
@@ -870,113 +889,165 @@ export default class Home extends React.Component<Props, StateType> {
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value)
+        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
         break;
       }
     }
     event.preventDefault();
-    this.props.store.setIsPackageSelectedTrue()
-
-
+    this.doSetDisplayConfigSelectionFalse();
   }
 
   getWebpackStats = (): void => {
-    ipcRenderer.send('load-stats.json', 'ping')
+    ipcRenderer.send('load-stats.json', 'ping');
+    this.doSetLoadStatsFalse();
   }
 
   render() {
-    const { store } = this.props
+    const { store } = this.props;
     return (
       <div className="mainContainerHome">
-        <div id="welcomeCard">
-          Welcome to WebpackOps! Please load your <span style={{ color: 'blue' }}>package.json</span> file to begin optimizing your Webpack bundle
-        </div>
-        <div id="welcomeCardBottom">
-          {!store.isPackageSelected && <div id="package-selector" className="">
-            <h4>Select your package.json</h4>
-            <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
-          </div>}
 
-          {this.props.store.displayConfigSelection && !store.isPackageSelected
-            && <div id="webpack-config-selector">
-              <h4>Select desired configuration</h4>
-              <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-                <input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br />
-                <input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br />
-                <input type="submit" value="Submit" />
-              </form>
-            </div>}
-
-          {store.isPackageSelected && <div id="stats-file-selector" className="">
-            <h4>Load Webpack Stats</h4>
-            <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
-          </div>}
-        </div>
-        <div className="smallerMainContainer">
-
-          <div id="graphsContainer">
-
-
-            <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              <div id="chart">
-                <div id="sequence"></div>
-                <div id="explanation">
-                  <span id="filename"></span><br />
-                  <span id="percentage"></span><br />
-
-                  <div>
-                    <span id="filesize"></span> <br />
-                  </div>
-                </div>
-                <svg width={this.state.width} height={this.state.height} className="sunburst" />
-              </div>
-
-            </div>
-
-            <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              <div id="sequenceTreeMap"></div>
-              <div id="explanationTree">
-                <div id="ancestors"></div>
-                <span id="treemapText"></span>
-                <span id="filenameTree"></span><br />
-                <span id="percentageTree"></span><br />
-
-                <div>
-                  <span id="filesizeTree"></span> <br />
-                </div>
-              </div>
-
-              <div style={{ paddingTop: '10px' }} id="chartTreeMap">
-                <svg width={this.state.width} height={this.state.height} id="treemap" />
+        <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
+          <div className="boxContainer">
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Total Size</div>
+                <div className="textPrimaryColor">{store.beforeTotalSize}kb</div>
               </div>
             </div>
-
-            <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              <div id="explanationTreeZoom">
-                <div id="ancestorsZoom"></div>
-                <span id="treemapTextZoom"></span>
-                <span id="filenameTreeZoom"></span><br />
-                <span id="percentageTreeZoom"></span><br />
-                <div>
-                  <span id="filesizeTreeZoom"></span> <br />
-                </div>
-              </div>
-              <div id="sequenceTreeMapZoom"></div>
-              <div>
-                <div className="up">&larr; UP</div>
-                <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
-                  <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
-                </div>
+            <div className='boxLine'></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Chunks</div>
+                <div className="textPrimaryColor">{store.chunks}</div>
               </div>
             </div>
-
-            <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-
+            <div className='boxLine'></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Modules</div>
+                <div className="textPrimaryColor">{store.modules}</div>
+              </div>
             </div>
-
+            <div className='boxLine'></div>
+            <div className="chartStatsHeadingBox">
+              <div className='boxTextContainer'>
+                <div>Assets</div>
+                <div className="textPrimaryColor">{store.assets}</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
+          <div id="welcomeHeader" >Welcome to WebpackOps</div>
+
+          <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>
+        </div>
+
+        {!store.isPackageSelected && <div className='whiteCard' >
+
+          {!store.isPackageSelected && <div id="package-selector" className="">
+
+            <div className='configMessageText'>Select your package.json</div>
+            <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
+          </div>}
+        </div>}
+
+        {this.props.store.displayConfigSelection && store.isPackageSelected
+          &&
+          <div className="whiteCard">
+            <div id="webpack-config-selector">
+              <div className='configMessageText'>Select desired configuration</div>
+              <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
+                <div className="configRadios"><input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br /></div>
+                <div className="configRadios"><input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br /></div>
+                <input className='btn package' type="submit" value="Select Config" />
+              </form>
+            </div>
+          </div>
+        }
+
+        {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
+          <div className="whiteCard">
+            <div id="stats-file-selector" className="">
+              <h4>Load Webpack Stats</h4>
+              <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
+            </div>
+          </div>
+        }
+
+        <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
+          <div className="smallerMainContainer">
+
+            <div id="graphsContainer">
+
+
+              <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
+                <div id="chart">
+                  <div id="sequence"></div>
+                  <div id="explanation">
+                    <span id="filename"></span><br />
+                    <span id="percentage"></span><br />
+
+                    <div>
+                      <span id="filesize"></span> <br />
+                    </div>
+                  </div>
+                  <div className="chartSVGContainer">
+                    <svg width={this.state.width} height={this.state.height} className="sunburst" />
+                  </div>
+                </div>
+
+              </div>
+
+              <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
+                <div id="sequenceTreeMap"></div>
+                <div id="explanationTree">
+                  <div id="ancestors"></div>
+                  <span id="treemapText"></span>
+                  <span id="filenameTree"></span><br />
+                  <span id="percentageTree"></span><br />
+
+                  <div>
+                    <span id="filesizeTree"></span> <br />
+                  </div>
+                </div>
+
+                <div style={{ paddingTop: '10px' }} id="chartTreeMap">
+                  <div className="chartSVGContainer">
+                    <svg width='650px' height={this.state.height} id="treemap" />
+                  </div>
+                </div>
+              </div>
+
+              <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+                <div id="explanationTreeZoom">
+                  <div id="ancestorsZoom"></div>
+                  <span id="treemapTextZoom"></span>
+                  <span id="filenameTreeZoom"></span><br />
+                  <span id="percentageTreeZoom"></span><br />
+                  <div>
+                    <span id="filesizeTreeZoom"></span> <br />
+                  </div>
+                </div>
+                <div id="sequenceTreeMapZoom"></div>
+                <div className="chartSVGContainer">
+                  <div className='zoomTreemapColumnContainer'>
+                    <div className="up">&larr; UP</div>
+                    <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
+                      <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div >
     );
   }
 }
