@@ -24,6 +24,16 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   100% { color: $afterNavHover; }
 }
 
+.whiteCardTabThree {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 90%;
+  border-radius: 4px;
+  height: 200px;
+  box-shadow: $box-shadow;
+}
 @keyframes onHoverNavLink {
   0%   { color: $beforeNavLinkHover; }
   100% { color: $afterNavLinkHover; }

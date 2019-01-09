@@ -90,6 +90,130 @@ app.on('activate', () => {
  * Event listeners from Renderer to Main
  *********************************************/
 
+ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
+  let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
+  mainWindow.webContents.send('customRootDirectrySet', customDirectory)
+})
+
+
+let customAST: any = {};
+let ReactAST: any = {};
+let CSSAST: any = {};
+let SassAST: any = {};
+
+ipcMain.on('CustomAST', (event: any, arg: any) => {
+  fs.readFile(__dirname + '/../src/src_custom_config/webpack.config.js', (err, data) => {
+    if (err) return console.log(err);
+    const astCustomConfig = acorn.parse(data.toString(), {
+      ecmaVersion: 6,
+      locations: true,
+      // onComment: comments,
+    });
+    customAST = astCustomConfig;
+    mainWindow.webContents.send('transferCustomAST', astCustomConfig)
+  });
+})
+
+ipcMain.on('addReactToAST', (event: any, arg: any) => {
+  fs.readFile(__dirname + '/../src/src_custom_config/React.config.js', (err, data) => {
+    if (err) return console.log(err);
+    ReactAST = acorn.parse(data.toString(), {
+      ecmaVersion: 6,
+      locations: true,
+      // onComment: comments,
+    });
+    console.log('react')
+    console.log('read' + JSON.stringify(ReactAST.body[0].expression.right.properties))
+    console.log('AST')
+    let customASTPropertyKey: string[] = []
+    let ReactASTPropertyKey: string[] = ["module", "resolve", "devServer"]
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+      customASTPropertyKey.push(el.key.name)
+
+    })
+    console.log(customASTPropertyKey);
+    //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+      if (ReactASTPropertyKey.indexOf(el.key.name) === -1) {
+        customAST.body[customAST.body.length - 1].expression.right.properties.push(el)
+      } else {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+
+              moduleEl.value.elements.push(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+              console.log(JSON.stringify(moduleEl.value.elements))
+
+            }
+          })
+        }
+      }
+    })
+    console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+    const formattedCode1 = generate(customAST, {
+      comments: true,
+    })
+    console.log(formattedCode1)
+  })
+})
+
+ipcMain.on('addCSSToAST', (event: any, arg: any) => {
+  console.log('hi')
+
+  fs.readFile(__dirname + '/../src/src_custom_config/CSS.config.js', (err, data) => {
+    if (err) return console.log(err);
+    console.log('hi')
+    CSSAST = acorn.parse(data.toString(), {
+      ecmaVersion: 6,
+      locations: true,
+      // onComment: comments,
+    });
+    console.log('CSS')
+    console.log('read' + JSON.stringify(CSSAST.body[0].expression.right.properties[0]))
+    console.log('AST')
+    let customASTPropertyKey: string[] = []
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+      customASTPropertyKey.push(el.key.name)
+
+    })
+    console.log(customASTPropertyKey);
+    //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+
+    if (customASTPropertyKey.indexOf(CSSAST.body[0].expression.right.properties[0].key.name) === -1) {
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(CSSAST.body[0].expression.right.properties[0])
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(CSSAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(CSSAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+
+    }
+
+    console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+    const formattedCode1 = generate(customAST, {
+      comments: true,
+    })
+    console.log(formattedCode1)
+  })
+})
+
+
 ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
