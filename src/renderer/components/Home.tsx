@@ -978,7 +978,6 @@ export default class Home extends React.Component<Props, StateType> {
 
             <div id="graphsContainer">
 
-
               <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
                 <div id="chart">
                   <div id="sequence"></div>
