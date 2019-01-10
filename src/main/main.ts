@@ -31,7 +31,7 @@ let mainWindow: Electron.BrowserWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 910,
+    height: 920,
     width: 1150,
   });
 
@@ -444,7 +444,7 @@ ipcMain.on('addLessToAST', (event: any, arg: any) => {
       let customASTModulePropertyKey: string[] = [];
       customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
         if (el.key.name === "module") {
-          let moduleArr = el.value.properties
+          let moduleArr = el.value.properties;
           moduleArr.forEach((moduleEl) => {
             if (moduleEl.key.name === "rules") {
               console.log('here')
