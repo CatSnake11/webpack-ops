@@ -16,7 +16,7 @@ const initialState = {
   checkedMini: false,
   checkedSplitChunks: false,
   checkedMoment: false,
-  value: "",
+  value: ""
 }
 
 type StateType = Readonly<typeof initialState>
@@ -126,75 +126,87 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   render() {
     const codeString = '(num) => num + 1';
-    const { store } = this.props
+    const { store } = this.props;
     return (
       <div className="mainContainer">
-        <div className="whiteCard">
+        {!store.isOptimizationSelected && <div className="whiteCard">
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
+          <div className="tabThreeSelectionCodeContainer">
+            <div className="checkboxContainer">
+              <div className="checkBoxPadding">
+                <div className="pretty p-default p-round p-smooth">
+                  <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
+                  <div className="state p-primary">
+                    <label>Lodash-es</label><br />
+                  </div>
+                </div>
+              </div>
+              <div className="checkBoxPadding">
+                <div className="pretty p-default p-round p-smooth">
+                  <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
+                  <div className="state p-primary">
+                    <label>Vendor Bundle SplitChunks</label> <br />
+                  </div>
+                </div>
+              </div>
+              <div className="checkBoxPadding">
+                <div className="pretty p-default p-round p-smooth">
+                  <input className="tabTwoCheckbox" type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />
+                  <div className="state p-primary">
+                    <label>Moment Locale Ignore</label> <br />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-          <div className="checkboxContainer">
-            <div className="checkBoxPadding">
-              <div className="pretty p-default p-round p-smooth">
-                <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
-                <div className="state p-primary">
-                  <label>Mini </label><br />
-                </div>
-              </div>
-            </div>
-            <div className="checkBoxPadding">
-              <div className="pretty p-default p-round p-smooth">
-                <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
-                <div className="state p-primary">
-                  <label>Split Chunks</label> <br />
-                </div>
-              </div>
-            </div>
-            <div className="checkBoxPadding">
-              <div className="pretty p-default p-round p-smooth">
-                <input className="tabTwoCheckbox" type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />
-                <div className="state p-primary">
-                  <label>Moment</label> <br />
-                </div>
-              </div>
-            </div>
             <div className="tabThreeCodeContainer">
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
-                'borderRadius':'5px', 
-                'padding':'15px', 
-                'width': '500px', 
-                'height' : '600px',
-                'background': 'white', 
+                'borderRadius': '5px',
+                'padding': '15px',
+                'width': '500px',
+                'height': '600px',
+                'background': 'white',
                 'opacity': '0.7'
-                }}>{this.state.value}</SyntaxHighlighter>           
-              </div>
+              }}>{this.state.value}</SyntaxHighlighter>
+            </div>
+
+            
           </div>
 
-
-          {!store.isOptimizationSelected &&
+          {
+            !store.isOptimizationSelected &&
             <div>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button>
               <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
-            </div>}
-          {store.isOptimizationSelected &&
-            <div className="tabTwoCompleteText">
-              <FaCheck id="greenCheck" /> Optimization Complete
-            </div>}
+            </div>
+          }
           <div id="configbox">
             {/* <textarea value={this.state.value} onChange={this.handleConfigEdit} /> */}
           </div>
+        </div >}
 
-        </div>
+        {
+          store.isOptimizationSelected &&
+          <div className="whiteCard">
+            <div className="tabTwo-ThreeHeading">
+              <FaCheck id="greenCheck" /> Optimization Complete
+            </div>
+          </div>
+        }
 
-        {store.isOptimizationSelected && <div className="whiteCard">
-          <div className="tabTwoHeading">View bundle optimization below:</div>
-          <div id='progressChartContainer'></div>
-          <div className="lineBreak"></div>
-          <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
-          <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
-          <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
-          <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>
-        </div>}
-      </div>
+
+        {
+          store.isOptimizationSelected && <div className="whiteCard">
+            <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
+            <div id='progressChartContainer'></div>
+            <div className="lineBreak"></div>
+            <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
+            <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
+            <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
+            <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>
+          </div>
+        }
+      </div >
     );
   }
 }
