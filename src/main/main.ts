@@ -112,7 +112,6 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
       // onComment: comments,
     });
     customAST = astCustomConfig;
-<<<<<<< HEAD
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
@@ -120,9 +119,6 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
     console.log(typeof formattedCode1)
 
     mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-=======
-    mainWindow.webContents.send('transferCustomAST', astCustomConfig)
->>>>>>> 7e357b7bf91688fab564177aaf3fa685d1acf9d6
   });
 })
 
@@ -383,12 +379,8 @@ ipcMain.on('addSassToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
-<<<<<<< HEAD
     mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
-=======
-  })
->>>>>>> 7e357b7bf91688fab564177aaf3fa685d1acf9d6
 })
 
 ipcMain.on('removeSassToAST', (event:any, arg: any) => {

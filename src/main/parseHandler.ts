@@ -225,12 +225,12 @@ const parseHandler: ParseHandler = {
     console.log("====================")
 
     // pretty up the formatted code
-    formattedCode = formattedCode
-    .replace("/[{/g", "}\n]")
-    .replace(/\nmodule.exports/,"\n\nmodule.exports")
-    .replace(/(\nconst.+new)/g, "\n$&")
+    //formattedCode = formattedCode
+    //.replace("/[{/g", "}\n]")
+    //.replace(/\nmodule.exports/,"\n\nmodule.exports")
+    //.replace(/(\nconst.+new)/g, "\n$&")
 
-    formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
+    //formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
 
     this.updatedConfig = formattedCode
 
