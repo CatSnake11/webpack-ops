@@ -126,20 +126,18 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   render() {
     const codeString = '(num) => num + 1';
-    const { store } = this.props
+    const { store } = this.props;
     return (
       <div className="mainContainer">
-        <div className="whiteCard">
+        {!store.isOptimizationSelected && <div className="whiteCard">
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
-
-
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
               <div className="checkBoxPadding">
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
                   <div className="state p-primary">
-                    <label>Mini </label><br />
+                    <label>Lodash-es</label><br />
                   </div>
                 </div>
               </div>
@@ -147,7 +145,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
                   <div className="state p-primary">
-                    <label>Split Chunks</label> <br />
+                    <label>Vendor Bundle SplitChunks</label> <br />
                   </div>
                 </div>
               </div>
@@ -155,12 +153,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />
                   <div className="state p-primary">
-                    <label>Moment</label> <br />
+                    <label>Moment Locale Ignore</label> <br />
                   </div>
                 </div>
               </div>
             </div>
-
 
             <div className="tabThreeCodeContainer">
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
@@ -174,8 +171,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
             </div>
           </div>
 
-
-
           {
             !store.isOptimizationSelected &&
             <div>
@@ -183,23 +178,24 @@ export default class TabTwo extends React.Component<Props, StateType> {
               <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
             </div>
           }
-
-          {
-            store.isOptimizationSelected &&
-            <div className="tabTwoCompleteText">
-              <FaCheck id="greenCheck" /> Optimization Complete
-            </div>
-          }
-
           <div id="configbox">
             {/* <textarea value={this.state.value} onChange={this.handleConfigEdit} /> */}
           </div>
+        </div >}
 
-        </div >
+        {
+          store.isOptimizationSelected &&
+          <div className="whiteCard">
+            <div className="tabTwo-ThreeHeading">
+              <FaCheck id="greenCheck" /> Optimization Complete
+            </div>
+          </div>
+        }
+
 
         {
           store.isOptimizationSelected && <div className="whiteCard">
-            <div className="tabTwoHeading">View bundle optimization below:</div>
+            <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
             <div id='progressChartContainer'></div>
             <div className="lineBreak"></div>
             <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
