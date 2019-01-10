@@ -110,26 +110,79 @@ export default class TabThree extends React.Component<Props, StateType> {
       <div className="mainContainerHome">
         <div>
           {!store.isRootSelected && <div className="whiteCard">
-            <div>Select your root directory</div>
-            <button onClick={this.selectCustomWebConfigRoot}>Select</button>
+            <div className="tabTwo-ThreeHeading">Select your root directory</div>
+            <button className="btn stats" onClick={this.selectCustomWebConfigRoot}>Select</button>
           </div>}
           {store.isRootSelected && <div className="whiteCard">
-            <div>Select your feature</div>
+            <div className="tabTwo-ThreeHeading" >Select your feature</div>
+
             <div className="tabThreeSelectionCodeContainer">
               <div className="tabThreeSelectionContainer">
-                <input type="checkbox" value="React" onChange={this.handleChangeCheckboxReact} />React <br />
-                <input type="checkbox" value="CSS" onChange={this.handleChangeCheckboxCSS} />CSS <br />
-                <input type="checkbox" value="Sass" onChange={this.handleChangeCheckboxSass} />Sass <br />
-                <input type="checkbox" value="Less" onChange={this.handleChangeCheckboxLess} />Less <br />
-                <input type="checkbox" value="stylus" onChange={this.handleChangeCheckboxStylus} />stylus <br />
-                <input type="checkbox" value="SVG" onChange={this.handleChangeCheckboxSVG} />SVG <br />
-                <input type="checkbox" value="PNG" onChange={this.handleChangeCheckboxPNG} />PNG <br />
+                <div className="checkboxContainer">
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="React" onChange={this.handleChangeCheckboxReact} />
+                      <div className="state p-primary">
+                        <label>React </label><br />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="CSS" onChange={this.handleChangeCheckboxCSS} />
+                      <div className="state p-primary">
+                        <label>CSS </label><br />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="Sass" onChange={this.handleChangeCheckboxSass} />
+                      <div className="state p-primary">
+                        <label>Sass </label><br />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="Less" onChange={this.handleChangeCheckboxLess} />
+                      <div className="state p-primary">
+                        <label>Less </label><br />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="stylus" onChange={this.handleChangeCheckboxStylus} />
+                      <div className="state p-primary">
+                        <label>Stylus </label><br />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="SVG" onChange={this.handleChangeCheckboxSVG} />
+                      <div className="state p-primary">
+                        <label>SVG </label><br />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="checkBoxPadding">
+                    <div className="pretty p-default p-round p-smooth">
+                      <input className="tabTwoCheckbox" type="checkbox" value="PNG" onChange={this.handleChangeCheckboxPNG} />
+                      <div className="state p-primary">
+                        <label>PNG </label><br />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="tabThreeCodeContainer"></div>
               <SyntaxHighlighter language='javascript' style={tomorrowNight} customStyle={{ 'borderRadius': '5px' }}>{codeString}</SyntaxHighlighter>
             </div>
+            {store.isRootSelected &&
+              <button className="btn stats" onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>}
           </div>}
-          <button onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>
         </div>
       </div>
     );
