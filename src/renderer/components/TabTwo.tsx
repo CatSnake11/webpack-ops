@@ -15,7 +15,7 @@ const initialState = {
   checkedMini: false,
   checkedSplitChunks: false,
   checkedMoment: false,
-  value: "",
+  value: ""
 }
 
 type StateType = Readonly<typeof initialState>
