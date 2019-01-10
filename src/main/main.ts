@@ -19,13 +19,55 @@ let now = moment().format('LLLL');
 console.log("This is a momentous time")
 console.log(now)
 
-const { promisify } = require('util');
-const exec = promisify(require('child_process').exec);
 
-let generate1 = async function generateStats() {
-  const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
-  return { stats }
-};
+
+//const { promisify } = require('util');
+//const exec = promisify(require('child_process').exec);
+
+// let generate1 = async function generateStats() {
+//   const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
+//   return { stats }
+// };
+
+/*
+import { exec } from 'child_process';
+
+async function runWebpack2(cmd) {
+  return new Promise(function (resolve, reject) {
+    exec(cmd, (err, stdout, stderr) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ stdout, stderr });
+      }
+    });
+  });
+}
+
+
+console.log("calling runWebpack")
+let aPromise = runWebpack2("cd c:/sandbox/simple_webpack_boilerplate &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
+.then((res)=>{
+  console.log("there was a response")
+  isStatsUpdated()
+  // go display webpack stats
+})
+.catch((err) => {
+  console.log("there was an error")
+  console.log(err)
+})
+
+function isStatsUpdated () {
+  console.log("isStatsUpdated?")
+  fs.readFile("c:/sandbox/simple_webpack_boilerplate/webpack-stats.tony.json", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log((data.toString()));
+  });
+}
+*/
 
 
 /*
@@ -299,6 +341,7 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
 
     setTimeout(() => {
       mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
+      parseHandler.saveConfig();
     }, 400);
   });
 
@@ -384,6 +427,12 @@ function readConfig(entry: number) {
   if (listOfConfigs[entry].includes("--config")) {
     config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0]
   }
+
+  // for future auto selection of stats
+  // let statsFile = "";
+  // if (listOfConfigs[entry].includes("--json")) {
+  //   statsFile = listOfConfigs[entry].split(">")[1].trimLeft().split(" ")[0]
+  // }
 
   console.log("loading webpack config", directory + "/" + config)
   fs.readFile(directory + "/" + config, (err, data) => {

@@ -4,6 +4,7 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 const prettier = require("prettier");
 import { any, string } from 'prop-types';
+import { exec } from 'child_process';
 
 interface ParseHandler {
   directory: string,
@@ -56,6 +57,8 @@ interface ParseHandler {
   addOptimizationSection: (ast: any) => void;
 
   addPluginsSection: (ast: any) => void;
+
+  loadStats2: () => void;
 
   // FIX
   //mergePluginSplitChunks: () => void;
@@ -162,7 +165,6 @@ const parseHandler: ParseHandler = {
     let moduleExports: any
 
     while (i >= 0) {
-      console.log("looping through looking for module.exports", i)
       let candidate = ast.body[i].expression
       if (
         candidate.left.object && candidate.left.object.name === "module" &&
@@ -209,16 +211,16 @@ const parseHandler: ParseHandler = {
   updateConfig: function () {
 
     // Use astring.generate to convert config ast back to a JavaScript file
-    console.log("   Showing entrypoints all")
-    console.log(entryPoints)
-    console.log("====================")
+    // console.log("   Showing entrypoints all")
+    // console.log(entryPoints)
+    // console.log("====================")
     let formattedCode = generate(entryPoints.all, {
       comments: true,
     })
 
 
-    console.log(formattedCode)
-    console.log("====================")
+    // console.log(formattedCode)
+    // console.log("====================")
 
     // pretty up the formatted code
     formattedCode = formattedCode
@@ -256,6 +258,46 @@ const parseHandler: ParseHandler = {
       console.log(this.directory + archiveName)
     });
 
+    this.loadStats2()
+
+  },
+
+  loadStats2: function () {
+
+    async function runWebpack2(cmd) {
+      return new Promise(function (resolve, reject) {
+        exec(cmd, (err, stdout, stderr) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ stdout, stderr });
+          }
+        });
+      });
+    }
+
+    console.log("calling runWebpack")
+    let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
+    .then((res)=>{
+      console.log("there was a response")
+      isStatsUpdated()
+      // go display webpack stats
+    })
+    .catch((err) => {
+      console.log("there was an error")
+      console.log(err)
+    })
+
+    function isStatsUpdated () {
+      console.log("isStatsUpdated?")
+      fs.readFile("c:/sandbox/simple_webpack_boilerplate/webpack-stats.tony.json", (err, data) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log((data.toString()));
+      });
+    }
   },
 
   loadPlugin: function (name) {
@@ -276,8 +318,8 @@ const parseHandler: ParseHandler = {
     fs.readFile(__dirname + '/../src/plugins/' + pluginFileName, (err, data) => {
       if (err) return console.log(err)
       this.parsePlugin(data.toString()) 
-      console.dir("^^^^^^^^^^^^^^^console.dir^^^^^^^")
-      console.dir(JSON.stringify (entryPoints.all, null, 2))
+      // console.dir("^^^^^^^^^^^^^^^console.dir^^^^^^^")
+      // console.dir(JSON.stringify (entryPoints.all, null, 2))
       return { entryPoints: pluginEntryPoints}
 
     });
