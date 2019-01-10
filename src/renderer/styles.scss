@@ -448,10 +448,24 @@ a {
   padding-left: 8px;
 }
 
-#greenCheck {
+.greenCheck {
   color: #9cedaa;
   font-size: 28px;
   margin-right: 2px;
+}
+
+#webpackConfigSaveText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 24px;
+  color: $text-black;
+}
+
+.tabThreeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
 }
 
 .tabTwoCompleteText {

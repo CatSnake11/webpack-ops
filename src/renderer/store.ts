@@ -57,6 +57,8 @@ export type StoreType = {
 	wereChartsEverDrawn: boolean,
 	isRootSelected: boolean,
 	isPreviewSelected: boolean,
+	customConfigSaved: boolean,
+	setCustomConfigSavedTrue(): void
 };
 
 export default class Store {
@@ -164,6 +166,9 @@ export default class Store {
 
 	@observable
 	isPreviewSelected = false;
+
+	@observable
+	customConfigSaved = false;
 
 	// ACTIONS //
 
@@ -315,5 +320,10 @@ export default class Store {
 		this.isTabThreeSelected = true;
 		this.isHomeSelected = false;
 		this.isTabTwoSelected = false;
+	}
+
+	@action.bound
+	setCustomConfigSavedTrue() {
+		this.customConfigSaved = true;
 	}
 }

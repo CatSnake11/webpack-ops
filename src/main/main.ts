@@ -81,6 +81,20 @@ app.on('activate', () => {
 /*********************************************
  * Event listeners from Renderer to Main
  *********************************************/
+ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) => {
+
+
+  fs.writeFile(rootDirectoryCustomConfig + '/webpack.config.js', formattedCode1ToSave, (err) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log("The new file has been succesfully saved as");
+
+  });
+})
+
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
@@ -99,6 +113,7 @@ let pngAST: any = {};
 let moduleExist: boolean = false;
 let numberOfRules: number = 0;
 let typescriptSelected: boolean = false;
+let formattedCode1ToSave = '';
 
 
 ipcMain.on('CustomAST', (event: any, arg: any) => {
@@ -115,6 +130,8 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
     })
     console.log(formattedCode1)
     console.log(typeof formattedCode1)
+    formattedCode1ToSave = formattedCode1
+
 
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   });
@@ -183,6 +200,7 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    formattedCode1ToSave = formattedCode1
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
@@ -231,6 +249,8 @@ ipcMain.on('removeReactToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 
@@ -287,6 +307,7 @@ ipcMain.on('addCSSToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -321,6 +342,7 @@ ipcMain.on('removeCSSToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 
@@ -376,6 +398,7 @@ ipcMain.on('addSassToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -407,6 +430,7 @@ ipcMain.on('removeSassToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -463,6 +487,7 @@ ipcMain.on('addLessToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -491,9 +516,12 @@ ipcMain.on('removeLessToAST', (event: any, arg: any) => {
       }
     }
   }
+
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -548,6 +576,8 @@ ipcMain.on('addStylusToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
+
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -577,6 +607,8 @@ ipcMain.on('removeStylusToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -632,6 +664,8 @@ ipcMain.on('addSVGToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    formattedCode1ToSave = formattedCode1
+
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
@@ -663,6 +697,8 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  formattedCode1ToSave = formattedCode1
+
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
@@ -717,6 +753,8 @@ ipcMain.on('addPNGToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    formattedCode1ToSave = formattedCode1
+
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
@@ -747,6 +785,8 @@ ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
