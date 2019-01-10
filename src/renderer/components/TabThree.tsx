@@ -37,19 +37,18 @@ export default class TabThree extends React.Component<Props, StateType> {
       this.setState({ rootCustomDirectory: customDirectory });
     })
 
-    ipcRenderer.send('CustomAST', 'ping')
+    ipcRenderer.send('CustomAST', 'ping');
     ipcRenderer.on('transferCustomAST', (event: any, astCustomConfig: any): void => {
       this.setState({ AST: astCustomConfig });
       console.log(this.state.AST)
     })
-
   }
 
   handleChangeCheckboxReact = (event: any): void => {
     if (this.state.checkedReact === false) ipcRenderer.send('addReactToAST');
     else ipcRenderer.send('removeReactToAST');
 
-    this.setState({ checkedReact: !this.state.checkedReact })
+    this.setState({ checkedReact: !this.state.checkedReact });
   }
 
   handleChangeCheckboxCSS = (event: any): void => {
@@ -105,7 +104,7 @@ export default class TabThree extends React.Component<Props, StateType> {
 
   render() {
     const codeString = '(num) => num + 1';
-    const { store } = this.props
+    const { store } = this.props;
     return (
       <div className="mainContainerHome">
         <div>

@@ -157,16 +157,17 @@ export default class TabTwo extends React.Component<Props, StateType> {
             </div>
           </div>
 
-
           {!store.isOptimizationSelected &&
             <div>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button>
               <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
             </div>}
+
           {store.isOptimizationSelected &&
             <div className="tabTwoCompleteText">
               <FaCheck id="greenCheck" /> Optimization Complete
             </div>}
+
           <div id="configbox">
             <textarea value={this.state.value} onChange={this.handleConfigEdit} />
           </div>
