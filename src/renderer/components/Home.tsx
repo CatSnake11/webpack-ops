@@ -3,7 +3,6 @@ import * as d3 from 'd3';
 import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
-import ChartButtons from './ChartButtons';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 
@@ -66,7 +65,7 @@ type StateType = Readonly<typeof initialState>
 @observer
 export default class Home extends React.Component<Props, StateType> {
   // may need "readonly"
-  state: StateType = initialState
+  state: StateType = initialState;
 
   componentDidMount() {
     ipcRenderer.on('display-stats-reply', (event: any, data: string[][]): void => {
@@ -149,14 +148,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     sunburstLayout.size([2 * Math.PI, radius]);
     const arc: any = d3.arc()
-      // .startAngle((d) => d.x0)
-      // .endAngle((d) => d.x1)
-      // .innerRadius((d) => d.y0 * 1.5)
-      // .outerRadius((d) => d.y1 * 1.5)
       .startAngle(function (d: any) { return d.x0 })
       .endAngle(function (d: any) { return d.x1 })
       .innerRadius(function (d: any) { return d.y0 * 1.5 })
-      .outerRadius(function (d: any) { return d.y1 * 1.5 })
+      .outerRadius(function (d: any) { return d.y1 * 1.5 });
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -203,12 +198,12 @@ export default class Home extends React.Component<Props, StateType> {
           ctr = 0;
           return hex[ctr]
         } else {
-          ctr++
-          return hex[ctr]
+          ctr++;
+          return hex[ctr];
         }
       }
     }
-    let loopColors = color()
+    let loopColors = color();
 
     let i = 0;
     const path = main.data([jsonData]).selectAll("path")
@@ -219,7 +214,7 @@ export default class Home extends React.Component<Props, StateType> {
       .attr("fill-rule", "evenodd")
       .style("fill", function (d) { return loopColors() })
       .style("opacity", 1)
-      .on("mouseover", mouseover)
+      .on("mouseover", mouseover);
 
     let totalSize = path.datum().value;
     console.log(totalSize)
@@ -236,11 +231,11 @@ export default class Home extends React.Component<Props, StateType> {
         .text('% of Total: ' + percentageString);
       //ADDED FILE NAME
       d3.select("#filename")
-        .text(d.data.name)
+        .text(d.data.name);
 
       //ADDED FILE SIZE
       d3.select("#filesize")
-        .text('Size: ' + d.value / 1000 + 'kb')
+        .text('Size: ' + d.value / 1000 + 'kb');
 
       d3.select("#explanation")
         .style("visibility", "");
@@ -280,7 +275,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         entering.append("svg:polygon")
           .attr("points", breadcrumbPoints)
-          .style("fill", function (d) { return '#f7aab2'; })
+          .style("fill", function (d) { return '#f7aab2'; });
 
         entering.append("svg:text")
           .attr("x", (b.w + b.t) / 2)
@@ -293,19 +288,19 @@ export default class Home extends React.Component<Props, StateType> {
         var nodeAryFlat = '';
 
         for (var i = 0; i < nodeArray.length; i++) {
-          nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name
+          nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name;
         }
 
         var nodeAryFlatLength = 0;
         var nodeAryFlatLengthPercentage = 0;
         for (var i = 1; i < nodeArray.length; i++) {
-          nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t
-          nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15
+          nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t;
+          nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15;
         }
 
         entering.attr("transform", function (d, i) {
           if (i === 0) {
-            return "translate(0, 0)"
+            return "translate(0, 0)";
           } else {
             return "translate(" + nodeAryFlatLength + ", 0)";   //POSITIONING OF WORDS
           }
@@ -316,7 +311,7 @@ export default class Home extends React.Component<Props, StateType> {
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "start")
-          .text(percentageString)
+          .text(percentageString);
 
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select("#trail")
@@ -359,8 +354,6 @@ export default class Home extends React.Component<Props, StateType> {
 
       d3.select("#explanation")
         .style("visibility", "hidden");
-
-      // _self.props.onHover(null);
     }
 
     d3.select("#container").on("mouseleave", mouseleave);
@@ -371,9 +364,9 @@ export default class Home extends React.Component<Props, StateType> {
 
 
   private drawZoom(jsonData: any) {
-    const width = 550,
-      height = 550,
-      maxRadius = (Math.min(width, height) / 2) - 5;
+    const width = 550;
+    const height = 550;
+    const maxRadius = (Math.min(width, height) / 2) - 5;
 
     const formatNumber = d3.format(',d');
 
@@ -436,14 +429,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     const arc = d3
       .arc()
-      // .startAngle(d => x(d.x0))
-      // .endAngle(d => x(d.x1))
-      // .innerRadius(d => y(Math.max(0, d.y0)))
-      // .outerRadius(d => y(Math.max(0, d.y1)));
       .startAngle(function (d: any) { return x(d.x0) })
       .endAngle(function (d: any) { return x(d.x1) })
       .innerRadius(function (d: any) { return y(Math.max(0, d.y0)) })
-      .outerRadius(function (d: any) { return y(Math.max(0, d.y1)) })
+      .outerRadius(function (d: any) { return y(Math.max(0, d.y1)) });
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -487,7 +476,6 @@ export default class Home extends React.Component<Props, StateType> {
     };
 
     const svg = d3
-      // .select('body')
       .select('#zoomContainer')
       .append('svg')
       // .style('width', '100vw')
@@ -511,20 +499,20 @@ export default class Home extends React.Component<Props, StateType> {
       .enter()
       .append('g')
       .attr('class', 'slice')
-      .on('click', d => {
+      .on('click', (d: any) => {
         d3.event.stopPropagation();
         focusOn(d);
       });
 
     newSlice
       .append('title')
-      .text(d => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
         ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
       .append('path')
       .attr('class', 'main-arc')
-      .style('fill', d => color((d.children ? d : d.parent).data.name))
+      .style('fill', (d: any) => color((d.children ? d : d.parent).data.name))
       .attr('d', arc);
 
     newSlice
@@ -541,7 +529,7 @@ export default class Home extends React.Component<Props, StateType> {
       .append('textPath')
       .attr('startOffset', '50%')
       .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-      .text(d => d.data.name);
+      .text((d: any) => d.data.name);
 
     function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
       // Reset to top-level if no data point specified
@@ -550,15 +538,15 @@ export default class Home extends React.Component<Props, StateType> {
         .transition()
         .duration(750)
         .tween('scale', () => {
-          const xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-            yd = d3.interpolate(y.domain(), [d.y0, 1]);
+          const xd = d3.interpolate(x.domain(), [d.x0, d.x1]);
+          const yd = d3.interpolate(y.domain(), [d.y0, 1]);
           return t => {
             x.domain(xd(t));
             y.domain(yd(t));
           };
         });
 
-      transition.selectAll('path.main-arc').attrTween('d', d => () => arc(d));
+      transition.selectAll('path.main-arc').attrTween('d', (d: any) => () => arc(d));
 
       transition
         .selectAll('path.hidden-arc')
@@ -574,7 +562,7 @@ export default class Home extends React.Component<Props, StateType> {
         svg
           .selectAll('.slice')
           .filter(d => d === elD)
-          .each(function (d) {
+          .each(function (d: any) {
             this.parentNode.appendChild(this);
             if (d.parent) {
               moveStackToFront(d.parent);
@@ -582,7 +570,6 @@ export default class Home extends React.Component<Props, StateType> {
           });
       }
     }
-
   }
 
 
@@ -599,7 +586,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([600, 450])
+      .size([600, 450]);
 
     root.sum(function (d: any) {
       return d.value;
@@ -639,31 +626,31 @@ export default class Home extends React.Component<Props, StateType> {
     let totalSize = nodes.datum().value;
     function mouseoutTreemap(d: any): void {
       d3.select(this)
-        .attr("fill", 'rgba(85, 183, 208, 0.2)')
+        .attr("fill", 'rgba(85, 183, 208, 0.2)');
     }
     function mouseoverTreemap(d: any): void {
-      let percentage: number = (100 * d.value / totalSize)
-      let percentageString: string = ""
+      let percentage: number = (100 * d.value / totalSize);
+      let percentageString: string = "";
       if (percentage < 0.1) {
         percentageString = "< 0.1%";
       } else percentageString = percentage.toPrecision(3) + '%';
       d3.select('#treemapText')
-        .text(d.data.name)
+        .text(d.data.name);
 
       d3.select('#percentageTree')
-        .text(percentageString)
+        .text(percentageString);
 
       d3.select('#filesizeTree')
-        .text(`Size: ${d.value / 1000} kb`)
+        .text(`Size: ${d.value / 1000} kb`);
 
       d3.select('#explanationTree')
         .style('visibility', '');
 
 
       d3.select(this)
-        .attr("fill", 'rgba(10, 0, 218, 0.2)')
+        .attr("fill", 'rgba(10, 0, 218, 0.2)');
 
-      const ancestorsArray = d.ancestors().reverse()
+      const ancestorsArray = d.ancestors().reverse();
       ancestorsArray.shift();
 
       let trickArray2 = ancestorsArray.slice(0);
@@ -708,19 +695,19 @@ export default class Home extends React.Component<Props, StateType> {
       var nodeAryFlat = '';
 
       for (var i = 0; i < nodeArray.length; i++) {
-        nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name
+        nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name;
       }
 
       var nodeAryFlatLength = 0;
       var nodeAryFlatLengthPercentage = 0;
       for (var i = 1; i < nodeArray.length; i++) {
-        nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t
-        nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15
+        nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t;
+        nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15;
       }
 
       entering.attr("transform", function (d, i) {
         if (i === 0) {
-          return "translate(0, 0)"
+          return "translate(0, 0)";
         } else {
           return "translate(" + nodeAryFlatLength + ", 0)";   //POSITIONING OF WORDS
         }
@@ -756,7 +743,7 @@ export default class Home extends React.Component<Props, StateType> {
       .append('rect')
       .attr('width', function (d: any) { return d.x1 - d.x0; })
       .attr('height', function (d: any) { return d.y1 - d.y0; })
-      .style('stroke', '#FFFFFF')
+      .style('stroke', '#FFFFFF');
 
     treemapLayout.tile(d3.treemapDice);
   }
@@ -764,32 +751,32 @@ export default class Home extends React.Component<Props, StateType> {
 
   private drawTreemapZoom(jsonData: any) {
 
-    const x = d3.scaleLinear().domain([0, 100]).range([0, 100])
-    const y = d3.scaleLinear().domain([0, 100]).range([0, 100])
+    const x = d3.scaleLinear().domain([0, 100]).range([0, 100]);
+    const y = d3.scaleLinear().domain([0, 100]).range([0, 100]);
 
     const color = d3.scaleOrdinal()
       .range(d3.schemeDark2
-        .map(function (c) {
+        .map(function (c: any) {
           c = d3.rgb(c);
           //c.opacity = 0.5; 
           return c;
         })
-      )
+      );
 
     const treemap = d3.treemap()
       .size([100, 100])
       .paddingInner(0)
-      .round(false) //true
+      .round(false); //true
 
     const nodes = d3.hierarchy(jsonData)
-      .sum(function (d) { return d.value ? 1 : 0; })
+      .sum(function (d) { return d.value ? 1 : 0; });
 
     let currentDepth;
 
     treemap(nodes);
 
-    var chart = d3.select("#chartTreeMapZoom");
-    var cells = chart
+    const chart = d3.select("#chartTreeMapZoom");
+    const cells = chart
       .selectAll(".nodeTZ")
       .data(nodes.descendants())
       .enter()
@@ -828,13 +815,13 @@ export default class Home extends React.Component<Props, StateType> {
 
       cells
         .transition(t)
-        .style("left", function (d) { return x(d.x0) + "%"; })
-        .style("top", function (d) { return y(d.y0) + "%"; })
-        .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-        .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
+        .style("left", (d: any) => x(d.x0) + "%")
+        .style("top", (d: any) => y(d.y0) + "%")
+        .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
+        .style("height", (d: any) => y(d.y1) - y(d.y0) + "%");
 
       cells // hide this depth and above
-        .filter(function (d) { return d.ancestors(); })
+        .filter((d: any) => d.ancestors())
         .classed("hide", function (d) { return d.children ? true : false });
 
       cells // show this depth + 1 and below
@@ -844,7 +831,6 @@ export default class Home extends React.Component<Props, StateType> {
 
     treemap.tile(d3.treemapDice);
   }
-
 
   handleDrawChart = (arg): void => {
     this.drawChart(arg);
@@ -892,7 +878,7 @@ export default class Home extends React.Component<Props, StateType> {
 
   getWebpackConfig = (event: any): void => {
     console.log("getWebpackConfig")   //getting this far
-    let radios = document.getElementsByName("config")// as HTMLInputElement
+    let radios = document.getElementsByName("config");// as HTMLInputElement
 
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
@@ -920,7 +906,9 @@ export default class Home extends React.Component<Props, StateType> {
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Total Size</div>
-                <div className="textPrimaryColor">{store.beforeTotalSize}kb</div>
+                <div className="textPrimaryColor">
+                  {(store.beforeTotalSize / 1000000).toPrecision(3)} Mb
+                </div>
               </div>
             </div>
             <div className='boxLine'></div>
@@ -990,7 +978,6 @@ export default class Home extends React.Component<Props, StateType> {
 
             <div id="graphsContainer">
 
-
               <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
                 <div id="chart">
                   <div id="sequence"></div>
@@ -1055,7 +1042,7 @@ export default class Home extends React.Component<Props, StateType> {
             </div>
           </div>
         </div>
-      </div >
+      </div>
     );
   }
 }

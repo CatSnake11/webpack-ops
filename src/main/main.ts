@@ -27,19 +27,12 @@ let generate1 = async function generateStats() {
   return { stats }
 };
 
-
-/*
-installExtension(MOBX_DEVTOOLS)
-  .then((name: any) => console.log(`Added Extension: ${name}`))
-  .catch((err: any) => console.log(`An error occurred: `, err));
-*/
-
 let mainWindow: Electron.BrowserWindow;
 
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 900,
+    height: 910,
     width: 1150,
   });
 
@@ -92,7 +85,7 @@ app.on('activate', () => {
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
-  mainWindow.webContents.send('customRootDirectrySet', customDirectory) 
+  mainWindow.webContents.send('customRootDirectrySet', customDirectory)
 })
 
 
@@ -119,6 +112,7 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
       // onComment: comments,
     });
     customAST = astCustomConfig;
+<<<<<<< HEAD
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
@@ -126,10 +120,13 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
     console.log(typeof formattedCode1)
 
     mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+=======
+    mainWindow.webContents.send('transferCustomAST', astCustomConfig)
+>>>>>>> 7e357b7bf91688fab564177aaf3fa685d1acf9d6
   });
 })
 
-ipcMain.on('addReactToAST', (event:any, arg: any) => {
+ipcMain.on('addReactToAST', (event: any, arg: any) => {
   fs.readFile(__dirname + '/../src/src_custom_config/React.config.js', (err, data) => {
     if (err) return console.log(err);
     ReactAST = acorn.parse(data.toString(), {
@@ -245,7 +242,7 @@ ipcMain.on('removeReactToAST', (event:any, arg: any) => {
   
 })
 
-ipcMain.on('addCSSToAST', (event:any, arg: any) => {
+ipcMain.on('addCSSToAST', (event: any, arg: any) => {
   console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/CSS.config.js', (err, data) => {
@@ -260,9 +257,9 @@ ipcMain.on('addCSSToAST', (event:any, arg: any) => {
     console.log('read' + JSON.stringify(CSSAST.body[0].expression.right.properties[0]))
     console.log('AST')
     let customASTPropertyKey: string[] = []
-    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
- 
+
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
@@ -386,8 +383,12 @@ ipcMain.on('addSassToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+<<<<<<< HEAD
     mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
+=======
+  })
+>>>>>>> 7e357b7bf91688fab564177aaf3fa685d1acf9d6
 })
 
 ipcMain.on('removeSassToAST', (event:any, arg: any) => {
