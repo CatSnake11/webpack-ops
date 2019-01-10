@@ -141,10 +141,10 @@ export default class Store {
 	chunks = 1;
 
 	@observable
-	modules = 52;
+	modules = 161;
 
 	@observable
-	assets = 3;
+	assets = 2;
 
 	@observable
 	displaySelectJson = false;

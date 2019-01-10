@@ -169,6 +169,8 @@ export default class TabTwo extends React.Component<Props, StateType> {
                 'opacity': '0.7'
               }}>{this.state.value}</SyntaxHighlighter>
             </div>
+
+            
           </div>
 
           {
