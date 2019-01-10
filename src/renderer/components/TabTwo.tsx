@@ -136,6 +136,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
       <div className="mainContainer">
         {!store.isOptimizationSelected && <div className="whiteCard">
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
+          <div className="descriptionText">Select from below plugins to optimize your bundle:</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
               <div className="checkBoxPadding">
@@ -174,14 +175,12 @@ export default class TabTwo extends React.Component<Props, StateType> {
                 'opacity': '0.7'
               }}>{this.state.value}</SyntaxHighlighter>
             </div>}
-
-
           </div>
 
           {
             !store.isOptimizationSelected &&
             <div>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview Config</button>
               <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
             </div>
           }

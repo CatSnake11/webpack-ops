@@ -626,3 +626,12 @@ pre {
   margin:0;
 }
 
+.descriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding: 10px 0;
+  margin: 4px 0;
+  color: darken($text-black, 12%);
+  padding-left: 8px;
+
+}

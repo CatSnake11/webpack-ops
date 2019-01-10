@@ -506,7 +506,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     newSlice
       .append('title')
-      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + ' bytes' + '\n' + 'Of Total Size: ' +
         ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
