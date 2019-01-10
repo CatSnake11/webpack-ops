@@ -1,7 +1,5 @@
 import { observable, action } from 'mobx'
 
-
-
 export type StoreType = {
 	name: string,
 	age: number,
@@ -57,6 +55,7 @@ export type StoreType = {
 	displayLoadStats: boolean,
 	isOptimizationSelected: boolean,
 	wereChartsEverDrawn: boolean,
+	isRootSelected: boolean,
 };
 
 export default class Store {
@@ -142,10 +141,10 @@ export default class Store {
 	chunks = 1;
 
 	@observable
-	modules = 52;
+	modules = 161;
 
 	@observable
-	assets = 3;
+	assets = 2;
 
 	@observable
 	displaySelectJson = false;
@@ -158,6 +157,9 @@ export default class Store {
 
 	@observable
 	wereChartsEverDrawn = false;
+
+	@observable
+	isRootSelected = false;
 
 	// ACTIONS //
 
@@ -282,7 +284,7 @@ export default class Store {
 
 	@action.bound
 	storeDataArray(data: string[][]) {
-		this.data_array = data
+		this.data_array = data;
 	}
 
 	@action.bound
@@ -311,5 +313,3 @@ export default class Store {
 		this.isTabTwoSelected = false;
 	}
 }
-
-

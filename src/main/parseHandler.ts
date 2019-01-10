@@ -146,7 +146,7 @@ const parseHandler: ParseHandler = {
       locations: true,
       onComment: comments,
     })
-
+    console.log(JSON.stringify(ast))
     // Attach comments to AST nodes
     astravel.attachComments(ast, comments)
 
@@ -159,11 +159,12 @@ const parseHandler: ParseHandler = {
 
     entryPoints.all = ast;
     entryPoints.body = ast.body;
-    
+    console.log(ast.body)
     let i = ast.body.length - 1 // checking for module.exports starting from the end. Should be the last node.
     let configs: any = []
     let moduleExports: any
-
+    
+    console.log(i)
     while (i >= 0) {
       let candidate = ast.body[i].expression
       if (
@@ -175,6 +176,9 @@ const parseHandler: ParseHandler = {
       }
       i--
     }
+    console.log('ken')
+    console.log('en')
+
 
     // If the last element is module.exports, which it should be, then check
     // if it's an Object we have found the config object. 
@@ -223,12 +227,12 @@ const parseHandler: ParseHandler = {
     // console.log("====================")
 
     // pretty up the formatted code
-    formattedCode = formattedCode
-    .replace("/[{/g", "}\n]")
-    .replace(/\nmodule.exports/,"\n\nmodule.exports")
-    .replace(/(\nconst.+new)/g, "\n$&")
+    //formattedCode = formattedCode
+    //.replace("/[{/g", "}\n]")
+    //.replace(/\nmodule.exports/,"\n\nmodule.exports")
+    //.replace(/(\nconst.+new)/g, "\n$&")
 
-    formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
+    //formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
 
     this.updatedConfig = formattedCode
 

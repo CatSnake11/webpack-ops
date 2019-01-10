@@ -24,6 +24,10 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   100% { color: $afterNavHover; }
 }
 
+.CodoBox {
+  width: 150px;
+}
+
 .whiteCardTabThree {
   background-color: white;
   padding: 20px;
@@ -31,7 +35,7 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   width: 90%;
   border-radius: 4px;
-  height: 200px;
+  height: 230px;
   box-shadow: $box-shadow;
 }
 @keyframes onHoverNavLink {
@@ -89,7 +93,6 @@ body {
   flex-direction: column;
   padding: 25px;
   box-shadow: 9px 0px 25px 2px darken($bg-color, 13%);
-  // box-shadow: $box-shadow;
 }
 
 .Nav__container {
@@ -128,7 +131,6 @@ body {
 }
 
 .Nav__link:hover {
-  // color: rgba(255, 255, 255, 1);
   animation: onHoverNavLink 0.6s;
   color: $afterNavLinkHover;
 }
@@ -153,10 +155,7 @@ a {
   border-radius: 4px;
   outline: none;
   border:none;
-  // box-shadow: $box-shadow;
   color:rgb(225, 102, 114);
-  // color: rgb(123, 242, 187);
-  // color: rgb(55, 70, 63);
   font-size: 14px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
@@ -166,9 +165,6 @@ a {
   box-shadow: $box-shadow;
   color: white;
   background: rgb(247, 101, 116);
-  // background: rgb(225, 102, 114);
-  // background: none;
-  // border: 2px solid rgb(235, 178, 183);
 }
 
 #resetButton {
@@ -176,7 +172,6 @@ a {
 }
 
 #buttonContainer {
-  // border: 1px solid black;
   display: inline-block;
   margin-top: 30px;
 }
@@ -289,13 +284,11 @@ a {
 	width: 700px;
 	height: 700px;
 	margin: $m * 1px;
-	//background: #aaa;
 	overflow: hidden;
 }
 .nodeTZ {
 	position: absolute;
 	background: transparent url('') no-repeat 50% / cover;
-	//border: 1px white solid;
 	overflow: hidden;
 	opacity: 0.8;
 	transition: opacity .8s;
@@ -304,7 +297,6 @@ a {
 		display: inline;
 		font-family: sans-serif;
 		color: hsla(0,0,100,.6);
-		//white-space: nowrap;
 		position: absolute;
 		padding: 0;
 		margin: 0;
@@ -321,8 +313,6 @@ a {
 		}
 	}
 	&:hover {
-		//background-color: #222 !important;
-		//opacity: 1;
 		.label {
 			color: hsla(0,0,100,1);
 		}
@@ -439,9 +429,10 @@ a {
 
 #tabTwoStatsButton {
   margin-bottom: 0px;
+  margin-right: 10px;
 }
 
-.tabTwoHeading {
+.tabTwo-ThreeHeading {
   font-size: 30px;
   margin-bottom: 10px;
   color: darken($text-black, 2%);
@@ -457,9 +448,23 @@ a {
   padding-left: 8px;
 }
 
+#greenCheck {
+  color: #9cedaa;
+  font-size: 26px;
+  margin-right: 2px;
+}
+
+.tabTwoCompleteText {
+  font-size: 22px;
+  margin: 10px 0;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 10px;
+  margin-top: 20px;
+}
+
 .tabTwoCheckbox {
   margin-right: 8px;
-  // font-size: 85px;
 }
 
 .checkboxContainer {
@@ -518,6 +523,13 @@ a {
   padding-top: 10px;
 }
 
+.selectMessageTabThree {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  padding: 10px 0;
+  color: darken($text-black, 2%);
+}
+
 .progressChart rect:first-of-type {
   color: #79f58c;
   stroke: #79f58c;
@@ -545,16 +557,6 @@ text:nth-of-type(2) {
   padding: 10px;
 }
 
-// .progressChart {
-//   width: 600px;
-//   height: 100px;
-// }
-
-// rect {
-//   width: 600px;
-//   height: 100px;
-// }
-
 .boxTextContainer {
   display: flex;
   flex-direction: column;
@@ -577,8 +579,6 @@ text:nth-of-type(2) {
   font-size: 14px;
   padding-bottom: 10px;
 }
-
-// Nobile|Exo+2|Yantramanav
 
 #filename {
   color: $text-black;
@@ -615,3 +615,14 @@ text:nth-of-type(2) {
   font-family: 'Quantico', sans-serif;
   font-size: 16px;
 }
+
+.tabThreeSelectionCodeContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+pre {
+  margin:0;
+}
+
