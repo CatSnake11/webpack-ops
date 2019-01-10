@@ -24,6 +24,10 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   100% { color: $afterNavHover; }
 }
 
+.CodoBox {
+  width: 150px;
+}
+
 .whiteCardTabThree {
   background-color: white;
   padding: 20px;
@@ -610,3 +614,14 @@ text:nth-of-type(2) {
   font-family: 'Quantico', sans-serif;
   font-size: 16px;
 }
+
+.tabThreeSelectionCodeContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+pre {
+  margin:0;
+}
+
