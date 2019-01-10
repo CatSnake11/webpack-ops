@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
 import * as d3 from 'd3';
+import { FaCheck } from "react-icons/fa";
 
 import AwesomeComponent from './AwesomeComponent';
 
@@ -30,7 +31,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
       console.log("finished installation")
       console.log(arg)
-    })
+    });
 
     if (this.props.store.isOptimizationSelected) {
       this.drawProgressChart();
@@ -39,7 +40,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
       console.log("display updated config")
-      this.setState({value: data});
+      this.setState({ value: data });
     })
 
   }
@@ -71,7 +72,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
       chart.selectAll("text") // adding the text labels to the bar
         .data(data)
         .enter().append("text")
-        // .attr('id', 'chartText')
         .attr("x", x)
         .attr("y", 10) // y position of the text inside bar
         .attr("dx", -10) // padding-right
@@ -89,36 +89,34 @@ export default class TabTwo extends React.Component<Props, StateType> {
       return accum;
     }, [])
     console.log(arrToInstall)
-    ipcRenderer.send('install-pluggins', arrToInstall)
+    ipcRenderer.send('install-pluggins', arrToInstall);
   }
 
   updateConfig = (event: any, data): void => {
-    this.setState({value: data});
+    this.setState({ value: data });
   }
 
-  saveConfig = () :void => {
+  saveConfig = (): void => {
     this.installPluggins
     let temp = this.state.value
-//    setTimeout(function(){ipcRenderer.send('save-config', temp)}, 600)
+    //    setTimeout(function(){ipcRenderer.send('save-config', temp)}, 600)
     ipcRenderer.send('save-config', this.state.value)
   }
 
   handleChangeCheckboxMini = (event: any): void => {
-    this.setState({checkedMini :!this.state.checkedMini})
-//    setTimeout(this.installPluggins, 100)
+    this.setState({ checkedMini: !this.state.checkedMini });
   }
   handleChangeCheckboxSplitChunks = (event: any): void => {
-    this.setState({checkedSplitChunks :!this.state.checkedSplitChunks})
-//    setTimeout(this.installPluggins, 100)
+    this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks });
   }
   handleChangeCheckboxMoment = (event: any): void => {
-    this.setState({checkedMoment :!this.state.checkedMoment})
-//    setTimeout(this.installPluggins, 100)
+    this.setState({ checkedMoment: !this.state.checkedMoment });
+    //    setTimeout(this.installPluggins, 100)
   }
 
   // Added for handling webpack config editing
   handleConfigEdit = (event: any): void => {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   }
 
   doSelectOptimization = (): void => {
@@ -130,7 +128,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     return (
       <div className="mainContainer">
         <div className="whiteCard">
-          <div className="tabTwoHeading">Optimization Plugins</div>
+          <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
 
           <div className="checkboxContainer">
             <div className="checkBoxPadding">
@@ -158,9 +156,17 @@ export default class TabTwo extends React.Component<Props, StateType> {
               </div>
             </div>
           </div>
-          <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
-          <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
 
+
+          {!store.isOptimizationSelected &&
+            <div>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Install</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
+            </div>}
+          {store.isOptimizationSelected &&
+            <div className="tabTwoCompleteText">
+              <FaCheck id="greenCheck" /> Optimization Complete
+            </div>}
           <div id="configbox">
             <textarea value={this.state.value} onChange={this.handleConfigEdit} />
           </div>

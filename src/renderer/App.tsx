@@ -78,7 +78,7 @@ class Nav extends React.Component<Props, {}> {
               </Link>
             </li>
 
-            <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
+            {store.displayChartCard && <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
               <li
                 className={store.isSunburstSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
                 onClick={this.doSetDisplaySunburst}
@@ -103,7 +103,8 @@ class Nav extends React.Component<Props, {}> {
               >
                 Zoomable Treemap
               </li>
-            </ul>
+            </ul>}
+
             <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabTwoSelected ? "Nav__link selected" : "Nav__link"}
