@@ -107,9 +107,9 @@ const parseHandler: ParseHandler = {
 
   plugins: [],
 
-  updatedConfig: "",
+  updatedConfig: "", // text of new webpack config file
 
-  originalConfig: "",
+  originalConfig: "", // original text of webpack config file
 
   setWorkingDirectory: function (directory: string) {
     this.directory = directory
@@ -139,7 +139,8 @@ const parseHandler: ParseHandler = {
 
   initEntryPoints: function (entry: string = parseHandler.originalConfig, writeFile: boolean = false){
     console.log("initializing EntryPoints. Resets config to original.")
-        // Parse it into an AST and retrieve the list of comments
+
+    // Parse it into an AST and retrieve the list of comments
     const comments: Array<string> = []
     var ast = acorn.parse(entry, {
       ecmaVersion: 6,
@@ -222,17 +223,16 @@ const parseHandler: ParseHandler = {
       comments: true,
     })
 
-
     // console.log(formattedCode)
     // console.log("====================")
 
     // pretty up the formatted code
-    //formattedCode = formattedCode
-    //.replace("/[{/g", "}\n]")
-    //.replace(/\nmodule.exports/,"\n\nmodule.exports")
-    //.replace(/(\nconst.+new)/g, "\n$&")
+    formattedCode = formattedCode
+    .replace("/[{/g", "}\n]")
+    .replace(/\nmodule.exports/,"\n\nmodule.exports")
+    .replace(/(\nconst.+new)/g, "\n$&")
 
-    //formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
+    formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
 
     this.updatedConfig = formattedCode
 
@@ -244,7 +244,7 @@ const parseHandler: ParseHandler = {
 
   saveConfig: function () {
     console.log("doing save config")
-    let archiveName: string = this.configFile.split(".js")[0] + ".123" + ".js"
+    let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js"
 
     fs.rename(this.directory + this.configFile, this.directory + archiveName, (err) => {
       if (err) throw err;
