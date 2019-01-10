@@ -4,7 +4,8 @@ import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
 import * as d3 from 'd3';
 import { FaCheck } from "react-icons/fa";
-
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import AwesomeComponent from './AwesomeComponent';
 
 type Props = {
@@ -124,6 +125,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   render() {
+    const codeString = '(num) => num + 1';
     const { store } = this.props
     return (
       <div className="mainContainer">
@@ -155,6 +157,16 @@ export default class TabTwo extends React.Component<Props, StateType> {
                 </div>
               </div>
             </div>
+            <div className="tabThreeCodeContainer">
+              <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
+                'borderRadius':'5px', 
+                'padding':'15px', 
+                'width': '500px', 
+                'height' : '600px',
+                'background': 'white', 
+                'opacity': '0.7'
+                }}>{this.state.value}</SyntaxHighlighter>           
+              </div>
           </div>
 
 
@@ -168,7 +180,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
               <FaCheck id="greenCheck" /> Optimization Complete
             </div>}
           <div id="configbox">
-            <textarea value={this.state.value} onChange={this.handleConfigEdit} />
+            {/* <textarea value={this.state.value} onChange={this.handleConfigEdit} /> */}
           </div>
 
         </div>

@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react';
 import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco, tomorrowNight } from 'react-syntax-highlighter/dist/styles/hljs';
+import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import { dark } from 'react-syntax-highlighter/dist/styles/prism';
 
 
@@ -21,6 +21,7 @@ const initialState = {
   checkedSVG: false,
   checkedPNG: false,
   rootCustomDirectory: '',
+  defaultFormattedCode: '',
   AST: {},
 }
 
@@ -37,10 +38,15 @@ export default class TabThree extends React.Component<Props, StateType> {
       this.setState({ rootCustomDirectory: customDirectory });
     })
 
+
+
     ipcRenderer.send('CustomAST', 'ping')
-    ipcRenderer.on('transferCustomAST', (event: any, astCustomConfig: any): void => {
-      this.setState({ AST: astCustomConfig });
-      console.log(this.state.AST)
+    ipcRenderer.on('transferCustomAST', (event: any, formattedCode1: string): void => {
+      console.log(formattedCode1)
+      console.log('hi')
+      console.log(typeof formattedCode1)
+      this.setState({defaultFormattedCode: formattedCode1})
+      //console.log(this.state.AST)
     })
 
   }
@@ -178,8 +184,14 @@ export default class TabThree extends React.Component<Props, StateType> {
                 </div>
               </div>
               <div className="tabThreeCodeContainer"></div>
-              <SyntaxHighlighter language='javascript' style={tomorrowNight} customStyle={{ 'borderRadius': '5px' }}>{codeString}</SyntaxHighlighter>
-            </div>
+              <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
+                'borderRadius':'5px', 
+                'padding':'15px', 
+                'width': '500px', 
+                'background': 'white', 
+                'opacity': '0.7'
+                }}>{this.state.defaultFormattedCode}</SyntaxHighlighter>           
+              </div>
             {store.isRootSelected &&
               <button className="btn stats" onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>}
           </div>}

@@ -101,6 +101,8 @@ let moduleExist: boolean = false;
 let numberOfRules: number = 0;
 let typescriptSelected: boolean = false;
 
+
+
 ipcMain.on('CustomAST', (event: any, arg: any) => {
   fs.readFile(__dirname + '/../src/src_custom_config/webpack.config.js', (err, data) => {
     if (err) return console.log(err);
@@ -110,7 +112,13 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
       // onComment: comments,
     });
     customAST = astCustomConfig;
-    mainWindow.webContents.send('transferCustomAST', astCustomConfig)
+    const formattedCode1 = generate(customAST, {
+      comments: true,
+    })
+    console.log(formattedCode1)
+    console.log(typeof formattedCode1)
+
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
   });
 })
 
@@ -177,6 +185,7 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
   })
 })
 
@@ -225,6 +234,7 @@ ipcMain.on('removeReactToAST', (event:any, arg: any) => {
         comments: true,
       })
       console.log(formattedCode1)
+      mainWindow.webContents.send('transferCustomAST', formattedCode1) 
   
 })
 
@@ -280,6 +290,7 @@ ipcMain.on('addCSSToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 })
 
@@ -313,6 +324,7 @@ ipcMain.on('removeCSSToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 
 })
 
@@ -367,7 +379,8 @@ ipcMain.on('addSassToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
-  })
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+})
 })
 
 ipcMain.on('removeSassToAST', (event:any, arg: any) => {
@@ -397,6 +410,7 @@ ipcMain.on('removeSassToAST', (event:any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 
 
@@ -452,6 +466,7 @@ ipcMain.on('addLessToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 })
 
@@ -482,6 +497,7 @@ ipcMain.on('removeLessToAST', (event:any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 
 ipcMain.on('addStylusToAST', (event:any, arg: any) => {
@@ -535,6 +551,7 @@ ipcMain.on('addStylusToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 })
 
@@ -551,9 +568,7 @@ ipcMain.on('removeStylusToAST', (event:any, arg: any) => {
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('more than 1')
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
-      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".styl")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
         customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
@@ -565,6 +580,7 @@ ipcMain.on('removeStylusToAST', (event:any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 
 ipcMain.on('addSVGToAST', (event:any, arg: any) => {
@@ -618,6 +634,7 @@ ipcMain.on('addSVGToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 })
 
@@ -648,6 +665,7 @@ ipcMain.on('removeSVGToAST', (event:any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 
 ipcMain.on('addPNGToAST', (event:any, arg: any) => {
@@ -701,6 +719,7 @@ ipcMain.on('addPNGToAST', (event:any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 })
 
@@ -731,6 +750,7 @@ ipcMain.on('removePNGToAST', (event:any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
 })
 
 ipcMain.on('load-package.json', (event: any, arg: any) => {
