@@ -91,6 +91,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, [])
     console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
+    this.doSetPreviewSelected();
   }
 
   updateConfig = (event: any, data): void => {
@@ -122,6 +123,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   doSelectOptimization = (): void => {
     this.props.store.isOptimizationSelected = true;
+  }
+
+  doSetPreviewSelected = (): void => {
+    this.props.store.isPreviewSelected = true;
   }
 
   render() {
@@ -159,7 +164,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
               </div>
             </div>
 
-            <div className="tabThreeCodeContainer">
+            {store.isPreviewSelected && <div className="tabThreeCodeContainer">
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
                 'borderRadius': '5px',
                 'padding': '15px',
@@ -168,9 +173,9 @@ export default class TabTwo extends React.Component<Props, StateType> {
                 'background': 'white',
                 'opacity': '0.7'
               }}>{this.state.value}</SyntaxHighlighter>
-            </div>
+            </div>}
 
-            
+
           </div>
 
           {

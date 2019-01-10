@@ -56,6 +56,7 @@ export type StoreType = {
 	isOptimizationSelected: boolean,
 	wereChartsEverDrawn: boolean,
 	isRootSelected: boolean,
+	isPreviewSelected: boolean,
 };
 
 export default class Store {
@@ -160,6 +161,9 @@ export default class Store {
 
 	@observable
 	isRootSelected = false;
+
+	@observable
+	isPreviewSelected = false;
 
 	// ACTIONS //
 
