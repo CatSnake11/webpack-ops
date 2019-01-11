@@ -123,7 +123,8 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   doSelectOptimization = (): void => {
     //for demo///
-    setTimeout(() => { this.props.store.isOptimizationSelected = true; }, 2500)
+    // setTimeout(() => { this.props.store.isOptimizationSelected = true; }, 2500)
+    this.props.store.isOptimizationSelected = true;
     //       ///
   }
 
