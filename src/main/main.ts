@@ -799,6 +799,8 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
 
   selectPackageJson()
+
+  console.log("now what happens")
 })
 
 ipcMain.on('read-config', (event: any, configNumber: any) => {
@@ -902,16 +904,16 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  **/
 
 function selectPackageJson() {
-  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
-  if (file != undefined) {
-    loadPackage(file)
-  }
+  let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
+  if (file === undefined) return false;
+  loadPackage(file[0]) // response is either undefined or an array of files, even if multiSelections isn't included
 }
 
 let directory = ""
 
 function loadPackage(file: string) {
   console.log("loadPackage")
+  mainWindow.webContents.send('show-config-selection', true);
   //  let lastSlash = file.match(//g)
 
   if (file.includes("/")) {

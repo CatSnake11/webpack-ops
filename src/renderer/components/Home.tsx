@@ -14,6 +14,7 @@ const initialState = {
   isPackageSelected: false,
   width: 550,
   height: 550,
+  listOfConfigs: [],
   data: {
     "name": "A1",
     "children": [
@@ -118,8 +119,17 @@ export default class Home extends React.Component<Props, StateType> {
       this.props.store.setWereChartsEverDrawn();
     })
 
+    
+    ipcRenderer.on('show-config-selection', (event: any, arg: any): void => {
+      console.log("display config selection")
+      this.props.store.setIsPackageSelectedTrue();
+      this.doSetIsLoadingTrue();
+    })
+
+
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
       console.log("list of configs - pick one")
+      this.props.store.setListOfConfigs(arg)
       this.props.store.setDisplayConfigSelectionTrue();
       console.log(arg)
     })
@@ -864,8 +874,8 @@ export default class Home extends React.Component<Props, StateType> {
 
   getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping');
-    this.props.store.setIsPackageSelectedTrue();
-    this.doSetIsLoadingTrue();
+    //this.props.store.setIsPackageSelectedTrue();
+    //this.doSetIsLoadingTrue();
   }
 
   doSetDisplayConfigSelectionFalse = (): void => {
@@ -883,7 +893,8 @@ export default class Home extends React.Component<Props, StateType> {
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        // ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        ipcRenderer.send('read-config', i);
         break;
       }
     }
@@ -956,8 +967,9 @@ export default class Home extends React.Component<Props, StateType> {
             <div id="webpack-config-selector">
               <div className='configMessageText'>Select desired configuration</div>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-                <div className="configRadios"><input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br /></div>
-                <div className="configRadios"><input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br /></div>
+                {this.props.store.listOfConfigs.map(function(config, index){
+                  return <div className='configRadios'><input type="radio" name="config" value={index} /><div style={{ display: 'inline-block' }}>{config}</div><br /></div>;
+                })}
                 <input className='btn package' type="submit" value="Select Config" />
               </form>
             </div>

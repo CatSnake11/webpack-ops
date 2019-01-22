@@ -25,9 +25,11 @@ export type StoreType = {
 	setDisplaySunburstZoom(): void,
 	setDisplayTreemap(): void,
 	setDisplayTreemapZoom(): void,
-	displayConfigSelection: boolean,
+  displayConfigSelection: boolean,
+  listOfConfigs: Array<string>,
 	setDisplayConfigSelectionTrue(): void,
-	setDisplayConfigSelectionFalse(): void,
+  setDisplayConfigSelectionFalse(): void,
+  setListOfConfigs(Array): void,
 	data_array: string[][],
 	storeDataArray(data: string[][]): void,
 	beforeRoot: any,
@@ -84,7 +86,10 @@ export default class Store {
 	displayTreemapZoom = false;
 
 	@observable
-	displayConfigSelection = false;
+  displayConfigSelection = false;
+  
+  @observable
+  listOfConfigs = [];
 
 	@observable
 	data_array = [['']];
@@ -275,8 +280,13 @@ export default class Store {
 	@action.bound
 	setDisplayConfigSelectionFalse() {
 		this.displayConfigSelection = false;
-	}
-
+  }
+  
+	@action.bound
+	setListOfConfigs(listOfConfigs) {
+		this.listOfConfigs = listOfConfigs;
+  }
+  
 	@action.bound
 	setLoadStatsFalse() {
 		this.displayLoadStats = false;
