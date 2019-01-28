@@ -9,10 +9,19 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 import { any } from 'prop-types';
 import parseHandler from './parseHandler';
+// import { observe } from 'mobx';
+import Store from '../renderer/store';
+// import * as store from '../renderer/store';
 
+//isPackageSelected 1015
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
+
+// type Props = {
+//   store?: StoreType
+// }
+
 
 let now = moment().format('LLLL');
 console.log("This is a momentous time")
@@ -99,8 +108,7 @@ ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) =
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
   mainWindow.webContents.send('customRootDirectrySet', customDirectory)
-})
-
+});
 
 let customAST: any = {};
 let ReactAST: any = {};
@@ -795,8 +803,13 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
-
-  selectPackageJson()
+  // const selected = selectPackageJson();
+  // console.log('selected: ', selected);
+  // if (selected === 'err') {
+  //   console.log('this is error')
+  //   return '';
+  // }
+  selectPackageJson();
 })
 
 ipcMain.on('read-config', (event: any, configNumber: any) => {
@@ -898,11 +911,24 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  * Loading parsing of webpack config file
  **/
 
+// function selectPackageJson() {
+//   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0] || 'error';  // 'openDirectory', 'multiSelections'
+//   if (file !== 'error') {
+//     loadPackage(file);
+//   } else {
+//     return file;
+//   }
+//   // if (file === undefined) return;
+// }
+
 function selectPackageJson() {
-  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
-  if (file != undefined) {
-    loadPackage(file)
-  }
+  console.log("what is a dialog really?")
+  let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
+  if (file === undefined) return false;
+  // console.log("what is a file really?")
+  // console.log(file)
+  // console.log(file[0])
+  loadPackage(file[0]);
 }
 
 let directory = ""
@@ -1001,6 +1027,14 @@ function selectStatsJson() {
     loadStats(file)
   }
 }
+
+// fix cancel errors
+process.on('uncaughtException', function (error) {
+  // Handle the error
+  let err = error;
+  return err;
+  // console.log(error);
+});
 
 function loadStats(file: string) {
   fs.readFile(file, (err, data) => {
