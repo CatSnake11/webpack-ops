@@ -142,14 +142,14 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <div className="descriptionText">Select from below plugins to optimize your bundle:</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
-              <div className="checkBoxPadding">
+              {/* <div className="checkBoxPadding">
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
                   <div className="state p-primary">
                     <label>Lodash-es</label><br />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="checkBoxPadding">
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
