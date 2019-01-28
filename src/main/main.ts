@@ -9,10 +9,19 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 import { any } from 'prop-types';
 import parseHandler from './parseHandler';
+// import { observe } from 'mobx';
+import Store from '../renderer/store';
+// import * as store from '../renderer/store';
 
+//isPackageSelected 1015
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
+
+// type Props = {
+//   store?: StoreType
+// }
+
 
 let now = moment().format('LLLL');
 console.log("This is a momentous time")
@@ -31,7 +40,7 @@ let mainWindow: Electron.BrowserWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 910,
+    height: 920,
     width: 1150,
   });
 
@@ -45,7 +54,7 @@ function createWindow() {
   );
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -81,12 +90,25 @@ app.on('activate', () => {
 /*********************************************
  * Event listeners from Renderer to Main
  *********************************************/
+ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) => {
+
+
+  fs.writeFile(rootDirectoryCustomConfig + '/webpack.config.js', formattedCode1ToSave, (err) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log("The new file has been succesfully saved as");
+
+  });
+})
+
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
   mainWindow.webContents.send('customRootDirectrySet', customDirectory)
-})
-
+});
 
 let customAST: any = {};
 let ReactAST: any = {};
@@ -99,6 +121,7 @@ let pngAST: any = {};
 let moduleExist: boolean = false;
 let numberOfRules: number = 0;
 let typescriptSelected: boolean = false;
+let formattedCode1ToSave = '';
 
 
 ipcMain.on('CustomAST', (event: any, arg: any) => {
@@ -115,6 +138,8 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
     })
     console.log(formattedCode1)
     console.log(typeof formattedCode1)
+    formattedCode1ToSave = formattedCode1
+
 
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   });
@@ -183,6 +208,7 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    formattedCode1ToSave = formattedCode1
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
@@ -231,6 +257,8 @@ ipcMain.on('removeReactToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 
@@ -287,6 +315,7 @@ ipcMain.on('addCSSToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -321,6 +350,7 @@ ipcMain.on('removeCSSToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 
@@ -376,6 +406,7 @@ ipcMain.on('addSassToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -407,6 +438,7 @@ ipcMain.on('removeSassToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -444,7 +476,7 @@ ipcMain.on('addLessToAST', (event: any, arg: any) => {
       let customASTModulePropertyKey: string[] = [];
       customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
         if (el.key.name === "module") {
-          let moduleArr = el.value.properties
+          let moduleArr = el.value.properties;
           moduleArr.forEach((moduleEl) => {
             if (moduleEl.key.name === "rules") {
               console.log('here')
@@ -463,6 +495,7 @@ ipcMain.on('addLessToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -491,9 +524,12 @@ ipcMain.on('removeLessToAST', (event: any, arg: any) => {
       }
     }
   }
+
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -548,6 +584,8 @@ ipcMain.on('addStylusToAST', (event: any, arg: any) => {
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
+
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
@@ -577,6 +615,8 @@ ipcMain.on('removeStylusToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -632,6 +672,8 @@ ipcMain.on('addSVGToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    formattedCode1ToSave = formattedCode1
+
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
@@ -663,6 +705,8 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
+  formattedCode1ToSave = formattedCode1
+
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
@@ -717,6 +761,8 @@ ipcMain.on('addPNGToAST', (event: any, arg: any) => {
       comments: true,
     })
     console.log(formattedCode1)
+    formattedCode1ToSave = formattedCode1
+
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
@@ -747,6 +793,8 @@ ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
@@ -755,8 +803,13 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
-
-  selectPackageJson()
+  // const selected = selectPackageJson();
+  // console.log('selected: ', selected);
+  // if (selected === 'err') {
+  //   console.log('this is error')
+  //   return '';
+  // }
+  selectPackageJson();
 })
 
 ipcMain.on('read-config', (event: any, configNumber: any) => {
@@ -858,11 +911,24 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  * Loading parsing of webpack config file
  **/
 
+// function selectPackageJson() {
+//   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0] || 'error';  // 'openDirectory', 'multiSelections'
+//   if (file !== 'error') {
+//     loadPackage(file);
+//   } else {
+//     return file;
+//   }
+//   // if (file === undefined) return;
+// }
+
 function selectPackageJson() {
-  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
-  if (file != undefined) {
-    loadPackage(file)
-  }
+  console.log("what is a dialog really?")
+  let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
+  if (file === undefined) return false;
+  // console.log("what is a file really?")
+  // console.log(file)
+  // console.log(file[0])
+  loadPackage(file[0]);
 }
 
 let directory = ""
@@ -961,6 +1027,14 @@ function selectStatsJson() {
     loadStats(file)
   }
 }
+
+// fix cancel errors
+process.on('uncaughtException', function (error) {
+  // Handle the error
+  let err = error;
+  return err;
+  // console.log(error);
+});
 
 function loadStats(file: string) {
   fs.readFile(file, (err, data) => {

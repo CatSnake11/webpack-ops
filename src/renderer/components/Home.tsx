@@ -506,7 +506,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     newSlice
       .append('title')
-      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + ' bytes' + '\n' + 'Of Total Size: ' +
         ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
@@ -973,7 +973,9 @@ export default class Home extends React.Component<Props, StateType> {
           </div>
         }
 
+
         <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
+
           <div className="smallerMainContainer">
 
             <div id="graphsContainer">
@@ -993,7 +995,6 @@ export default class Home extends React.Component<Props, StateType> {
                     <svg width={this.state.width} height={this.state.height} className="sunburst" />
                   </div>
                 </div>
-
               </div>
 
               <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
@@ -1038,7 +1039,6 @@ export default class Home extends React.Component<Props, StateType> {
               </div>
               <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
               </div>
-
             </div>
           </div>
         </div>

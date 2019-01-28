@@ -1,5 +1,5 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav|Ubunto+Mono|Quantico');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Electrolize|Exo+2|Yantramanav|Ubunto+Mono|Quantico|Anton');
 
 $m: 0; // margin
 
@@ -357,6 +357,12 @@ a {
   width: 120px;
   border: solid 3px white;
   margin: auto;
+  color: $bg-color;
+  font-size: 28px;
+  font-family: 'Electrolize';
+  // padding-left: 5px;
+  // line-height: 1.2;
+  padding: 4px;
 }
 
 .whiteCard {
@@ -448,10 +454,24 @@ a {
   padding-left: 8px;
 }
 
-#greenCheck {
+.greenCheck {
   color: #9cedaa;
-  font-size: 26px;
+  font-size: 28px;
   margin-right: 2px;
+}
+
+#webpackConfigSaveText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 24px;
+  color: $text-black;
+}
+
+.tabThreeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
 }
 
 .tabTwoCompleteText {
@@ -626,3 +646,16 @@ pre {
   margin:0;
 }
 
+.descriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding: 10px 0;
+  margin: 4px 0;
+  color: darken($text-black, 12%);
+  padding-left: 8px;
+
+}
+
+#logoText {
+  
+}

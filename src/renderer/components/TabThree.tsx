@@ -3,6 +3,7 @@ import { observer, inject } from 'mobx-react';
 import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import { FaCheck } from "react-icons/fa";
 import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import { dark } from 'react-syntax-highlighter/dist/styles/prism';
 
@@ -45,7 +46,7 @@ export default class TabThree extends React.Component<Props, StateType> {
       console.log(formattedCode1)
       console.log('hi')
       console.log(typeof formattedCode1)
-      this.setState({defaultFormattedCode: formattedCode1})
+      this.setState({ defaultFormattedCode: formattedCode1 })
       //console.log(this.state.AST)
     })
   }
@@ -102,10 +103,22 @@ export default class TabThree extends React.Component<Props, StateType> {
 
   selectCustomWebConfigRoot = (event: any): void => {
     ipcRenderer.send('selectCustomWebConfig', 'ping');
+    //rewrite
     this.props.store.isRootSelected = true;
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
+    console.log('hihihihihi')
+    ipcRenderer.send('saveCustomConfig', this.state.rootCustomDirectory);
+    //
+
+    this.doSetCustomConfigSaved();
+
+
+  }
+
+  doSetCustomConfigSaved(): void {
+    this.props.store.setCustomConfigSavedTrue()
   }
 
   render() {
@@ -184,16 +197,26 @@ export default class TabThree extends React.Component<Props, StateType> {
               </div>
               <div className="tabThreeCodeContainer"></div>
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
-                'borderRadius':'5px', 
-                'padding':'15px', 
-                'width': '500px', 
-                'background': 'white', 
+                'borderRadius': '5px',
+                'padding': '15px',
+                'width': '500px',
+                'height': '500px',
+                'background': 'white',
                 'opacity': '0.7'
-                }}>{this.state.defaultFormattedCode}</SyntaxHighlighter>           
-              </div>
-            {store.isRootSelected &&
+              }}>{this.state.defaultFormattedCode}</SyntaxHighlighter>
+            </div>
+            {store.isRootSelected && !store.customConfigSaved &&
               <button className="btn stats" onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>}
+            {store.customConfigSaved && store.isRootSelected &&
+              <div className="tabThreeRowFlexContainer">
+                < FaCheck className="greenCheck" />
+                <div id="webpackConfigSaveText">
+                  webpack.config.js saved
+                </div>
+              </div>
+            }
           </div>}
+
         </div>
       </div>
     );
