@@ -48,38 +48,38 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   drawProgressChart = (): void => {
     this.doSelectOptimization();
-    setTimeout(() => {
-      var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
 
-      var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
-        .attr("class", "progressChart")
-        .attr("width", 700)
-        .attr("height", 20 * data.length);
+    var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
 
-      var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
-        .domain([0, d3.max(data)])
-        .range([0, 700]);
+    var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
+      .attr("class", "progressChart")
+      .attr("width", 700)
+      .attr("height", 20 * data.length);
 
-      chart.selectAll("rect") // this is what actually creates the bars
-        .data(data)
-        .enter().append("rect")
-        .attr("width", x)
-        .attr("height", 35)
-        .attr("rx", 18) // rounded corners
-        .attr("ry", 18);
+    var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
+      .domain([0, d3.max(data)])
+      .range([0, 700]);
 
-      // const dataStr = data.map(num => num + 'mb');
+    chart.selectAll("rect") // this is what actually creates the bars
+      .data(data)
+      .enter().append("rect")
+      .attr("width", x)
+      .attr("height", 35)
+      .attr("rx", 18) // rounded corners
+      .attr("ry", 18);
 
-      chart.selectAll("text") // adding the text labels to the bar
-        .data(data)
-        .enter().append("text")
-        .attr("x", x)
-        .attr("y", 10) // y position of the text inside bar
-        .attr("dx", -10) // padding-right
-        .attr("dy", ".80em") // vertical-align: middle
-        .attr("text-anchor", "end") // text-align: right
-        .text(function (d) { return (d / 1000000).toPrecision(3) + ' Mb' });
-    }, 0);
+    // const dataStr = data.map(num => num + 'mb');
+
+    chart.selectAll("text") // adding the text labels to the bar
+      .data(data)
+      .enter().append("text")
+      .attr("x", x)
+      .attr("y", 10) // y position of the text inside bar
+      .attr("dx", -10) // padding-right
+      .attr("dy", ".80em") // vertical-align: middle
+      .attr("text-anchor", "end") // text-align: right
+      .text(function (d) { return (d / 1000000).toPrecision(3) + ' Mb' });
+
   }
 
   installPluggins = (): void => {
