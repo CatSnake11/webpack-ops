@@ -9,6 +9,8 @@ export type StoreType = {
 	path: string,
 	setPath(input: string): void,
 	isLoading: boolean,
+	totalSizeTemp: string,
+	totalNodeCount: number,
 	setIsLoadingTrue(): void,
 	displaySunburst: boolean,
 	displaySunburstZoom: boolean,
@@ -21,6 +23,7 @@ export type StoreType = {
 	isTabThreeSelected: boolean,
 	setChartNavClassOn(): void,
 	setChartNavClassOff(): void,
+	setUpdateCards(a: any, b: any): void,
 	setDisplaySunburst(): void,
 	setDisplaySunburstZoom(): void,
 	setDisplayTreemap(): void,
@@ -169,6 +172,12 @@ export default class Store {
 
 	@observable
 	customConfigSaved = false;
+
+	@observable
+	totalSizeTemp = '';
+
+	@observable
+	totalNodeCount = 0;
 
 	// ACTIONS //
 
@@ -325,5 +334,11 @@ export default class Store {
 	@action.bound
 	setCustomConfigSavedTrue() {
 		this.customConfigSaved = true;
+	}
+
+	@action.bound
+	setUpdateCards(a: string, b: number) {
+		this.totalSizeTemp = a;
+		this.totalNodeCount = b;
 	}
 }

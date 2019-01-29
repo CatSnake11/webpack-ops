@@ -1115,10 +1115,16 @@ function loadStats(file: string) {
       return sum += parseInt(el[1])
     }, 0)
 
-    console.log(sunBurstDataSum)
+    const returnObjData = {
+      chunks: returnObj.chunks,
+      assets: returnObj.assets
+    }
+
+    // sunBurstData.push(returnObj);
+    // console.log(sunBurstDataSum)
     //console.log(co)
     // console.log(content.substring(0, 40))
-    mainWindow.webContents.send('display-stats-reply', sunBurstData)
+    mainWindow.webContents.send('display-stats-reply', sunBurstData, returnObjData)
 
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
   });
