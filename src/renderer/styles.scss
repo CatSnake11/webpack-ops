@@ -1,5 +1,5 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav|Ubunto+Mono|Quantico|Electrolize');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Electrolize|Exo+2|Yantramanav|Ubunto+Mono|Quantico|Anton');
 
 $m: 0; // margin
 
@@ -362,6 +362,12 @@ a {
   font-weight:600;
   border: solid 3px white;
   margin: auto;
+  color: $bg-color;
+  font-size: 28px;
+  font-family: 'Electrolize';
+  // padding-left: 5px;
+  // line-height: 1.2;
+  padding: 4px;
 }
 
 .whiteCard {
@@ -655,3 +661,6 @@ pre {
 
 }
 
+#logoText {
+  
+}

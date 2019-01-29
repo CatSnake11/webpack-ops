@@ -10,6 +10,11 @@ type Props = {
   store?: StoreType
 }
 
+let totalSizeTemp: string;
+let totalNodeCount: number = 0;
+let totalAssets: number = 0;
+let totalChunks: number = 0;
+
 const initialState = {
   isPackageSelected: false,
   width: 550,
@@ -68,9 +73,10 @@ export default class Home extends React.Component<Props, StateType> {
   state: StateType = initialState;
 
   componentDidMount() {
-    ipcRenderer.on('display-stats-reply', (event: any, data: string[][]): void => {
-      console.log(data)
-
+    ipcRenderer.on('display-stats-reply', (event: any, data: string[][], obj: any): void => {
+      totalAssets = obj.assets.length;
+      totalChunks = obj.chunks.length;
+      totalNodeCount = data.length;
       let root: any = { "name": "root", "children": [] };
       for (let i: number = 0; i < data.length; i++) {
         let sequence: string = data[i][0];
@@ -108,8 +114,6 @@ export default class Home extends React.Component<Props, StateType> {
         }
       }
       this.doSetBeforeRoot(root);
-      // console.log(root)
-      // console.log(this.state.data)
       this.drawChart(this.props.store.beforeRoot);
       this.drawZoom(this.props.store.beforeRoot);
       this.drawTreemap(this.props.store.beforeRoot);
@@ -134,6 +138,7 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   private drawChart(jsonData: any) {
+
     // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     var _self = this;
     const b = {
@@ -217,8 +222,8 @@ export default class Home extends React.Component<Props, StateType> {
       .on("mouseover", mouseover);
 
     let totalSize = path.datum().value;
-    console.log(totalSize)
 
+    totalSizeTemp = (totalSize / 1000000).toPrecision(3) + ' Mb';
 
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
@@ -506,7 +511,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     newSlice
       .append('title')
-      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + ' bytes' + '\n' + 'Of Total Size: ' +
         ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
@@ -846,6 +851,11 @@ export default class Home extends React.Component<Props, StateType> {
 
   doSetDisplaySunburst = (): void => {
     this.props.store.setDisplaySunburst();
+    this.props.store.setUpdateCards(totalSizeTemp, totalNodeCount);
+  }
+
+  doUpdateCards = (totalSizeTemp: any, totalNodeCount: any): void => {
+    this.props.store.setUpdateCards(totalSizeTemp, totalNodeCount);
   }
 
   doSetDisplaySunburstZoom = (): void => {
@@ -900,14 +910,13 @@ export default class Home extends React.Component<Props, StateType> {
     const { store } = this.props;
     return (
       <div className="mainContainerHome">
-
         <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
           <div className="boxContainer">
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Total Size</div>
                 <div className="textPrimaryColor">
-                  {(store.beforeTotalSize / 1000000).toPrecision(3)} Mb
+                  {store.totalSizeTemp}
                 </div>
               </div>
             </div>
@@ -915,21 +924,21 @@ export default class Home extends React.Component<Props, StateType> {
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Chunks</div>
-                <div className="textPrimaryColor">{store.chunks}</div>
+                <div className="textPrimaryColor">{totalChunks}</div>
               </div>
             </div>
             <div className='boxLine'></div>
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Modules</div>
-                <div className="textPrimaryColor">{store.modules}</div>
+                <div className="textPrimaryColor">{store.totalNodeCount}</div>
               </div>
             </div>
             <div className='boxLine'></div>
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Assets</div>
-                <div className="textPrimaryColor">{store.assets}</div>
+                <div className="textPrimaryColor">{totalAssets}</div>
               </div>
             </div>
           </div>
@@ -973,7 +982,9 @@ export default class Home extends React.Component<Props, StateType> {
           </div>
         }
 
+
         <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
+
           <div className="smallerMainContainer">
 
             <div id="graphsContainer">
@@ -993,7 +1004,6 @@ export default class Home extends React.Component<Props, StateType> {
                     <svg width={this.state.width} height={this.state.height} className="sunburst" />
                   </div>
                 </div>
-
               </div>
 
               <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
@@ -1038,7 +1048,6 @@ export default class Home extends React.Component<Props, StateType> {
               </div>
               <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
               </div>
-
             </div>
           </div>
         </div>

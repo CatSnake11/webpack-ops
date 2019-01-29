@@ -9,11 +9,19 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 import { any } from 'prop-types';
 import parseHandler from './parseHandler';
+// import { observe } from 'mobx';
+import Store from '../renderer/store';
+// import * as store from '../renderer/store';
 
-
+//isPackageSelected 1015
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
+
+// type Props = {
+//   store?: StoreType
+// }
+
 
 let now = moment().format('LLLL');
 console.log("This is a momentous time")
@@ -32,7 +40,7 @@ let mainWindow: Electron.BrowserWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 910,
+    height: 920,
     width: 1150,
   });
 
@@ -46,7 +54,7 @@ function createWindow() {
   );
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', () => {
@@ -82,12 +90,25 @@ app.on('activate', () => {
 /*********************************************
  * Event listeners from Renderer to Main
  *********************************************/
+ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) => {
+
+
+  fs.writeFile(rootDirectoryCustomConfig + '/webpack.config.js', formattedCode1ToSave, (err) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+
+    console.log("The new file has been succesfully saved as");
+
+  });
+})
+
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
   mainWindow.webContents.send('customRootDirectrySet', customDirectory)
-})
-
+});
 
 let customAST: any = {};
 let ReactAST: any = {};
@@ -100,7 +121,7 @@ let pngAST: any = {};
 let moduleExist: boolean = false;
 let numberOfRules: number = 0;
 let typescriptSelected: boolean = false;
-
+let formattedCode1ToSave = '';
 
 
 ipcMain.on('CustomAST', (event: any, arg: any) => {
@@ -117,8 +138,10 @@ ipcMain.on('CustomAST', (event: any, arg: any) => {
     })
     console.log(formattedCode1)
     console.log(typeof formattedCode1)
+    formattedCode1ToSave = formattedCode1
 
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
   });
 })
 
@@ -140,7 +163,7 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
     let ReactASTPropertyKey: string[] = ["module", "resolve", "devServer"]
     //customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
     //  customASTPropertyKey.push(el.key.name)
- 
+
     //})
     //console.log(customASTPropertyKey);
 
@@ -153,25 +176,25 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
       customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el, i) => {
         if (el.key.name === "module") {
           console.log('hi2')
-      let moduleArr = el.value.properties
-      console.log('hi3')
+          let moduleArr = el.value.properties
+          console.log('hi3')
 
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                
-                moduleEl.value.elements.unshift(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-                console.log(JSON.stringify(moduleEl.value.elements))
-              }
-            })
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+
+              moduleEl.value.elements.unshift(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+              console.log(JSON.stringify(moduleEl.value.elements))
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
     }
-  })
-  moduleExist = true;
-  numberOfRules += 1;
-}
-    
+
     if (customASTPropertyKey.indexOf("resolve") === -1) {
       customAST.body[customAST.body.length - 1].expression.right.properties.push(ReactAST.body[0].expression.right.properties[1])
     }
@@ -179,63 +202,66 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
     if (customASTPropertyKey.indexOf("devServer") === -1) {
       customAST.body[customAST.body.length - 1].expression.right.properties.push(ReactAST.body[0].expression.right.properties[2])
     }
-    
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+    formattedCode1ToSave = formattedCode1
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
   })
 })
 
-ipcMain.on('removeReactToAST', (event:any, arg: any) => {
+ipcMain.on('removeReactToAST', (event: any, arg: any) => {
   console.log(moduleExist)
   console.log(numberOfRules)
 
-    let module_index = 0;
-    let resolve_index = 0;
-    let devServer_index = 0;
-    for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
+  let module_index = 0;
+  let resolve_index = 0;
+  let devServer_index = 0;
+  for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
     if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
-    }
-    console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+  }
+  console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
-    if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-      console.log('just than 1')
+  if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
+    console.log('just than 1')
 
-      customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
-      numberOfRules -= 1;
-    } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-      console.log('more than 1')
-      for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
-        console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
-        if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes("js|jsx")) {
-          //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-          customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
-          numberOfRules -= 1;
-        }
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
+    numberOfRules -= 1;
+  } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
+    console.log('more than 1')
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
+      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
+      if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes("js|jsx")) {
+        //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
+        numberOfRules -= 1;
       }
     }
+  }
 
-    for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-      if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "resolve") {console.log('hi'); resolve_index = i}
-    }
-    if (!typescriptSelected) {
-      customAST.body[customAST.body.length - 1].expression.right.properties.splice(resolve_index,1)
-    } //insert logic to remove typescript
-    
-    for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-      if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "devServer") devServer_index = i
-    }
+  for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "resolve") { console.log('hi'); resolve_index = i }
+  }
+  if (!typescriptSelected) {
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(resolve_index, 1)
+  } //insert logic to remove typescript
 
-      customAST.body[customAST.body.length - 1].expression.right.properties.splice(devServer_index,1)
-      const formattedCode1 = generate(customAST, {
-        comments: true,
-      })
-      console.log(formattedCode1)
-      mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-  
+  for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "devServer") devServer_index = i
+  }
+
+  customAST.body[customAST.body.length - 1].expression.right.properties.splice(devServer_index, 1)
+  const formattedCode1 = generate(customAST, {
+    comments: true,
+  })
+  formattedCode1ToSave = formattedCode1
+
+  console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
+
 })
 
 ipcMain.on('addCSSToAST', (event: any, arg: any) => {
@@ -259,76 +285,78 @@ ipcMain.on('addCSSToAST', (event: any, arg: any) => {
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
-    
-      if (customASTPropertyKey.indexOf(CSSAST.body[0].expression.right.properties[0].key.name) === -1) {
-        console.log('hi2')
-        customAST.body[customAST.body.length - 1].expression.right.properties.push(CSSAST.body[0].expression.right.properties[0])
-        moduleExist = true;
-        numberOfRules += 1;
-      } else {
-        console.log('hi1')
-        let customASTModulePropertyKey: string[] = [];
-        customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-          if (el.key.name === "module") {
-            let moduleArr = el.value.properties
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(CSSAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                moduleEl.value.elements.push(CSSAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-              }
-            })
-          }
-        })
-        moduleExist = true;
-        numberOfRules += 1;
-      }
- 
+
+    if (customASTPropertyKey.indexOf(CSSAST.body[0].expression.right.properties[0].key.name) === -1) {
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(CSSAST.body[0].expression.right.properties[0])
+      moduleExist = true;
+      numberOfRules += 1;
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(CSSAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(CSSAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
+    }
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-})
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
+  })
 })
 
-ipcMain.on('removeCSSToAST', (event:any, arg: any) => {
+ipcMain.on('removeCSSToAST', (event: any, arg: any) => {
   console.log(moduleExist)
   console.log(numberOfRules)
 
   let module_index = 0;
-    for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
+  for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
     if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
-    }
-    console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+  }
+  console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
-    if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-      console.log('just than 1')
+  if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
+    console.log('just than 1')
 
-      customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
-      numberOfRules -= 1;
-    } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-      console.log('more than 1')
-      for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
-        console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
-        if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".css")) {
-          //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-          customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
-          numberOfRules -= 1;
-        }
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
+    numberOfRules -= 1;
+  } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
+    console.log('more than 1')
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
+      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
+      if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".css")) {
+        //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
+        numberOfRules -= 1;
       }
     }
-    const formattedCode1 = generate(customAST, {
-      comments: true,
-    })
-    console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+  }
+  const formattedCode1 = generate(customAST, {
+    comments: true,
+  })
+  formattedCode1ToSave = formattedCode1
+  console.log(formattedCode1)
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
 
 })
 
-ipcMain.on('addSassToAST', (event:any, arg: any) => {
+ipcMain.on('addSassToAST', (event: any, arg: any) => {
   console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/Sass.config.js', (err, data) => {
@@ -343,65 +371,66 @@ ipcMain.on('addSassToAST', (event:any, arg: any) => {
     console.log('read' + JSON.stringify(SassAST.body[0].expression.right.properties[0]))
     console.log('AST')
     let customASTPropertyKey: string[] = []
-    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
-    
-      if (customASTPropertyKey.indexOf(SassAST.body[0].expression.right.properties[0].key.name) === -1) {
-        moduleExist = true;
-        numberOfRules += 1;
-        console.log('hi2')
-        customAST.body[customAST.body.length - 1].expression.right.properties.push(SassAST.body[0].expression.right.properties[0])
-      } else {
-        console.log('hi1')
-        let customASTModulePropertyKey: string[] = [];
-        customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-          if (el.key.name === "module") {
-            let moduleArr = el.value.properties
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(SassAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                moduleEl.value.elements.push(SassAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-              }
-            })
-          }
-        })
-        moduleExist = true;
-        numberOfRules += 1;
-      }
- 
+
+    if (customASTPropertyKey.indexOf(SassAST.body[0].expression.right.properties[0].key.name) === -1) {
+      moduleExist = true;
+      numberOfRules += 1;
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(SassAST.body[0].expression.right.properties[0])
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(SassAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(SassAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
+    }
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-})
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
+  })
 })
 
-ipcMain.on('removeSassToAST', (event:any, arg: any) => {
+ipcMain.on('removeSassToAST', (event: any, arg: any) => {
   let module_index = 0;
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-  if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('just than 1')
 
-    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('more than 1')
-    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".scss")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
         numberOfRules -= 1;
       }
     }
@@ -409,13 +438,14 @@ ipcMain.on('removeSassToAST', (event:any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
-  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
 
 
-ipcMain.on('addLessToAST', (event:any, arg: any) => {
+ipcMain.on('addLessToAST', (event: any, arg: any) => {
   console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/Less.config.js', (err, data) => {
@@ -430,77 +460,81 @@ ipcMain.on('addLessToAST', (event:any, arg: any) => {
     console.log('read' + JSON.stringify(LessAST.body[0].expression.right.properties[0]))
     console.log('AST')
     let customASTPropertyKey: string[] = []
-    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
-    
-      if (customASTPropertyKey.indexOf(LessAST.body[0].expression.right.properties[0].key.name) === -1) {
-        moduleExist = true;
-        numberOfRules += 1;
-        console.log('hi2')
-        customAST.body[customAST.body.length - 1].expression.right.properties.push(LessAST.body[0].expression.right.properties[0])
-      } else {
-        console.log('hi1')
-        let customASTModulePropertyKey: string[] = [];
-        customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-          if (el.key.name === "module") {
-            let moduleArr = el.value.properties
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(LessAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                moduleEl.value.elements.push(LessAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-              }
-            })
-          }
-        })
-        moduleExist = true;
-        numberOfRules += 1;
-      }
- 
+
+    if (customASTPropertyKey.indexOf(LessAST.body[0].expression.right.properties[0].key.name) === -1) {
+      moduleExist = true;
+      numberOfRules += 1;
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(LessAST.body[0].expression.right.properties[0])
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties;
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(LessAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(LessAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
+    }
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-})
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
+  })
 })
 
-ipcMain.on('removeLessToAST', (event:any, arg: any) => {
+ipcMain.on('removeLessToAST', (event: any, arg: any) => {
   let module_index = 0;
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-  if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('just than 1')
 
-    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('more than 1')
-    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".less")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
         numberOfRules -= 1;
       }
     }
   }
+
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
-  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
-ipcMain.on('addStylusToAST', (event:any, arg: any) => {
+ipcMain.on('addStylusToAST', (event: any, arg: any) => {
   console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/stylus.config.js', (err, data) => {
@@ -515,63 +549,65 @@ ipcMain.on('addStylusToAST', (event:any, arg: any) => {
     console.log('read' + JSON.stringify(stylusAST.body[0].expression.right.properties[0]))
     console.log('AST')
     let customASTPropertyKey: string[] = []
-    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
-    
-      if (customASTPropertyKey.indexOf(stylusAST.body[0].expression.right.properties[0].key.name) === -1) {
-        moduleExist = true;
-        numberOfRules += 1;
-        console.log('hi2')
-        customAST.body[customAST.body.length - 1].expression.right.properties.push(stylusAST.body[0].expression.right.properties[0])
-      } else {
-        console.log('hi1')
-        let customASTModulePropertyKey: string[] = [];
-        customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-          if (el.key.name === "module") {
-            let moduleArr = el.value.properties
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(stylusAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                moduleEl.value.elements.push(stylusAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-              }
-            })
-          }
-        })
-        moduleExist = true;
-        numberOfRules += 1;
-      }
- 
+
+    if (customASTPropertyKey.indexOf(stylusAST.body[0].expression.right.properties[0].key.name) === -1) {
+      moduleExist = true;
+      numberOfRules += 1;
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(stylusAST.body[0].expression.right.properties[0])
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(stylusAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(stylusAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
+    }
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
+    formattedCode1ToSave = formattedCode1
+
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-})
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
+  })
 })
 
-ipcMain.on('removeStylusToAST', (event:any, arg: any) => {
+ipcMain.on('removeStylusToAST', (event: any, arg: any) => {
   let module_index = 0;
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-  if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('just than 1')
 
-    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".styl")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
         numberOfRules -= 1;
       }
     }
@@ -579,11 +615,13 @@ ipcMain.on('removeStylusToAST', (event:any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
-  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
-ipcMain.on('addSVGToAST', (event:any, arg: any) => {
+ipcMain.on('addSVGToAST', (event: any, arg: any) => {
   console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/svg.config.js', (err, data) => {
@@ -598,65 +636,67 @@ ipcMain.on('addSVGToAST', (event:any, arg: any) => {
     console.log('read' + JSON.stringify(svgAST.body[0].expression.right.properties[0]))
     console.log('AST')
     let customASTPropertyKey: string[] = []
-    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
-    
-      if (customASTPropertyKey.indexOf(svgAST.body[0].expression.right.properties[0].key.name) === -1) {
-        moduleExist = true;
-        numberOfRules += 1;
-        console.log('hi2')
-        customAST.body[customAST.body.length - 1].expression.right.properties.push(svgAST.body[0].expression.right.properties[0])
-      } else {
-        console.log('hi1')
-        let customASTModulePropertyKey: string[] = [];
-        customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-          if (el.key.name === "module") {
-            let moduleArr = el.value.properties
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(svgAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                moduleEl.value.elements.push(svgAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-              }
-            })
-          }
-        })
-        moduleExist = true;
-        numberOfRules += 1;
-      }
- 
+
+    if (customASTPropertyKey.indexOf(svgAST.body[0].expression.right.properties[0].key.name) === -1) {
+      moduleExist = true;
+      numberOfRules += 1;
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(svgAST.body[0].expression.right.properties[0])
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(svgAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(svgAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
+    }
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-})
+    formattedCode1ToSave = formattedCode1
+
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
+  })
 })
 
-ipcMain.on('removeSVGToAST', (event:any, arg: any) => {
+ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
   let module_index = 0;
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-  if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('just than 1')
 
-    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('more than 1')
-    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".svg")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
         numberOfRules -= 1;
       }
     }
@@ -665,10 +705,12 @@ ipcMain.on('removeSVGToAST', (event:any, arg: any) => {
     comments: true,
   })
   console.log(formattedCode1)
-  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+  formattedCode1ToSave = formattedCode1
+
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
-ipcMain.on('addPNGToAST', (event:any, arg: any) => {
+ipcMain.on('addPNGToAST', (event: any, arg: any) => {
   console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/png.config.js', (err, data) => {
@@ -683,65 +725,67 @@ ipcMain.on('addPNGToAST', (event:any, arg: any) => {
     console.log('read' + JSON.stringify(pngAST.body[0].expression.right.properties[0]))
     console.log('AST')
     let customASTPropertyKey: string[] = []
-    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) =>{
+    customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
     })
     console.log(customASTPropertyKey);
     //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
-    
-      if (customASTPropertyKey.indexOf(pngAST.body[0].expression.right.properties[0].key.name) === -1) {
-        moduleExist = true;
-        numberOfRules += 1;
-        console.log('hi2')
-        customAST.body[customAST.body.length - 1].expression.right.properties.push(pngAST.body[0].expression.right.properties[0])
-      } else {
-        console.log('hi1')
-        let customASTModulePropertyKey: string[] = [];
-        customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-          if (el.key.name === "module") {
-            let moduleArr = el.value.properties
-            moduleArr.forEach((moduleEl) => {
-              if (moduleEl.key.name === "rules") {
-                console.log('here')
-                console.log(JSON.stringify(moduleEl.value.elements))
-                console.log(JSON.stringify(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-                moduleEl.value.elements.push(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
-              }
-            })
-          }
-        })
-        moduleExist = true;
-        numberOfRules += 1;
-      }
- 
+
+    if (customASTPropertyKey.indexOf(pngAST.body[0].expression.right.properties[0].key.name) === -1) {
+      moduleExist = true;
+      numberOfRules += 1;
+      console.log('hi2')
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(pngAST.body[0].expression.right.properties[0])
+    } else {
+      console.log('hi1')
+      let customASTModulePropertyKey: string[] = [];
+      customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
+        if (el.key.name === "module") {
+          let moduleArr = el.value.properties
+          moduleArr.forEach((moduleEl) => {
+            if (moduleEl.key.name === "rules") {
+              console.log('here')
+              console.log(JSON.stringify(moduleEl.value.elements))
+              console.log(JSON.stringify(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
+              moduleEl.value.elements.push(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+            }
+          })
+        }
+      })
+      moduleExist = true;
+      numberOfRules += 1;
+    }
+
     console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
     })
     console.log(formattedCode1)
-    mainWindow.webContents.send('transferCustomAST', formattedCode1) 
-})
+    formattedCode1ToSave = formattedCode1
+
+    mainWindow.webContents.send('transferCustomAST', formattedCode1)
+  })
 })
 
-ipcMain.on('removePNGToAST', (event:any, arg: any) => {
+ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   let module_index = 0;
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
-  if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
+    if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('just than 1')
 
-    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index,1)
+    customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('more than 1')
-    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1){
+    for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".png")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j,1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
         numberOfRules -= 1;
       }
     }
@@ -749,16 +793,23 @@ ipcMain.on('removePNGToAST', (event:any, arg: any) => {
   const formattedCode1 = generate(customAST, {
     comments: true,
   })
+  formattedCode1ToSave = formattedCode1
+
   console.log(formattedCode1)
-  mainWindow.webContents.send('transferCustomAST', formattedCode1) 
+  mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
 ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
-
-  selectPackageJson()
+  // const selected = selectPackageJson();
+  // console.log('selected: ', selected);
+  // if (selected === 'err') {
+  //   console.log('this is error')
+  //   return '';
+  // }
+  selectPackageJson();
 })
 
 ipcMain.on('read-config', (event: any, configNumber: any) => {
@@ -830,20 +881,20 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
     setTimeout(() => {
       resolve("foo");
     }, 100);
-  }); 
+  });
 
   Promise.all([p1, p2, p3])
-  .then(values => { 
-    console.log(values); // [3, 1337, "foo"]
+    .then(values => {
+      console.log(values); // [3, 1337, "foo"]
 
-    setTimeout(() => {
-      mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
-    }, 400);
-  });
+      setTimeout(() => {
+        mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
+      }, 400);
+    });
 
   // promisify above list
   // then run saveConfig() 
-  
+
 });
 
 ipcMain.on('save-config', (event: any, configToSave: string) => {
@@ -860,11 +911,24 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  * Loading parsing of webpack config file
  **/
 
+// function selectPackageJson() {
+//   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0] || 'error';  // 'openDirectory', 'multiSelections'
+//   if (file !== 'error') {
+//     loadPackage(file);
+//   } else {
+//     return file;
+//   }
+//   // if (file === undefined) return;
+// }
+
 function selectPackageJson() {
-  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
-  if (file != undefined) {
-    loadPackage(file)
-  }
+  console.log("what is a dialog really?")
+  let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
+  if (file === undefined) return false;
+  // console.log("what is a file really?")
+  // console.log(file)
+  // console.log(file[0])
+  loadPackage(file[0]);
 }
 
 let directory = ""
@@ -964,6 +1028,14 @@ function selectStatsJson() {
   }
 }
 
+// fix cancel errors
+process.on('uncaughtException', function (error) {
+  // Handle the error
+  let err = error;
+  return err;
+  // console.log(error);
+});
+
 function loadStats(file: string) {
   fs.readFile(file, (err, data) => {
     if (err) {
@@ -1043,10 +1115,16 @@ function loadStats(file: string) {
       return sum += parseInt(el[1])
     }, 0)
 
-    console.log(sunBurstDataSum)
+    const returnObjData = {
+      chunks: returnObj.chunks,
+      assets: returnObj.assets
+    }
+
+    // sunBurstData.push(returnObj);
+    // console.log(sunBurstDataSum)
     //console.log(co)
     // console.log(content.substring(0, 40))
-    mainWindow.webContents.send('display-stats-reply', sunBurstData)
+    mainWindow.webContents.send('display-stats-reply', sunBurstData, returnObjData)
 
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
   });

@@ -39,8 +39,6 @@ export default class TabThree extends React.Component<Props, StateType> {
       this.setState({ rootCustomDirectory: customDirectory });
     })
 
-
-
     ipcRenderer.send('CustomAST', 'ping')
     ipcRenderer.on('transferCustomAST', (event: any, formattedCode1: string): void => {
       console.log(formattedCode1)

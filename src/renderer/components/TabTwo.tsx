@@ -141,14 +141,14 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <div className="descriptionText">Select from below plugins to optimize your bundle:</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
-              <div className="checkBoxPadding">
+              {/* <div className="checkBoxPadding">
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
                   <div className="state p-primary">
                     <label>Lodash-es</label><br />
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="checkBoxPadding">
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
@@ -182,7 +182,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
           {
             !store.isOptimizationSelected &&
             <div>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview Config</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button>
               <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
             </div>
           }
@@ -200,7 +200,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
           </div>
         }
 
-
         {
           store.isOptimizationSelected && <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
@@ -216,6 +215,3 @@ export default class TabTwo extends React.Component<Props, StateType> {
     );
   }
 }
-
-
-

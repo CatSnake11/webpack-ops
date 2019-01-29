@@ -65,8 +65,7 @@ class Nav extends React.Component<Props, {}> {
     return (
       <nav className="Nav">
         <div id="logoContainer">
-        <div>Webpack</div>
-        <div>Ops</div>
+          Webpack Ops
         </div>
         <div className="Nav__container">
           <ul className="Nav__item-wrapper">
