@@ -953,7 +953,7 @@ function loadPackage(file: string) {
 }
 
 // temp store variable. This shouldn't be global, but works for the moment.
-const listOfConfigs: Array<string> = [];
+let listOfConfigs: Array<string> = [];
 
 let entryPoints: any = {}
 
@@ -963,12 +963,14 @@ function selectConfig(packageFile: any) {
   console.log("selectConfig")
 
   let output = "webpack configurations in package.json.\n";
+  listOfConfigs = [];
   const entries = packageFile.scripts;
   //  const listOfConfigs: Array<string> = [];  // made global for inter function communication
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
-      listOfConfigs.push(entries[entry])
+      console.log('listOfConfigs: ', listOfConfigs);
+      listOfConfigs.push(entries[entry]);
     }
   }
 
