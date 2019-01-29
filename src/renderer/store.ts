@@ -62,6 +62,7 @@ export type StoreType = {
 	isPreviewSelected: boolean,
 	customConfigSaved: boolean,
 	setCustomConfigSavedTrue(): void
+
 };
 
 export default class Store {
@@ -342,3 +343,4 @@ export default class Store {
 		this.totalNodeCount = b;
 	}
 }
+
