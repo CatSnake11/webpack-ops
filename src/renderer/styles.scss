@@ -353,8 +353,13 @@ a {
 }
 
 #logoContainer {
+  color:$bg-color;
+  font-family:"Electrolize";
+  padding:5px;
   height: 120px;
   width: 120px;
+  font-size:28px;
+  font-weight:600;
   border: solid 3px white;
   margin: auto;
   color: $bg-color;

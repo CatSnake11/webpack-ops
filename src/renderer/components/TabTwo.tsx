@@ -91,6 +91,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, [])
     console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
+    this.doSetPreviewSelected();
   }
 
   updateConfig = (event: any, data): void => {
@@ -121,7 +122,13 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   doSelectOptimization = (): void => {
-    this.props.store.isOptimizationSelected = true;
+    //for demo///
+    setTimeout(() => { this.props.store.isOptimizationSelected = true; }, 2500)
+    //       ///
+  }
+
+  doSetPreviewSelected = (): void => {
+    this.props.store.isPreviewSelected = true;
   }
 
   render() {
@@ -131,6 +138,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
       <div className="mainContainer">
         {!store.isOptimizationSelected && <div className="whiteCard">
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
+          <div className="descriptionText">Select from below plugins to optimize your bundle:</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
               {/* <div className="checkBoxPadding">
@@ -159,18 +167,16 @@ export default class TabTwo extends React.Component<Props, StateType> {
               </div>
             </div>
 
-            <div className="tabThreeCodeContainer">
+            {store.isPreviewSelected && <div className="tabThreeCodeContainer">
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
                 'borderRadius': '5px',
                 'padding': '15px',
                 'width': '500px',
-                'height': '600px',
+                'height': '500px',
                 'background': 'white',
                 'opacity': '0.7'
               }}>{this.state.value}</SyntaxHighlighter>
-            </div>
-
-
+            </div>}
           </div>
 
           {
@@ -189,7 +195,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
           store.isOptimizationSelected &&
           <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">
-              <FaCheck id="greenCheck" /> Optimization Complete
+              <FaCheck className="greenCheck" /> Optimization Complete
             </div>
           </div>
         }
