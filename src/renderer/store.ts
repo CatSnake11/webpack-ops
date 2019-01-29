@@ -11,6 +11,8 @@ export type StoreType = {
 	isLoading: boolean,
 	totalSizeTemp: string,
 	totalNodeCount: number,
+	totalAssets: number,
+	totalChunks: number,
 	setIsLoadingTrue(): void,
 	displaySunburst: boolean,
 	displaySunburstZoom: boolean,
@@ -24,7 +26,7 @@ export type StoreType = {
 	listOfConfigs: Array<string>,
 	setChartNavClassOn(): void,
 	setChartNavClassOff(): void,
-	setUpdateCards(a: any, b: any): void,
+	setUpdateCards(a: any, b: any, c: any, d: any): void,
 	setDisplaySunburst(): void,
 	setDisplaySunburstZoom(): void,
 	setDisplayTreemap(): void,
@@ -184,6 +186,12 @@ export default class Store {
 
 	@observable
 	totalNodeCount = 0;
+
+	@observable
+	totalAssets = 0;
+
+	@observable
+	totalChunks = 0;
 
 	// ACTIONS //
 
@@ -350,9 +358,12 @@ export default class Store {
 	}
 
 	@action.bound
-	setUpdateCards(a: string, b: number) {
+	setUpdateCards(a: string, b: number, c: number, d: number) {
 		this.totalSizeTemp = a;
 		this.totalNodeCount = b;
+		this.totalAssets = c;
+		this.totalChunks = d;
+
 	}
 }
 

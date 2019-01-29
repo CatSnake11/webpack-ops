@@ -10,16 +10,20 @@ type Props = {
   store?: StoreType
 }
 
-let totalSizeTemp: string;
-let totalNodeCount: number = 0;
-let totalAssets: number = 0;
-let totalChunks: number = 0;
+// let totalSizeTemp: string;
+// let totalNodeCount: number = 0;
+// let totalAssets: number = 0;
+// let totalChunks: number = 0;
 
 const initialState = {
   isPackageSelected: false,
   width: 550,
   height: 550,
   listOfConfigs: [],
+  totalSizeTemp: '',
+  totalNodeCount: 0,
+  totalAssets: 0,
+  totalChunks: 0,
   data: {
     "name": "A1",
     "children": [
@@ -75,9 +79,14 @@ export default class Home extends React.Component<Props, StateType> {
 
   componentDidMount() {
     ipcRenderer.on('display-stats-reply', (event: any, data: string[][], obj: any): void => {
-      totalAssets = obj.assets.length;
-      totalChunks = obj.chunks.length;
-      totalNodeCount = data.length;
+      this.setState({
+        totalAssets: obj.assets.length,
+        totalChunks: obj.chunks.length,
+        totalNodeCount: data.length,
+      });
+      // totalAssets = obj.assets.length;
+      // totalChunks = obj.chunks.length;
+      // totalNodeCount = data.length;
       let root: any = { "name": "root", "children": [] };
       for (let i: number = 0; i < data.length; i++) {
         let sequence: string = data[i][0];
@@ -228,7 +237,11 @@ export default class Home extends React.Component<Props, StateType> {
 
     let totalSize = path.datum().value;
 
-    totalSizeTemp = (totalSize / 1000000).toPrecision(3) + ' Mb';
+    // totalSizeTemp = (totalSize / 1000000).toPrecision(3) + ' Mb';
+
+    this.setState({
+      totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb'
+    });
 
     function mouseover(d) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
@@ -856,11 +869,14 @@ export default class Home extends React.Component<Props, StateType> {
 
   doSetDisplaySunburst = (): void => {
     this.props.store.setDisplaySunburst();
-    this.props.store.setUpdateCards(totalSizeTemp, totalNodeCount);
-  }
-
-  doUpdateCards = (totalSizeTemp: any, totalNodeCount: any): void => {
-    this.props.store.setUpdateCards(totalSizeTemp, totalNodeCount);
+    if (!this.props.store.totalSizeTemp) {
+      this.props.store.setUpdateCards(
+        this.state.totalSizeTemp,
+        this.state.totalNodeCount,
+        this.state.totalAssets,
+        this.state.totalChunks
+      );
+    }
   }
 
   doSetDisplaySunburstZoom = (): void => {
@@ -929,7 +945,7 @@ export default class Home extends React.Component<Props, StateType> {
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Chunks</div>
-                <div className="textPrimaryColor">{totalChunks}</div>
+                <div className="textPrimaryColor">{store.totalChunks}</div>
               </div>
             </div>
             <div className='boxLine'></div>
@@ -943,7 +959,7 @@ export default class Home extends React.Component<Props, StateType> {
             <div className="chartStatsHeadingBox">
               <div className='boxTextContainer'>
                 <div>Assets</div>
-                <div className="textPrimaryColor">{totalAssets}</div>
+                <div className="textPrimaryColor">{store.totalAssets}</div>
               </div>
             </div>
           </div>
