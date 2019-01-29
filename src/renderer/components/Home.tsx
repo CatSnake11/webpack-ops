@@ -968,7 +968,8 @@ export default class Home extends React.Component<Props, StateType> {
         <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
           <div id="welcomeHeader" >Welcome to WebpackOps</div>
 
-          <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>
+          {!store.isPackageSelected &&
+            <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>}
         </div>
 
         {!store.isPackageSelected && <div className='whiteCard' >
