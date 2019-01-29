@@ -64,7 +64,10 @@ class Nav extends React.Component<Props, {}> {
     const { store } = this.props;
     return (
       <nav className="Nav">
-        <div id="logoContainer"></div>
+        <div id="logoContainer">
+        <div>Webpack</div>
+        <div>Ops</div>
+        </div>
         <div className="Nav__container">
           <ul className="Nav__item-wrapper">
             <li className="Nav__item" onClick={this.doSetChartNavClassOn}>

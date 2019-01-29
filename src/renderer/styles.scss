@@ -1,5 +1,5 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav|Ubunto+Mono|Quantico');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav|Ubunto+Mono|Quantico|Electrolize');
 
 $m: 0; // margin
 
@@ -353,8 +353,13 @@ a {
 }
 
 #logoContainer {
+  color:$bg-color;
+  font-family:"Electrolize";
+  padding:5px;
   height: 120px;
   width: 120px;
+  font-size:28px;
+  font-weight:600;
   border: solid 3px white;
   margin: auto;
 }
@@ -429,6 +434,7 @@ a {
 
 #tabTwoStatsButton {
   margin-bottom: 0px;
+  margin-right: 10px;
 }
 
 .tabTwo-ThreeHeading {
@@ -447,10 +453,24 @@ a {
   padding-left: 8px;
 }
 
-#greenCheck {
+.greenCheck {
   color: #9cedaa;
-  font-size: 20px;
+  font-size: 28px;
   margin-right: 2px;
+}
+
+#webpackConfigSaveText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 24px;
+  color: $text-black;
+}
+
+.tabThreeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
 }
 
 .tabTwoCompleteText {
@@ -623,5 +643,15 @@ text:nth-of-type(2) {
 
 pre {
   margin:0;
+}
+
+.descriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding: 10px 0;
+  margin: 4px 0;
+  color: darken($text-black, 12%);
+  padding-left: 8px;
+
 }
 
