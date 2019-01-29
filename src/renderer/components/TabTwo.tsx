@@ -48,38 +48,38 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   drawProgressChart = (): void => {
     this.doSelectOptimization();
+    setTimeout(() => {
+      var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
 
-    var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
+      var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
+        .attr("class", "progressChart")
+        .attr("width", 700)
+        .attr("height", 20 * data.length);
 
-    var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
-      .attr("class", "progressChart")
-      .attr("width", 700)
-      .attr("height", 20 * data.length);
+      var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
+        .domain([0, d3.max(data)])
+        .range([0, 700]);
 
-    var x = d3.scaleLinear() // takes the fixed width and creates the percentage from the data values
-      .domain([0, d3.max(data)])
-      .range([0, 700]);
+      chart.selectAll("rect") // this is what actually creates the bars
+        .data(data)
+        .enter().append("rect")
+        .attr("width", x)
+        .attr("height", 35)
+        .attr("rx", 18) // rounded corners
+        .attr("ry", 18);
 
-    chart.selectAll("rect") // this is what actually creates the bars
-      .data(data)
-      .enter().append("rect")
-      .attr("width", x)
-      .attr("height", 35)
-      .attr("rx", 18) // rounded corners
-      .attr("ry", 18);
+      // const dataStr = data.map(num => num + 'mb');
 
-    // const dataStr = data.map(num => num + 'mb');
-
-    chart.selectAll("text") // adding the text labels to the bar
-      .data(data)
-      .enter().append("text")
-      .attr("x", x)
-      .attr("y", 10) // y position of the text inside bar
-      .attr("dx", -10) // padding-right
-      .attr("dy", ".80em") // vertical-align: middle
-      .attr("text-anchor", "end") // text-align: right
-      .text(function (d) { return (d / 1000000).toPrecision(3) + ' Mb' });
-
+      chart.selectAll("text") // adding the text labels to the bar
+        .data(data)
+        .enter().append("text")
+        .attr("x", x)
+        .attr("y", 10) // y position of the text inside bar
+        .attr("dx", -10) // padding-right
+        .attr("dy", ".80em") // vertical-align: middle
+        .attr("text-anchor", "end") // text-align: right
+        .text(function (d) { return (d / 1000000).toPrecision(3) + ' Mb' });
+    }, 0);
   }
 
   installPluggins = (): void => {
@@ -91,7 +91,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, [])
     console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
-    this.doSetPreviewSelected();
   }
 
   updateConfig = (event: any, data): void => {
@@ -122,14 +121,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   doSelectOptimization = (): void => {
-    //for demo///
-    // setTimeout(() => { this.props.store.isOptimizationSelected = true; }, 2500)
     this.props.store.isOptimizationSelected = true;
-    //       ///
-  }
-
-  doSetPreviewSelected = (): void => {
-    this.props.store.isPreviewSelected = true;
   }
 
   render() {
@@ -139,7 +131,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
       <div className="mainContainer">
         {!store.isOptimizationSelected && <div className="whiteCard">
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
-          <div className="descriptionText">Select from below plugins to optimize your bundle:</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
               {/* <div className="checkBoxPadding">
@@ -168,22 +159,22 @@ export default class TabTwo extends React.Component<Props, StateType> {
               </div>
             </div>
 
-            {store.isPreviewSelected && <div className="tabThreeCodeContainer">
+            <div className="tabThreeCodeContainer">
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
                 'borderRadius': '5px',
                 'padding': '15px',
                 'width': '500px',
-                'height': '500px',
+                'height': '600px',
                 'background': 'white',
                 'opacity': '0.7'
               }}>{this.state.value}</SyntaxHighlighter>
-            </div>}
+            </div>
           </div>
 
           {
             !store.isOptimizationSelected &&
             <div>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview Config</button>
+              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button>
               <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
             </div>
           }
@@ -196,11 +187,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
           store.isOptimizationSelected &&
           <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">
-              <FaCheck className="greenCheck" /> Optimization Complete
+              <FaCheck id="greenCheck" /> Optimization Complete
             </div>
           </div>
         }
-
 
         {
           store.isOptimizationSelected && <div className="whiteCard">
@@ -217,5 +207,3 @@ export default class TabTwo extends React.Component<Props, StateType> {
     );
   }
 }
-
-
