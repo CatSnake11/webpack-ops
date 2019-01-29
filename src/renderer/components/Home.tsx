@@ -19,6 +19,7 @@ const initialState = {
   isPackageSelected: false,
   width: 550,
   height: 550,
+  listOfConfigs: [],
   data: {
     "name": "A1",
     "children": [
@@ -123,9 +124,13 @@ export default class Home extends React.Component<Props, StateType> {
     })
 
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
-      console.log("list of configs - pick one")
+      // console.log("list of configs - pick one")
+      console.log('arg: ', arg);
+      this.setState({
+        listOfConfigs: arg
+      });
       this.props.store.setDisplayConfigSelectionTrue();
-      console.log(arg)
+      console.log(arg);
     })
 
     if (this.props.store.wereChartsEverDrawn) {
@@ -965,8 +970,9 @@ export default class Home extends React.Component<Props, StateType> {
             <div id="webpack-config-selector">
               <div className='configMessageText'>Select desired configuration</div>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-                <div className="configRadios"><input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br /></div>
-                <div className="configRadios"><input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br /></div>
+                {this.state.listOfConfigs.map(function (config, index) {
+                  return <div className='configRadios'><input type="radio" name="config" value={index} /><div style={{ display: 'inline-block' }}>{config}</div><br /></div>;
+                })}
                 <input className='btn package' type="submit" value="Select Config" />
               </form>
             </div>

@@ -200,12 +200,13 @@ export default class TabTwo extends React.Component<Props, StateType> {
           </div>
         }
 
+
         {
           store.isOptimizationSelected && <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
             <div id='progressChartContainer'></div>
             <div className="lineBreak"></div>
-            <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
+            <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{store.totalSizeTemp}</span></div>
             <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
             <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
             <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>

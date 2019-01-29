@@ -21,6 +21,7 @@ export type StoreType = {
 	isHomeSelected: boolean,
 	isTabTwoSelected: boolean,
 	isTabThreeSelected: boolean,
+	listOfConfigs: Array<string>,
 	setChartNavClassOn(): void,
 	setChartNavClassOff(): void,
 	setUpdateCards(a: any, b: any): void,
@@ -29,6 +30,7 @@ export type StoreType = {
 	setDisplayTreemap(): void,
 	setDisplayTreemapZoom(): void,
 	displayConfigSelection: boolean,
+	setListOfConfigs(Array): void,
 	setDisplayConfigSelectionTrue(): void,
 	setDisplayConfigSelectionFalse(): void,
 	data_array: string[][],
@@ -74,6 +76,9 @@ export default class Store {
 
 	@observable
 	path = "";
+
+	@observable
+	listOfConfigs = [];
 
 	@observable
 	isLoading = false;
@@ -284,6 +289,13 @@ export default class Store {
 		this.isSunburstZoomSelected = false;
 		this.isTreemapSelected = false;
 		this.isTreemapZoomSelected = true;
+	}
+
+	@action.bound
+	setListOfConfigs(listOfConfigs) {
+		// console.log('listOfConfigs: ', listOfConfigs);
+
+		this.listOfConfigs = listOfConfigs;
 	}
 
 	@action.bound
