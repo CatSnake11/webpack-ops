@@ -1000,14 +1000,7 @@ export default class Home extends React.Component<Props, StateType> {
               <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click 'Load Stats File' button to load <span className="codeText">stats.json</span> file below.</div>
               <br></br>
               <div className='configMessageText'>
-                If<span className="codeText">stats.json</span> file has not yet been generated:
-                <ol>
-                  <li className="instructions">Add the line <span className="codeText">"stats": "webpack --env production --profile --json > stats.json"</span> to `scripts` in
-                      your <span className="codeText">package.json</span> file</li>
-                  <li className="instructions">Execute <span className="codeText">npm run stats</span> command in the terminal in your local repo</li>
-                  <li className="instructionsFinal">Proceed to select your newly generated <span className="codeText">stats.json</span> file</li>
-                </ol>
-              </div>
+                If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
               <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
               <button className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
             </div>
