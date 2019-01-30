@@ -1,3 +1,53 @@
+@import '~pretty-checkbox/src/pretty-checkbox.scss';
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Electrolize|Exo+2|Yantramanav|Ubunto+Mono|Quantico|Anton');
+
+$m: 0; // margin
+
+$nav-color: rgb(49, 56, 63);
+$bg-color: rgb(242, 242, 242);
+$body-bg-color: #f6f6f6;
+$text-black: #485563;
+$text-primary: #e16672;
+
+$body-font: 'Yantramanav', sans-serif;
+
+$box-shadow: 0px 7px 22px 2px darken($bg-color, 3%);
+
+$beforeNavHover: rgba(255, 255, 255, 0.4);
+$afterNavHover: rgba(237, 237, 237, 0.9);
+
+$beforeNavLinkHover: rgba(255, 255, 255, 0.6);
+$afterNavLinkHover: rgba(237, 237, 237, 1);
+
+@keyframes onHoverNavItem {
+  0%   { color: $beforeNavHover; }
+  100% { color: $afterNavHover; }
+}
+
+.CodoBox {
+  width: 150px;
+}
+
+.whiteCardTabThree {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 90%;
+  border-radius: 4px;
+  height: 230px;
+  box-shadow: $box-shadow;
+}
+@keyframes onHoverNavLink {
+  0%   { color: $beforeNavLinkHover; }
+  100% { color: $afterNavLinkHover; }
+}
+
+@keyframes whiteCardFadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 html {
   padding: 0;
   margin: 0;
@@ -6,21 +56,26 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background: rgb(243, 243, 255);
+  background: $body-bg-color;
+  font-family: $body-font;
 }
 
 .app {
-     color: black;
+  color: black;
+}
+
+.fullAppContainer {
+  display: flex;
 }
 
 .mainContainer {
-  padding: 20px 100px;
+  padding: 20px;
+  width: 900px;
 }
 
 .mainContainerHome {
-  padding: 20px 100px;
-  // display: flex;
-  // justify-content: center;
+  padding: 20px;
+  width: 900px;
 }
 
 .smallermainContainer {
@@ -31,20 +86,53 @@ body {
 }
 
 .Nav {
-  background-color: rgb(67, 144, 227);
-  width: 100%;
+  background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+  width: 174px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  box-shadow: 9px 0px 25px 2px darken($bg-color, 13%);
+}
+
+.Nav__container {
+  display: flex;
+  flex-direction: column;
+  height: 900px;
+  width: 174px;
 }
 
 .Nav__item-wrapper {
   display: flex;
-  flex-direction: horizontal;
-  align-content: space-between;
+  flex-direction: column;
+  padding-left: 20px;
+  align-content: center;
+  width: 180px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .Nav__item {
-  padding: 20px 20px;
+  display: flex;
+  flex-direction: row;
+  padding: 20px 0 30px 10px;
+  margin-left: -30px;
   list-style-type: none;
+  justify-content: left;
+  width: 174px;
+}
+
+.Nav__link {
+  display: flex;
+  clear: right;
+  align-items: center;
+  padding-left: 10px;
+  color: $beforeNavLinkHover;
+  font-family: Raleway;
+}
+
+.Nav__link:hover {
+  animation: onHoverNavLink 0.6s;
+  color: $afterNavLinkHover;
 }
 
 a {
@@ -52,20 +140,31 @@ a {
   color: white;
 }
 
+.hidden {
+  display: none;
+}
+
 .spinner {
   padding: 20px;
 }
 
-#sunburst {
-  // position: absolute;
-}
-
-#treemap {
-  // position: absolute;
-}
-
-button {
+.btn {
+  transition: 0.3s;
+  background-color:none;
+  background-color: white;
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  color:rgb(225, 102, 114);
+  font-size: 14px;
   padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: $box-shadow;
+  color: white;
+  background: rgb(247, 101, 116);
 }
 
 #resetButton {
@@ -73,6 +172,507 @@ button {
 }
 
 #buttonContainer {
-  border: 1px solid black;
   display: inline-block;
+  margin-top: 30px;
+}
+
+.chartNav {
+  display: block;
+  display: flex;
+  flex-direction: column;
+  margin-top: -10px;
+  margin-left: -60px;
+  margin-bottom: 12px;
+  width: 100%;
+  color: rgba(255, 255, 255, 1)
+}
+
+.chartNavLinks {
+  color:rgba(255, 255, 255, 0.4);
+  padding: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  padding-left: 40px;
+  font-family: "Raleway", sans-serif;
+}
+
+.chartNavOff {
+  display: none;
+}
+
+.chartNavLinkSelected {
+  color: $afterNavHover;
+}
+
+.chartNavLinks:hover {
+  animation: onHoverNavItem 0.6s ;
+  color: $afterNavHover;
+}
+
+.chartButtons {
+  margin: 0 10px 0 0;
+  transition: 0.3s;
+  background-color: darken($nav-color, 30%);
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  box-shadow: 0px 2px 5px 2px rgb(10, 10, 11);
+  color:white;
+  font-size: 16px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.chartButtons:hover {
+  box-shadow: 0px 2px 5px 3px rgba(228, 228, 228, 0.2);
+}
+
+#treemapButton {
+  margin: 0 10px 0 0;
+  transition: 0.3s;
+  background-color: darken($nav-color, 30%);
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  box-shadow: 0px 2px 5px 2px rgb(10, 10, 11);
+  color:white;
+  font-size: 16px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+#treemapButton:hover {
+  box-shadow: 0px 2px 5px 3px rgb(163, 174, 189);
+}
+
+.toolTip {
+  position: absolute;
+  display: none;
+  width: auto;
+  height: auto;
+  background: none repeat scroll 0 0 white;
+  border: 0 none;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: -3px 3px 15px #888888;
+  color: black;
+  font: 12px sans-serif;
+  padding: 5px;
+  text-align: center;
+}
+
+.slice {
+  cursor: pointer;
+}
+  
+.slice .main-arc {
+  stroke: #E5E2E0;
+  stroke-width: 1px;
+}
+  
+.slice .hidden-arc {
+  fill: none;
+}
+  
+.slice text {
+  pointer-events: none;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.feature {
+	position: relative;
+	width: 700px;
+	height: 700px;
+	margin: $m * 1px;
+	overflow: hidden;
+}
+.nodeTZ {
+	position: absolute;
+	background: transparent url('') no-repeat 50% / cover;
+	overflow: hidden;
+	opacity: 0.8;
+	transition: opacity .8s;
+	cursor: pointer;
+	.label {
+		display: inline;
+		font-family: sans-serif;
+		color: hsla(0,0,100,.6);
+		position: absolute;
+		padding: 0;
+		margin: 0;
+		top: 50%;
+		left: 50%;
+		transform: translateX(-50%) translateY(-50%);
+		transition: color .4s, opacity .8s, filter .8s;
+	}
+	&.hide { // zoom in
+		opacity: 0;
+		pointer-events: none;
+		.label {
+			filter: blur(10px);
+		}
+	}
+	&:hover {
+		.label {
+			color: hsla(0,0,100,1);
+		}
+	}
+	&.level-0 {
+		z-index: 4;
+		font-size: 15vmin;
+		display: none;
+	}
+	&.level-1 {
+		z-index: 3;
+		font-size: 10vmin;
+	}
+	&.level-2 {
+		z-index: 2;
+		font-size: 5vmin;
+	}
+	&.level-3 {
+		z-index: 1;
+		font-size: 2.5vmin;
+	}
+}
+
+.d3DisplayOn {
+  display: block;
+}
+
+.d3DisplayOff {
+  display: none;
+}
+
+#trail2 {
+  width: 100%;
+}
+
+.selected {
+  color: $afterNavLinkHover;
+}
+
+#logoContainer {
+  color:$bg-color;
+  font-family:"Electrolize";
+  padding:5px;
+  height: 120px;
+  width: 120px;
+  font-size:28px;
+  font-weight:600;
+  border: solid 3px white;
+  margin: auto;
+  color: $bg-color;
+  font-size: 28px;
+  font-family: 'Electrolize';
+  // padding-left: 5px;
+  // line-height: 1.2;
+  padding: 4px;
+}
+
+.whiteCard {
+  background-color: rgba(250, 250, 250, 1);
+  padding: 20px;
+  margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 90%;
+  border-radius: 4px;
+  box-shadow: $box-shadow;
+  animation: whiteCardFadeIn 1s;
+}
+
+.whiteCardOff {
+  background-color: $body-bg-color;
+  padding: 20px;
+  margin: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  width: 90%;
+  border-radius: 4px;
+}
+
+.welcomeCard {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 24px;
+}
+
+.welcomeCardBottom {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+}
+
+.displayOff {
+  display: none;
+}
+
+.up {
+  background: white;
+  width: 45px;
+  height: 18px;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  border-radius: 4px;
+  box-shadow: $box-shadow;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.zoomTreemapColumnContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+#zoomContainer {
+  margin-top: 3px;
+}
+
+#viewBox {
+  margin-top: -20px;
+}
+
+#endlabel {
+  color: black;
+}
+
+.stats {
+  margin: 20px 0 10px 0;
+}
+
+#tabTwoStatsButton {
+  margin-bottom: 0px;
+  margin-right: 10px;
+}
+
+.tabTwo-ThreeHeading {
+  font-size: 30px;
+  margin-bottom: 10px;
+  color: darken($text-black, 2%);
+  font-family: 'Oswald', sans-serif;
+  padding-left: 8px;
+}
+
+.tabTwoInfoText {
+  font-size: 18px;
+  margin: 10px 0;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 8px;
+}
+
+.greenCheck {
+  color: #9cedaa;
+  font-size: 28px;
+  margin-right: 2px;
+}
+
+#webpackConfigSaveText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 24px;
+  color: $text-black;
+}
+
+.tabThreeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
+}
+
+.tabTwoCompleteText {
+  font-size: 22px;
+  margin: 10px 0;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 10px;
+  margin-top: 20px;
+}
+
+.tabTwoCheckbox {
+  margin-right: 8px;
+}
+
+.checkboxContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkBoxPadding {
+  padding: 10px;
+}
+
+.chartStatsHeadingBoxes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 836px;
+  height: 100px;
+  background: white;
+  margin-left: 20px;
+}
+
+.boxContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+.chartStatsHeadingBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 130px;
+  border-radius: 3px;
+}
+
+.boxLine {
+  border-right: 1px solid $bg-color;
+  height: 70px;
+}
+
+.chartSVGContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+#welcomeHeader {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+}
+
+#welcomeMessage {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding-top: 10px;
+}
+
+.selectMessageTabThree {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  padding: 10px 0;
+  color: darken($text-black, 2%);
+}
+
+.progressChart rect:first-of-type {
+  color: #79f58c;
+  stroke: #79f58c;
+  fill: #9cedaa;
+}
+
+text:first-of-type {
+  fill: #1f1f1f;
+  font-family: sans-serif;
+  font-size: 17px;
+  padding: 10px;
+}
+
+.progressChart rect:nth-of-type(2) {
+  color: #fff;
+  stroke: #ededed;
+  stroke-width: 2px;
+  fill: #ededed;
+}
+
+text:nth-of-type(2) {
+  fill: #1f1f1f;
+  font-family: sans-serif;
+  font-size: 17px;
+  padding: 10px;
+}
+
+.boxTextContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: darken($text-black, 2%);
+  font-size: 22px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 530;
+}
+
+.textPrimaryColor {
+  color: lighten($text-primary, 3%);
+  font-size: 17px;
+  font-family: 'Oswald', sans-serif;
+}
+
+.configMessageText {
+  font-size: 14px;
+  padding-bottom: 10px;
+}
+
+#filename {
+  color: $text-black;
+  font-family: 'Yantramanav', sans-serif;
+  font-size: 17px;
+}
+
+#percentage {
+  color: $text-black;
+  font-family: 'Yantramanav', sans-serif;
+  font-size: 17px;
+}
+
+#filesize {
+  color: $text-black;
+  font-family: 'Yantramanav', sans-serif;
+  font-size: 17px;
+}
+
+.displaySelectJsonOff {
+  display: none;
+}
+
+.configRadios {
+  padding-bottom: 8px;
+}
+
+.lineBreak {
+  border-bottom: 2px solid $bg-color;
+  margin: 15px 0 25px 0;
+}
+
+.dataFont {
+  font-family: 'Quantico', sans-serif;
+  font-size: 16px;
+}
+
+.tabThreeSelectionCodeContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+pre {
+  margin:0;
+}
+
+.descriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding: 10px 0;
+  margin: 4px 0;
+  color: darken($text-black, 12%);
+  padding-left: 8px;
+
+}
+
+.codeText {
+  background-color: white;
+  padding: 2px;
+  margin: 0 1px;
+  color: $text-primary;
+  font-family: 'Monaco';
+  font-size: 12px;
+}
+
+.instructions {
+  margin-bottom: 5px;
+}
+
+.instructionsFinal {
+  margin-bottom: 0px;
 }

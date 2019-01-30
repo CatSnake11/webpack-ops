@@ -1,5 +1,6 @@
-node_modules
-dist
+dist/
+node_modules/
 package-lock.json
-dist/main.bundle.js
-dist/renderer.bundle.js
+stats.json
+webpack-stats.json
+yarn.lock

@@ -2,6 +2,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 let mainConfig = {
+  optimization: {
+    splitChunks: {
+     chunks: 'all',
+    }
+  },
   mode: 'production',
   entry: './src/main/main.ts',
   target: 'electron-main',
