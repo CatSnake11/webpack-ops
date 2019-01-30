@@ -4,9 +4,13 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 const prettier = require("prettier");
 import { any, string } from 'prop-types';
+import { exec } from 'child_process';
+// import { dirObj } from './main';
+
+let directoryGlobal;
 
 interface ParseHandler {
-  directory: string,
+  directory?: string,
 
   configFile: string,
 
@@ -57,6 +61,8 @@ interface ParseHandler {
 
   addPluginsSection: (ast: any) => void;
 
+  loadStats2: () => void;
+
   // FIX
   //mergePluginSplitChunks: () => void;
 }
@@ -98,7 +104,7 @@ const pluginEntryPoints: EntryPoints = {
 }
 
 const parseHandler: ParseHandler = {
-  directory: "test directory name", // directory for client files
+  // directory: "test directory name", // directory for client files
 
   configFile: "", // webpack config name
 
@@ -110,6 +116,8 @@ const parseHandler: ParseHandler = {
 
   setWorkingDirectory: function (directory: string) {
     this.directory = directory
+    console.log('this.directory: ', this.directory);
+    // directoryGlobal = directory;
   },
 
   getWorkingDirectory: function () {
@@ -260,6 +268,49 @@ const parseHandler: ParseHandler = {
       console.log(this.directory + archiveName)
     });
 
+  },
+
+  loadStats2: function () {
+
+    // this.parseConfig();
+    // console.log('dirObj: ', dirObj);
+    async function runWebpack2(cmd) {
+      return new Promise(function (resolve, reject) {
+        exec(cmd, (err, stdout, stderr) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ stdout, stderr });
+          }
+        });
+      });
+    }
+
+    console.log("calling runWebpack")
+    console.log("this.directory: ", this.directory)
+    // let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
+    console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
+    let aPromise = runWebpack2("cd '" + this.directory + "' && webpack --env production --profile --json > stats.json")
+      .then((res) => {
+        console.log("there was a response")
+        isStatsUpdated()
+        // go display webpack stats
+      })
+      .catch((err) => {
+        console.log("there was an error")
+        console.log(err)
+      })
+
+    function isStatsUpdated() {
+      console.log("isStatsUpdated?")
+      fs.readFile("stats.json", (err, data) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log((data.toString()));
+      });
+    }
   },
 
   loadPlugin: function (name) {
@@ -427,4 +478,4 @@ const parseHandler: ParseHandler = {
   },
 }
 
-export default parseHandler
+export default parseHandler;

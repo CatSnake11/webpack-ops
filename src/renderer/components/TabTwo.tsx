@@ -91,7 +91,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, [])
     console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
-    this.doSetPreviewSelected();
   }
 
   updateConfig = (event: any, data): void => {
@@ -122,13 +121,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   doSelectOptimization = (): void => {
-    //for demo///
-    setTimeout(() => { this.props.store.isOptimizationSelected = true; }, 2500)
-    //       ///
-  }
-
-  doSetPreviewSelected = (): void => {
-    this.props.store.isPreviewSelected = true;
+    this.props.store.isOptimizationSelected = true;
   }
 
   render() {
@@ -138,7 +131,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
       <div className="mainContainer">
         {!store.isOptimizationSelected && <div className="whiteCard">
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
-          <div className="descriptionText">Select from below plugins to optimize your bundle:</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
               {/* <div className="checkBoxPadding">
@@ -167,16 +159,18 @@ export default class TabTwo extends React.Component<Props, StateType> {
               </div>
             </div>
 
-            {store.isPreviewSelected && <div className="tabThreeCodeContainer">
+            <div className="tabThreeCodeContainer">
               <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
                 'borderRadius': '5px',
                 'padding': '15px',
                 'width': '500px',
-                'height': '500px',
+                'height': '600px',
                 'background': 'white',
                 'opacity': '0.7'
               }}>{this.state.value}</SyntaxHighlighter>
-            </div>}
+            </div>
+
+
           </div>
 
           {
@@ -195,7 +189,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
           store.isOptimizationSelected &&
           <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">
-              <FaCheck className="greenCheck" /> Optimization Complete
+              <FaCheck id="greenCheck" /> Optimization Complete
             </div>
           </div>
         }
@@ -206,7 +200,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
             <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
             <div id='progressChartContainer'></div>
             <div className="lineBreak"></div>
-            <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{store.totalSizeTemp}</span></div>
+            <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
             <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
             <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
             <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>

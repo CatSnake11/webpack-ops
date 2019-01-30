@@ -829,6 +829,10 @@ ipcMain.on('load-stats.json', (event: any, arg: any) => {
   selectStatsJson()
 })
 
+ipcMain.on('loadStats2', () => {
+  parseHandler.loadStats2();
+});
+
 ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   //npm install --prefix ./install/here mini-css-extract-plugin
   console.log(arrPluginsChecked)
@@ -931,17 +935,22 @@ function selectPackageJson() {
   loadPackage(file[0]);
 }
 
-let directory = ""
+let directory = "";
+let directory2 = "";
 
 function loadPackage(file: string) {
   console.log("loadPackage")
   //  let lastSlash = file.match(//g)
 
   if (file.includes("/")) {
-    directory = file.substring(0, file.lastIndexOf("/"))
+    directory = file.substring(0, file.lastIndexOf("/"));
+    parseHandler.setWorkingDirectory(directory);
   } else {
-    directory = file.substring(0, file.lastIndexOf("\\"))
+    directory = file.substring(0, file.lastIndexOf("\\"));
+    directory2 = file.substring(0, file.lastIndexOf("\\"));
   }
+  // console.log('directory: ', directory)
+
   fs.readFile(file, (err, data) => {
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
@@ -960,7 +969,7 @@ let entryPoints: any = {}
 let ast: any = {}
 
 function selectConfig(packageFile: any) {
-  console.log("selectConfig")
+  // console.log("selectConfig")
 
   let output = "webpack configurations in package.json.\n";
   listOfConfigs = [];
@@ -969,7 +978,7 @@ function selectConfig(packageFile: any) {
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
-      console.log('listOfConfigs: ', listOfConfigs);
+      // console.log('listOfConfigs: ', listOfConfigs);
       listOfConfigs.push(entries[entry]);
     }
   }
@@ -980,17 +989,17 @@ function selectConfig(packageFile: any) {
 }
 
 function readConfig(entry: number) {
-  console.log("readConfig")
-  console.log("listOfConfigs", listOfConfigs)
-  console.log("User selected entry", entry)
-  console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
+  // console.log("readConfig")
+  // console.log("listOfConfigs", listOfConfigs)
+  // console.log("User selected entry", entry)
+  // console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
 
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
     config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0]
   }
 
-  console.log("loading webpack config", directory + "/" + config)
+  // console.log("loading webpack config", directory + "/" + config)
   fs.readFile(directory + "/" + config, (err, data) => {
     if (err) {
       console.log("An error ocurred loading: " + err.message);
@@ -998,14 +1007,16 @@ function readConfig(entry: number) {
       return;
     }
     const configFile: string = data.toString();
-    console.log("configuration file:")
-    console.log(configFile);
+    // console.log("configuration file:")
+    // console.log(configFile);
 
     //parseConfig(configFile, config)
 
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
+    console.log('directory22222: ', directory);
+    parseHandler.setWorkingDirectory(directory);
 
     // present user list of plugins
     // receive selected plugins
@@ -1058,14 +1069,14 @@ function loadStats(file: string) {
     content = content.split(/}[\n\r\s]+{/);
     // repair brackets from split
 
-    console.log("content array length is", content.length)
+    // console.log("content array length is", content.length)
     if (content.length > 1) {
       for (let i = 0; i < content.length; i++) {
         content[i] = (i > 0) ? "{" : "" + content[i] + (i < content.length - 1) ? "}" : ""
       }
     }
-    console.log("Stats File")
-    console.log(content[0].substring(0, 40))
+    // console.log("Stats File")
+    // console.log(content[0].substring(0, 40))
     // console.log("Stats 2")
     // console.log(content[1].substring(0,40))
     // content is now an array of one or more stats json
@@ -1129,5 +1140,6 @@ function loadStats(file: string) {
     mainWindow.webContents.send('display-stats-reply', sunBurstData, returnObjData)
 
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
+
   });
 }

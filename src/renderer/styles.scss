@@ -600,7 +600,6 @@ text:nth-of-type(2) {
 }
 
 .configMessageText {
-  // font-family: 'Roboto', sans-serif;
   font-size: 14px;
   padding-bottom: 10px;
 }
@@ -661,6 +660,19 @@ pre {
 
 }
 
-#logoText {
-  
+.codeText {
+  background-color: white;
+  padding: 2px;
+  margin: 0 1px;
+  color: $text-primary;
+  font-family: 'Monaco';
+  font-size: 12px;
+}
+
+.instructions {
+  margin-bottom: 5px;
+}
+
+.instructionsFinal {
+  margin-bottom: 0px;
 }
