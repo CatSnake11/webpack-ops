@@ -4,9 +4,13 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 const prettier = require("prettier");
 import { any, string } from 'prop-types';
+import { exec } from 'child_process';
+// import { dirObj } from './main';
+
+let directoryGlobal;
 
 interface ParseHandler {
-  directory: string,
+  directory?: string,
 
   configFile: string,
 
@@ -43,19 +47,21 @@ interface ParseHandler {
 
   loadPlugin: (pluginName: string) => void;
 
-//  loadPluginSplitChunks: () => void;
+  //  loadPluginSplitChunks: () => void;
 
-//  loadPluginMini: () => void;
+  //  loadPluginMini: () => void;
 
   parsePlugin: (entry: string) => { entryPoints: any, ast: any };
 
-//  parsePluginSplitChunks: (entry: string) => { entryPoints: any, ast: any };
+  //  parsePluginSplitChunks: (entry: string) => { entryPoints: any, ast: any };
 
   mergePlugin: () => void;
 
   addOptimizationSection: (ast: any) => void;
 
   addPluginsSection: (ast: any) => void;
+
+  loadStats2: () => void;
 
   // FIX
   //mergePluginSplitChunks: () => void;
@@ -74,10 +80,10 @@ interface EntryPoints {
   moduleExports: Array<any>,
   plugins: Array<any>,
   pluginsSection: any,
-  optimizationSection: any,  
+  optimizationSection: any,
 }
 
-const listOfConfigs = []
+const listOfConfigs = [];
 
 const entryPoints: EntryPoints = {
   all: {},
@@ -85,7 +91,7 @@ const entryPoints: EntryPoints = {
   moduleExports: [],
   plugins: [],
   pluginsSection: any,
-  optimizationSection: any,  
+  optimizationSection: any,
 }
 
 const pluginEntryPoints: EntryPoints = {
@@ -94,11 +100,11 @@ const pluginEntryPoints: EntryPoints = {
   moduleExports: [],
   plugins: [],
   pluginsSection: any,
-  optimizationSection: any,  
+  optimizationSection: any,
 }
 
 const parseHandler: ParseHandler = {
-  directory: "test directory name", // directory for client files
+  // directory: "test directory name", // directory for client files
 
   configFile: "", // webpack config name
 
@@ -110,6 +116,8 @@ const parseHandler: ParseHandler = {
 
   setWorkingDirectory: function (directory: string) {
     this.directory = directory
+    console.log('this.directory: ', this.directory);
+    // directoryGlobal = directory;
   },
 
   getWorkingDirectory: function () {
@@ -118,9 +126,9 @@ const parseHandler: ParseHandler = {
 
   parseConfig: function (entry: string, filepath: string, writeFile: boolean = false) {
     console.log("doing parseConfig converts config to AST")
-    
-    let splitPoint: number = filepath.includes("/") ? 
-      filepath.lastIndexOf("/") : 
+
+    let splitPoint: number = filepath.includes("/") ?
+      filepath.lastIndexOf("/") :
       filepath.lastIndexOf("\\");
 
     this.directory = filepath.substring(0, splitPoint + 1);
@@ -134,16 +142,16 @@ const parseHandler: ParseHandler = {
     return this.initEntryPoints(entry, writeFile)
   },
 
-  initEntryPoints: function (entry: string = parseHandler.originalConfig, writeFile: boolean = false){
+  initEntryPoints: function (entry: string = parseHandler.originalConfig, writeFile: boolean = false) {
     console.log("initializing EntryPoints. Resets config to original.")
-        // Parse it into an AST and retrieve the list of comments
+    // Parse it into an AST and retrieve the list of comments
     const comments: Array<string> = []
     var ast = acorn.parse(entry, {
       ecmaVersion: 6,
       locations: true,
       onComment: comments,
     })
-
+    console.log(JSON.stringify(ast))
     // Attach comments to AST nodes
     astravel.attachComments(ast, comments)
 
@@ -156,11 +164,12 @@ const parseHandler: ParseHandler = {
 
     entryPoints.all = ast;
     entryPoints.body = ast.body;
-    
+    console.log(ast.body)
     let i = ast.body.length - 1 // checking for module.exports starting from the end. Should be the last node.
     let configs: any = []
     let moduleExports: any
 
+    console.log(i)
     while (i >= 0) {
       console.log("looping through looking for module.exports", i)
       let candidate = ast.body[i].expression
@@ -173,6 +182,9 @@ const parseHandler: ParseHandler = {
       }
       i--
     }
+    console.log('ken')
+    console.log('en')
+
 
     // If the last element is module.exports, which it should be, then check
     // if it's an Object we have found the config object. 
@@ -185,9 +197,9 @@ const parseHandler: ParseHandler = {
     } else if (moduleExports.type === "ArrayExpression") { // there are multiple configs
       console.log("gathering multiple configs")
       let configNames = moduleExports.elements;
-    
+
       for (let i = 0; i < configNames.length; i++) {  // find configs matching names in module.exports array 
-        let config = entryPoints.body.filter( (d: any) => {
+        let config = entryPoints.body.filter((d: any) => {
           return (
             d.type === "VariableDeclaration" &&
             d.declarations[0].id.name === configNames[i].name
@@ -197,13 +209,13 @@ const parseHandler: ParseHandler = {
       }
       console.log("The number of configs is: ", configs.length)
     }
-  
+
     // should support adding multiple config's plugin sections, currently does the first
     entryPoints.pluginsSection = configs[0].properties.filter(element => element.key.name === "plugins")[0]
-  
+
     entryPoints.optimizationSection = configs[0].properties.filter(element => element.key.name === "optimization")[0]
 
-    return { entryPoints, ast}
+    return { entryPoints, ast }
   },
 
   updateConfig: function () {
@@ -221,12 +233,12 @@ const parseHandler: ParseHandler = {
     console.log("====================")
 
     // pretty up the formatted code
-    formattedCode = formattedCode
-    .replace("/[{/g", "}\n]")
-    .replace(/\nmodule.exports/,"\n\nmodule.exports")
-    .replace(/(\nconst.+new)/g, "\n$&")
+    //formattedCode = formattedCode
+    //.replace("/[{/g", "}\n]")
+    //.replace(/\nmodule.exports/,"\n\nmodule.exports")
+    //.replace(/(\nconst.+new)/g, "\n$&")
 
-    formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
+    //formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
 
     this.updatedConfig = formattedCode
 
@@ -258,6 +270,49 @@ const parseHandler: ParseHandler = {
 
   },
 
+  loadStats2: function () {
+
+    // this.parseConfig();
+    // console.log('dirObj: ', dirObj);
+    async function runWebpack2(cmd) {
+      return new Promise(function (resolve, reject) {
+        exec(cmd, (err, stdout, stderr) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve({ stdout, stderr });
+          }
+        });
+      });
+    }
+
+    console.log("calling runWebpack")
+    console.log("this.directory: ", this.directory)
+    // let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
+    console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
+    let aPromise = runWebpack2("cd '" + this.directory + "' && webpack --env production --profile --json > stats.json")
+      .then((res) => {
+        console.log("there was a response")
+        isStatsUpdated()
+        // go display webpack stats
+      })
+      .catch((err) => {
+        console.log("there was an error")
+        console.log(err)
+      })
+
+    function isStatsUpdated() {
+      console.log("isStatsUpdated?")
+      fs.readFile("stats.json", (err, data) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log((data.toString()));
+      });
+    }
+  },
+
   loadPlugin: function (name) {
 
     let pluginFileName = ""
@@ -272,13 +327,13 @@ const parseHandler: ParseHandler = {
     } else if (name === "mini") {
       console.log("not doing Mini")
       return
-    } 
+    }
     fs.readFile(__dirname + '/../src/plugins/' + pluginFileName, (err, data) => {
       if (err) return console.log(err)
-      this.parsePlugin(data.toString()) 
+      this.parsePlugin(data.toString())
       console.dir("^^^^^^^^^^^^^^^console.dir^^^^^^^")
-      console.dir(JSON.stringify (entryPoints.all, null, 2))
-      return { entryPoints: pluginEntryPoints}
+      console.dir(JSON.stringify(entryPoints.all, null, 2))
+      return { entryPoints: pluginEntryPoints }
 
     });
   },
@@ -299,7 +354,7 @@ const parseHandler: ParseHandler = {
 
     pluginEntryPoints.all = ast;
     pluginEntryPoints.body = ast.body;
-    
+
     let i = ast.body.length - 1 // Checking for module.exports from the end. Should be the last node.
     let configs: any = []
     let moduleExports: any
@@ -316,19 +371,19 @@ const parseHandler: ParseHandler = {
       }
       i--
     }
-  
+
     if (moduleExports.type === "ObjectExpression") {
       pluginEntryPoints.moduleExports.push(moduleExports)
       configs.push(moduleExports)
     }
-  
+
     pluginEntryPoints.pluginsSection = configs[0].properties.filter(element => element.key.name === "plugins")[0]
-  
+
     pluginEntryPoints.optimizationSection = configs[0].properties.filter(element => element.key.name === "optimization")[0]
 
     this.mergePlugin()
-    
-    return { entryPoints: pluginEntryPoints, ast}
+
+    return { entryPoints: pluginEntryPoints, ast }
 
   },
 
@@ -348,35 +403,35 @@ const parseHandler: ParseHandler = {
     // Add any variable declarations to the top of config
     if (pluginEntryPoints.body[0].type === "VariableDeclaration") {
       entryPoints.body.unshift(pluginEntryPoints.body[0])  // should check to see if already exists 
-                                                           // and do all variable definitions. currently doing one.
+      // and do all variable definitions. currently doing one.
     }
-  
+
     console.log("add plugins")
     // Add any plugins to the plugins section of the config
     if (pluginEntryPoints.pluginsSection && pluginEntryPoints.pluginsSection.value.elements.length !== 0) {
       // check to see if plugins section of config exists and add if needed
-      if( ! entryPoints.pluginsSection ) this.addPluginsSection(entryPoints.all)
-      pluginEntryPoints.pluginsSection.value.elements.forEach( element => {
+      if (!entryPoints.pluginsSection) this.addPluginsSection(entryPoints.all)
+      pluginEntryPoints.pluginsSection.value.elements.forEach(element => {
         entryPoints.pluginsSection.value.elements
-        .push(JSON.parse(JSON.stringify(element)))
+          .push(JSON.parse(JSON.stringify(element)))
       })
     }
 
     console.log("add optimizations")
     // Add any optimizations to the optimizations section of the config
-    if(pluginEntryPoints.optimizationSection && pluginEntryPoints.optimizationSection.value.properties.length !== 0) {
+    if (pluginEntryPoints.optimizationSection && pluginEntryPoints.optimizationSection.value.properties.length !== 0) {
       // check to see if optimization section of config exists and add if needed
-      if( ! entryPoints.optimizationSection ) this.addOptimizationSection(entryPoints.all)
-      pluginEntryPoints.optimizationSection.value.properties.forEach( element => {
+      if (!entryPoints.optimizationSection) this.addOptimizationSection(entryPoints.all)
+      pluginEntryPoints.optimizationSection.value.properties.forEach(element => {
         entryPoints.optimizationSection.value.properties
-        .push(JSON.parse(JSON.stringify(element)))
+          .push(JSON.parse(JSON.stringify(element)))
       })
     }
 
     this.updateConfig()
   },
-  
-  addOptimizationSection: function(ast) {
+
+  addOptimizationSection: function (ast) {
     entryPoints.moduleExports[0].properties.push(
       {
         "type": "Property",
@@ -395,12 +450,12 @@ const parseHandler: ParseHandler = {
         },
         "kind": "init"
       }
-    ) 
+    )
 
     entryPoints.optimizationSection = entryPoints.moduleExports[0].properties.filter(element => element.key.name === "optimization")[0]
   },
-  
-  addPluginsSection: function(ast) {
+
+  addPluginsSection: function (ast) {
     entryPoints.moduleExports[0].properties.push(
       {
         "type": "Property",
@@ -417,10 +472,10 @@ const parseHandler: ParseHandler = {
         },
         "kind": "init"
       }
-    ) 
+    )
 
     entryPoints.pluginsSection = entryPoints.moduleExports[0].properties.filter(element => element.key.name === "plugins")[0]
   },
 }
 
-export default parseHandler
+export default parseHandler;
