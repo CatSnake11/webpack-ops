@@ -940,6 +940,7 @@ let directory2 = "";
 
 function loadPackage(file: string) {
   console.log("loadPackage")
+  // mainWindow.webContents.send('show-config-selection', true);
   //  let lastSlash = file.match(//g)
 
   if (file.includes("/")) {
