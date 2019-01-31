@@ -126,11 +126,11 @@ export default class Home extends React.Component<Props, StateType> {
     })
 
     // is this needed anymore?
-    ipcRenderer.on('show-config-selection', (event: any, arg: any): void => {
-      console.log("display config selection")
-      this.props.store.setIsPackageSelectedTrue();
-      this.doSetIsLoadingTrue();
-    })
+    // ipcRenderer.on('show-config-selection', (event: any, arg: any): void => {
+    //   console.log("display config selection")
+    //   this.props.store.setIsPackageSelectedTrue();
+    //   this.doSetIsLoadingTrue();
+    // })
 
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
       // previous code ?
@@ -919,8 +919,7 @@ export default class Home extends React.Component<Props, StateType> {
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        // ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
-        ipcRenderer.send('read-config', i);
+        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
         break;
       }
     }
