@@ -173,7 +173,6 @@ const parseHandler: ParseHandler = {
 
     // console.log(i)
     while (i >= 0) {
-      // console.log("looping through looking for module.exports", i)
       let candidate = ast.body[i].expression
       if (
         candidate.left.object && candidate.left.object.name === "module" &&

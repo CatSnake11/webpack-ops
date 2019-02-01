@@ -919,7 +919,8 @@ export default class Home extends React.Component<Props, StateType> {
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        // ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        ipcRenderer.send('read-config', i);
         break;
       }
     }
