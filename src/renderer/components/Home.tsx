@@ -912,6 +912,10 @@ export default class Home extends React.Component<Props, StateType> {
     this.props.store.setLoadStatsFalse();
   }
 
+  doSetDisplayPluginsTabTrue = (): void => {
+    this.props.store.setDisplayPluginsTabTrue();
+  }
+
   getWebpackConfig = (event: any): void => {
     // console.log("getWebpackConfig")   //getting this far
     let radios = document.getElementsByName("config");// as HTMLInputElement
@@ -931,6 +935,7 @@ export default class Home extends React.Component<Props, StateType> {
   getWebpackStats = (): void => {
     ipcRenderer.send('load-stats.json', 'ping');
     this.doSetLoadStatsFalse();
+    this.doSetDisplayPluginsTabTrue();
   }
 
   generateStatsFile = (): void => {
