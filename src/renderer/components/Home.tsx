@@ -1017,7 +1017,7 @@ export default class Home extends React.Component<Props, StateType> {
               <div className='configMessageText'>
                 If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
               <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
-              <button className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
+              <button id="genButton" className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
             </div>
           </div>
         }
