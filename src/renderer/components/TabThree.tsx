@@ -106,13 +106,10 @@ export default class TabThree extends React.Component<Props, StateType> {
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
-    console.log('hihihihihi')
+    // console.log('hihihihihi')
     ipcRenderer.send('saveCustomConfig', this.state.rootCustomDirectory);
     //
-
     this.doSetCustomConfigSaved();
-
-
   }
 
   doSetCustomConfigSaved(): void {

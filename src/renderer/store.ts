@@ -45,6 +45,7 @@ export type StoreType = {
 	setTabThreeSelected(): void,
 	setLoadStatsFalse(): void,
 	setDisplayPluginsTabTrue(): void,
+	setDisplayStatsFileGeneratedTrue(): void,
 	setWereChartsEverDrawn(): void,
 	isSunburstSelected: boolean,
 	isSunburstZoomSelected: boolean,
@@ -62,6 +63,7 @@ export type StoreType = {
 	displaySelectJson: boolean,
 	displayLoadStats: boolean,
 	displayPluginsTab: boolean,
+	statsFileGenerated: boolean,
 	isOptimizationSelected: boolean,
 	wereChartsEverDrawn: boolean,
 	isRootSelected: boolean,
@@ -169,6 +171,9 @@ export default class Store {
 
 	@observable
 	displayPluginsTab = false;
+
+	@observable
+	statsFileGenerated = false;
 
 	@observable
 	isOptimizationSelected = false;
@@ -326,6 +331,11 @@ export default class Store {
 	@action.bound
 	setDisplayPluginsTabTrue() {
 		this.displayPluginsTab = true;
+	}
+
+	@action.bound
+	setDisplayStatsFileGeneratedTrue() {
+		this.statsFileGenerated = true;
 	}
 
 	@action.bound

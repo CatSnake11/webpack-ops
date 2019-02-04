@@ -461,6 +461,22 @@ a {
   padding-left: 8px;
 }
 
+.tabOne-Heading {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 8px;
+}
+
+.tabOne-Heading2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  // padding-left: 0px;
+}
+
 .tabTwoInfoText {
   font-size: 18px;
   margin: 10px 0;
@@ -486,6 +502,13 @@ a {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
+}
+
+.homeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
   animation: whiteCardFadeIn 1s;
 }
 
@@ -550,12 +573,14 @@ a {
 #welcomeHeader {
   font-family: 'Oswald', sans-serif;
   font-size: 36px;
+  color: darken($text-black, 2%);
 }
 
 #welcomeMessage {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   padding-top: 10px;
+  color: darken($text-black, 2%);
 }
 
 .selectMessageTabThree {
@@ -611,7 +636,7 @@ text:nth-of-type(2) {
 
 .configMessageText {
   font-size: 14px;
-  padding-bottom: 10px;
+  padding-bottom: 0px;
 }
 
 #filename {
@@ -638,6 +663,7 @@ text:nth-of-type(2) {
 
 .configRadios {
   padding-bottom: 8px;
+  color: darken($text-black, 2%);
 }
 
 .lineBreak {
@@ -679,6 +705,12 @@ pre {
   font-size: 12px;
 }
 
+.codeTextStats {
+  color: $text-primary;
+  font-family: 'Oswald';
+  font-size: 20px;
+}
+
 .instructions {
   margin-bottom: 5px;
 }
@@ -689,4 +721,16 @@ pre {
 
 #genButton {
   margin-left: 10px;
+}
+
+.statsGeneratedText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 20px;
+  color: $text-black;
+  margin-bottom: 10px;
+}
+
+#selectConfigButton {
+  margin-top: 10px;
 }
