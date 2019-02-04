@@ -27,13 +27,55 @@ let now = moment().format('LLLL');
 console.log("This is a momentous time")
 console.log(now)
 
-const { promisify } = require('util');
-const exec = promisify(require('child_process').exec);
 
-let generate1 = async function generateStats() {
-  const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
-  return { stats }
-};
+
+//const { promisify } = require('util');
+//const exec = promisify(require('child_process').exec);
+
+// let generate1 = async function generateStats() {
+//   const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
+//   return { stats }
+// };
+
+/*
+import { exec } from 'child_process';
+
+async function runWebpack2(cmd) {
+  return new Promise(function (resolve, reject) {
+    exec(cmd, (err, stdout, stderr) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve({ stdout, stderr });
+      }
+    });
+  });
+}
+
+
+console.log("calling runWebpack")
+let aPromise = runWebpack2("cd c:/sandbox/simple_webpack_boilerplate &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
+.then((res)=>{
+  console.log("there was a response")
+  isStatsUpdated()
+  // go display webpack stats
+})
+.catch((err) => {
+  console.log("there was an error")
+  console.log(err)
+})
+
+function isStatsUpdated () {
+  console.log("isStatsUpdated?")
+  fs.readFile("c:/sandbox/simple_webpack_boilerplate/webpack-stats.tony.json", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    console.log((data.toString()));
+  });
+}
+*/
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -891,10 +933,11 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
     .then(values => {
       console.log(values); // [3, 1337, "foo"]
 
-      setTimeout(() => {
-        mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
-      }, 400);
-    });
+    setTimeout(() => {
+      mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
+      parseHandler.saveConfig();
+    }, 400);
+  });
 
   // promisify above list
   // then run saveConfig() 
@@ -940,6 +983,7 @@ let directory2 = "";
 
 function loadPackage(file: string) {
   console.log("loadPackage")
+  // mainWindow.webContents.send('show-config-selection', true);
   //  let lastSlash = file.match(//g)
 
   if (file.includes("/")) {
@@ -1011,7 +1055,6 @@ function readConfig(entry: number) {
     // console.log(configFile);
 
     //parseConfig(configFile, config)
-
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
@@ -1023,8 +1066,7 @@ function readConfig(entry: number) {
     // * load and parse plugins
     // parseHandler.loadPlugin()
     // * merge plugins - itterate
-    // write the config 
-
+    // write the config
   });
 }
 
