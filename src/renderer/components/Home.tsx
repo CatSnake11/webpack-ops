@@ -75,6 +75,7 @@ export default class Home extends React.Component<Props, StateType> {
 
   componentDidMount() {
     ipcRenderer.on('display-stats-reply', (event: any, data: string[][], obj: any): void => {
+      console.log(obj)
       this.setState({
         totalAssets: obj.assets.length,
         totalChunks: obj.chunks.length,

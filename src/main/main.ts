@@ -9,23 +9,14 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 import { any } from 'prop-types';
 import parseHandler from './parseHandler';
-// import { observe } from 'mobx';
-import Store from '../renderer/store';
-// import * as store from '../renderer/store';
 
-//isPackageSelected 1015
 
 /* test of reducing Moment library size */
-import * as moment from 'moment';
+// import * as moment from 'moment';
 
-// type Props = {
-//   store?: StoreType
-// }
-
-
-let now = moment().format('LLLL');
-console.log("This is a momentous time")
-console.log(now)
+// let now = moment().format('LLLL');
+// console.log("This is a momentous time")
+// console.log(now)
 
 
 
@@ -150,7 +141,8 @@ ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) =
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
   mainWindow.webContents.send('customRootDirectrySet', customDirectory)
-});
+})
+
 
 let customAST: any = {};
 let ReactAST: any = {};
@@ -845,13 +837,8 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
-  // const selected = selectPackageJson();
-  // console.log('selected: ', selected);
-  // if (selected === 'err') {
-  //   console.log('this is error')
-  //   return '';
-  // }
-  selectPackageJson();
+
+  selectPackageJson()
 })
 
 ipcMain.on('read-config', (event: any, configNumber: any) => {
@@ -870,10 +857,6 @@ ipcMain.on('load-stats.json', (event: any, arg: any) => {
 
   selectStatsJson()
 })
-
-ipcMain.on('loadStats2', () => {
-  parseHandler.loadStats2();
-});
 
 ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   //npm install --prefix ./install/here mini-css-extract-plugin
@@ -958,28 +941,14 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  * Loading parsing of webpack config file
  **/
 
-// function selectPackageJson() {
-//   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0] || 'error';  // 'openDirectory', 'multiSelections'
-//   if (file !== 'error') {
-//     loadPackage(file);
-//   } else {
-//     return file;
-//   }
-//   // if (file === undefined) return;
-// }
-
 function selectPackageJson() {
-  console.log("what is a dialog really?")
-  let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
-  if (file === undefined) return false;
-  // console.log("what is a file really?")
-  // console.log(file)
-  // console.log(file[0])
-  loadPackage(file[0]);
+  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]  // 'openDirectory', 'multiSelections'
+  if (file != undefined) {
+    loadPackage(file)
+  }
 }
 
-let directory = "";
-let directory2 = "";
+let directory = ""
 
 function loadPackage(file: string) {
   console.log("loadPackage")
@@ -987,14 +956,10 @@ function loadPackage(file: string) {
   //  let lastSlash = file.match(//g)
 
   if (file.includes("/")) {
-    directory = file.substring(0, file.lastIndexOf("/"));
-    parseHandler.setWorkingDirectory(directory);
+    directory = file.substring(0, file.lastIndexOf("/"))
   } else {
-    directory = file.substring(0, file.lastIndexOf("\\"));
-    directory2 = file.substring(0, file.lastIndexOf("\\"));
+    directory = file.substring(0, file.lastIndexOf("\\"))
   }
-  // console.log('directory: ', directory)
-
   fs.readFile(file, (err, data) => {
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
@@ -1013,7 +978,7 @@ let entryPoints: any = {}
 let ast: any = {}
 
 function selectConfig(packageFile: any) {
-  // console.log("selectConfig")
+  console.log("selectConfig")
 
   let output = "webpack configurations in package.json.\n";
   listOfConfigs = [];
@@ -1022,8 +987,7 @@ function selectConfig(packageFile: any) {
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
-      // console.log('listOfConfigs: ', listOfConfigs);
-      listOfConfigs.push(entries[entry]);
+      listOfConfigs.push(entries[entry])
     }
   }
 
@@ -1033,17 +997,17 @@ function selectConfig(packageFile: any) {
 }
 
 function readConfig(entry: number) {
-  // console.log("readConfig")
-  // console.log("listOfConfigs", listOfConfigs)
-  // console.log("User selected entry", entry)
-  // console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
+  console.log("readConfig")
+  console.log("listOfConfigs", listOfConfigs)
+  console.log("User selected entry", entry)
+  console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
 
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
     config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0]
   }
 
-  // console.log("loading webpack config", directory + "/" + config)
+  console.log("loading webpack config", directory + "/" + config)
   fs.readFile(directory + "/" + config, (err, data) => {
     if (err) {
       console.log("An error ocurred loading: " + err.message);
@@ -1051,16 +1015,14 @@ function readConfig(entry: number) {
       return;
     }
     const configFile: string = data.toString();
-    // console.log("configuration file:")
-    // console.log(configFile);
+    console.log("configuration file:")
+    console.log(configFile);
 
     //parseConfig(configFile, config)
 
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
-    console.log('directory22222: ', directory);
-    parseHandler.setWorkingDirectory(directory);
 
     // present user list of plugins
     // receive selected plugins
@@ -1085,14 +1047,6 @@ function selectStatsJson() {
   }
 }
 
-// fix cancel errors
-process.on('uncaughtException', function (error) {
-  // Handle the error
-  let err = error;
-  return err;
-  // console.log(error);
-});
-
 function loadStats(file: string) {
   fs.readFile(file, (err, data) => {
     if (err) {
@@ -1113,14 +1067,14 @@ function loadStats(file: string) {
     content = content.split(/}[\n\r\s]+{/);
     // repair brackets from split
 
-    // console.log("content array length is", content.length)
+    console.log("content array length is", content.length)
     if (content.length > 1) {
       for (let i = 0; i < content.length; i++) {
         content[i] = (i > 0) ? "{" : "" + content[i] + (i < content.length - 1) ? "}" : ""
       }
     }
-    // console.log("Stats File")
-    // console.log(content[0].substring(0, 40))
+    console.log("Stats File")
+    console.log(content[0].substring(0, 40))
     // console.log("Stats 2")
     // console.log(content[1].substring(0,40))
     // content is now an array of one or more stats json
@@ -1172,18 +1126,16 @@ function loadStats(file: string) {
       return sum += parseInt(el[1])
     }, 0)
 
+    console.log(sunBurstDataSum)
     const returnObjData = {
       chunks: returnObj.chunks,
       assets: returnObj.assets
     }
-
-    // sunBurstData.push(returnObj);
-    // console.log(sunBurstDataSum)
     //console.log(co)
     // console.log(content.substring(0, 40))
     mainWindow.webContents.send('display-stats-reply', sunBurstData, returnObjData)
 
     //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
-
   });
 }
+
