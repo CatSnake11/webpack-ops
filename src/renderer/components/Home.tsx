@@ -247,7 +247,7 @@ export default class Home extends React.Component<Props, StateType> {
       totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb'
     });
 
-    function mouseover(d) {
+    function mouseover(d: any) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
       var percentageString = percentage + "%";
       if (Number(percentage) < 0.1) {
@@ -476,7 +476,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     initializeBreadcrumbTrail();
 
-    const middleArcLine = d => {
+    const middleArcLine = (d: any) => {
       const halfPi = Math.PI / 2;
       const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
       const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
@@ -492,7 +492,7 @@ export default class Home extends React.Component<Props, StateType> {
       return path.toString();
     };
 
-    const textFits = d => {
+    const textFits = (d: any) => {
       const CHAR_SPACE = 10;
 
       const deltaAngle = x(d.x1) - x(d.x0);
@@ -798,7 +798,7 @@ export default class Home extends React.Component<Props, StateType> {
     const nodes = d3.hierarchy(jsonData)
       .sum(function (d) { return d.value ? 1 : 0; });
 
-    let currentDepth;
+    let currentDepth: any;
 
     treemap(nodes);
 
@@ -816,7 +816,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style("top", (d: any) => y(d.y0) + "%")
       .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
       .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
-      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
+      .style("background-color", function (d: any) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
@@ -826,7 +826,7 @@ export default class Home extends React.Component<Props, StateType> {
       .datum(nodes)
       .on("click", zoom);
 
-    function zoom(d) {
+    function zoom(d: any) {
 
       // console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
 
@@ -859,7 +859,7 @@ export default class Home extends React.Component<Props, StateType> {
     treemap.tile(d3.treemapDice);
   }
 
-  handleDrawChart = (arg): void => {
+  handleDrawChart = (arg: any): void => {
     this.drawChart(arg);
   }
 
