@@ -5,7 +5,7 @@ import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
-import parseHandler from '../../main/parseHandler';
+//import parseHandler from '../../main/parseHandler';
 
 type Props = {
   store?: StoreType
@@ -125,7 +125,20 @@ export default class Home extends React.Component<Props, StateType> {
       this.props.store.setWereChartsEverDrawn();
     })
 
+    // is this needed anymore?
+    // ipcRenderer.on('show-config-selection', (event: any, arg: any): void => {
+    //   console.log("display config selection")
+    //   this.props.store.setIsPackageSelectedTrue();
+    //   this.doSetIsLoadingTrue();
+    // })
+
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
+      // previous code ?
+      // console.log("list of configs - pick one")
+      // this.props.store.setListOfConfigs(arg)
+      // this.props.store.setDisplayConfigSelectionTrue();
+      // console.log(arg)
+
       // console.log("list of configs - pick one")
       this.setState({
         listOfConfigs: arg
@@ -886,6 +899,7 @@ export default class Home extends React.Component<Props, StateType> {
 
   getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping');
+    // commented out in my code. Is it needed?
     this.props.store.setIsPackageSelectedTrue();
     this.doSetIsLoadingTrue();
   }
@@ -905,7 +919,8 @@ export default class Home extends React.Component<Props, StateType> {
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        // ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        ipcRenderer.send('read-config', i);
         break;
       }
     }
