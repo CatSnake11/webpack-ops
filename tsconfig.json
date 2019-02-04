@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-          "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
         "outDir": "./target/",
         "sourceMap": true,
         "skipLibCheck": true,

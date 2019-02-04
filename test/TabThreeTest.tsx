@@ -10,20 +10,20 @@ describe('Testing Hello', () => {
 
 
 	it("renders the heading", () => {
-    const result = shallow(<Hello />).contains(<h1>Hello!</h1>);
-    expect(result).toBeTruthy();
-});
+		const result = shallow(<Hello />).contains(<h1>Hello!</h1>);
+		expect(result).toBeTruthy();
+	});
 })
 
 describe('TabThree Component Testing', () => {
 	let wrapper = shallow(<TabThree store={store} />);
 	let store = {};
-	beforeAll(()=>{
+	beforeAll(() => {
 		wrapper = shallow(<TabThree store={store} />);
 	});
 
-	it('should be a div with className mainContainerHome', () =>{
-	 	console.log(wrapper.find('button'))
+	it('should be a div with className mainContainerHome', () => {
+		console.log(wrapper.find('button'))
 		expect(wrapper.find('button').length).toBe(1);
 	})
 })
