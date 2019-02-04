@@ -576,9 +576,22 @@ a {
   color: darken($text-black, 2%);
 }
 
+#welcomeHeaderTabThree {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+  color: darken($text-black, 2%);
+}
+
 #welcomeMessage {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
+  padding-top: 10px;
+  color: darken($text-black, 2%);
+}
+
+#welcomeMessageTabThree {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
   padding-top: 10px;
   color: darken($text-black, 2%);
 }
@@ -709,6 +722,10 @@ pre {
   color: $text-primary;
   font-family: 'Oswald';
   font-size: 20px;
+}
+
+.codeTextStatsTabThree {
+  color: $text-primary;
 }
 
 .instructions {
