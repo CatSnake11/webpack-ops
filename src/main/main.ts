@@ -1055,7 +1055,6 @@ function readConfig(entry: number) {
     // console.log(configFile);
 
     //parseConfig(configFile, config)
-
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
@@ -1067,8 +1066,7 @@ function readConfig(entry: number) {
     // * load and parse plugins
     // parseHandler.loadPlugin()
     // * merge plugins - itterate
-    // write the config 
-
+    // write the config
   });
 }
 

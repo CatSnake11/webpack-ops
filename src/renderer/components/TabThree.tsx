@@ -106,13 +106,10 @@ export default class TabThree extends React.Component<Props, StateType> {
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
-    console.log('hihihihihi')
+    // console.log('hihihihihi')
     ipcRenderer.send('saveCustomConfig', this.state.rootCustomDirectory);
     //
-
     this.doSetCustomConfigSaved();
-
-
   }
 
   doSetCustomConfigSaved(): void {
@@ -125,6 +122,10 @@ export default class TabThree extends React.Component<Props, StateType> {
     return (
       <div className="mainContainerHome">
         <div>
+          <div className="whiteCard welcomeCard">
+            <div id="welcomeHeaderTabThree">Build Customized Webpack.config File</div>
+            {!store.isRootSelected && <div id="welcomeMessageTabThree">Select your project's root directory where you would like to generate your <span className="codeTextStatsTabThree">Webpack.config</span> file</div>}
+          </div>
           {!store.isRootSelected && <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">Select your root directory</div>
             <button className="btn stats" onClick={this.selectCustomWebConfigRoot}>Select</button>

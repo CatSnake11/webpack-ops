@@ -286,6 +286,7 @@ const parseHandler: ParseHandler = {
 
     console.log("calling runWebpack")
     console.log("this.directory: ", this.directory)
+    console.log("this.configFile: ", this.configFile)
     // let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
     console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
     let aPromise = runWebpack2("cd '" + this.directory + "' && webpack --config ./webpack.config.js --env production --profile --json > stats.json")
