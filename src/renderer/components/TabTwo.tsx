@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron';
 import * as d3 from 'd3';
 import { FaCheck } from "react-icons/fa";
 import SyntaxHighlighter from 'react-syntax-highlighter';
+import Button from './Button';
 import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import AwesomeComponent from './AwesomeComponent';
 
@@ -133,14 +134,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
           <div className="tabThreeSelectionCodeContainer">
             <div className="checkboxContainer">
-              {/* <div className="checkBoxPadding">
-                <div className="pretty p-default p-round p-smooth">
-                  <input className="tabTwoCheckbox" type="checkbox" value="mini" onChange={this.handleChangeCheckboxMini} />
-                  <div className="state p-primary">
-                    <label>Lodash-es</label><br />
-                  </div>
-                </div>
-              </div> */}
               <div className="checkBoxPadding">
                 <div className="pretty p-default p-round p-smooth">
                   <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
@@ -176,8 +169,20 @@ export default class TabTwo extends React.Component<Props, StateType> {
           {
             !store.isOptimizationSelected &&
             <div>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button>
-              <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button>
+              {/* <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button> */}
+              <Button
+                classes="btn stats"
+                idName="tabTwoStatsButton"
+                func={this.installPluggins}
+                textContent="Preview"
+              />
+              {/* <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button> */}
+              <Button
+                classes="btn stats"
+                idName="tabTwoStatsButton"
+                func={this.drawProgressChart}
+                textContent="Show Size Change"
+              />
             </div>
           }
           <div id="configbox">

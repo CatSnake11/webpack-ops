@@ -4,6 +4,7 @@ import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { FaCheck } from "react-icons/fa";
+import Button from './Button';
 import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import { dark } from 'react-syntax-highlighter/dist/styles/prism';
 
@@ -128,7 +129,12 @@ export default class TabThree extends React.Component<Props, StateType> {
           </div>
           {!store.isRootSelected && <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">Select your root directory</div>
-            <button className="btn stats" onClick={this.selectCustomWebConfigRoot}>Select</button>
+            {/* <button className="btn stats" onClick={this.selectCustomWebConfigRoot}>Select</button> */}
+            <Button
+              classes="btn stats"
+              func={this.selectCustomWebConfigRoot}
+              textContent="Select"
+            />
           </div>}
           {store.isRootSelected && <div className="whiteCard">
             <div className="tabTwo-ThreeHeading" >Select your feature</div>
@@ -205,7 +211,12 @@ export default class TabThree extends React.Component<Props, StateType> {
               }}>{this.state.defaultFormattedCode}</SyntaxHighlighter>
             </div>
             {store.isRootSelected && !store.customConfigSaved &&
-              <button className="btn stats" onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>}
+              // <button className="btn stats" onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>}
+              <Button
+                classes="btn stats"
+                func={this.selectGenerateWebConfigRoot}
+                textContent="Create Webpack Config File"
+              />}
             {store.customConfigSaved && store.isRootSelected &&
               <div className="tabThreeRowFlexContainer">
                 < FaCheck className="greenCheck" />

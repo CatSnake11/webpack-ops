@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
 import { FaCheck } from "react-icons/fa";
+import Button from './Button';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -1000,7 +1001,13 @@ export default class Home extends React.Component<Props, StateType> {
           {!store.isPackageSelected && <div id="package-selector" className="">
 
             <div className='tabOne-Heading'>Select your package.json</div>
-            <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
+            <Button
+              classes="btn package"
+              func={this.getPackageJson}
+              textContent="Find Package.JSON"
+            />
+
+            {/* <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button> */}
           </div>}
         </div>}
 
@@ -1042,9 +1049,20 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
               }
 
-              <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
+              {/* <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button> */}
+              <Button
+                classes="btn stats"
+                func={this.getWebpackStats}
+                textContent="Load Stats File"
+              />
               {!store.statsFileGenerated &&
-                <button id="genButton" className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
+                // <button id="genButton" className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
+                <Button
+                  classes="btn stats"
+                  idName="genButton"
+                  func={this.generateStatsFile}
+                  textContent="Generate Stats File"
+                />
               }
             </div>
           </div>
