@@ -240,8 +240,6 @@ export default class Home extends React.Component<Props, StateType> {
 
     let totalSize = path.datum().value;
 
-    // totalSizeTemp = (totalSize / 1000000).toPrecision(3) + ' Mb';
-
     this.setState({
       totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb'
     });
@@ -539,7 +537,7 @@ export default class Home extends React.Component<Props, StateType> {
       .append('path')
       .attr('class', 'main-arc')
       .style('fill', (d: any) => color((d.children ? d : d.parent).data.name))
-      .attr('d', arc);
+      .attr("d", (d: any) => arc(d));
 
     newSlice
       .append('path')
@@ -589,7 +587,7 @@ export default class Home extends React.Component<Props, StateType> {
           .selectAll('.slice')
           .filter(d => d === elD)
           .each(function (d: any) {
-            this.parentNode.appendChild(this);
+            d.parentNode.appendChild(this);
             if (d.parent) {
               moveStackToFront(d.parent);
             }
@@ -651,7 +649,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     let totalSize = nodes.datum().value;
     function mouseoutTreemap(d: any): void {
-      d3.select(this)
+      d3.select(d3.event.currentTarget)
         .attr("fill", 'rgba(85, 183, 208, 0.2)');
     }
     function mouseoverTreemap(d: any): void {
@@ -672,8 +670,7 @@ export default class Home extends React.Component<Props, StateType> {
       d3.select('#explanationTree')
         .style('visibility', '');
 
-
-      d3.select(this)
+      d3.select(d3.event.currentTarget)
         .attr("fill", 'rgba(10, 0, 218, 0.2)');
 
       const ancestorsArray = d.ancestors().reverse();
