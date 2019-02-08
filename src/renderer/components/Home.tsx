@@ -812,7 +812,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style("top", (d: any) => y(d.y0) + "%")
       .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
       .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
-      .style("background-color", function (d: any) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
+      .style("background-color", (d: any): any => { while (d.depth > 2) d = d.parent; return color(d.data.name) })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
