@@ -127,21 +127,8 @@ export default class Home extends React.Component<Props, StateType> {
       this.props.store.setWereChartsEverDrawn();
     })
 
-    // is this needed anymore?
-    // ipcRenderer.on('show-config-selection', (event: any, arg: any): void => {
-    //   console.log("display config selection")
-    //   this.props.store.setIsPackageSelectedTrue();
-    //   this.doSetIsLoadingTrue();
-    // })
-
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
-      // previous code ?
-      // console.log("list of configs - pick one")
-      // this.props.store.setListOfConfigs(arg)
-      // this.props.store.setDisplayConfigSelectionTrue();
-      // console.log(arg)
-
-      // console.log("list of configs - pick one")
+      
       this.setState({
         listOfConfigs: arg
       });
