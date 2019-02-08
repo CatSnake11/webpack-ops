@@ -1082,10 +1082,15 @@ function readConfig(entry: number) {
  **/
 
 function selectStatsJson() {
-  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]
-  if (file != undefined) {
-    loadStats(file)
+  let file = dialog.showOpenDialog({ properties: ['openFile'] })
+
+  if (file === undefined) {
+    console.log('no gooo');
+    return false;
   }
+
+  loadStats(file[0]);
+  mainWindow.webContents.send('stats-is-selected');
 }
 
 // fix cancel errors

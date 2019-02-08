@@ -146,12 +146,17 @@ export default class Home extends React.Component<Props, StateType> {
         listOfConfigs: arg
       });
       this.props.store.setDisplayConfigSelectionTrue();
-    })
+    });
 
     ipcRenderer.on('package-is-selected', (): void => {
       this.props.store.setIsPackageSelectedTrue();
       this.doSetIsLoadingTrue();
-    })
+    });
+
+    ipcRenderer.on('stats-is-selected', (): void => {
+      this.doSetLoadStatsFalse();
+      this.doSetDisplayPluginsTabTrue();
+    });
 
     if (this.props.store.wereChartsEverDrawn) {
       this.drawChart(this.props.store.beforeRoot);
@@ -906,10 +911,6 @@ export default class Home extends React.Component<Props, StateType> {
 
   getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping');
-    console.log('hiiiii');
-    // commented out in my code. Is it needed?
-    // this.props.store.setIsPackageSelectedTrue();
-    // this.doSetIsLoadingTrue();
   }
 
   doSetDisplayConfigSelectionFalse = (): void => {
@@ -946,8 +947,6 @@ export default class Home extends React.Component<Props, StateType> {
 
   getWebpackStats = (): void => {
     ipcRenderer.send('load-stats.json', 'ping');
-    this.doSetLoadStatsFalse();
-    this.doSetDisplayPluginsTabTrue();
   }
 
   generateStatsFile = (): void => {
@@ -1055,39 +1054,35 @@ export default class Home extends React.Component<Props, StateType> {
                 </div>
               }
 
-              {/* <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button> */}
               <Button
                 classes="btn stats"
                 func={this.getWebpackStats}
                 textContent="Load Stats File"
               />
+
               {!store.statsFileGenerated &&
-                // <button id="genButton" className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
+
                 <Button
                   classes="btn stats"
                   idName="genButton"
                   func={this.generateStatsFile}
                   textContent="Generate Stats File"
                 />
+
               }
             </div>
           </div>
         }
 
-
         <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
-
           <div className="smallerMainContainer">
-
             <div id="graphsContainer">
-
               <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
                 <div id="chart">
                   <div id="sequence"></div>
                   <div id="explanation">
                     <span id="filename"></span><br />
                     <span id="percentage"></span><br />
-
                     <div>
                       <span id="filesize"></span> <br />
                     </div>
@@ -1105,12 +1100,10 @@ export default class Home extends React.Component<Props, StateType> {
                   <span id="treemapText"></span>
                   <span id="filenameTree"></span><br />
                   <span id="percentageTree"></span><br />
-
                   <div>
                     <span id="filesizeTree"></span> <br />
                   </div>
                 </div>
-
                 <div style={{ paddingTop: '10px' }} id="chartTreeMap">
                   <div className="chartSVGContainer">
                     <svg width='650px' height={this.state.height} id="treemap" />
@@ -1138,6 +1131,7 @@ export default class Home extends React.Component<Props, StateType> {
                   </div>
                 </div>
               </div>
+
               <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
               </div>
             </div>
