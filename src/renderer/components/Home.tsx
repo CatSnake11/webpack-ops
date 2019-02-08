@@ -901,6 +901,7 @@ export default class Home extends React.Component<Props, StateType> {
 
   getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping');
+    console.log('hiiiii');
     // commented out in my code. Is it needed?
     this.props.store.setIsPackageSelectedTrue();
     this.doSetIsLoadingTrue();

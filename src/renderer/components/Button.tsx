@@ -1,31 +1,26 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
-import { StoreType } from '../store';
-import { ipcRenderer } from 'electron';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { FaCheck } from "react-icons/fa";
 
-export default class Button extends React.Component<any, any> {
-  constructor(props: any) {
+interface ButtonProps {
+  classes: string;
+  idName?: string;
+  func(): void;
+  textContent: string;
+}
+
+export default class Button extends React.Component<ButtonProps, {}> {
+  constructor(props: ButtonProps) {
     super(props);
-
-    this.state = {
-      classname: this.props.classes,
-      func: this.props.func,
-      textContent: this.props.textContent,
-      id: this.props.idName
-    }
   }
 
   public render() {
 
     return (
       <button
-        className={this.state.classname}
-        id={this.state.id}
-        onClick={this.state.func}
+        className={this.props.classes}
+        id={this.props.idName}
+        onClick={this.props.func}
       >
-        {this.state.textContent}
+        {this.props.textContent}
       </button>
     );
   }

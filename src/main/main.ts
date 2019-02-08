@@ -933,11 +933,11 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
     .then(values => {
       console.log(values); // [3, 1337, "foo"]
 
-    setTimeout(() => {
-      mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
-      parseHandler.saveConfig();
-    }, 400);
-  });
+      setTimeout(() => {
+        mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
+        parseHandler.saveConfig();
+      }, 400);
+    });
 
   // promisify above list
   // then run saveConfig() 
@@ -971,7 +971,11 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
 function selectPackageJson() {
   console.log("what is a dialog really?")
   let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
-  if (file === undefined) return false;
+  console.log('file[0]: ', file)
+  if (file === undefined) {
+    console.log('no gooo')
+    return false;
+  }
   // console.log("what is a file really?")
   // console.log(file)
   // console.log(file[0])
