@@ -987,15 +987,19 @@ export default class Home extends React.Component<Props, StateType> {
 
         {!store.isPackageSelected && <div className='whiteCard' >
 
-          {!store.isPackageSelected && <div id="package-selector">
+          {!store.isPackageSelected &&
+            <div id="package-selector">
 
-            <div className='tabOne-Heading'>Select your package.json</div>
-            <Button
-              classes="btn package"
-              func={this.getPackageJson}
-              textContent="Find Package.JSON"
-            />
-          </div>}
+              <div className='tabOne-Heading'>Select your package.json</div>
+
+              <Button
+                classes="btn package"
+                func={this.getPackageJson}
+                textContent="Find Package.JSON"
+              />
+              
+            </div>
+          }
         </div>}
 
         {this.props.store.displayConfigSelection && store.isPackageSelected
