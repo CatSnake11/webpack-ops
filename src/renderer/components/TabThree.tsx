@@ -48,6 +48,10 @@ export default class TabThree extends React.Component<Props, StateType> {
       this.setState({ defaultFormattedCode: formattedCode1 })
       //console.log(this.state.AST)
     })
+
+    ipcRenderer.on('root-is-selected', (): void => {
+      this.doSetRootSelected();
+    });
   }
 
   handleChangeCheckboxReact = (event: any): void => {
@@ -100,10 +104,12 @@ export default class TabThree extends React.Component<Props, StateType> {
     this.setState({ checkedPNG: !this.state.checkedPNG });
   }
 
+  doSetRootSelected = (): void => {
+    this.props.store.setRootSelected();
+  }
+
   selectCustomWebConfigRoot = (event: any): void => {
     ipcRenderer.send('selectCustomWebConfig', 'ping');
-    //rewrite
-    this.props.store.isRootSelected = true;
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
@@ -129,7 +135,6 @@ export default class TabThree extends React.Component<Props, StateType> {
           </div>
           {!store.isRootSelected && <div className="whiteCard">
             <div className="tabTwo-ThreeHeading">Select your root directory</div>
-            {/* <button className="btn stats" onClick={this.selectCustomWebConfigRoot}>Select</button> */}
             <Button
               classes="btn stats"
               func={this.selectCustomWebConfigRoot}

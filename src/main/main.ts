@@ -149,6 +149,13 @@ ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) =
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
+
+  if (!customDirectory) {
+    console.log('no gooo');
+    return false;
+  }
+  mainWindow.webContents.send('root-is-selected');
+
   mainWindow.webContents.send('customRootDirectrySet', customDirectory)
 });
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 interface ButtonProps {
   classes: string;
   idName?: string;
-  func(): void;
+  func(event?: any): void;
   textContent: string;
 }
 
