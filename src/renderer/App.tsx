@@ -107,7 +107,7 @@ class Nav extends React.Component<Props, {}> {
               </li>
             </ul>}
 
-            <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
+            {store.displayChartCard && <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabTwoSelected ? "Nav__link selected" : "Nav__link"}
                 to="/two"
@@ -116,8 +116,9 @@ class Nav extends React.Component<Props, {}> {
                 <FaCube style={iconStyle} />
                 Plugins
               </Link>
-            </li>
-            <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
+            </li>}
+
+            <li className={store.displayChartCard ? "Nav__item" : "Nav__itemPre" } onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabThreeSelected ? "Nav__link selected" : "Nav__link"}
                 to="/three"

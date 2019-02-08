@@ -1,19 +1,15 @@
-
 {
     "compilerOptions": {
-          "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-        "outDir": "./target/",
+        "allowSyntheticDefaultImports": true,
+        "jsx": "react",
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "noImplicitThis": true,
         "sourceMap": true,
-        "skipLibCheck": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es5",
-        "jsx": "react"
+        "target": "es2017",
+        "experimentalDecorators": true,
     },
-    "include": [
-        "./src/**/*"
-    ],
     "exclude": [
         "node_modules"
     ]

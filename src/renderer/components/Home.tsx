@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { observer, inject } from 'mobx-react';
 import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
+import { FaCheck } from "react-icons/fa";
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -247,7 +248,7 @@ export default class Home extends React.Component<Props, StateType> {
       totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb'
     });
 
-    function mouseover(d) {
+    function mouseover(d: any) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
       var percentageString = percentage + "%";
       if (Number(percentage) < 0.1) {
@@ -476,7 +477,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     initializeBreadcrumbTrail();
 
-    const middleArcLine = d => {
+    const middleArcLine = (d: any) => {
       const halfPi = Math.PI / 2;
       const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
       const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
@@ -492,7 +493,7 @@ export default class Home extends React.Component<Props, StateType> {
       return path.toString();
     };
 
-    const textFits = d => {
+    const textFits = (d: any) => {
       const CHAR_SPACE = 10;
 
       const deltaAngle = x(d.x1) - x(d.x0);
@@ -798,7 +799,7 @@ export default class Home extends React.Component<Props, StateType> {
     const nodes = d3.hierarchy(jsonData)
       .sum(function (d) { return d.value ? 1 : 0; });
 
-    let currentDepth;
+    let currentDepth: any;
 
     treemap(nodes);
 
@@ -816,7 +817,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style("top", (d: any) => y(d.y0) + "%")
       .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
       .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
-      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
+      .style("background-color", function (d: any) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
@@ -826,7 +827,7 @@ export default class Home extends React.Component<Props, StateType> {
       .datum(nodes)
       .on("click", zoom);
 
-    function zoom(d) {
+    function zoom(d: any) {
 
       // console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
 
@@ -859,7 +860,7 @@ export default class Home extends React.Component<Props, StateType> {
     treemap.tile(d3.treemapDice);
   }
 
-  handleDrawChart = (arg): void => {
+  handleDrawChart = (arg: any): void => {
     this.drawChart(arg);
   }
 
@@ -912,6 +913,14 @@ export default class Home extends React.Component<Props, StateType> {
     this.props.store.setLoadStatsFalse();
   }
 
+  doSetDisplayPluginsTabTrue = (): void => {
+    this.props.store.setDisplayPluginsTabTrue();
+  }
+
+  doSetDisplayStatsFileGenerated = (): void => {
+    this.props.store.setDisplayStatsFileGeneratedTrue();
+  }
+
   getWebpackConfig = (event: any): void => {
     // console.log("getWebpackConfig")   //getting this far
     let radios = document.getElementsByName("config");// as HTMLInputElement
@@ -931,10 +940,12 @@ export default class Home extends React.Component<Props, StateType> {
   getWebpackStats = (): void => {
     ipcRenderer.send('load-stats.json', 'ping');
     this.doSetLoadStatsFalse();
+    this.doSetDisplayPluginsTabTrue();
   }
 
   generateStatsFile = (): void => {
     ipcRenderer.send('loadStats2');
+    this.doSetDisplayStatsFileGenerated();
     // parseHandler.loadStats2();
     // console.log('gwD: ', parseHandler.getWorkingDirectory());
   }
@@ -988,7 +999,7 @@ export default class Home extends React.Component<Props, StateType> {
 
           {!store.isPackageSelected && <div id="package-selector" className="">
 
-            <div className='configMessageText'>Select your package.json</div>
+            <div className='tabOne-Heading'>Select your package.json</div>
             <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
           </div>}
         </div>}
@@ -997,12 +1008,12 @@ export default class Home extends React.Component<Props, StateType> {
           &&
           <div className="whiteCard">
             <div id="webpack-config-selector">
-              <div className='configMessageText'>Select desired configuration</div>
+              <div className='tabOne-Heading'>Select desired configuration</div>
               <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
                 {this.state.listOfConfigs.map(function (config, index) {
                   return <div className='configRadios' key={index.toString() + 'a'}><input type="radio" name="config" value={index} key={index.toString()} /><div style={{ display: 'inline-block' }} key={index.toString() + 'b'}>{config}</div><br /></div>;
                 })}
-                <input className='btn package' type="submit" value="Select Config" />
+                <input id="selectConfigButton" className='btn package' type="submit" value="Select Config" />
               </form>
             </div>
           </div>
@@ -1010,14 +1021,31 @@ export default class Home extends React.Component<Props, StateType> {
 
         {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
           <div className="whiteCard">
-            <div id="stats-file-selector" className="">
-              <h4>Load Webpack Stats</h4>
-              <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click 'Load Stats File' button to load <span className="codeText">stats.json</span> file below.</div>
-              <br></br>
-              <div className='configMessageText'>
-                If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
+            <div id="stats-file-selector">
+              <div className="tabOne-Heading2">Load Webpack Stats</div>
+
+              {!store.statsFileGenerated &&
+                <div>
+                  <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click 'Load Stats File' button to load <span className="codeText">stats.json</span> file below.</div>
+                  <br></br>
+                  <div className='configMessageText'>
+                    If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
+                </div>
+              }
+
+              {store.statsFileGenerated &&
+                <div className="homeRowFlexContainer">
+                  < FaCheck className="greenCheck" />
+                  <div className="statsGeneratedText">
+                    stats file generated - click 'Load Stats File' button to load <span className="codeTextStats">stats.json</span> file below.
+                  </div>
+                </div>
+              }
+
               <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
-              <button className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
+              {!store.statsFileGenerated &&
+                <button id="genButton" className="btn stats" onClick={this.generateStatsFile}>Generate Stats File</button>
+              }
             </div>
           </div>
         }
