@@ -128,7 +128,7 @@ export default class Home extends React.Component<Props, StateType> {
     })
 
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
-      
+
       this.setState({
         listOfConfigs: arg
       });
@@ -990,7 +990,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         {!store.isPackageSelected && <div className='whiteCard' >
 
-          {!store.isPackageSelected && <div id="package-selector" className="">
+          {!store.isPackageSelected && <div id="package-selector">
 
             <div className='tabOne-Heading'>Select your package.json</div>
             <Button
@@ -998,8 +998,6 @@ export default class Home extends React.Component<Props, StateType> {
               func={this.getPackageJson}
               textContent="Find Package.JSON"
             />
-
-            {/* <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button> */}
           </div>}
         </div>}
 
@@ -1025,7 +1023,7 @@ export default class Home extends React.Component<Props, StateType> {
 
               {!store.statsFileGenerated &&
                 <div>
-                  <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click 'Load Stats File' button to load <span className="codeText">stats.json</span> file below.</div>
+                  <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click <span className="codeText">Load Stats File</span> button to load <span className="codeText">stats.json</span> file below.</div>
                   <br></br>
                   <div className='configMessageText'>
                     If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
