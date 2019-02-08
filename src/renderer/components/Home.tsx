@@ -148,6 +148,11 @@ export default class Home extends React.Component<Props, StateType> {
       this.props.store.setDisplayConfigSelectionTrue();
     })
 
+    ipcRenderer.on('package-is-selected', (): void => {
+      this.props.store.setIsPackageSelectedTrue();
+      this.doSetIsLoadingTrue();
+    })
+
     if (this.props.store.wereChartsEverDrawn) {
       this.drawChart(this.props.store.beforeRoot);
       this.drawZoom(this.props.store.beforeRoot);
@@ -903,8 +908,8 @@ export default class Home extends React.Component<Props, StateType> {
     ipcRenderer.send('load-package.json', 'ping');
     console.log('hiiiii');
     // commented out in my code. Is it needed?
-    this.props.store.setIsPackageSelectedTrue();
-    this.doSetIsLoadingTrue();
+    // this.props.store.setIsPackageSelectedTrue();
+    // this.doSetIsLoadingTrue();
   }
 
   doSetDisplayConfigSelectionFalse = (): void => {

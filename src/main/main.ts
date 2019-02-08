@@ -973,12 +973,13 @@ function selectPackageJson() {
   let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
   console.log('file[0]: ', file)
   if (file === undefined) {
-    console.log('no gooo')
+    console.log('no gooo');
     return false;
   }
   // console.log("what is a file really?")
   // console.log(file)
   // console.log(file[0])
+  mainWindow.webContents.send('package-is-selected');
   loadPackage(file[0]);
 }
 
