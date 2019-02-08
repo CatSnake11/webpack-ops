@@ -7,21 +7,17 @@ interface ButtonProps {
   textContent: string;
 }
 
-export default class Button extends React.Component<ButtonProps, {}> {
-  constructor(props: ButtonProps) {
-    super(props);
-  }
+const Button: React.SFC<ButtonProps> = (props) => {
 
-  public render() {
-
-    return (
-      <button
-        className={this.props.classes}
-        id={this.props.idName}
-        onClick={this.props.func}
-      >
-        {this.props.textContent}
-      </button>
-    );
-  }
+  return (
+    <button
+      className={props.classes}
+      id={props.idName}
+      onClick={props.func}
+    >
+      {props.textContent}
+    </button>
+  );
 }
+
+export default Button;
