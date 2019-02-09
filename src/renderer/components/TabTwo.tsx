@@ -4,10 +4,9 @@ import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
 import * as d3 from 'd3';
 import { FaCheck } from "react-icons/fa";
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import Button from './Button';
-import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
-import AwesomeComponent from './AwesomeComponent';
+import WhiteCardTabTwoMain from './WhiteCardTabTwoMain';
+import WhiteCardTabTwoGreenCheck from './WhiteCardTabTwoGreenCheck';
+import WhiteCardTabTwoOptimizationDisplay from './WhiteCardTabTwoOptimizationDisplay';
 
 type Props = {
   store?: StoreType
@@ -130,87 +129,43 @@ export default class TabTwo extends React.Component<Props, StateType> {
     const { store } = this.props;
     return (
       <div className="mainContainer">
-        {!store.isOptimizationSelected && <div className="whiteCard">
-          <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
-          <div className="tabThreeSelectionCodeContainer">
-            <div className="checkboxContainer">
-              <div className="checkBoxPadding">
-                <div className="pretty p-default p-round p-smooth">
-                  <input className="tabTwoCheckbox" type="checkbox" value="splitchunks" onChange={this.handleChangeCheckboxSplitChunks} />
-                  <div className="state p-primary">
-                    <label>Vendor Bundle SplitChunks</label> <br />
-                  </div>
-                </div>
-              </div>
-              <div className="checkBoxPadding">
-                <div className="pretty p-default p-round p-smooth">
-                  <input className="tabTwoCheckbox" type="checkbox" value="moment" onChange={this.handleChangeCheckboxMoment} />
-                  <div className="state p-primary">
-                    <label>Moment Locale Ignore</label> <br />
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div className="tabThreeCodeContainer">
-              <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
-                'borderRadius': '5px',
-                'padding': '15px',
-                'width': '500px',
-                'height': '600px',
-                'background': 'white',
-                'opacity': '0.7'
-              }}>{this.state.value}</SyntaxHighlighter>
-            </div>
+        {!store.isOptimizationSelected &&
 
+          <WhiteCardTabTwoMain
+            handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
+            handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
+            value={this.state.value}
+            isOptimizationSelected={store.isOptimizationSelected}
+            installPluggins={this.installPluggins}
+            drawProgressChart={this.drawProgressChart}
+          />
+        }
 
-          </div>
-
-          {
-            !store.isOptimizationSelected &&
-            <div>
-              {/* <button id="tabTwoStatsButton" className="btn stats" onClick={this.installPluggins}>Preview</button> */}
-              <Button
-                classes="btn stats"
-                idName="tabTwoStatsButton"
-                func={this.installPluggins}
-                textContent="Preview"
-              />
-              {/* <button id="tabTwoStatsButton" className="btn stats" onClick={this.drawProgressChart}>Show Size Change</button> */}
-              <Button
-                classes="btn stats"
-                idName="tabTwoStatsButton"
-                func={this.drawProgressChart}
-                textContent="Show Size Change"
-              />
-            </div>
-          }
-          <div id="configbox">
-            {/* <textarea value={this.state.value} onChange={this.handleConfigEdit} /> */}
-          </div>
-        </div >}
-
-        {
-          store.isOptimizationSelected &&
-          <div className="whiteCard">
-            <div className="tabTwo-ThreeHeading">
-              <FaCheck id="greenCheck" /> Optimization Complete
-            </div>
-          </div>
+        {store.isOptimizationSelected &&
+          <WhiteCardTabTwoGreenCheck />
         }
 
 
-        {
-          store.isOptimizationSelected && <div className="whiteCard">
-            <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
-            <div id='progressChartContainer'></div>
-            <div className="lineBreak"></div>
-            <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
-            <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
-            <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
-            <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>
-          </div>
+        {store.isOptimizationSelected &&
+
+          <WhiteCardTabTwoOptimizationDisplay
+            beforeTotalSize={store.beforeTotalSize}
+            afterTotalSize={store.afterTotalSize}
+          />
+
+          // <div className="whiteCard">
+          //   <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>
+          //   <div id='progressChartContainer'></div>
+          //   <div className="lineBreak"></div>
+          //   <div className="tabTwoInfoText">Size before optimization: <span className="dataFont">{(store.beforeTotalSize / 1000000).toPrecision(3)} Mb </span></div>
+          //   <div className="tabTwoInfoText">Size after optimization: <span className="dataFont">{(store.afterTotalSize / 1000000).toPrecision(3)} Mb</span></div>
+          //   <div className="tabTwoInfoText">Size reduction: <span className="dataFont">{((store.beforeTotalSize - store.afterTotalSize) / 1000000).toPrecision(3)} Mb</span></div>
+          //   <div className="tabTwoInfoText">Percentage reduction: <span className="dataFont">{((((store.beforeTotalSize - store.afterTotalSize) / store.beforeTotalSize)) * 100).toPrecision(3)}%</span></div>
+          // </div>
         }
+
+
       </div >
     );
   }
