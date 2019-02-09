@@ -654,9 +654,16 @@ export default class Home extends React.Component<Props, StateType> {
       .text(d => d.data.name + '\n' + d.value + '\n');
 
     let totalSize = nodes.datum().value;
+
     function mouseoutTreemap(d: any): void {
       d3.select(d3.event.currentTarget)
         .attr("fill", 'rgba(85, 183, 208, 0.2)');
+
+      d3.select("#trail2")
+        .style("visibility", "hidden");
+
+      d3.select('#explanationTree')
+        .style("visibility", "hidden");
     }
     function mouseoverTreemap(d: any): void {
       let percentage: number = (100 * d.value / totalSize);
@@ -775,6 +782,8 @@ export default class Home extends React.Component<Props, StateType> {
       .style('stroke', '#FFFFFF');
 
     treemapLayout.tile(d3.treemapDice);
+
+    d3.select("#treemap").on("mouseleave", mouseoutTreemap);
   }
 
 
