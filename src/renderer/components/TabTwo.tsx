@@ -3,7 +3,6 @@ import { observer, inject } from 'mobx-react'
 import { StoreType } from '../store'
 import { ipcRenderer } from 'electron';
 import * as d3 from 'd3';
-import { FaCheck } from "react-icons/fa";
 import WhiteCardTabTwoMain from './WhiteCardTabTwoMain';
 import WhiteCardTabTwoGreenCheck from './WhiteCardTabTwoGreenCheck';
 import WhiteCardTabTwoOptimizationDisplay from './WhiteCardTabTwoOptimizationDisplay';
@@ -100,7 +99,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
   saveConfig = (): void => {
     this.installPluggins
     let temp = this.state.value
-    //    setTimeout(function(){ipcRenderer.send('save-config', temp)}, 600)
     ipcRenderer.send('save-config', this.state.value)
   }
 
@@ -112,7 +110,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
   handleChangeCheckboxMoment = (event: any): void => {
     this.setState({ checkedMoment: !this.state.checkedMoment });
-    //    setTimeout(this.installPluggins, 100)
   }
 
   // Added for handling webpack config editing
