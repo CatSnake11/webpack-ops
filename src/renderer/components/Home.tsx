@@ -9,6 +9,7 @@ import HomeHeadingBox from './HomeHeadingBox';
 import WhiteCardWelcome from './WhiteCardWelcome';
 import WhiteCardPackageJSON from './WhiteCardPackageJSON';
 import WhiteCardWebpackConfig from './WhiteCardWebpackConfig';
+import WhiteCardStatsJSON from './WhiteCardStatsJSON';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -591,7 +592,7 @@ export default class Home extends React.Component<Props, StateType> {
           .selectAll('.slice')
           .filter(d => d === elD)
           .each(function (d: any) {
-            d.parentNode.appendChild(this);
+            // d.parentNode.appendChild(this);
             if (d.parent) {
               moveStackToFront(d.parent);
             }
@@ -1000,46 +1001,52 @@ export default class Home extends React.Component<Props, StateType> {
         }
 
         {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
-          <div className="whiteCard">
-            <div id="stats-file-selector">
-              <div className="tabOne-Heading2">Load Webpack Stats</div>
 
-              {!store.statsFileGenerated &&
-                <div>
-                  <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click <span className="codeText">Load Stats File</span> button to load <span className="codeText">stats.json</span> file below.</div>
-                  <br></br>
-                  <div className='configMessageText'>
-                    If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
-                </div>
-              }
+          <WhiteCardStatsJSON
+            statsFileGenerated={store.statsFileGenerated}
+            getWebpackStats={this.getWebpackStats}
+            generateStatsFile={this.generateStatsFile}
+          />
 
-              {store.statsFileGenerated &&
-                <div className="homeRowFlexContainer">
-                  < FaCheck className="greenCheck" />
-                  <div className="statsGeneratedText">
-                    stats file generated - click 'Load Stats File' button to load <span className="codeTextStats">stats.json</span> file below.
-                  </div>
-                </div>
-              }
+          // <div className="whiteCard">
+          //   <div id="stats-file-selector">
+          //     <div className="tabOne-Heading2">Load Webpack Stats</div>
+          //     {!store.statsFileGenerated &&
+          //       <div>
+          //         <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click <span className="codeText">Load Stats File</span> button to load <span className="codeText">stats.json</span> file below.</div>
+          //         <br></br>
+          //         <div className='configMessageText'>
+          //           If<span className="codeText">stats.json</span> file has not yet been generated, click <span className="codeText">Generate Stats File</span> button to generate <span className="codeText">stats.json</span> file</div>
+          //       </div>
+          //     }
 
-              <Button
-                classes="btn stats"
-                func={this.getWebpackStats}
-                textContent="Load Stats File"
-              />
+          //     {store.statsFileGenerated &&
+          //       <div className="homeRowFlexContainer">
+          //         < FaCheck className="greenCheck" />
+          //         <div className="statsGeneratedText">
+          //           stats file generated - click 'Load Stats File' button to load <span className="codeTextStats">stats.json</span> file below.
+          //         </div>
+          //       </div>
+          //     }
 
-              {!store.statsFileGenerated &&
+          //     <Button
+          //       classes="btn stats"
+          //       func={this.getWebpackStats}
+          //       textContent="Load Stats File"
+          //     />
 
-                <Button
-                  classes="btn stats"
-                  idName="genButton"
-                  func={this.generateStatsFile}
-                  textContent="Generate Stats File"
-                />
+          //     {!store.statsFileGenerated &&
 
-              }
-            </div>
-          </div>
+          //       <Button
+          //         classes="btn stats"
+          //         idName="genButton"
+          //         func={this.generateStatsFile}
+          //         textContent="Generate Stats File"
+          //       />
+
+          //     }
+          //   </div>
+          // </div>
         }
 
         <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
