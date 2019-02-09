@@ -6,6 +6,7 @@ import { ipcRenderer } from 'electron';
 import { FaCheck } from "react-icons/fa";
 import Button from './Button';
 import HomeHeadingBox from './HomeHeadingBox';
+import WhiteCardWelcome from './WhiteCardWelcome';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -947,6 +948,7 @@ export default class Home extends React.Component<Props, StateType> {
       <div className="mainContainerHome">
         <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
           <div className="boxContainer">
+
             <HomeHeadingBox
               textContent="Total Size"
               displayDataString={store.totalSizeTemp}
@@ -972,29 +974,25 @@ export default class Home extends React.Component<Props, StateType> {
               textContent="Assets"
               displayData={store.totalAssets}
             />
+
           </div>
         </div>
 
-        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
-          <div id="welcomeHeader" >Welcome to WebpackOps</div>
-
-          {!store.isPackageSelected &&
-            <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>}
-        </div>
+        <WhiteCardWelcome
+          displayWelcomeCard={store.displayWelcomeCard}
+          isPackageSelected={store.isPackageSelected}
+        />
 
         {!store.isPackageSelected && <div className='whiteCard' >
 
           {!store.isPackageSelected &&
             <div id="package-selector">
-
               <div className='tabOne-Heading'>Select your package.json</div>
-
               <Button
                 classes="btn package"
                 func={this.getPackageJson}
                 textContent="Find Package.JSON"
               />
-
             </div>
           }
         </div>}
