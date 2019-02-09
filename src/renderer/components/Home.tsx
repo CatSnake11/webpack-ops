@@ -7,6 +7,7 @@ import { FaCheck } from "react-icons/fa";
 import Button from './Button';
 import HomeHeadingBox from './HomeHeadingBox';
 import WhiteCardWelcome from './WhiteCardWelcome';
+import WhiteCardPackageJSON from './WhiteCardPackageJSON';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -983,19 +984,13 @@ export default class Home extends React.Component<Props, StateType> {
           isPackageSelected={store.isPackageSelected}
         />
 
-        {!store.isPackageSelected && <div className='whiteCard' >
 
-          {!store.isPackageSelected &&
-            <div id="package-selector">
-              <div className='tabOne-Heading'>Select your package.json</div>
-              <Button
-                classes="btn package"
-                func={this.getPackageJson}
-                textContent="Find Package.JSON"
-              />
-            </div>
-          }
-        </div>}
+        {!store.isPackageSelected &&
+          <WhiteCardPackageJSON
+            isPackageSelected={store.isPackageSelected}
+            getPackageJson={this.getPackageJson}
+          />
+        }
 
         {this.props.store.displayConfigSelection && store.isPackageSelected
           &&
