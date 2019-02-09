@@ -5,6 +5,7 @@ import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
 import { FaCheck } from "react-icons/fa";
 import Button from './Button';
+import HomeHeadingBox from './HomeHeadingBox';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -946,35 +947,31 @@ export default class Home extends React.Component<Props, StateType> {
       <div className="mainContainerHome">
         <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
           <div className="boxContainer">
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Total Size</div>
-                <div className="textPrimaryColor">
-                  {store.totalSizeTemp}
-                </div>
-              </div>
-            </div>
+            <HomeHeadingBox
+              textContent="Total Size"
+              displayDataString={store.totalSizeTemp}
+            />
+
             <div className='boxLine'></div>
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Chunks</div>
-                <div className="textPrimaryColor">{store.totalChunks}</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Chunks"
+              displayData={store.totalChunks}
+            />
+
             <div className='boxLine'></div>
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Modules</div>
-                <div className="textPrimaryColor">{store.totalNodeCount}</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Modules"
+              displayData={store.totalNodeCount}
+            />
+
             <div className='boxLine'></div>
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Assets</div>
-                <div className="textPrimaryColor">{store.totalAssets}</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Assets"
+              displayData={store.totalAssets}
+            />
           </div>
         </div>
 
@@ -997,7 +994,7 @@ export default class Home extends React.Component<Props, StateType> {
                 func={this.getPackageJson}
                 textContent="Find Package.JSON"
               />
-              
+
             </div>
           }
         </div>}
