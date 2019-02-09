@@ -10,6 +10,7 @@ import WhiteCardWelcome from './WhiteCardWelcome';
 import WhiteCardPackageJSON from './WhiteCardPackageJSON';
 import WhiteCardWebpackConfig from './WhiteCardWebpackConfig';
 import WhiteCardStatsJSON from './WhiteCardStatsJSON';
+import D3ChartContainerCard from './D3ChartContainerCard';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -1009,69 +1010,15 @@ export default class Home extends React.Component<Props, StateType> {
           />
         }
 
-        <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
-          <div className="smallerMainContainer">
-            <div id="graphsContainer">
-              <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
-                <div id="chart">
-                  <div id="sequence"></div>
-                  <div id="explanation">
-                    <span id="filename"></span><br />
-                    <span id="percentage"></span><br />
-                    <div>
-                      <span id="filesize"></span> <br />
-                    </div>
-                  </div>
-                  <div className="chartSVGContainer">
-                    <svg width={this.state.width} height={this.state.height} className="sunburst" />
-                  </div>
-                </div>
-              </div>
-
-              <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
-                <div id="sequenceTreeMap"></div>
-                <div id="explanationTree">
-                  <div id="ancestors"></div>
-                  <span id="treemapText"></span>
-                  <span id="filenameTree"></span><br />
-                  <span id="percentageTree"></span><br />
-                  <div>
-                    <span id="filesizeTree"></span> <br />
-                  </div>
-                </div>
-                <div style={{ paddingTop: '10px' }} id="chartTreeMap">
-                  <div className="chartSVGContainer">
-                    <svg width='650px' height={this.state.height} id="treemap" />
-                  </div>
-                </div>
-              </div>
-
-              <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-                <div id="explanationTreeZoom">
-                  <div id="ancestorsZoom"></div>
-                  <span id="treemapTextZoom"></span>
-                  <span id="filenameTreeZoom"></span><br />
-                  <span id="percentageTreeZoom"></span><br />
-                  <div>
-                    <span id="filesizeTreeZoom"></span> <br />
-                  </div>
-                </div>
-                <div id="sequenceTreeMapZoom"></div>
-                <div className="chartSVGContainer">
-                  <div className='zoomTreemapColumnContainer'>
-                    <div className="up">&larr; UP</div>
-                    <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
-                      <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              </div>
-            </div>
-          </div>
-        </div>
+        <D3ChartContainerCard
+          displayChartCard={store.displayChartCard}
+          displaySunburst={store.displaySunburst}
+          width={this.state.width}
+          height={this.state.height}
+          displayTreemap={store.displayTreemap}
+          displayTreemapZoom={store.displayTreemapZoom}
+          displaySunburstZoom={store.displaySunburstZoom}
+        />
       </div>
     );
   }
