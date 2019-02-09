@@ -8,6 +8,7 @@ import Button from './Button';
 import HomeHeadingBox from './HomeHeadingBox';
 import WhiteCardWelcome from './WhiteCardWelcome';
 import WhiteCardPackageJSON from './WhiteCardPackageJSON';
+import WhiteCardWebpackConfig from './WhiteCardWebpackConfig';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
 //import parseHandler from '../../main/parseHandler';
@@ -984,7 +985,6 @@ export default class Home extends React.Component<Props, StateType> {
           isPackageSelected={store.isPackageSelected}
         />
 
-
         {!store.isPackageSelected &&
           <WhiteCardPackageJSON
             isPackageSelected={store.isPackageSelected}
@@ -992,19 +992,11 @@ export default class Home extends React.Component<Props, StateType> {
           />
         }
 
-        {this.props.store.displayConfigSelection && store.isPackageSelected
-          &&
-          <div className="whiteCard">
-            <div id="webpack-config-selector">
-              <div className='tabOne-Heading'>Select desired configuration</div>
-              <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-                {this.state.listOfConfigs.map(function (config, index) {
-                  return <div className='configRadios' key={index.toString() + 'a'}><input type="radio" name="config" value={index} key={index.toString()} /><div style={{ display: 'inline-block' }} key={index.toString() + 'b'}>{config}</div><br /></div>;
-                })}
-                <input id="selectConfigButton" className='btn package' type="submit" value="Select Config" />
-              </form>
-            </div>
-          </div>
+        {this.props.store.displayConfigSelection && store.isPackageSelected &&
+          <WhiteCardWebpackConfig
+            getWebpackConfig={this.getWebpackConfig}
+            listOfConfigs={this.state.listOfConfigs}
+          />
         }
 
         {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
