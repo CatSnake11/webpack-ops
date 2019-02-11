@@ -491,6 +491,10 @@ a {
   margin-right: 2px;
 }
 
+#greenCheck {
+  color: #9cedaa;
+}
+
 #webpackConfigSaveText {
   margin-left: 8px;
   font-family: 'Oswald';
@@ -648,7 +652,9 @@ text:nth-of-type(2) {
 }
 
 .configMessageText {
-  font-size: 14px;
+  // display: flex;
+  // justify-content: left;
+  font-size: 15px;
   padding-bottom: 0px;
 }
 
@@ -715,7 +721,7 @@ pre {
   margin: 0 1px;
   color: $text-primary;
   font-family: 'Monaco';
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .codeTextStats {

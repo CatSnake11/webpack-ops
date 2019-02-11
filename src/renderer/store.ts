@@ -14,6 +14,7 @@ export type StoreType = {
 	totalAssets: number,
 	totalChunks: number,
 	setIsLoadingTrue(): void,
+	setRootSelected(): void,
 	displaySunburst: boolean,
 	displaySunburstZoom: boolean,
 	displayTreemap: boolean,
@@ -346,6 +347,11 @@ export default class Store {
 	@action.bound
 	setIsPackageSelectedTrue() {
 		this.isPackageSelected = true;
+	}
+
+	@action.bound
+	setRootSelected() {
+		this.isRootSelected = true;
 	}
 
 	@action.bound
