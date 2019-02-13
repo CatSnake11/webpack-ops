@@ -48,6 +48,7 @@ export type StoreType = {
 	setDisplayPluginsTabTrue(): void,
 	setDisplayStatsFileGeneratedTrue(): void,
 	setWereChartsEverDrawn(): void,
+	setIsNewConfigGenerated(): void,
 	isSunburstSelected: boolean,
 	isSunburstZoomSelected: boolean,
 	isTreemapSelected: boolean,
@@ -70,6 +71,7 @@ export type StoreType = {
 	isRootSelected: boolean,
 	isPreviewSelected: boolean,
 	customConfigSaved: boolean,
+	isNewConfigGenerated: boolean,
 	setCustomConfigSavedTrue(): void
 };
 
@@ -192,6 +194,9 @@ export default class Store {
 	customConfigSaved = false;
 
 	@observable
+	isNewConfigGenerated = false;
+
+	@observable
 	totalSizeTemp = '';
 
 	@observable
@@ -249,6 +254,11 @@ export default class Store {
 	@action.bound
 	setWereChartsEverDrawn() {
 		this.wereChartsEverDrawn = true;
+	}
+
+	@action.bound
+	setIsNewConfigGenerated() {
+		this.isNewConfigGenerated = true;
 	}
 
 	@action.bound

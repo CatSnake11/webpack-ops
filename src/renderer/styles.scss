@@ -600,6 +600,19 @@ a {
   color: darken($text-black, 2%);
 }
 
+.tabTwoDescriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  color: darken($text-black, 2%);
+  padding-left: 8px;
+  margin-bottom: 27px;
+}
+
+.tabTwoButtonContainer {
+  margin-top: 1px;
+}
+
 .selectMessageTabThree {
   font-family: 'Roboto', sans-serif;
   font-size: 32px;

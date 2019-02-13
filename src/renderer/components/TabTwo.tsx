@@ -90,6 +90,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, [])
     console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
+    this.doSetIsNewConfigGenerated();
   }
 
   updateConfig = (event: any, data): void => {
@@ -121,6 +122,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.props.store.isOptimizationSelected = true;
   }
 
+  doSetIsNewConfigGenerated = (): void => {
+    this.props.store.setIsNewConfigGenerated();
+  }
+
   render() {
     const codeString = '(num) => num + 1';
     const { store } = this.props;
@@ -136,6 +141,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
             isOptimizationSelected={store.isOptimizationSelected}
             installPluggins={this.installPluggins}
             drawProgressChart={this.drawProgressChart}
+            isNewConfigGenerated={store.isNewConfigGenerated}
           />
         }
 
