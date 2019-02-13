@@ -1025,6 +1025,22 @@ function readConfig(entry: number) {
   // console.log("User selected entry", entry)
   // console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
 
+  let selectedConfig = listOfConfigs[entry];
+
+  if (!selectedConfig.match('--json')) {
+    selectedConfig += ' --json > stats.json';
+  }
+
+  if (selectedConfig.match('--open')) {
+    selectedConfig = selectedConfig.replace(' --open', '');
+  }
+
+  if (selectedConfig.match('-dev-server')) {
+    selectedConfig = selectedConfig.replace('-dev-server', '');
+  }
+
+  console.log('new selected config: -----', selectedConfig);
+
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
     config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0]
@@ -1045,7 +1061,7 @@ function readConfig(entry: number) {
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
     console.log('directory22222: ', directory);
-    parseHandler.setWorkingDirectory(directory);
+    parseHandler.setWorkingDirectory(directory, selectedConfig);
 
     // present user list of plugins
     // receive selected plugins
