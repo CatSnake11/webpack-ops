@@ -522,7 +522,6 @@ export default class Home extends React.Component<Props, StateType> {
       .enter()
       .append('g')
       .attr('class', 'slice')
-      .style('dominant-baseline', 'middle')
       .on('click', (d: any) => {
         d3.event.stopPropagation();
         focusOn(d);
