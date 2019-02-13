@@ -8,16 +8,11 @@ const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
 import parseHandler from './parseHandler';
-<<<<<<< HEAD
-||||||| 835330a... remove most of console.logs from main.ts
-import Store from '../renderer/store';
-=======
 // import { observe } from 'mobx';
 import Store from '../renderer/store';
 // import * as store from '../renderer/store';
 
 //isPackageSelected 1015
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
@@ -738,26 +733,15 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-<<<<<<< HEAD
-||||||| 835330a... remove most of console.logs from main.ts
-
-=======
     console.log('just than 1')
 
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".svg")) {
-<<<<<<< HEAD
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1);
-||||||| 835330a... remove most of console.logs from main.ts
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
-=======
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
         customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
         numberOfRules -= 1;
       }
     }
