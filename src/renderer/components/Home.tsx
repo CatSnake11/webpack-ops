@@ -671,8 +671,6 @@ export default class Home extends React.Component<Props, StateType> {
       if (percentage < 0.1) {
         percentageString = "< 0.1%";
       } else percentageString = percentage.toPrecision(3) + '%';
-      d3.select('#treemapText')
-        .text(d.data.name);
 
       d3.select('#percentageTree')
         .text(percentageString);
@@ -718,7 +716,7 @@ export default class Home extends React.Component<Props, StateType> {
 
       entering.append("svg:polygon")
         .attr("points", breadcrumbPoints)
-        .style("fill", function (d) { return '#409dbf'; });
+        .style("fill", function (d) { return '#f7aab2'; });
 
       entering.append("svg:text")
         .attr("x", (b.w + b.t) / 2)
