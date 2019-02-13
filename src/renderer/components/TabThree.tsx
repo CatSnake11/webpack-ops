@@ -35,16 +35,12 @@ export default class TabThree extends React.Component<Props, StateType> {
   componentDidMount() {
     ipcRenderer.on('customRootDirectrySet', (event: any, customDirectory: string): void => {
       this.setState({ rootCustomDirectory: customDirectory });
-    })
+    });
 
-    ipcRenderer.send('CustomAST', 'ping')
+    ipcRenderer.send('CustomAST', 'ping');
     ipcRenderer.on('transferCustomAST', (event: any, formattedCode1: string): void => {
-      console.log(formattedCode1)
-      console.log('hi')
-      console.log(typeof formattedCode1)
-      this.setState({ defaultFormattedCode: formattedCode1 })
-      //console.log(this.state.AST)
-    })
+      this.setState({ defaultFormattedCode: formattedCode1 });
+    });
 
     ipcRenderer.on('root-is-selected', (): void => {
       this.doSetRootSelected();
@@ -110,9 +106,8 @@ export default class TabThree extends React.Component<Props, StateType> {
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
-    // console.log('hihihihihi')
     ipcRenderer.send('saveCustomConfig', this.state.rootCustomDirectory);
-    //
+
     this.doSetCustomConfigSaved();
   }
 

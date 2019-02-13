@@ -29,8 +29,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   componentDidMount() {
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
-      console.log("finished installation")
-      console.log(arg)
     });
 
     if (this.props.store.isOptimizationSelected) {
@@ -66,8 +64,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
         .attr("height", 35)
         .attr("rx", 18) // rounded corners
         .attr("ry", 18);
-
-      // const dataStr = data.map(num => num + 'mb');
 
       chart.selectAll("text") // adding the text labels to the bar
         .data(data)
