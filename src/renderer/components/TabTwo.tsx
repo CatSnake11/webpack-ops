@@ -37,7 +37,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
-      console.log("display updated config")
+      // console.log("display updated config")
       this.setState({ value: data });
     })
 
@@ -84,7 +84,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
       if (this.state[el] === true) accum.push(el);
       return accum;
     }, [])
-    console.log(arrToInstall)
+    // console.log('arrToInstall: ', arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
