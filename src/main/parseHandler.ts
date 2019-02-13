@@ -9,8 +9,6 @@ import { exec } from 'child_process';
 interface ParseHandler {
   directory?: string,
 
-  selectedConfig?: string,
-
   configFile: string,
 
   originalConfig: string,
@@ -19,7 +17,7 @@ interface ParseHandler {
 
   plugins: Array<AvailablePlugin>,
 
-  setWorkingDirectory: (directory: string, selectedConfig?: string) => void;
+  setWorkingDirectory: (directory: string) => void;
 
   getWorkingDirectory: () => string;
 
@@ -70,7 +68,7 @@ interface EntryPoints {
   oldModuleExports: Array<any>,
   plugins: Array<any>,
   pluginsSection: any,
-  optimizationSection: any,
+  optimizationSection: any,  
 }
 
 const listOfConfigs = [];
@@ -82,7 +80,7 @@ const entryPoints: EntryPoints = {
   oldModuleExports: [],
   plugins: [],
   pluginsSection: any,
-  optimizationSection: any,
+  optimizationSection: any,  
 }
 
 const pluginEntryPoints: EntryPoints = {
@@ -92,7 +90,7 @@ const pluginEntryPoints: EntryPoints = {
   oldModuleExports: [],
   plugins: [],
   pluginsSection: any,
-  optimizationSection: any,
+  optimizationSection: any,  
 }
 
 const parseHandler: ParseHandler = {
@@ -106,9 +104,8 @@ const parseHandler: ParseHandler = {
 
   originalConfig: "", // original text of webpack config file
 
-  setWorkingDirectory: function (directory: string, selectedConfig: string) {
-    this.directory = directory;
-    this.selectedConfig = selectedConfig;
+  setWorkingDirectory: function (directory: string) {
+    this.directory = directory
   },
 
   getWorkingDirectory: function () {
@@ -178,10 +175,10 @@ const parseHandler: ParseHandler = {
 
       // not supported now
       let configNames = oldModuleExports.elements;
-
+    
       for (let i = 0; i < configNames.length; i++) {  // find configs matching names in module.exports array 
 
-        let config = entryPoints.body.filter((d: any) => {
+        let config = entryPoints.body.filter( (d: any) => {
           return (
             d.type === "VariableDeclaration" &&
             d.declarations[0].id.name === configNames[i].name
@@ -190,13 +187,13 @@ const parseHandler: ParseHandler = {
         configs.push(config.right)
       }
     }
-
+  
     // should support adding multiple config's plugin sections, currently does the first
     entryPoints.pluginsSection = entryPoints.moduleExports.properties.filter(element => element.key.name === "plugins")[0]
-
+  
     entryPoints.optimizationSection = entryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0]
 
-    return { entryPoints, ast }
+    return { entryPoints, ast}
   },
 
   updateConfig: function () {
@@ -208,9 +205,9 @@ const parseHandler: ParseHandler = {
 
     // pretty up the formatted code
     formattedCode = formattedCode
-      .replace("/[{/g", "}\n]")
-      .replace(/\nmodule.exports/, "\n\nmodule.exports")
-      .replace(/(\nconst.+new)/g, "\n$&")
+    .replace("/[{/g", "}\n]")
+    .replace(/\nmodule.exports/,"\n\nmodule.exports")
+    .replace(/(\nconst.+new)/g, "\n$&")
 
     formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
 
@@ -233,7 +230,9 @@ const parseHandler: ParseHandler = {
       }
 
     });
-    this.loadStats2();
+
+    this.loadStats2()
+
   },
 
   loadStats2: function () {
@@ -250,7 +249,12 @@ const parseHandler: ParseHandler = {
       });
     }
 
-    let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
+    console.log("calling runWebpack")
+    console.log("this.directory: ", this.directory)
+    console.log("this.configFile: ", this.configFile)
+    // let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
+    console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
+    let aPromise = runWebpack2("cd '" + this.directory + "' && webpack --config ./webpack.config.js --env production --profile --json > stats.json")
       .then((res) => {
         isStatsUpdated();
         // go display webpack stats
@@ -326,12 +330,13 @@ const parseHandler: ParseHandler = {
     }
 
     pluginEntryPoints.pluginsSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "plugins")[0]
-
+  
     pluginEntryPoints.optimizationSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0]
 
-    this.mergePlugin();
+    this.mergePlugin()
+    
+    return { pluginEntryPoints, ast}
 
-    return { pluginEntryPoints, ast }
   },
 
 
@@ -348,14 +353,15 @@ const parseHandler: ParseHandler = {
     // todo: Add multiple variable declarations from plugin 
     if (pluginEntryPoints.body[0].type === "VariableDeclaration") {
       entryPoints.body.unshift(pluginEntryPoints.body[0])  // should check to see if already exists 
-      // and do all variable definitions. currently doing one.
+                                                           // and do all variable definitions. currently doing one.
     }
-
+  
+    console.log("add plugins")
     // Add any plugins to the plugins section of the config
     if (pluginEntryPoints.pluginsSection && pluginEntryPoints.pluginsSection.value.elements.length !== 0) {
       // check to see if plugins section of config exists and add if needed
-      if (!entryPoints.pluginsSection) {
-        // check to see if there is a plugins section already in place  
+      if( ! entryPoints.pluginsSection ) {
+      // check to see if there is a plugins section already in place  
         entryPoints.moduleExports.properties.push(pluginEntryPoints.pluginsSection)
       } else {
         pluginEntryPoints.pluginsSection.value.elements.forEach(element => {
@@ -368,10 +374,10 @@ const parseHandler: ParseHandler = {
     }
 
     // Add any optimizations to the optimizations section of the config
-    if (pluginEntryPoints.optimizationSection && pluginEntryPoints.optimizationSection.value.properties.length !== 0) {
+    if(pluginEntryPoints.optimizationSection && pluginEntryPoints.optimizationSection.value.properties.length !== 0) {
       // check to see if optimization section of config exists and add if needed
-      if (!entryPoints.optimizationSection) {
-        // check to see if there is an optimization section already in place  
+      if( ! entryPoints.optimizationSection ) {
+      // check to see if there is an optimization section already in place  
         entryPoints.moduleExports.properties.push(pluginEntryPoints.optimizationSection)
       } else {
         pluginEntryPoints.optimizationSection.value.properties.forEach(element => {
