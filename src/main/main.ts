@@ -1025,16 +1025,14 @@ let entryPoints: any = {}
 let ast: any = {}
 
 function selectConfig(packageFile: any) {
-  // console.log("selectConfig")
 
   let output = "webpack configurations in package.json.\n";
   listOfConfigs = [];
   const entries = packageFile.scripts;
-  //  const listOfConfigs: Array<string> = [];  // made global for inter function communication
+
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
-      // console.log('listOfConfigs: ', listOfConfigs);
       listOfConfigs.push(entries[entry]);
     }
   }
@@ -1045,10 +1043,22 @@ function selectConfig(packageFile: any) {
 }
 
 function readConfig(entry: number) {
-  // console.log("readConfig")
-  // console.log("listOfConfigs", listOfConfigs)
-  // console.log("User selected entry", entry)
-  // console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
+
+  let selectedConfig = listOfConfigs[entry];
+
+  if (!selectedConfig.match('--json')) {
+    selectedConfig += ' --json > stats.json';
+  }
+
+  if (selectedConfig.match('--open')) {
+    selectedConfig = selectedConfig.replace(' --open', '');
+  }
+
+  if (selectedConfig.match('-dev-server')) {
+    selectedConfig = selectedConfig.replace('-dev-server', '');
+  }
+
+  console.log('new selected config: -----', selectedConfig);
 
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
@@ -1063,15 +1073,12 @@ function readConfig(entry: number) {
       return;
     }
     const configFile: string = data.toString();
-    // console.log("configuration file:")
-    // console.log(configFile);
 
-    //parseConfig(configFile, config)
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
     console.log('directory22222: ', directory);
-    parseHandler.setWorkingDirectory(directory);
+    parseHandler.setWorkingDirectory(directory, selectedConfig);
 
     // present user list of plugins
     // receive selected plugins
@@ -1116,29 +1123,20 @@ function loadStats(file: string) {
       return;
     }
     // clean and send back JSON stats file
-    //let content = data.toString()
     let content: any = data.toString();
 
-    //console.log(content)
     content = content.substr(content.indexOf("{"));
 
     //splits multiple JSON objects if more than one exists in file
-    //content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
-    // content = "{" + content.split(/}[\n\r\s]+{/)[1]  
     content = content.split(/}[\n\r\s]+{/);
-    // repair brackets from split
 
-    // console.log("content array length is", content.length)
+    // repair brackets from split
     if (content.length > 1) {
       for (let i = 0; i < content.length; i++) {
         content[i] = (i > 0) ? "{" : "" + content[i] + (i < content.length - 1) ? "}" : ""
       }
     }
-    // console.log("Stats File")
-    // console.log(content[0].substring(0, 40))
-    // console.log("Stats 2")
-    // console.log(content[1].substring(0,40))
-    // content is now an array of one or more stats json
+
     content = JSON.parse(content[0])
     while (!content.hasOwnProperty("builtAt")) {
       content = content.children[0]
