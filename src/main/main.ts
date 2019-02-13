@@ -823,7 +823,6 @@ function selectStatsJson() {
   let file = dialog.showOpenDialog({ properties: ['openFile'] })
 
   if (file === undefined) {
-    console.log('no gooo');
     return false;
   }
 
