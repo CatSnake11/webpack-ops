@@ -6,9 +6,8 @@ import fs from 'fs';
 const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
-import { any } from 'prop-types';
 import parseHandler from './parseHandler';
-import Store from '../renderer/store';
+
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
@@ -297,7 +296,6 @@ ipcMain.on('addSassToAST', (event: any, arg: any) => {
     if (customASTPropertyKey.indexOf(SassAST.body[0].expression.right.properties[0].key.name) === -1) {
       moduleExist = true;
       numberOfRules += 1;
-      console.log('hi2')
       customAST.body[customAST.body.length - 1].expression.right.properties.push(SassAST.body[0].expression.right.properties[0])
     } else {
       let customASTModulePropertyKey: string[] = [];
@@ -537,15 +535,12 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
   }
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('more than 1')
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
-      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".svg")) {
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1);
         numberOfRules -= 1;
       }
     }
