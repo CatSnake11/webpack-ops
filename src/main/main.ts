@@ -8,7 +8,6 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 import parseHandler from './parseHandler';
 
-
 /* test of reducing Moment library size */
 import * as moment from 'moment';
 
