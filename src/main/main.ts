@@ -552,26 +552,20 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
   }
   const formattedCode1 = generate(customAST, {
     comments: true,
-  })
-  console.log(formattedCode1)
+  });
+
   formattedCode1ToSave = formattedCode1
 
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
 ipcMain.on('addPNGToAST', (event: any, arg: any) => {
-  console.log('hi')
-
   fs.readFile(__dirname + '/../src/src_custom_config/png.config.js', (err, data) => {
     if (err) return console.log(err);
-    console.log('hi')
     pngAST = acorn.parse(data.toString(), {
       ecmaVersion: 6,
       locations: true,
     });
-    console.log('PNG')
-    console.log('read' + JSON.stringify(pngAST.body[0].expression.right.properties[0]))
-    console.log('AST')
     let customASTPropertyKey: string[] = []
     customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
@@ -580,20 +574,15 @@ ipcMain.on('addPNGToAST', (event: any, arg: any) => {
     if (customASTPropertyKey.indexOf(pngAST.body[0].expression.right.properties[0].key.name) === -1) {
       moduleExist = true;
       numberOfRules += 1;
-      console.log('hi2')
-      customAST.body[customAST.body.length - 1].expression.right.properties.push(pngAST.body[0].expression.right.properties[0])
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(pngAST.body[0].expression.right.properties[0]);
     } else {
-      console.log('hi1')
       let customASTModulePropertyKey: string[] = [];
       customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
         if (el.key.name === "module") {
           let moduleArr = el.value.properties
           moduleArr.forEach((moduleEl) => {
             if (moduleEl.key.name === "rules") {
-              console.log('here')
-              console.log(JSON.stringify(moduleEl.value.elements))
-              console.log(JSON.stringify(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-              moduleEl.value.elements.push(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+              moduleEl.value.elements.push(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]);
             }
           })
         }
@@ -602,11 +591,10 @@ ipcMain.on('addPNGToAST', (event: any, arg: any) => {
       numberOfRules += 1;
     }
 
-    console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
-    })
-    console.log(formattedCode1)
+    });
+
     formattedCode1ToSave = formattedCode1
 
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
@@ -618,17 +606,12 @@ ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
     if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
-  console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('just than 1')
-
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('more than 1')
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
-      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".png")) {
         customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
         numberOfRules -= 1;
@@ -640,7 +623,6 @@ ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   })
   formattedCode1ToSave = formattedCode1
 
-  console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
@@ -655,9 +637,6 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
 ipcMain.on('read-config', (event: any, configNumber: any) => {
   // after package.json is loaded configs have been sent to renderer and user
   // has now selected one and we need to load
-  console.log("on load-config")
-  console.log("use configuration: ", configNumber)
-
   readConfig(configNumber)
 })
 
@@ -794,7 +773,6 @@ function readConfig(entry: number) {
 
   fs.readFile(directory + "/" + config, (err, data) => {
     if (err) {
-      console.log("An error ocurred loading: " + err.message);
       console.log(err);
       return;
     }
