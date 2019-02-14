@@ -380,8 +380,10 @@ const parseHandler: ParseHandler = {
         entryPoints.moduleExports.properties.push(pluginEntryPoints.optimizationSection)
       } else {
         pluginEntryPoints.optimizationSection.value.properties.forEach(element => {
-          entryPoints.optimizationSection.value.properties
-            .push(JSON.parse(JSON.stringify(element)))
+          if (!entryPoints.optimizationSection.value.properties[0]) {
+            entryPoints.optimizationSection.value.properties
+              .push(JSON.parse(JSON.stringify(element)))
+          }
         });
       }
     }
