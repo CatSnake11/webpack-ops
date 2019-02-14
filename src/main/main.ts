@@ -762,6 +762,8 @@ function readConfig(entry: number) {
 
   console.log('new selected config: -----', selectedConfig);
 
+  parseHandler.setWorkingDirectory(directory, selectedConfig);
+
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
     config = listOfConfigs[entry].split("--config")[1].trimLeft().split(" ")[0]
@@ -777,7 +779,7 @@ function readConfig(entry: number) {
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
-    parseHandler.setWorkingDirectory(directory, selectedConfig);
+    // parseHandler.setWorkingDirectory(directory, selectedConfig);
 
     // present user list of plugins
     // receive selected plugins
