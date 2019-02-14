@@ -288,8 +288,10 @@ const parseHandler: ParseHandler = {
     console.log("this.directory: ", this.directory)
     console.log("this.configFile: ", this.configFile)
     // let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
-    console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
-    let aPromise = runWebpack2("cd '" + this.directory + "' && webpack --config ./webpack.config.js --env production --profile --json > stats.json")
+//    console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
+//    let aPromise = runWebpack2("cd '" + this.directory + "' && webpack  --env production --config " + this.configFile + " --profile --json > stats.json")
+    console.log('checking it out: ', (`cd ${this.directory}  && webpack  --env production --config ${this.configFile} --profile --json > stats.json`))
+    let aPromise = runWebpack2(`cd ${this.directory}  && webpack  --env production --config ${this.configFile} --profile --json > stats.json`)
       .then((res) => {
         console.log("there was a response")
         isStatsUpdated()
@@ -302,7 +304,7 @@ const parseHandler: ParseHandler = {
 
     function isStatsUpdated() {
       console.log("isStatsUpdated?")
-      fs.readFile("stats.json", (err, data) => {
+      fs.readFile(`${parseHandler.directory}/stats.json`, (err, data) => {
         if (err) {
           console.log(err);
           return;
