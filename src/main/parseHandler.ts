@@ -338,7 +338,7 @@ const parseHandler: ParseHandler = {
 
     pluginEntryPoints.optimizationSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0]
 
-    this.mergePlugin();
+    this.mergePlugin()
 
     return { pluginEntryPoints, ast }
   },
@@ -359,7 +359,6 @@ const parseHandler: ParseHandler = {
       entryPoints.body.unshift(pluginEntryPoints.body[0])  // should check to see if already exists 
       // and do all variable definitions. currently doing one.
     }
-
     // Add any plugins to the plugins section of the config
     if (pluginEntryPoints.pluginsSection && pluginEntryPoints.pluginsSection.value.elements.length !== 0) {
       // check to see if plugins section of config exists and add if needed
@@ -368,14 +367,11 @@ const parseHandler: ParseHandler = {
         entryPoints.moduleExports.properties.push(pluginEntryPoints.pluginsSection)
       } else {
         pluginEntryPoints.pluginsSection.value.elements.forEach(element => {
-          if (!entryPoints.pluginsSection.value.elements[0]) {
-            entryPoints.pluginsSection.value.elements
-              .push(JSON.parse(JSON.stringify(element)))
-          }
+          entryPoints.pluginsSection.value.elements
+            .push(JSON.parse(JSON.stringify(element)))
         })
       }
     }
-
     // Add any optimizations to the optimizations section of the config
     if (pluginEntryPoints.optimizationSection && pluginEntryPoints.optimizationSection.value.properties.length !== 0) {
       // check to see if optimization section of config exists and add if needed
@@ -384,10 +380,8 @@ const parseHandler: ParseHandler = {
         entryPoints.moduleExports.properties.push(pluginEntryPoints.optimizationSection)
       } else {
         pluginEntryPoints.optimizationSection.value.properties.forEach(element => {
-          if (!entryPoints.optimizationSection.value.properties[0]) {
-            entryPoints.optimizationSection.value.properties
-              .push(JSON.parse(JSON.stringify(element)))
-          }
+          entryPoints.optimizationSection.value.properties
+            .push(JSON.parse(JSON.stringify(element)))
         });
       }
     }
