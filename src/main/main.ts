@@ -8,90 +8,13 @@ const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
 import parseHandler from './parseHandler';
-<<<<<<< HEAD
-<<<<<<< HEAD
-||||||| 835330a... remove most of console.logs from main.ts
-||||||| 835330a... remove most of console.logs from main.ts
-=======
-// import { observe } from 'mobx';
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
-import Store from '../renderer/store';
-<<<<<<< HEAD
-=======
-// import { observe } from 'mobx';
-import Store from '../renderer/store';
-// import * as store from '../renderer/store';
-
-//isPackageSelected 1015
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
-||||||| 835330a... remove most of console.logs from main.ts
-=======
-// import * as store from '../renderer/store';
-
-//isPackageSelected 1015
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
 
-// type Props = {
-//   store?: StoreType
-// }
-
-
 let now = moment().format('LLLL');
 console.log("This is a momentous time")
 console.log(now)
-
-
-
-//const { promisify } = require('util');
-//const exec = promisify(require('child_process').exec);
-
-// let generate1 = async function generateStats() {
-//   const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
-//   return { stats }
-// };
-
-/*
-import { exec } from 'child_process';
-
-async function runWebpack2(cmd) {
-  return new Promise(function (resolve, reject) {
-    exec(cmd, (err, stdout, stderr) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ stdout, stderr });
-      }
-    });
-  });
-}
-
-
-console.log("calling runWebpack")
-let aPromise = runWebpack2("cd c:/sandbox/simple_webpack_boilerplate &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
-.then((res)=>{
-  console.log("there was a response")
-  isStatsUpdated()
-  // go display webpack stats
-})
-.catch((err) => {
-  console.log("there was an error")
-  console.log(err)
-})
-
-function isStatsUpdated () {
-  console.log("isStatsUpdated?")
-  fs.readFile("c:/sandbox/simple_webpack_boilerplate/webpack-stats.tony.json", (err, data) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log((data.toString()));
-  });
-}
-*/
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -750,36 +673,14 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
   console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-||||||| 835330a... remove most of console.logs from main.ts
-
-=======
     console.log('just than 1')
-||||||| 835330a... remove most of console.logs from main.ts
-=======
-    console.log('just than 1')
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
-
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
+
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".svg")) {
-<<<<<<< HEAD
-<<<<<<< HEAD
         customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1);
-||||||| 835330a... remove most of console.logs from main.ts
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
-=======
-        //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-||||||| 835330a... remove most of console.logs from main.ts
-=======
-        //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
         numberOfRules -= 1;
       }
     }
@@ -1073,21 +974,9 @@ function readConfig(entry: number) {
     selectedConfig = selectedConfig.replace('-dev-server', '');
   }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   console.log('new selected config: -----', selectedConfig);
 
   parseHandler.setWorkingDirectory(directory, selectedConfig);
-||||||| 835330a... remove most of console.logs from main.ts
-  // console.log('new selected config: -----', selectedConfig);
-=======
-  console.log('new selected config: -----', selectedConfig);
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
-||||||| 835330a... remove most of console.logs from main.ts
-  // console.log('new selected config: -----', selectedConfig);
-=======
-  console.log('new selected config: -----', selectedConfig);
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
 
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
@@ -1105,19 +994,8 @@ function readConfig(entry: number) {
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    // parseHandler.setWorkingDirectory(directory, selectedConfig);
-||||||| 835330a... remove most of console.logs from main.ts
+
     parseHandler.setWorkingDirectory(directory, selectedConfig);
-=======
-    console.log('directory22222: ', directory);
-||||||| 835330a... remove most of console.logs from main.ts
-=======
-    console.log('directory22222: ', directory);
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
-    parseHandler.setWorkingDirectory(directory, selectedConfig);
->>>>>>> parent of 835330a... remove most of console.logs from main.ts
 
     // present user list of plugins
     // receive selected plugins
