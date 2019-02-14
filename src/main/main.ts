@@ -800,35 +800,7 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
   var child;
-  /*
-  if (arrPluginsChecked.indexOf('checkedMini') > -1) {
-    child = exec("npm install --prefix /Users/heiyeunglam/Desktop/Project/ProductionProject/Webpack-Optimizer mini-css-extract-plugin",
-      function (error: any, stdout: any, stderr: any) {
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    })
-  }
-
-  */
-
-  // if (arrPluginsChecked.indexOf('checkedMoment') > -1) {
-  //   parseHandler.loadPluginMoment()
-  //   // parse
-  //   // merge
-  // }
-  // if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
-  //   parseHandler.loadPluginSplitChunks()
-  //   // parse
-  //   // merge
-  // }
-  // if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
-  //   parseHandler.loadPluginMini()
-  //   // parse
-  //   // merge
-  // }
+  
   parseHandler.initEntryPoints()
 
   if (arrPluginsChecked.indexOf('checkedMoment') > -1) {

@@ -206,7 +206,6 @@ const parseHandler: ParseHandler = {
   },
 
   updateConfig: function () {
-
     // Use astring.generate to convert config ast back to a JavaScript file
     let formattedCode = generate(entryPoints.all, {
       comments: true,
