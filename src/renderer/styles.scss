@@ -1,5 +1,5 @@
 @import '~pretty-checkbox/src/pretty-checkbox.scss';
-@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Exo+2|Yantramanav|Ubunto+Mono|Quantico');
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Oswald|Roboto|Raleway|Cabin|Nobile|Electrolize|Exo+2|Yantramanav|Ubunto+Mono|Quantico|Anton');
 
 $m: 0; // margin
 
@@ -24,6 +24,10 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   100% { color: $afterNavHover; }
 }
 
+.CodoBox {
+  width: 150px;
+}
+
 .whiteCardTabThree {
   background-color: white;
   padding: 20px;
@@ -31,7 +35,7 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   width: 90%;
   border-radius: 4px;
-  height: 200px;
+  height: 230px;
   box-shadow: $box-shadow;
 }
 @keyframes onHoverNavLink {
@@ -89,7 +93,6 @@ body {
   flex-direction: column;
   padding: 25px;
   box-shadow: 9px 0px 25px 2px darken($bg-color, 13%);
-  // box-shadow: $box-shadow;
 }
 
 .Nav__container {
@@ -118,6 +121,16 @@ body {
   width: 174px;
 }
 
+.Nav__itemPre {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 0 30px 10px;
+  margin-left: -30px;
+  list-style-type: none;
+  justify-content: left;
+  width: 174px;
+}
+
 .Nav__link {
   display: flex;
   clear: right;
@@ -128,7 +141,6 @@ body {
 }
 
 .Nav__link:hover {
-  // color: rgba(255, 255, 255, 1);
   animation: onHoverNavLink 0.6s;
   color: $afterNavLinkHover;
 }
@@ -153,10 +165,7 @@ a {
   border-radius: 4px;
   outline: none;
   border:none;
-  // box-shadow: $box-shadow;
   color:rgb(225, 102, 114);
-  // color: rgb(123, 242, 187);
-  // color: rgb(55, 70, 63);
   font-size: 14px;
   padding: 10px 10px 10px 10px;
   cursor: pointer;
@@ -166,9 +175,6 @@ a {
   box-shadow: $box-shadow;
   color: white;
   background: rgb(247, 101, 116);
-  // background: rgb(225, 102, 114);
-  // background: none;
-  // border: 2px solid rgb(235, 178, 183);
 }
 
 #resetButton {
@@ -176,7 +182,6 @@ a {
 }
 
 #buttonContainer {
-  // border: 1px solid black;
   display: inline-block;
   margin-top: 30px;
 }
@@ -289,13 +294,11 @@ a {
 	width: 700px;
 	height: 700px;
 	margin: $m * 1px;
-	//background: #aaa;
 	overflow: hidden;
 }
 .nodeTZ {
 	position: absolute;
 	background: transparent url('') no-repeat 50% / cover;
-	//border: 1px white solid;
 	overflow: hidden;
 	opacity: 0.8;
 	transition: opacity .8s;
@@ -304,7 +307,6 @@ a {
 		display: inline;
 		font-family: sans-serif;
 		color: hsla(0,0,100,.6);
-		//white-space: nowrap;
 		position: absolute;
 		padding: 0;
 		margin: 0;
@@ -321,8 +323,6 @@ a {
 		}
 	}
 	&:hover {
-		//background-color: #222 !important;
-		//opacity: 1;
 		.label {
 			color: hsla(0,0,100,1);
 		}
@@ -363,10 +363,21 @@ a {
 }
 
 #logoContainer {
+  color:$bg-color;
+  font-family:"Electrolize";
+  padding:5px;
   height: 120px;
   width: 120px;
+  font-size:28px;
+  font-weight:600;
   border: solid 3px white;
   margin: auto;
+  color: $bg-color;
+  font-size: 28px;
+  font-family: 'Electrolize';
+  // padding-left: 5px;
+  // line-height: 1.2;
+  padding: 4px;
 }
 
 .whiteCard {
@@ -439,14 +450,31 @@ a {
 
 #tabTwoStatsButton {
   margin-bottom: 0px;
+  margin-right: 10px;
 }
 
-.tabTwoHeading {
+.tabTwo-ThreeHeading {
   font-size: 30px;
   margin-bottom: 10px;
   color: darken($text-black, 2%);
   font-family: 'Oswald', sans-serif;
   padding-left: 8px;
+}
+
+.tabOne-Heading {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 8px;
+}
+
+.tabOne-Heading2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  // padding-left: 0px;
 }
 
 .tabTwoInfoText {
@@ -457,9 +485,48 @@ a {
   padding-left: 8px;
 }
 
+.greenCheck {
+  color: #9cedaa;
+  font-size: 28px;
+  margin-right: 2px;
+}
+
+#greenCheck {
+  color: #9cedaa;
+}
+
+#webpackConfigSaveText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 24px;
+  color: $text-black;
+}
+
+.tabThreeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
+}
+
+.homeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
+  animation: whiteCardFadeIn 1s;
+}
+
+.tabTwoCompleteText {
+  font-size: 22px;
+  margin: 10px 0;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 10px;
+  margin-top: 20px;
+}
+
 .tabTwoCheckbox {
   margin-right: 8px;
-  // font-size: 85px;
 }
 
 .checkboxContainer {
@@ -510,12 +577,34 @@ a {
 #welcomeHeader {
   font-family: 'Oswald', sans-serif;
   font-size: 36px;
+  color: darken($text-black, 2%);
+}
+
+#welcomeHeaderTabThree {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+  color: darken($text-black, 2%);
 }
 
 #welcomeMessage {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   padding-top: 10px;
+  color: darken($text-black, 2%);
+}
+
+#welcomeMessageTabThree {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  color: darken($text-black, 2%);
+}
+
+.selectMessageTabThree {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  padding: 10px 0;
+  color: darken($text-black, 2%);
 }
 
 .progressChart rect:first-of-type {
@@ -545,16 +634,6 @@ text:nth-of-type(2) {
   padding: 10px;
 }
 
-// .progressChart {
-//   width: 600px;
-//   height: 100px;
-// }
-
-// rect {
-//   width: 600px;
-//   height: 100px;
-// }
-
 .boxTextContainer {
   display: flex;
   flex-direction: column;
@@ -573,12 +652,11 @@ text:nth-of-type(2) {
 }
 
 .configMessageText {
-  // font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  padding-bottom: 10px;
+  // display: flex;
+  // justify-content: left;
+  font-size: 15px;
+  padding-bottom: 0px;
 }
-
-// Nobile|Exo+2|Yantramanav
 
 #filename {
   color: $text-black;
@@ -604,6 +682,7 @@ text:nth-of-type(2) {
 
 .configRadios {
   padding-bottom: 8px;
+  color: darken($text-black, 2%);
 }
 
 .lineBreak {
@@ -614,4 +693,67 @@ text:nth-of-type(2) {
 .dataFont {
   font-family: 'Quantico', sans-serif;
   font-size: 16px;
+}
+
+.tabThreeSelectionCodeContainer{
+  display:flex;
+  flex-direction: row;
+  justify-content:space-between;
+}
+
+pre {
+  margin:0;
+}
+
+.descriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 20px;
+  padding: 10px 0;
+  margin: 4px 0;
+  color: darken($text-black, 12%);
+  padding-left: 8px;
+
+}
+
+.codeText {
+  background-color: white;
+  padding: 2px;
+  margin: 0 1px;
+  color: $text-primary;
+  font-family: 'Monaco';
+  font-size: 13px;
+}
+
+.codeTextStats {
+  color: $text-primary;
+  font-family: 'Oswald';
+  font-size: 20px;
+}
+
+.codeTextStatsTabThree {
+  color: $text-primary;
+}
+
+.instructions {
+  margin-bottom: 5px;
+}
+
+.instructionsFinal {
+  margin-bottom: 0px;
+}
+
+#genButton {
+  margin-left: 10px;
+}
+
+.statsGeneratedText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 20px;
+  color: $text-black;
+  margin-bottom: 10px;
+}
+
+#selectConfigButton {
+  margin-top: 10px;
 }

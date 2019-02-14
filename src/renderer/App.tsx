@@ -64,7 +64,9 @@ class Nav extends React.Component<Props, {}> {
     const { store } = this.props;
     return (
       <nav className="Nav">
-        <div id="logoContainer"></div>
+        <div id="logoContainer">
+          Webpack Ops
+        </div>
         <div className="Nav__container">
           <ul className="Nav__item-wrapper">
             <li className="Nav__item" onClick={this.doSetChartNavClassOn}>
@@ -78,7 +80,7 @@ class Nav extends React.Component<Props, {}> {
               </Link>
             </li>
 
-            <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
+            {store.displayChartCard && <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
               <li
                 className={store.isSunburstSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
                 onClick={this.doSetDisplaySunburst}
@@ -103,8 +105,9 @@ class Nav extends React.Component<Props, {}> {
               >
                 Zoomable Treemap
               </li>
-            </ul>
-            <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
+            </ul>}
+
+            {store.displayChartCard && <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabTwoSelected ? "Nav__link selected" : "Nav__link"}
                 to="/two"
@@ -113,8 +116,9 @@ class Nav extends React.Component<Props, {}> {
                 <FaCube style={iconStyle} />
                 Plugins
               </Link>
-            </li>
-            <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
+            </li>}
+
+            <li className={store.displayChartCard ? "Nav__item" : "Nav__itemPre" } onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabThreeSelected ? "Nav__link selected" : "Nav__link"}
                 to="/three"

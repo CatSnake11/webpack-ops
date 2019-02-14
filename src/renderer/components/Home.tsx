@@ -1,11 +1,19 @@
 import * as React from 'react';
 import * as d3 from 'd3';
-import { observer, inject } from 'mobx-react'
-import { StoreType } from '../store'
+import { observer, inject } from 'mobx-react';
+import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
-import ChartButtons from './ChartButtons';
+import { FaCheck } from "react-icons/fa";
+import Button from './Button';
+import HomeHeadingBox from './HomeHeadingBox';
+import WhiteCardWelcome from './WhiteCardWelcome';
+import WhiteCardPackageJSON from './WhiteCardPackageJSON';
+import WhiteCardWebpackConfig from './WhiteCardWebpackConfig';
+import WhiteCardStatsJSON from './WhiteCardStatsJSON';
+import D3ChartContainerCard from './D3ChartContainerCard';
 import AwesomeComponent from './AwesomeComponent';
 import { node } from 'prop-types';
+//import parseHandler from '../../main/parseHandler';
 
 type Props = {
   store?: StoreType
@@ -15,6 +23,11 @@ const initialState = {
   isPackageSelected: false,
   width: 550,
   height: 550,
+  listOfConfigs: [],
+  totalSizeTemp: '',
+  totalNodeCount: 0,
+  totalAssets: 0,
+  totalChunks: 0,
   data: {
     "name": "A1",
     "children": [
@@ -66,12 +79,15 @@ type StateType = Readonly<typeof initialState>
 @observer
 export default class Home extends React.Component<Props, StateType> {
   // may need "readonly"
-  state: StateType = initialState
+  state: StateType = initialState;
 
   componentDidMount() {
-    ipcRenderer.on('display-stats-reply', (event: any, data: string[][]): void => {
-      console.log(data)
-
+    ipcRenderer.on('display-stats-reply', (event: any, data: string[][], obj: any): void => {
+      this.setState({
+        totalAssets: obj.assets.length,
+        totalChunks: obj.chunks.length,
+        totalNodeCount: data.length,
+      });
       let root: any = { "name": "root", "children": [] };
       for (let i: number = 0; i < data.length; i++) {
         let sequence: string = data[i][0];
@@ -109,8 +125,6 @@ export default class Home extends React.Component<Props, StateType> {
         }
       }
       this.doSetBeforeRoot(root);
-      // console.log(root)
-      // console.log(this.state.data)
       this.drawChart(this.props.store.beforeRoot);
       this.drawZoom(this.props.store.beforeRoot);
       this.drawTreemap(this.props.store.beforeRoot);
@@ -120,10 +134,22 @@ export default class Home extends React.Component<Props, StateType> {
     })
 
     ipcRenderer.on('choose-config', (event: any, arg: any): void => {
-      console.log("list of configs - pick one")
+
+      this.setState({
+        listOfConfigs: arg
+      });
       this.props.store.setDisplayConfigSelectionTrue();
-      console.log(arg)
-    })
+    });
+
+    ipcRenderer.on('package-is-selected', (): void => {
+      this.props.store.setIsPackageSelectedTrue();
+      this.doSetIsLoadingTrue();
+    });
+
+    ipcRenderer.on('stats-is-selected', (): void => {
+      this.doSetLoadStatsFalse();
+      this.doSetDisplayPluginsTabTrue();
+    });
 
     if (this.props.store.wereChartsEverDrawn) {
       this.drawChart(this.props.store.beforeRoot);
@@ -135,6 +161,7 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   private drawChart(jsonData: any) {
+
     // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     var _self = this;
     const b = {
@@ -149,14 +176,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     sunburstLayout.size([2 * Math.PI, radius]);
     const arc: any = d3.arc()
-      // .startAngle((d) => d.x0)
-      // .endAngle((d) => d.x1)
-      // .innerRadius((d) => d.y0 * 1.5)
-      // .outerRadius((d) => d.y1 * 1.5)
       .startAngle(function (d: any) { return d.x0 })
       .endAngle(function (d: any) { return d.x1 })
       .innerRadius(function (d: any) { return d.y0 * 1.5 })
-      .outerRadius(function (d: any) { return d.y1 * 1.5 })
+      .outerRadius(function (d: any) { return d.y1 * 1.5 });
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -203,12 +226,12 @@ export default class Home extends React.Component<Props, StateType> {
           ctr = 0;
           return hex[ctr]
         } else {
-          ctr++
-          return hex[ctr]
+          ctr++;
+          return hex[ctr];
         }
       }
     }
-    let loopColors = color()
+    let loopColors = color();
 
     let i = 0;
     const path = main.data([jsonData]).selectAll("path")
@@ -219,13 +242,15 @@ export default class Home extends React.Component<Props, StateType> {
       .attr("fill-rule", "evenodd")
       .style("fill", function (d) { return loopColors() })
       .style("opacity", 1)
-      .on("mouseover", mouseover)
+      .on("mouseover", mouseover);
 
     let totalSize = path.datum().value;
-    console.log(totalSize)
 
+    this.setState({
+      totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb'
+    });
 
-    function mouseover(d) {
+    function mouseover(d: any) {
       var percentage = (100 * d.value / totalSize).toPrecision(3);
       var percentageString = percentage + "%";
       if (Number(percentage) < 0.1) {
@@ -236,11 +261,11 @@ export default class Home extends React.Component<Props, StateType> {
         .text('% of Total: ' + percentageString);
       //ADDED FILE NAME
       d3.select("#filename")
-        .text(d.data.name)
+        .text(d.data.name);
 
       //ADDED FILE SIZE
       d3.select("#filesize")
-        .text('Size: ' + d.value / 1000 + 'kb')
+        .text('Size: ' + d.value / 1000 + 'kb');
 
       d3.select("#explanation")
         .style("visibility", "");
@@ -280,7 +305,7 @@ export default class Home extends React.Component<Props, StateType> {
 
         entering.append("svg:polygon")
           .attr("points", breadcrumbPoints)
-          .style("fill", function (d) { return '#f7aab2'; })
+          .style("fill", function (d) { return '#f7aab2'; });
 
         entering.append("svg:text")
           .attr("x", (b.w + b.t) / 2)
@@ -293,19 +318,19 @@ export default class Home extends React.Component<Props, StateType> {
         var nodeAryFlat = '';
 
         for (var i = 0; i < nodeArray.length; i++) {
-          nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name
+          nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name;
         }
 
         var nodeAryFlatLength = 0;
         var nodeAryFlatLengthPercentage = 0;
         for (var i = 1; i < nodeArray.length; i++) {
-          nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t
-          nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15
+          nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t;
+          nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15;
         }
 
         entering.attr("transform", function (d, i) {
           if (i === 0) {
-            return "translate(0, 0)"
+            return "translate(0, 0)";
           } else {
             return "translate(" + nodeAryFlatLength + ", 0)";   //POSITIONING OF WORDS
           }
@@ -316,7 +341,7 @@ export default class Home extends React.Component<Props, StateType> {
           .attr("y", b.h / 2)
           .attr("dy", "0.35em")
           .attr("text-anchor", "start")
-          .text(percentageString)
+          .text(percentageString);
 
         // Make the breadcrumb trail visible, if it's hidden.
         d3.select("#trail")
@@ -359,8 +384,6 @@ export default class Home extends React.Component<Props, StateType> {
 
       d3.select("#explanation")
         .style("visibility", "hidden");
-
-      // _self.props.onHover(null);
     }
 
     d3.select("#container").on("mouseleave", mouseleave);
@@ -371,9 +394,9 @@ export default class Home extends React.Component<Props, StateType> {
 
 
   private drawZoom(jsonData: any) {
-    const width = 550,
-      height = 550,
-      maxRadius = (Math.min(width, height) / 2) - 5;
+    const width = 550;
+    const height = 550;
+    const maxRadius = (Math.min(width, height) / 2) - 5;
 
     const formatNumber = d3.format(',d');
 
@@ -436,14 +459,10 @@ export default class Home extends React.Component<Props, StateType> {
 
     const arc = d3
       .arc()
-      // .startAngle(d => x(d.x0))
-      // .endAngle(d => x(d.x1))
-      // .innerRadius(d => y(Math.max(0, d.y0)))
-      // .outerRadius(d => y(Math.max(0, d.y1)));
       .startAngle(function (d: any) { return x(d.x0) })
       .endAngle(function (d: any) { return x(d.x1) })
       .innerRadius(function (d: any) { return y(Math.max(0, d.y0)) })
-      .outerRadius(function (d: any) { return y(Math.max(0, d.y1)) })
+      .outerRadius(function (d: any) { return y(Math.max(0, d.y1)) });
 
     const initializeBreadcrumbTrail = () => {
       // Add the svg area.
@@ -460,7 +479,7 @@ export default class Home extends React.Component<Props, StateType> {
 
     initializeBreadcrumbTrail();
 
-    const middleArcLine = d => {
+    const middleArcLine = (d: any) => {
       const halfPi = Math.PI / 2;
       const angles = [x(d.x0) - halfPi, x(d.x1) - halfPi];
       const r = Math.max(0, (y(d.y0) + y(d.y1)) / 2);
@@ -476,7 +495,7 @@ export default class Home extends React.Component<Props, StateType> {
       return path.toString();
     };
 
-    const textFits = d => {
+    const textFits = (d: any) => {
       const CHAR_SPACE = 10;
 
       const deltaAngle = x(d.x1) - x(d.x0);
@@ -487,7 +506,6 @@ export default class Home extends React.Component<Props, StateType> {
     };
 
     const svg = d3
-      // .select('body')
       .select('#zoomContainer')
       .append('svg')
       // .style('width', '100vw')
@@ -511,21 +529,21 @@ export default class Home extends React.Component<Props, StateType> {
       .enter()
       .append('g')
       .attr('class', 'slice')
-      .on('click', d => {
+      .on('click', (d: any) => {
         d3.event.stopPropagation();
         focusOn(d);
       });
 
     newSlice
       .append('title')
-      .text(d => d.data.name + '\n' + formatNumber(d.value) + '\n' + 'Of Total Size: ' +
+      .text((d: any) => d.data.name + '\n' + formatNumber(d.value) + ' bytes' + '\n' + 'Of Total Size: ' +
         ((d.value / totalSize) * 100).toPrecision(3) + '%');
 
     newSlice
       .append('path')
       .attr('class', 'main-arc')
-      .style('fill', d => color((d.children ? d : d.parent).data.name))
-      .attr('d', arc);
+      .style('fill', (d: any) => color((d.children ? d : d.parent).data.name))
+      .attr("d", (d: any) => arc(d));
 
     newSlice
       .append('path')
@@ -541,7 +559,7 @@ export default class Home extends React.Component<Props, StateType> {
       .append('textPath')
       .attr('startOffset', '50%')
       .attr('xlink:href', (_, i) => `#hiddenArc${i}`)
-      .text(d => d.data.name);
+      .text((d: any) => d.data.name);
 
     function focusOn(d = { x0: 0, x1: 1, y0: 0, y1: 1 }) {
       // Reset to top-level if no data point specified
@@ -550,15 +568,15 @@ export default class Home extends React.Component<Props, StateType> {
         .transition()
         .duration(750)
         .tween('scale', () => {
-          const xd = d3.interpolate(x.domain(), [d.x0, d.x1]),
-            yd = d3.interpolate(y.domain(), [d.y0, 1]);
+          const xd = d3.interpolate(x.domain(), [d.x0, d.x1]);
+          const yd = d3.interpolate(y.domain(), [d.y0, 1]);
           return t => {
             x.domain(xd(t));
             y.domain(yd(t));
           };
         });
 
-      transition.selectAll('path.main-arc').attrTween('d', d => () => arc(d));
+      transition.selectAll('path.main-arc').attrTween('d', (d: any) => () => arc(d));
 
       transition
         .selectAll('path.hidden-arc')
@@ -574,15 +592,14 @@ export default class Home extends React.Component<Props, StateType> {
         svg
           .selectAll('.slice')
           .filter(d => d === elD)
-          .each(function (d) {
-            this.parentNode.appendChild(this);
+          .each(function (d: any) {
+            // d.parentNode.appendChild(this);
             if (d.parent) {
               moveStackToFront(d.parent);
             }
           });
       }
     }
-
   }
 
 
@@ -599,7 +616,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemapLayout = d3.treemap();
 
     treemapLayout
-      .size([600, 450])
+      .size([600, 450]);
 
     root.sum(function (d: any) {
       return d.value;
@@ -637,33 +654,39 @@ export default class Home extends React.Component<Props, StateType> {
       .text(d => d.data.name + '\n' + d.value + '\n');
 
     let totalSize = nodes.datum().value;
+
     function mouseoutTreemap(d: any): void {
-      d3.select(this)
-        .attr("fill", 'rgba(85, 183, 208, 0.2)')
+      d3.select(d3.event.currentTarget)
+        .attr("fill", 'rgba(85, 183, 208, 0.2)');
+
+      d3.select("#trail2")
+        .style("visibility", "hidden");
+
+      d3.select('#explanationTree')
+        .style("visibility", "hidden");
     }
     function mouseoverTreemap(d: any): void {
-      let percentage: number = (100 * d.value / totalSize)
-      let percentageString: string = ""
+      let percentage: number = (100 * d.value / totalSize);
+      let percentageString: string = "";
       if (percentage < 0.1) {
         percentageString = "< 0.1%";
       } else percentageString = percentage.toPrecision(3) + '%';
       d3.select('#treemapText')
-        .text(d.data.name)
+        .text(d.data.name);
 
       d3.select('#percentageTree')
-        .text(percentageString)
+        .text(percentageString);
 
       d3.select('#filesizeTree')
-        .text(`Size: ${d.value / 1000} kb`)
+        .text(`Size: ${d.value / 1000} kb`);
 
       d3.select('#explanationTree')
         .style('visibility', '');
 
+      d3.select(d3.event.currentTarget)
+        .attr("fill", 'rgba(10, 0, 218, 0.2)');
 
-      d3.select(this)
-        .attr("fill", 'rgba(10, 0, 218, 0.2)')
-
-      const ancestorsArray = d.ancestors().reverse()
+      const ancestorsArray = d.ancestors().reverse();
       ancestorsArray.shift();
 
       let trickArray2 = ancestorsArray.slice(0);
@@ -708,19 +731,19 @@ export default class Home extends React.Component<Props, StateType> {
       var nodeAryFlat = '';
 
       for (var i = 0; i < nodeArray.length; i++) {
-        nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name
+        nodeAryFlat = nodeAryFlat + ' ' + nodeArray[i].data.name;
       }
 
       var nodeAryFlatLength = 0;
       var nodeAryFlatLengthPercentage = 0;
       for (var i = 1; i < nodeArray.length; i++) {
-        nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t
-        nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15
+        nodeAryFlatLength = nodeAryFlatLength + b.w + nodeArray[i - 1].data.name.length * 7.5 + b.t;
+        nodeAryFlatLengthPercentage = nodeAryFlatLength + b.w + nodeArray[i].data.name.length * 7.5 + b.t + 15;
       }
 
       entering.attr("transform", function (d, i) {
         if (i === 0) {
-          return "translate(0, 0)"
+          return "translate(0, 0)";
         } else {
           return "translate(" + nodeAryFlatLength + ", 0)";   //POSITIONING OF WORDS
         }
@@ -756,40 +779,42 @@ export default class Home extends React.Component<Props, StateType> {
       .append('rect')
       .attr('width', function (d: any) { return d.x1 - d.x0; })
       .attr('height', function (d: any) { return d.y1 - d.y0; })
-      .style('stroke', '#FFFFFF')
+      .style('stroke', '#FFFFFF');
 
     treemapLayout.tile(d3.treemapDice);
+
+    d3.select("#treemap").on("mouseleave", mouseoutTreemap);
   }
 
 
   private drawTreemapZoom(jsonData: any) {
 
-    const x = d3.scaleLinear().domain([0, 100]).range([0, 100])
-    const y = d3.scaleLinear().domain([0, 100]).range([0, 100])
+    const x = d3.scaleLinear().domain([0, 100]).range([0, 100]);
+    const y = d3.scaleLinear().domain([0, 100]).range([0, 100]);
 
     const color = d3.scaleOrdinal()
       .range(d3.schemeDark2
-        .map(function (c) {
+        .map(function (c: any) {
           c = d3.rgb(c);
           //c.opacity = 0.5; 
           return c;
         })
-      )
+      );
 
     const treemap = d3.treemap()
       .size([100, 100])
       .paddingInner(0)
-      .round(false) //true
+      .round(false); //true
 
     const nodes = d3.hierarchy(jsonData)
-      .sum(function (d) { return d.value ? 1 : 0; })
+      .sum(function (d) { return d.value ? 1 : 0; });
 
-    let currentDepth;
+    let currentDepth: any;
 
     treemap(nodes);
 
-    var chart = d3.select("#chartTreeMapZoom");
-    var cells = chart
+    const chart = d3.select("#chartTreeMapZoom");
+    const cells = chart
       .selectAll(".nodeTZ")
       .data(nodes.descendants())
       .enter()
@@ -802,7 +827,7 @@ export default class Home extends React.Component<Props, StateType> {
       .style("top", (d: any) => y(d.y0) + "%")
       .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
       .style("height", (d: any) => y(d.y1) - y(d.y0) + "%")
-      .style("background-color", function (d) { while (d.depth > 2) d = d.parent; return color(d.data.name) })
+      .style("background-color", (d: any): any => { while (d.depth > 2) d = d.parent; return color(d.data.name) })
       .on("click", zoom)
       .append("p")
       .attr("class", "label")
@@ -812,9 +837,9 @@ export default class Home extends React.Component<Props, StateType> {
       .datum(nodes)
       .on("click", zoom);
 
-    function zoom(d) {
+    function zoom(d: any) {
 
-      console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
+      // console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
 
       currentDepth = d.depth;
       parent.datum(d.parent || nodes);
@@ -828,13 +853,13 @@ export default class Home extends React.Component<Props, StateType> {
 
       cells
         .transition(t)
-        .style("left", function (d) { return x(d.x0) + "%"; })
-        .style("top", function (d) { return y(d.y0) + "%"; })
-        .style("width", function (d) { return x(d.x1) - x(d.x0) + "%"; })
-        .style("height", function (d) { return y(d.y1) - y(d.y0) + "%"; });
+        .style("left", (d: any) => x(d.x0) + "%")
+        .style("top", (d: any) => y(d.y0) + "%")
+        .style("width", (d: any) => x(d.x1) - x(d.x0) + "%")
+        .style("height", (d: any) => y(d.y1) - y(d.y0) + "%");
 
       cells // hide this depth and above
-        .filter(function (d) { return d.ancestors(); })
+        .filter((d: any) => d.ancestors())
         .classed("hide", function (d) { return d.children ? true : false });
 
       cells // show this depth + 1 and below
@@ -845,8 +870,7 @@ export default class Home extends React.Component<Props, StateType> {
     treemap.tile(d3.treemapDice);
   }
 
-
-  handleDrawChart = (arg): void => {
+  handleDrawChart = (arg: any): void => {
     this.drawChart(arg);
   }
 
@@ -860,6 +884,14 @@ export default class Home extends React.Component<Props, StateType> {
 
   doSetDisplaySunburst = (): void => {
     this.props.store.setDisplaySunburst();
+    if (!this.props.store.totalSizeTemp) {
+      this.props.store.setUpdateCards(
+        this.state.totalSizeTemp,
+        this.state.totalNodeCount,
+        this.state.totalAssets,
+        this.state.totalChunks
+      );
+    }
   }
 
   doSetDisplaySunburstZoom = (): void => {
@@ -878,8 +910,6 @@ export default class Home extends React.Component<Props, StateType> {
 
   getPackageJson = (): void => {
     ipcRenderer.send('load-package.json', 'ping');
-    this.props.store.setIsPackageSelectedTrue();
-    this.doSetIsLoadingTrue();
   }
 
   doSetDisplayConfigSelectionFalse = (): void => {
@@ -890,14 +920,23 @@ export default class Home extends React.Component<Props, StateType> {
     this.props.store.setLoadStatsFalse();
   }
 
+  doSetDisplayPluginsTabTrue = (): void => {
+    this.props.store.setDisplayPluginsTabTrue();
+  }
+
+  doSetDisplayStatsFileGenerated = (): void => {
+    this.props.store.setDisplayStatsFileGeneratedTrue();
+  }
+
   getWebpackConfig = (event: any): void => {
-    console.log("getWebpackConfig")   //getting this far
-    let radios = document.getElementsByName("config")// as HTMLInputElement
+    // console.log("getWebpackConfig")   //getting this far
+    let radios = document.getElementsByName("config");// as HTMLInputElement
 
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // do whatever you want with the checked radio
-        ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        // ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        ipcRenderer.send('read-config', i);
         break;
       }
     }
@@ -907,155 +946,89 @@ export default class Home extends React.Component<Props, StateType> {
 
   getWebpackStats = (): void => {
     ipcRenderer.send('load-stats.json', 'ping');
-    this.doSetLoadStatsFalse();
+  }
+
+  generateStatsFile = (): void => {
+    ipcRenderer.send('loadStats2');
+    this.doSetDisplayStatsFileGenerated();
+    // parseHandler.loadStats2();
+    // console.log('gwD: ', parseHandler.getWorkingDirectory());
   }
 
   render() {
     const { store } = this.props;
     return (
       <div className="mainContainerHome">
-
         <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
           <div className="boxContainer">
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Total Size</div>
-                <div className="textPrimaryColor">{store.beforeTotalSize}kb</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Total Size"
+              displayDataString={store.totalSizeTemp}
+            />
+
             <div className='boxLine'></div>
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Chunks</div>
-                <div className="textPrimaryColor">{store.chunks}</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Chunks"
+              displayData={store.totalChunks}
+            />
+
             <div className='boxLine'></div>
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Modules</div>
-                <div className="textPrimaryColor">{store.modules}</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Modules"
+              displayData={store.totalNodeCount}
+            />
+
             <div className='boxLine'></div>
-            <div className="chartStatsHeadingBox">
-              <div className='boxTextContainer'>
-                <div>Assets</div>
-                <div className="textPrimaryColor">{store.assets}</div>
-              </div>
-            </div>
+
+            <HomeHeadingBox
+              textContent="Assets"
+              displayData={store.totalAssets}
+            />
+
           </div>
         </div>
 
-        <div className={store.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
-          <div id="welcomeHeader" >Welcome to WebpackOps</div>
+        <WhiteCardWelcome
+          displayWelcomeCard={store.displayWelcomeCard}
+          isPackageSelected={store.isPackageSelected}
+        />
 
-          <div id="welcomeMessage">Please load your package.json file to begin optimizing your Webpack bundle</div>
-        </div>
+        {!store.isPackageSelected &&
+          <WhiteCardPackageJSON
+            isPackageSelected={store.isPackageSelected}
+            getPackageJson={this.getPackageJson}
+          />
+        }
 
-        {!store.isPackageSelected && <div className='whiteCard' >
-
-          {!store.isPackageSelected && <div id="package-selector" className="">
-
-            <div className='configMessageText'>Select your package.json</div>
-            <button className="btn package" onClick={this.getPackageJson}>Find Package.JSON</button>
-          </div>}
-        </div>}
-
-        {this.props.store.displayConfigSelection && store.isPackageSelected
-          &&
-          <div className="whiteCard">
-            <div id="webpack-config-selector">
-              <div className='configMessageText'>Select desired configuration</div>
-              <form id="configSelector" onSubmit={this.getWebpackConfig} noValidate={true}>
-                <div className="configRadios"><input type="radio" name="config" value="0" /><div style={{ display: 'inline-block' }}>"development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors"</div><br /></div>
-                <div className="configRadios"><input type="radio" name="config" value="1" /><div style={{ display: 'inline-block' }}>"production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"</div><br /></div>
-                <input className='btn package' type="submit" value="Select Config" />
-              </form>
-            </div>
-          </div>
+        {this.props.store.displayConfigSelection && store.isPackageSelected &&
+          <WhiteCardWebpackConfig
+            getWebpackConfig={this.getWebpackConfig}
+            listOfConfigs={this.state.listOfConfigs}
+          />
         }
 
         {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
-          <div className="whiteCard">
-            <div id="stats-file-selector" className="">
-              <h4>Load Webpack Stats</h4>
-              <button className="btn stats" onClick={this.getWebpackStats}>Load Stats File</button>
-            </div>
-          </div>
+
+          <WhiteCardStatsJSON
+            statsFileGenerated={store.statsFileGenerated}
+            getWebpackStats={this.getWebpackStats}
+            generateStatsFile={this.generateStatsFile}
+          />
         }
 
-        <div className={store.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
-          <div className="smallerMainContainer">
-
-            <div id="graphsContainer">
-
-
-              <div className={store.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
-                <div id="chart">
-                  <div id="sequence"></div>
-                  <div id="explanation">
-                    <span id="filename"></span><br />
-                    <span id="percentage"></span><br />
-
-                    <div>
-                      <span id="filesize"></span> <br />
-                    </div>
-                  </div>
-                  <div className="chartSVGContainer">
-                    <svg width={this.state.width} height={this.state.height} className="sunburst" />
-                  </div>
-                </div>
-
-              </div>
-
-              <div className={store.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
-                <div id="sequenceTreeMap"></div>
-                <div id="explanationTree">
-                  <div id="ancestors"></div>
-                  <span id="treemapText"></span>
-                  <span id="filenameTree"></span><br />
-                  <span id="percentageTree"></span><br />
-
-                  <div>
-                    <span id="filesizeTree"></span> <br />
-                  </div>
-                </div>
-
-                <div style={{ paddingTop: '10px' }} id="chartTreeMap">
-                  <div className="chartSVGContainer">
-                    <svg width='650px' height={this.state.height} id="treemap" />
-                  </div>
-                </div>
-              </div>
-
-              <div className={store.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-                <div id="explanationTreeZoom">
-                  <div id="ancestorsZoom"></div>
-                  <span id="treemapTextZoom"></span>
-                  <span id="filenameTreeZoom"></span><br />
-                  <span id="percentageTreeZoom"></span><br />
-                  <div>
-                    <span id="filesizeTreeZoom"></span> <br />
-                  </div>
-                </div>
-                <div id="sequenceTreeMapZoom"></div>
-                <div className="chartSVGContainer">
-                  <div className='zoomTreemapColumnContainer'>
-                    <div className="up">&larr; UP</div>
-                    <div style={{ paddingTop: '10px' }} className="feature" id="chartTreeMapZoom">
-                      <svg width={this.state.width} height={this.state.height} id="treemapZoom" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div id="zoomContainer" className={store.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div >
+        <D3ChartContainerCard
+          displayChartCard={store.displayChartCard}
+          displaySunburst={store.displaySunburst}
+          width={this.state.width}
+          height={this.state.height}
+          displayTreemap={store.displayTreemap}
+          displayTreemapZoom={store.displayTreemapZoom}
+          displaySunburstZoom={store.displaySunburstZoom}
+        />
+      </div>
     );
   }
 }
