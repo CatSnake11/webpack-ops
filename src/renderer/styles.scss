@@ -121,6 +121,16 @@ body {
   width: 174px;
 }
 
+.Nav__itemPre {
+  display: flex;
+  flex-direction: row;
+  padding: 0px 0 30px 10px;
+  margin-left: -30px;
+  list-style-type: none;
+  justify-content: left;
+  width: 174px;
+}
+
 .Nav__link {
   display: flex;
   clear: right;
@@ -451,6 +461,22 @@ a {
   padding-left: 8px;
 }
 
+.tabOne-Heading {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  padding-left: 8px;
+}
+
+.tabOne-Heading2 {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: darken($text-black, 2%);
+  font-family: 'Roboto', sans-serif;
+  // padding-left: 0px;
+}
+
 .tabTwoInfoText {
   font-size: 18px;
   margin: 10px 0;
@@ -465,6 +491,10 @@ a {
   margin-right: 2px;
 }
 
+#greenCheck {
+  color: #9cedaa;
+}
+
 #webpackConfigSaveText {
   margin-left: 8px;
   font-family: 'Oswald';
@@ -476,6 +506,13 @@ a {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
+  animation: whiteCardFadeIn 1s;
+}
+
+.homeRowFlexContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 40px;
   animation: whiteCardFadeIn 1s;
 }
 
@@ -540,12 +577,27 @@ a {
 #welcomeHeader {
   font-family: 'Oswald', sans-serif;
   font-size: 36px;
+  color: darken($text-black, 2%);
+}
+
+#welcomeHeaderTabThree {
+  font-family: 'Oswald', sans-serif;
+  font-size: 36px;
+  color: darken($text-black, 2%);
 }
 
 #welcomeMessage {
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   padding-top: 10px;
+  color: darken($text-black, 2%);
+}
+
+#welcomeMessageTabThree {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  color: darken($text-black, 2%);
 }
 
 .selectMessageTabThree {
@@ -600,8 +652,10 @@ text:nth-of-type(2) {
 }
 
 .configMessageText {
-  font-size: 14px;
-  padding-bottom: 10px;
+  // display: flex;
+  // justify-content: left;
+  font-size: 15px;
+  padding-bottom: 0px;
 }
 
 #filename {
@@ -628,6 +682,7 @@ text:nth-of-type(2) {
 
 .configRadios {
   padding-bottom: 8px;
+  color: darken($text-black, 2%);
 }
 
 .lineBreak {
@@ -666,7 +721,17 @@ pre {
   margin: 0 1px;
   color: $text-primary;
   font-family: 'Monaco';
-  font-size: 12px;
+  font-size: 13px;
+}
+
+.codeTextStats {
+  color: $text-primary;
+  font-family: 'Oswald';
+  font-size: 20px;
+}
+
+.codeTextStatsTabThree {
+  color: $text-primary;
 }
 
 .instructions {
@@ -675,4 +740,20 @@ pre {
 
 .instructionsFinal {
   margin-bottom: 0px;
+}
+
+#genButton {
+  margin-left: 10px;
+}
+
+.statsGeneratedText {
+  margin-left: 8px;
+  font-family: 'Oswald';
+  font-size: 20px;
+  color: $text-black;
+  margin-bottom: 10px;
+}
+
+#selectConfigButton {
+  margin-top: 10px;
 }

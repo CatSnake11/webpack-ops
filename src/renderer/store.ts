@@ -14,6 +14,7 @@ export type StoreType = {
 	totalAssets: number,
 	totalChunks: number,
 	setIsLoadingTrue(): void,
+	setRootSelected(): void,
 	displaySunburst: boolean,
 	displaySunburstZoom: boolean,
 	displayTreemap: boolean,
@@ -34,7 +35,7 @@ export type StoreType = {
 	displayConfigSelection: boolean,
 	setListOfConfigs(Array): void,
 	setDisplayConfigSelectionTrue(): void,
-  setDisplayConfigSelectionFalse(): void,
+	setDisplayConfigSelectionFalse(): void,
 	data_array: string[][],
 	storeDataArray(data: string[][]): void,
 	beforeRoot: any,
@@ -44,6 +45,8 @@ export type StoreType = {
 	setTabTwoSelected(): void,
 	setTabThreeSelected(): void,
 	setLoadStatsFalse(): void,
+	setDisplayPluginsTabTrue(): void,
+	setDisplayStatsFileGeneratedTrue(): void,
 	setWereChartsEverDrawn(): void,
 	isSunburstSelected: boolean,
 	isSunburstZoomSelected: boolean,
@@ -60,13 +63,14 @@ export type StoreType = {
 	assets: number,
 	displaySelectJson: boolean,
 	displayLoadStats: boolean,
+	displayPluginsTab: boolean,
+	statsFileGenerated: boolean,
 	isOptimizationSelected: boolean,
 	wereChartsEverDrawn: boolean,
 	isRootSelected: boolean,
 	isPreviewSelected: boolean,
 	customConfigSaved: boolean,
 	setCustomConfigSavedTrue(): void
-
 };
 
 export default class Store {
@@ -98,8 +102,8 @@ export default class Store {
 	displayTreemapZoom = false;
 
 	@observable
-  displayConfigSelection = false;
-  
+	displayConfigSelection = false;
+
 	@observable
 	data_array = [['']];
 
@@ -165,6 +169,12 @@ export default class Store {
 
 	@observable
 	displayLoadStats = true;
+
+	@observable
+	displayPluginsTab = false;
+
+	@observable
+	statsFileGenerated = false;
 
 	@observable
 	isOptimizationSelected = false;
@@ -307,16 +317,26 @@ export default class Store {
 	@action.bound
 	setDisplayConfigSelectionFalse() {
 		this.displayConfigSelection = false;
-  }
-  
+	}
+
 	@action.bound
 	setListOfConfigs(listOfConfigs) {
 		this.listOfConfigs = listOfConfigs;
-  }
-  
+	}
+
 	@action.bound
 	setLoadStatsFalse() {
 		this.displayLoadStats = false;
+	}
+
+	@action.bound
+	setDisplayPluginsTabTrue() {
+		this.displayPluginsTab = true;
+	}
+
+	@action.bound
+	setDisplayStatsFileGeneratedTrue() {
+		this.statsFileGenerated = true;
 	}
 
 	@action.bound
@@ -327,6 +347,11 @@ export default class Store {
 	@action.bound
 	setIsPackageSelectedTrue() {
 		this.isPackageSelected = true;
+	}
+
+	@action.bound
+	setRootSelected() {
+		this.isRootSelected = true;
 	}
 
 	@action.bound

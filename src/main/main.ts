@@ -149,6 +149,13 @@ ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) =
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
+
+  if (!customDirectory) {
+    console.log('no gooo');
+    return false;
+  }
+  mainWindow.webContents.send('root-is-selected');
+
   mainWindow.webContents.send('customRootDirectrySet', customDirectory)
 });
 
@@ -933,11 +940,11 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
     .then(values => {
       console.log(values); // [3, 1337, "foo"]
 
-    setTimeout(() => {
-      mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
-      parseHandler.saveConfig();
-    }, 400);
-  });
+      setTimeout(() => {
+        mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
+        parseHandler.saveConfig();
+      }, 400);
+    });
 
   // promisify above list
   // then run saveConfig() 
@@ -971,10 +978,15 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
 function selectPackageJson() {
   console.log("what is a dialog really?")
   let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
-  if (file === undefined) return false;
+  console.log('file[0]: ', file)
+  if (file === undefined) {
+    console.log('no gooo');
+    return false;
+  }
   // console.log("what is a file really?")
   // console.log(file)
   // console.log(file[0])
+  mainWindow.webContents.send('package-is-selected');
   loadPackage(file[0]);
 }
 
@@ -1055,7 +1067,6 @@ function readConfig(entry: number) {
     // console.log(configFile);
 
     //parseConfig(configFile, config)
-
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
@@ -1067,8 +1078,7 @@ function readConfig(entry: number) {
     // * load and parse plugins
     // parseHandler.loadPlugin()
     // * merge plugins - itterate
-    // write the config 
-
+    // write the config
   });
 }
 
@@ -1079,10 +1089,15 @@ function readConfig(entry: number) {
  **/
 
 function selectStatsJson() {
-  let file = dialog.showOpenDialog({ properties: ['openFile'] })[0]
-  if (file != undefined) {
-    loadStats(file)
+  let file = dialog.showOpenDialog({ properties: ['openFile'] })
+
+  if (file === undefined) {
+    console.log('no gooo');
+    return false;
   }
+
+  loadStats(file[0]);
+  mainWindow.webContents.send('stats-is-selected');
 }
 
 // fix cancel errors

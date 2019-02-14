@@ -2,11 +2,9 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { FaCheck } from "react-icons/fa";
-import { docco, tomorrowNight, dracula, darcula, tomorrowNightBlue, tomorrowNightEighties, monokai, obsidian, kimbieDark, paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
-import { dark } from 'react-syntax-highlighter/dist/styles/prism';
-
+import WhiteCardTabThreeWelcome from './WhiteCardTabThreeWelcome';
+import WhiteCardTabThreeSelectRoot from './WhiteCardTabThreeSelectRoot';
+import WhiteCardTabThreeBuildConfig from './WhiteCardTabThreeBuildConfig';
 
 type Props = {
   store?: StoreType
@@ -47,6 +45,10 @@ export default class TabThree extends React.Component<Props, StateType> {
       this.setState({ defaultFormattedCode: formattedCode1 })
       //console.log(this.state.AST)
     })
+
+    ipcRenderer.on('root-is-selected', (): void => {
+      this.doSetRootSelected();
+    });
   }
 
   handleChangeCheckboxReact = (event: any): void => {
@@ -99,20 +101,19 @@ export default class TabThree extends React.Component<Props, StateType> {
     this.setState({ checkedPNG: !this.state.checkedPNG });
   }
 
+  doSetRootSelected = (): void => {
+    this.props.store.setRootSelected();
+  }
+
   selectCustomWebConfigRoot = (event: any): void => {
     ipcRenderer.send('selectCustomWebConfig', 'ping');
-    //rewrite
-    this.props.store.isRootSelected = true;
   }
 
   selectGenerateWebConfigRoot = (event: any): void => {
-    console.log('hihihihihi')
+    // console.log('hihihihihi')
     ipcRenderer.send('saveCustomConfig', this.state.rootCustomDirectory);
     //
-
     this.doSetCustomConfigSaved();
-
-
   }
 
   doSetCustomConfigSaved(): void {
@@ -125,95 +126,33 @@ export default class TabThree extends React.Component<Props, StateType> {
     return (
       <div className="mainContainerHome">
         <div>
-          {!store.isRootSelected && <div className="whiteCard">
-            <div className="tabTwo-ThreeHeading">Select your root directory</div>
-            <button className="btn stats" onClick={this.selectCustomWebConfigRoot}>Select</button>
-          </div>}
-          {store.isRootSelected && <div className="whiteCard">
-            <div className="tabTwo-ThreeHeading" >Select your feature</div>
 
-            <div className="tabThreeSelectionCodeContainer">
-              <div className="tabThreeSelectionContainer">
-                <div className="checkboxContainer">
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="React" onChange={this.handleChangeCheckboxReact} />
-                      <div className="state p-primary">
-                        <label>React </label><br />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="CSS" onChange={this.handleChangeCheckboxCSS} />
-                      <div className="state p-primary">
-                        <label>CSS </label><br />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="Sass" onChange={this.handleChangeCheckboxSass} />
-                      <div className="state p-primary">
-                        <label>Sass </label><br />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="Less" onChange={this.handleChangeCheckboxLess} />
-                      <div className="state p-primary">
-                        <label>Less </label><br />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="stylus" onChange={this.handleChangeCheckboxStylus} />
-                      <div className="state p-primary">
-                        <label>Stylus </label><br />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="SVG" onChange={this.handleChangeCheckboxSVG} />
-                      <div className="state p-primary">
-                        <label>SVG </label><br />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="checkBoxPadding">
-                    <div className="pretty p-default p-round p-smooth">
-                      <input className="tabTwoCheckbox" type="checkbox" value="PNG" onChange={this.handleChangeCheckboxPNG} />
-                      <div className="state p-primary">
-                        <label>PNG </label><br />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="tabThreeCodeContainer"></div>
-              <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
-                'borderRadius': '5px',
-                'padding': '15px',
-                'width': '500px',
-                'height': '500px',
-                'background': 'white',
-                'opacity': '0.7'
-              }}>{this.state.defaultFormattedCode}</SyntaxHighlighter>
-            </div>
-            {store.isRootSelected && !store.customConfigSaved &&
-              <button className="btn stats" onClick={this.selectGenerateWebConfigRoot}>Create Webpack Config File</button>}
-            {store.customConfigSaved && store.isRootSelected &&
-              <div className="tabThreeRowFlexContainer">
-                < FaCheck className="greenCheck" />
-                <div id="webpackConfigSaveText">
-                  webpack.config.js saved
-                </div>
-              </div>
-            }
-          </div>}
+          <WhiteCardTabThreeWelcome
+            isRootSelected={store.isRootSelected}
+          />
+
+          {!store.isRootSelected &&
+            <WhiteCardTabThreeSelectRoot
+              selectCustomWebConfigRoot={this.selectCustomWebConfigRoot}
+            />
+          }
+
+          {store.isRootSelected &&
+
+            <WhiteCardTabThreeBuildConfig
+              handleChangeCheckboxReact={this.handleChangeCheckboxReact}
+              handleChangeCheckboxCSS={this.handleChangeCheckboxCSS}
+              handleChangeCheckboxSass={this.handleChangeCheckboxSass}
+              handleChangeCheckboxLess={this.handleChangeCheckboxLess}
+              handleChangeCheckboxStylus={this.handleChangeCheckboxStylus}
+              handleChangeCheckboxSVG={this.handleChangeCheckboxSVG}
+              handleChangeCheckboxPNG={this.handleChangeCheckboxPNG}
+              isRootSelected={store.isRootSelected}
+              customConfigSaved={store.customConfigSaved}
+              selectGenerateWebConfigRoot={this.selectGenerateWebConfigRoot}
+              defaultFormattedCode={this.state.defaultFormattedCode}
+            />
+          }
 
         </div>
       </div>
