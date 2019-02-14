@@ -96,7 +96,9 @@ const pluginEntryPoints: EntryPoints = {
 }
 
 const parseHandler: ParseHandler = {
-  // directory: "test directory name", // directory for client files
+  directory: "test directory name", // directory for client files
+
+  selectedConfig: '',
 
   configFile: "", // webpack config name
 
@@ -106,9 +108,13 @@ const parseHandler: ParseHandler = {
 
   originalConfig: "", // original text of webpack config file
 
-  setWorkingDirectory: function (directory: string, selectedConfig?: string) {
+  setWorkingDirectory: function (directory: string, selectedConfig: string) {
+    console.log('logging!!!!!')
+    console.log('directory: ', directory)
+    console.log('selectedConfig: ', selectedConfig)
+
     this.directory = directory;
-    this.selectedConfig = selectedConfig;
+    if (selectedConfig) this.selectedConfig = selectedConfig;
   },
 
   getWorkingDirectory: function () {
@@ -233,13 +239,10 @@ const parseHandler: ParseHandler = {
       }
 
     });
-
-    this.loadStats2()
-
+    this.loadStats2();
   },
 
   loadStats2: function () {
-
     async function runWebpack2(cmd) {
       return new Promise(function (resolve, reject) {
         exec(cmd, (err, stdout, stderr) => {
@@ -252,14 +255,11 @@ const parseHandler: ParseHandler = {
       });
     }
 
-    console.log("calling runWebpack")
-    console.log("this.directory: ", this.directory)
-    console.log("this.configFile: ", this.configFile)
-    // let aPromise = runWebpack2("cd " + this.directory + " &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
-    console.log('checking it out: ', ("cd " + `'${this.directory}'` + " && webpack --env production --profile --json > stats.json"))
-    console.log('this.selectedConfig: ------', this.selectedConfig)
+    // console.log('this.directory: ', this.directory)
+    // console.log("this.selectedConfig: ", this.selectedConfig);
+    // console.log('-----------------')
 
-    let aPromise = runWebpack2("cd '" + this.directory + "' && webpack --config ./webpack.config.js --env production --profile --json > stats.json")
+    let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
       .then((res) => {
         isStatsUpdated();
         // go display webpack stats
@@ -338,10 +338,9 @@ const parseHandler: ParseHandler = {
 
     pluginEntryPoints.optimizationSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0]
 
-    this.mergePlugin()
+    this.mergePlugin();
 
     return { pluginEntryPoints, ast }
-
   },
 
 
@@ -361,7 +360,6 @@ const parseHandler: ParseHandler = {
       // and do all variable definitions. currently doing one.
     }
 
-    console.log("add plugins")
     // Add any plugins to the plugins section of the config
     if (pluginEntryPoints.pluginsSection && pluginEntryPoints.pluginsSection.value.elements.length !== 0) {
       // check to see if plugins section of config exists and add if needed
