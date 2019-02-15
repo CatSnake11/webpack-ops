@@ -132,13 +132,14 @@ const parseHandler: ParseHandler = {
     this.configFile = filepath.substring(splitPoint + 1);
 
     this.originalConfig = entry;
+    // console.log('entry: ', entry);
 
     return this.initEntryPoints(entry, writeFile)
   },
 
   initEntryPoints: function (entry: string = parseHandler.originalConfig, writeFile: boolean = false) {
     // Parse it into an AST and retrieve the list of comments
-    const comments: Array<string> = []
+    const comments: Array<string> = [];
     var ast = acorn.parse(entry, {
       ecmaVersion: 6,
       locations: true,
@@ -154,6 +155,7 @@ const parseHandler: ParseHandler = {
     }
 
     entryPoints.all = ast;
+
     entryPoints.body = ast.body;
 
     let i = ast.body.length - 1; // checking for module.exports starting from the end. Should be the last node.
@@ -162,6 +164,7 @@ const parseHandler: ParseHandler = {
 
     while (i >= 0) {
       let candidate = ast.body[i].expression;
+
       if (
         candidate.left.object && candidate.left.object.name === "module" &&
         candidate.left.property && candidate.left.property.name === "exports"
@@ -192,15 +195,15 @@ const parseHandler: ParseHandler = {
             d.type === "VariableDeclaration" &&
             d.declarations[0].id.name === configNames[i].name
           )
-        })[0]
-        configs.push(config.right)
+        })[0];
+        configs.push(config.right);
       }
     }
 
     // should support adding multiple config's plugin sections, currently does the first
-    entryPoints.pluginsSection = entryPoints.moduleExports.properties.filter(element => element.key.name === "plugins")[0]
+    entryPoints.pluginsSection = entryPoints.moduleExports.properties.filter(element => element.key.name === "plugins")[0];
 
-    entryPoints.optimizationSection = entryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0]
+    entryPoints.optimizationSection = entryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0];
 
     return { entryPoints, ast }
   },
@@ -210,6 +213,8 @@ const parseHandler: ParseHandler = {
     let formattedCode = generate(entryPoints.all, {
       comments: true,
     })
+
+    // console.log('formattedCode: ', formattedCode)
 
     // pretty up the formatted code
     formattedCode = formattedCode
@@ -355,7 +360,12 @@ const parseHandler: ParseHandler = {
     // Add any variable declarations to the top of config
     // todo: Add multiple variable declarations from plugin 
     if (pluginEntryPoints.body[0].type === "VariableDeclaration") {
-      entryPoints.body.unshift(pluginEntryPoints.body[0])  // should check to see if already exists 
+
+      if (entryPoints.body[0].declarations[0].init.arguments[0].value !== 'webpack') {
+        // only add const webpack = require('webpack') if doesn't already exist
+        entryPoints.body.unshift(pluginEntryPoints.body[0]);
+      }
+      // entryPoints.body.unshift(pluginEntryPoints.body[0])  // should check to see if already exists 
       // and do all variable definitions. currently doing one.
     }
     // Add any plugins to the plugins section of the config
