@@ -4,7 +4,7 @@ interface WhiteCardTabThreeWelcomeProps {
   isRootSelected: boolean;
 }
 
-const WhiteCardTabThreeWelcome: React.SFC<WhiteCardTabThreeWelcomeProps> = (props) => {
+const WhiteCardTabThreeWelcome = (props: WhiteCardTabThreeWelcomeProps) => {
   return (
     <div className="whiteCard welcomeCard">
       <div id="welcomeHeaderTabThree">Build Customized Webpack.config File</div>

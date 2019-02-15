@@ -8,7 +8,7 @@ interface WhiteCardStatsJSONProps {
   generateStatsFile(): void;
 }
 
-const WhiteCardStatsJSON: React.SFC<WhiteCardStatsJSONProps> = (props) => {
+const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
   return (
     <div className="whiteCard">
       <div id="stats-file-selector">

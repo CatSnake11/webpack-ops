@@ -5,7 +5,7 @@ interface WhiteCardWelcomeProps {
   isPackageSelected: boolean;
 }
 
-const WhiteCardWelcome: React.SFC<WhiteCardWelcomeProps> = (props) => {
+const WhiteCardWelcome = (props: WhiteCardWelcomeProps) => {
   return (
     <div className={props.displayWelcomeCard ? 'whiteCard welcomeCard' : 'displayOff'} >
       <div id="welcomeHeader">Welcome to WebpackOps</div>

@@ -5,7 +5,7 @@ interface WhiteCardTabTwoOptimizationDisplayProps {
   afterTotalSize: number;
 }
 
-const WhiteCardTabTwoOptimizationDisplay: React.SFC<WhiteCardTabTwoOptimizationDisplayProps> = (props) => {
+const WhiteCardTabTwoOptimizationDisplay = (props: WhiteCardTabTwoOptimizationDisplayProps) => {
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">View bundle optimization below:</div>

@@ -18,7 +18,7 @@ interface WhiteCardTabThreeBuildConfigProps {
   defaultFormattedCode: string;
 }
 
-const WhiteCardTabThreeBuildConfig: React.SFC<WhiteCardTabThreeBuildConfigProps> = (props) => {
+const WhiteCardTabThreeBuildConfig = (props: WhiteCardTabThreeBuildConfigProps) => {
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading" >Select your features</div>

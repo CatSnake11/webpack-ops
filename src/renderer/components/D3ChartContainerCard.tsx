@@ -10,7 +10,7 @@ interface D3ChartContainerCardProps {
   displaySunburstZoom: boolean;
 }
 
-const D3ChartContainerCard: React.SFC<D3ChartContainerCardProps> = (props) => {
+const D3ChartContainerCard = (props: D3ChartContainerCardProps) => {
   return (
     <div className={props.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
       <div className="smallerMainContainer">
