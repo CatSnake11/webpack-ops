@@ -8,6 +8,7 @@ interface WhiteCardTabTwoMainProps {
   handleChangeCheckboxMoment(event: any): void;
   value: string;
   isOptimizationSelected: boolean;
+  isNewConfigGenerated: boolean;
   installPluggins(): void;
   drawProgressChart(): void;
 }
@@ -16,6 +17,7 @@ const WhiteCardTabTwoMain: React.SFC<WhiteCardTabTwoMainProps> = (props) => {
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
+      {!props.isNewConfigGenerated && <div className="tabTwoDescriptionText">Select from plugins below to generate new Webpack.config file with plugins added:</div>}
       <div className="tabThreeSelectionCodeContainer">
         <div className="checkboxContainer">
           <div className="checkBoxPadding">
@@ -36,7 +38,7 @@ const WhiteCardTabTwoMain: React.SFC<WhiteCardTabTwoMainProps> = (props) => {
           </div>
         </div>
 
-        <div className="tabThreeCodeContainer">
+        {props.isNewConfigGenerated && <div className="tabThreeCodeContainer">
           <SyntaxHighlighter language='javascript' style={paraisoLight} customStyle={{
             'borderRadius': '5px',
             'padding': '15px',
@@ -45,18 +47,18 @@ const WhiteCardTabTwoMain: React.SFC<WhiteCardTabTwoMainProps> = (props) => {
             'background': 'white',
             'opacity': '0.7'
           }}>{props.value}</SyntaxHighlighter>
-        </div>
+        </div>}
 
 
       </div>
       {
         !props.isOptimizationSelected &&
-        <div>
+        <div className="tabTwoButtonContainer">
           <Button
             classes="btn stats"
             idName="tabTwoStatsButton"
             func={props.installPluggins}
-            textContent="Preview"
+            textContent="Generate Webpack Config"
           />
 
           <Button

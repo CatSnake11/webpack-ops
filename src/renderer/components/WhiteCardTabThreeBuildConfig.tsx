@@ -21,7 +21,7 @@ interface WhiteCardTabThreeBuildConfigProps {
 const WhiteCardTabThreeBuildConfig: React.SFC<WhiteCardTabThreeBuildConfigProps> = (props) => {
   return (
     <div className="whiteCard">
-      <div className="tabTwo-ThreeHeading" >Select your feature</div>
+      <div className="tabTwo-ThreeHeading" >Select your features</div>
       <div className="tabThreeSelectionCodeContainer">
         <div className="tabThreeSelectionContainer">
           <div className="checkboxContainer">

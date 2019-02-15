@@ -7,75 +7,14 @@ import fs from 'fs';
 const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
-import { any } from 'prop-types';
 import parseHandler from './parseHandler';
-// import { observe } from 'mobx';
-import Store from '../renderer/store';
-// import * as store from '../renderer/store';
-
-//isPackageSelected 1015
 
 /* test of reducing Moment library size */
 import * as moment from 'moment';
 
-// type Props = {
-//   store?: StoreType
-// }
-
-
 let now = moment().format('LLLL');
 console.log("This is a momentous time")
 console.log(now)
-
-
-
-//const { promisify } = require('util');
-//const exec = promisify(require('child_process').exec);
-
-// let generate1 = async function generateStats() {
-//   const stats = await exec("rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json")
-//   return { stats }
-// };
-
-/*
-import { exec } from 'child_process';
-
-async function runWebpack2(cmd) {
-  return new Promise(function (resolve, reject) {
-    exec(cmd, (err, stdout, stderr) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve({ stdout, stderr });
-      }
-    });
-  });
-}
-
-
-console.log("calling runWebpack")
-let aPromise = runWebpack2("cd c:/sandbox/simple_webpack_boilerplate &&  webpack --config ./webpack.config.js --profile --json > webpack-stats.tony.json")
-.then((res)=>{
-  console.log("there was a response")
-  isStatsUpdated()
-  // go display webpack stats
-})
-.catch((err) => {
-  console.log("there was an error")
-  console.log(err)
-})
-
-function isStatsUpdated () {
-  console.log("isStatsUpdated?")
-  fs.readFile("c:/sandbox/simple_webpack_boilerplate/webpack-stats.tony.json", (err, data) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    console.log((data.toString()));
-  });
-}
-*/
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -429,7 +368,6 @@ ipcMain.on('addSassToAST', (event: any, arg: any) => {
     if (customASTPropertyKey.indexOf(SassAST.body[0].expression.right.properties[0].key.name) === -1) {
       moduleExist = true;
       numberOfRules += 1;
-      console.log('hi2')
       customAST.body[customAST.body.length - 1].expression.right.properties.push(SassAST.body[0].expression.right.properties[0])
     } else {
       console.log('hi1')
@@ -736,43 +674,34 @@ ipcMain.on('removeSVGToAST', (event: any, arg: any) => {
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
     console.log('just than 1')
-
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('more than 1')
+
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
-      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".svg")) {
-        //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
-        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
+        customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1);
         numberOfRules -= 1;
       }
     }
   }
   const formattedCode1 = generate(customAST, {
     comments: true,
-  })
-  console.log(formattedCode1)
+  });
+
   formattedCode1ToSave = formattedCode1
 
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
 ipcMain.on('addPNGToAST', (event: any, arg: any) => {
-  console.log('hi')
-
   fs.readFile(__dirname + '/../src/src_custom_config/png.config.js', (err, data) => {
     if (err) return console.log(err);
-    console.log('hi')
     pngAST = acorn.parse(data.toString(), {
       ecmaVersion: 6,
       locations: true,
       // onComment: comments,
     });
-    console.log('PNG')
-    console.log('read' + JSON.stringify(pngAST.body[0].expression.right.properties[0]))
-    console.log('AST')
     let customASTPropertyKey: string[] = []
     customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
       customASTPropertyKey.push(el.key.name)
@@ -783,20 +712,15 @@ ipcMain.on('addPNGToAST', (event: any, arg: any) => {
     if (customASTPropertyKey.indexOf(pngAST.body[0].expression.right.properties[0].key.name) === -1) {
       moduleExist = true;
       numberOfRules += 1;
-      console.log('hi2')
-      customAST.body[customAST.body.length - 1].expression.right.properties.push(pngAST.body[0].expression.right.properties[0])
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(pngAST.body[0].expression.right.properties[0]);
     } else {
-      console.log('hi1')
       let customASTModulePropertyKey: string[] = [];
       customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
         if (el.key.name === "module") {
           let moduleArr = el.value.properties
           moduleArr.forEach((moduleEl) => {
             if (moduleEl.key.name === "rules") {
-              console.log('here')
-              console.log(JSON.stringify(moduleEl.value.elements))
-              console.log(JSON.stringify(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]))
-              moduleEl.value.elements.push(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
+              moduleEl.value.elements.push(pngAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0]);
             }
           })
         }
@@ -805,11 +729,10 @@ ipcMain.on('addPNGToAST', (event: any, arg: any) => {
       numberOfRules += 1;
     }
 
-    console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
     const formattedCode1 = generate(customAST, {
       comments: true,
-    })
-    console.log(formattedCode1)
+    });
+
     formattedCode1ToSave = formattedCode1
 
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
@@ -821,17 +744,12 @@ ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   for (let i = 0; i < customAST.body[customAST.body.length - 1].expression.right.properties.length; i += 1) {
     if (customAST.body[customAST.body.length - 1].expression.right.properties[i].key.name === "module") module_index = i
   }
-  console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
 
   if (numberOfRules === 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('just than 1')
-
     customAST.body[customAST.body.length - 1].expression.right.properties.splice(module_index, 1)
     numberOfRules -= 1;
   } else if (numberOfRules > 1 && customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties.length === 1) {
-    console.log('more than 1')
     for (let j = 0; j < customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.length; j += 1) {
-      console.log(typeof customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw)
       if (customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements[j].properties[0].value.raw.includes(".png")) {
         //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0]))
         customAST.body[customAST.body.length - 1].expression.right.properties[module_index].value.properties[0].value.elements.splice(j, 1)
@@ -844,7 +762,6 @@ ipcMain.on('removePNGToAST', (event: any, arg: any) => {
   })
   formattedCode1ToSave = formattedCode1
 
-  console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
 })
 
@@ -864,17 +781,13 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
 ipcMain.on('read-config', (event: any, configNumber: any) => {
   // after package.json is loaded configs have been sent to renderer and user
   // has now selected one and we need to load
-  console.log("on load-config")
-  console.log("use configuration: ", configNumber)
-
-  readConfig(configNumber)
+  readConfig(configNumber);
 })
 
 ipcMain.on('load-stats.json', (event: any, arg: any) => {
   // arg unimportant. User has selected to load a stats file. selectStatsJson() will present file loading dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')
-
   selectStatsJson()
 })
 
@@ -887,35 +800,7 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
   var child;
-  /*
-  if (arrPluginsChecked.indexOf('checkedMini') > -1) {
-    child = exec("npm install --prefix /Users/heiyeunglam/Desktop/Project/ProductionProject/Webpack-Optimizer mini-css-extract-plugin",
-      function (error: any, stdout: any, stderr: any) {
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if (error !== null) {
-            console.log('exec error: ' + error);
-        }
-    })
-  }
-
-  */
-
-  // if (arrPluginsChecked.indexOf('checkedMoment') > -1) {
-  //   parseHandler.loadPluginMoment()
-  //   // parse
-  //   // merge
-  // }
-  // if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
-  //   parseHandler.loadPluginSplitChunks()
-  //   // parse
-  //   // merge
-  // }
-  // if (arrPluginsChecked.indexOf('checkedSplitChunks') > -1) {
-  //   parseHandler.loadPluginMini()
-  //   // parse
-  //   // merge
-  // }
+  
   parseHandler.initEntryPoints()
 
   if (arrPluginsChecked.indexOf('checkedMoment') > -1) {
@@ -1025,16 +910,14 @@ let entryPoints: any = {}
 let ast: any = {}
 
 function selectConfig(packageFile: any) {
-  // console.log("selectConfig")
 
   let output = "webpack configurations in package.json.\n";
   listOfConfigs = [];
   const entries = packageFile.scripts;
-  //  const listOfConfigs: Array<string> = [];  // made global for inter function communication
+
   for (let entry in entries) {
     if (entries[entry].includes('webpack')) {
       output += `${entry} - ${entries[entry]}\n`
-      // console.log('listOfConfigs: ', listOfConfigs);
       listOfConfigs.push(entries[entry]);
     }
   }
@@ -1044,11 +927,28 @@ function selectConfig(packageFile: any) {
   mainWindow.webContents.send('choose-config', listOfConfigs)   // react should render the list in TabTwo
 }
 
+let selectedConfig: string;
+
 function readConfig(entry: number) {
-  // console.log("readConfig")
-  // console.log("listOfConfigs", listOfConfigs)
-  // console.log("User selected entry", entry)
-  // console.log(`selecting ${entry ? "1st" : "second"} configuration.\n`);
+  console.log('listOfConfigs: ', listOfConfigs)
+
+  selectedConfig = listOfConfigs[entry];
+
+  if (!selectedConfig.match('--json')) {
+    selectedConfig += ' --json > stats.json';
+  }
+
+  if (selectedConfig.match('--open')) {
+    selectedConfig = selectedConfig.replace(' --open', '');
+  }
+
+  if (selectedConfig.match('-dev-server')) {
+    selectedConfig = selectedConfig.replace('-dev-server', '');
+  }
+
+  console.log('new selected config: -----', selectedConfig);
+
+  parseHandler.setWorkingDirectory(directory, selectedConfig);
 
   let config = "webpack.config.js";
   if (listOfConfigs[entry].includes("--config")) {
@@ -1058,20 +958,16 @@ function readConfig(entry: number) {
   // console.log("loading webpack config", directory + "/" + config)
   fs.readFile(directory + "/" + config, (err, data) => {
     if (err) {
-      console.log("An error ocurred loading: " + err.message);
       console.log(err);
       return;
     }
     const configFile: string = data.toString();
-    // console.log("configuration file:")
-    // console.log(configFile);
 
-    //parseConfig(configFile, config)
     const tempObj = parseHandler.parseConfig(configFile, directory + "/" + config)  //configFile is the text file contents (.js) and config is the filepath
     entryPoints = tempObj.entryPoints;
     ast = tempObj.ast;
-    console.log('directory22222: ', directory);
-    parseHandler.setWorkingDirectory(directory);
+
+    parseHandler.setWorkingDirectory(directory, selectedConfig);
 
     // present user list of plugins
     // receive selected plugins
@@ -1092,7 +988,6 @@ function selectStatsJson() {
   let file = dialog.showOpenDialog({ properties: ['openFile'] })
 
   if (file === undefined) {
-    console.log('no gooo');
     return false;
   }
 
@@ -1116,29 +1011,20 @@ function loadStats(file: string) {
       return;
     }
     // clean and send back JSON stats file
-    //let content = data.toString()
     let content: any = data.toString();
 
-    //console.log(content)
     content = content.substr(content.indexOf("{"));
 
     //splits multiple JSON objects if more than one exists in file
-    //content = content.split(/(?<=})[\n\r\s]+(?={)/)[1]  
-    // content = "{" + content.split(/}[\n\r\s]+{/)[1]  
     content = content.split(/}[\n\r\s]+{/);
-    // repair brackets from split
 
-    // console.log("content array length is", content.length)
+    // repair brackets from split
     if (content.length > 1) {
       for (let i = 0; i < content.length; i++) {
         content[i] = (i > 0) ? "{" : "" + content[i] + (i < content.length - 1) ? "}" : ""
       }
     }
-    // console.log("Stats File")
-    // console.log(content[0].substring(0, 40))
-    // console.log("Stats 2")
-    // console.log(content[1].substring(0,40))
-    // content is now an array of one or more stats json
+
     content = JSON.parse(content[0])
     while (!content.hasOwnProperty("builtAt")) {
       content = content.children[0]

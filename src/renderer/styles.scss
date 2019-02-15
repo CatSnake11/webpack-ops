@@ -285,7 +285,6 @@ a {
   
 .slice text {
   pointer-events: none;
-  dominant-baseline: middle;
   text-anchor: middle;
 }
 
@@ -375,8 +374,6 @@ a {
   color: $bg-color;
   font-size: 28px;
   font-family: 'Electrolize';
-  // padding-left: 5px;
-  // line-height: 1.2;
   padding: 4px;
 }
 
@@ -474,7 +471,6 @@ a {
   margin-bottom: 20px;
   color: darken($text-black, 2%);
   font-family: 'Roboto', sans-serif;
-  // padding-left: 0px;
 }
 
 .tabTwoInfoText {
@@ -600,6 +596,19 @@ a {
   color: darken($text-black, 2%);
 }
 
+.tabTwoDescriptionText {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  padding-top: 10px;
+  color: darken($text-black, 2%);
+  padding-left: 8px;
+  margin-bottom: 27px;
+}
+
+.tabTwoButtonContainer {
+  margin-top: 1px;
+}
+
 .selectMessageTabThree {
   font-family: 'Roboto', sans-serif;
   font-size: 32px;
@@ -652,8 +661,6 @@ text:nth-of-type(2) {
 }
 
 .configMessageText {
-  // display: flex;
-  // justify-content: left;
   font-size: 15px;
   padding-bottom: 0px;
 }
@@ -756,4 +763,8 @@ pre {
 
 #selectConfigButton {
   margin-top: 10px;
+}
+
+#ancestors {
+  margin-bottom: -15px;
 }

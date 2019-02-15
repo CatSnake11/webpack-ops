@@ -8,7 +8,7 @@ import { FaCube } from "react-icons/fa";
 import { IoLogoBuffer } from "react-icons/io";
 import { observer, inject } from 'mobx-react'
 import { StoreType } from './store'
-import { MDCDrawer } from "@material/drawer";
+
 // Import the styles here to process them with webpack
 import './styles.scss';
 
@@ -16,7 +16,6 @@ type Props = {
   store?: StoreType
 }
 
-// type StateType = Readonly<typeof initialState>
 @inject('store')
 @observer
 
@@ -118,7 +117,7 @@ class Nav extends React.Component<Props, {}> {
               </Link>
             </li>}
 
-            <li className={store.displayChartCard ? "Nav__item" : "Nav__itemPre" } onClick={this.doSetChartNavClassOff}>
+            <li className={store.displayChartCard ? "Nav__item" : "Nav__itemPre"} onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabThreeSelected ? "Nav__link selected" : "Nav__link"}
                 to="/three"

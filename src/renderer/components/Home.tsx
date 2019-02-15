@@ -3,17 +3,12 @@ import * as d3 from 'd3';
 import { observer, inject } from 'mobx-react';
 import { StoreType } from '../store';
 import { ipcRenderer } from 'electron';
-import { FaCheck } from "react-icons/fa";
-import Button from './Button';
 import HomeHeadingBox from './HomeHeadingBox';
 import WhiteCardWelcome from './WhiteCardWelcome';
 import WhiteCardPackageJSON from './WhiteCardPackageJSON';
 import WhiteCardWebpackConfig from './WhiteCardWebpackConfig';
 import WhiteCardStatsJSON from './WhiteCardStatsJSON';
 import D3ChartContainerCard from './D3ChartContainerCard';
-import AwesomeComponent from './AwesomeComponent';
-import { node } from 'prop-types';
-//import parseHandler from '../../main/parseHandler';
 
 type Props = {
   store?: StoreType
@@ -508,8 +503,6 @@ export default class Home extends React.Component<Props, StateType> {
     const svg = d3
       .select('#zoomContainer')
       .append('svg')
-      // .style('width', '100vw')
-      // .style('height', '100vh')
       .attr('viewBox', `${-width / 2} ${-height / 2} ${width} ${height}`)
       .on('click', () => focusOn()) // Reset zoom on canvas click
       .attr('id', 'viewBox');
@@ -529,6 +522,7 @@ export default class Home extends React.Component<Props, StateType> {
       .enter()
       .append('g')
       .attr('class', 'slice')
+      .style('dominant-baseline', 'middle')
       .on('click', (d: any) => {
         d3.event.stopPropagation();
         focusOn(d);
@@ -593,7 +587,6 @@ export default class Home extends React.Component<Props, StateType> {
           .selectAll('.slice')
           .filter(d => d === elD)
           .each(function (d: any) {
-            // d.parentNode.appendChild(this);
             if (d.parent) {
               moveStackToFront(d.parent);
             }
@@ -671,8 +664,6 @@ export default class Home extends React.Component<Props, StateType> {
       if (percentage < 0.1) {
         percentageString = "< 0.1%";
       } else percentageString = percentage.toPrecision(3) + '%';
-      d3.select('#treemapText')
-        .text(d.data.name);
 
       d3.select('#percentageTree')
         .text(percentageString);
@@ -718,7 +709,7 @@ export default class Home extends React.Component<Props, StateType> {
 
       entering.append("svg:polygon")
         .attr("points", breadcrumbPoints)
-        .style("fill", function (d) { return '#409dbf'; });
+        .style("fill", function (d) { return '#f7aab2'; });
 
       entering.append("svg:text")
         .attr("x", (b.w + b.t) / 2)
@@ -796,7 +787,6 @@ export default class Home extends React.Component<Props, StateType> {
       .range(d3.schemeDark2
         .map(function (c: any) {
           c = d3.rgb(c);
-          //c.opacity = 0.5; 
           return c;
         })
       );
@@ -804,7 +794,7 @@ export default class Home extends React.Component<Props, StateType> {
     const treemap = d3.treemap()
       .size([100, 100])
       .paddingInner(0)
-      .round(false); //true
+      .round(false);
 
     const nodes = d3.hierarchy(jsonData)
       .sum(function (d) { return d.value ? 1 : 0; });
@@ -838,9 +828,6 @@ export default class Home extends React.Component<Props, StateType> {
       .on("click", zoom);
 
     function zoom(d: any) {
-
-      // console.log('clicked: ' + d.data.name + ', depth: ' + d.depth);
-
       currentDepth = d.depth;
       parent.datum(d.parent || nodes);
 
@@ -929,13 +916,11 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   getWebpackConfig = (event: any): void => {
-    // console.log("getWebpackConfig")   //getting this far
-    let radios = document.getElementsByName("config");// as HTMLInputElement
+    let radios = document.getElementsByName("config"); // as HTMLInputElement
 
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
-        // do whatever you want with the checked radio
-        // ipcRenderer.send('read-config', (radios[i] as HTMLInputElement).value);
+        // send the checked radio
         ipcRenderer.send('read-config', i);
         break;
       }
@@ -951,8 +936,6 @@ export default class Home extends React.Component<Props, StateType> {
   generateStatsFile = (): void => {
     ipcRenderer.send('loadStats2');
     this.doSetDisplayStatsFileGenerated();
-    // parseHandler.loadStats2();
-    // console.log('gwD: ', parseHandler.getWorkingDirectory());
   }
 
   render() {

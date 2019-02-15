@@ -29,8 +29,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   componentDidMount() {
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
-      console.log("finished installation")
-      console.log(arg)
     });
 
     if (this.props.store.isOptimizationSelected) {
@@ -67,8 +65,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
         .attr("rx", 18) // rounded corners
         .attr("ry", 18);
 
-      // const dataStr = data.map(num => num + 'mb');
-
       chart.selectAll("text") // adding the text labels to the bar
         .data(data)
         .enter().append("text")
@@ -90,6 +86,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, [])
     console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
+    this.doSetIsNewConfigGenerated();
   }
 
   updateConfig = (event: any, data): void => {
@@ -121,6 +118,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.props.store.isOptimizationSelected = true;
   }
 
+  doSetIsNewConfigGenerated = (): void => {
+    this.props.store.setIsNewConfigGenerated();
+  }
+
   render() {
     const codeString = '(num) => num + 1';
     const { store } = this.props;
@@ -136,6 +137,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
             isOptimizationSelected={store.isOptimizationSelected}
             installPluggins={this.installPluggins}
             drawProgressChart={this.drawProgressChart}
+            isNewConfigGenerated={store.isNewConfigGenerated}
           />
         }
 
