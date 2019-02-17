@@ -80,11 +80,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
   installPluggins = (): void => {
     const arr_plugins: string[] = ['checkedMini', 'checkedSplitChunks', 'checkedMoment'];
     let arrToInstall: string[] = arr_plugins.reduce((accum: string[], el: string): string[] => {
-      console.log(el)
+      // console.log(el)
       if (this.state[el] === true) accum.push(el);
       return accum;
     }, [])
-    console.log(arrToInstall)
+    // console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
@@ -94,9 +94,9 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   saveConfig = (): void => {
-    this.installPluggins
-    let temp = this.state.value
-    ipcRenderer.send('save-config', this.state.value)
+    this.installPluggins;
+    let temp = this.state.value;
+    ipcRenderer.send('save-config', this.state.value);
   }
 
   handleChangeCheckboxMini = (event: any): void => {

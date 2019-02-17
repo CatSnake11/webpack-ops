@@ -797,7 +797,7 @@ ipcMain.on('loadStats2', () => {
 
 ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   //npm install --prefix ./install/here mini-css-extract-plugin
-  console.log(arrPluginsChecked)
+  // console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
   var child;
   

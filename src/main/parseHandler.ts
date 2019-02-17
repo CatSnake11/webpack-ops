@@ -236,7 +236,9 @@ const parseHandler: ParseHandler = {
       if (err) throw err;
     });
 
-    fs.writeFile(this.directory + this.configFile, this.updatedConfig, (err) => {
+    console.log('checkittttt: ', this.directory)
+
+    fs.writeFile(this.directory + '/' + 'new' + this.configFile, this.updatedConfig, (err) => {
       if (err) {
         console.log(err);
         return;
@@ -261,7 +263,9 @@ const parseHandler: ParseHandler = {
 
     // console.log('this.directory: ', this.directory)
     // console.log("this.selectedConfig: ", this.selectedConfig);
-    // console.log('-----------------')
+    let testLog = "cd '" + this.directory + "' && " + this.selectedConfig;
+    let pathToSave = __dirname.replace('/dist', '') + '/assets';
+    console.log('__dirname: ', pathToSave);
 
     let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
       .then((res) => {
