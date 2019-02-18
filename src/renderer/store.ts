@@ -18,11 +18,11 @@ export type StoreType = {
 	setRootSelected(): void,
 	initialBuildSize: number,
 	setInitialBuildSize(input: number): void,
-	displaySunburst: boolean,
-	displaySunburstZoom: boolean,
-	displayTreemap: boolean,
-	displayTreemapZoom: boolean,
-	displayChartNav: boolean,
+	isSunburstDisplayed: boolean,
+	isSunburstZoomDisplayed: boolean,
+	isTreemapDisplayed: boolean,
+	isTreemapZoomDisplayed: boolean,
+	isChartNavDisplayed: boolean,
 	isPackageSelected: boolean,
 	isHomeSelected: boolean,
 	isTabTwoSelected: boolean,
@@ -35,7 +35,7 @@ export type StoreType = {
 	setDisplaySunburstZoom(): void,
 	setDisplayTreemap(): void,
 	setDisplayTreemapZoom(): void,
-	displayConfigSelection: boolean,
+	isConfigSelectionDisplayed: boolean,
 	setListOfConfigs(Array): void,
 	setDisplayConfigSelectionTrue(): void,
 	setDisplayConfigSelectionFalse(): void,
@@ -56,24 +56,24 @@ export type StoreType = {
 	isSunburstZoomSelected: boolean,
 	isTreemapSelected: boolean,
 	isTreemapZoomSelected: boolean,
-	displayChartCard: boolean,
-	displayWelcomeCard: boolean,
-	displayWelcomeCardBottom: boolean,
+	isChartCardDisplayed: boolean,
+	isWelcomeCardDisplayed: boolean,
+	isWelcomeCardBottomDisplayed: boolean,
 	beforeTotalSize: number,
 	afterTotalSize: number,
 	totalSize: number,
 	chunks: number,
 	modules: number,
 	assets: number,
-	displaySelectJson: boolean,
-	displayLoadStats: boolean,
-	displayPluginsTab: boolean,
-	statsFileGenerated: boolean,
+	isSelectJsonDisplayed: boolean,
+	isLoadStatsDisplayed: boolean,
+	isPluginsTabDisplayed: boolean,
+	isStatsFileGenerated: boolean,
 	isOptimizationSelected: boolean,
 	wereChartsEverDrawn: boolean,
 	isRootSelected: boolean,
 	isPreviewSelected: boolean,
-	customConfigSaved: boolean,
+	isCustomConfigSaved: boolean,
 	isNewConfigGenerated: boolean,
 	setCustomConfigSavedTrue(): void
 };
@@ -95,19 +95,19 @@ export default class Store {
 	isLoading = false;
 
 	@observable
-	displaySunburst = true;
+	isSunburstDisplayed = true;
 
 	@observable
-	displaySunburstZoom = false;
+	isSunburstZoomDisplayed = false;
 
 	@observable
-	displayTreemap = false;
+	isTreemapDisplayed = false;
 
 	@observable
-	displayTreemapZoom = false;
+	isTreemapZoomDisplayed = false;
 
 	@observable
-	displayConfigSelection = false;
+	isConfigSelectionDisplayed = false;
 
 	@observable
 	data_array = [['']];
@@ -119,7 +119,7 @@ export default class Store {
 	isPackageSelected = false;
 
 	@observable
-	displayChartNav = true;
+	isChartNavDisplayed = true;
 
 	@observable
 	isHomeSelected = true;
@@ -143,13 +143,13 @@ export default class Store {
 	isTreemapZoomSelected = false;
 
 	@observable
-	displayChartCard = false;
+	isChartCardDisplayed = false;
 
 	@observable
-	displayWelcomeCard = true;
+	isWelcomeCardDisplayed = true;
 
 	@observable
-	displayWelcomeCardBottom = true;
+	isWelcomeCardBottomDisplayed = true;
 
 	@observable
 	beforeTotalSize = 1334337;
@@ -173,16 +173,16 @@ export default class Store {
 	assets = 2;
 
 	@observable
-	displaySelectJson = false;
+	isSelectJsonDisplayed = false;
 
 	@observable
-	displayLoadStats = true;
+	isLoadStatsDisplayed = true;
 
 	@observable
-	displayPluginsTab = false;
+	isPluginsTabDisplayed = false;
 
 	@observable
-	statsFileGenerated = false;
+	isStatsFileGenerated = false;
 
 	@observable
 	isOptimizationSelected = false;
@@ -197,7 +197,7 @@ export default class Store {
 	isPreviewSelected = false;
 
 	@observable
-	customConfigSaved = false;
+	isCustomConfigSaved = false;
 
 	@observable
 	isNewConfigGenerated = false;
@@ -239,7 +239,7 @@ export default class Store {
 	@action.bound
 	setIsLoadingTrue() {
 		this.isLoading = true;
-		this.displaySelectJson = false;
+		this.isSelectJsonDisplayed = false;
 	}
 
 	@action.bound
@@ -254,12 +254,12 @@ export default class Store {
 
 	@action.bound
 	setChartNavClassOn() {
-		this.displayChartNav = true;
+		this.isChartNavDisplayed = true;
 	}
 
 	@action.bound
 	setChartNavClassOff() {
-		this.displayChartNav = false;
+		this.isChartNavDisplayed = false;
 	}
 
 	@action.bound
@@ -274,14 +274,14 @@ export default class Store {
 
 	@action.bound
 	setDisplaySunburst() {
-		this.displaySunburst = true;
-		this.displaySunburstZoom = false;
-		this.displayTreemap = false;
-		this.displayTreemapZoom = false;
+		this.isSunburstDisplayed = true;
+		this.isSunburstZoomDisplayed = false;
+		this.isTreemapDisplayed = false;
+		this.isTreemapZoomDisplayed = false;
 
-		this.displayChartCard = true;
-		this.displayWelcomeCard = false;
-		this.displayWelcomeCardBottom = false;
+		this.isChartCardDisplayed = true;
+		this.isWelcomeCardDisplayed = false;
+		this.isWelcomeCardBottomDisplayed = false;
 		this.isSunburstSelected = true;
 		this.isSunburstZoomSelected = false;
 		this.isTreemapSelected = false;
@@ -290,11 +290,11 @@ export default class Store {
 
 	@action.bound
 	setDisplaySunburstZoom() {
-		this.displaySunburst = false;
-		this.displaySunburstZoom = true;
-		this.displayTreemap = false;
-		this.displayTreemapZoom = false;
-		this.displayChartCard = true;
+		this.isSunburstDisplayed = false;
+		this.isSunburstZoomDisplayed = true;
+		this.isTreemapDisplayed = false;
+		this.isTreemapZoomDisplayed = false;
+		this.isChartCardDisplayed = true;
 
 		this.isSunburstSelected = false;
 		this.isSunburstZoomSelected = true;
@@ -304,11 +304,11 @@ export default class Store {
 
 	@action.bound
 	setDisplayTreemap() {
-		this.displaySunburst = false;
-		this.displaySunburstZoom = false;
-		this.displayTreemap = true;
-		this.displayTreemapZoom = false;
-		this.displayChartCard = true;
+		this.isSunburstDisplayed = false;
+		this.isSunburstZoomDisplayed = false;
+		this.isTreemapDisplayed = true;
+		this.isTreemapZoomDisplayed = false;
+		this.isChartCardDisplayed = true;
 
 		this.isSunburstSelected = false;
 		this.isSunburstZoomSelected = false;
@@ -318,11 +318,11 @@ export default class Store {
 
 	@action.bound
 	setDisplayTreemapZoom() {
-		this.displaySunburst = false;
-		this.displaySunburstZoom = false;
-		this.displayTreemap = false;
-		this.displayTreemapZoom = true;
-		this.displayChartCard = true;
+		this.isSunburstDisplayed = false;
+		this.isSunburstZoomDisplayed = false;
+		this.isTreemapDisplayed = false;
+		this.isTreemapZoomDisplayed = true;
+		this.isChartCardDisplayed = true;
 
 		this.isSunburstSelected = false;
 		this.isSunburstZoomSelected = false;
@@ -332,12 +332,12 @@ export default class Store {
 
 	@action.bound
 	setDisplayConfigSelectionTrue() {
-		this.displayConfigSelection = true;
+		this.isConfigSelectionDisplayed = true;
 	}
 
 	@action.bound
 	setDisplayConfigSelectionFalse() {
-		this.displayConfigSelection = false;
+		this.isConfigSelectionDisplayed = false;
 	}
 
 	@action.bound
@@ -347,17 +347,17 @@ export default class Store {
 
 	@action.bound
 	setLoadStatsFalse() {
-		this.displayLoadStats = false;
+		this.isLoadStatsDisplayed = false;
 	}
 
 	@action.bound
 	setDisplayPluginsTabTrue() {
-		this.displayPluginsTab = true;
+		this.isPluginsTabDisplayed = true;
 	}
 
 	@action.bound
 	setDisplayStatsFileGeneratedTrue() {
-		this.statsFileGenerated = true;
+		this.isStatsFileGenerated = true;
 	}
 
 	@action.bound
@@ -398,7 +398,7 @@ export default class Store {
 
 	@action.bound
 	setCustomConfigSavedTrue() {
-		this.customConfigSaved = true;
+		this.isCustomConfigSaved = true;
 	}
 
 	@action.bound

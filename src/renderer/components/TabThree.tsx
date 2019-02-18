@@ -143,7 +143,7 @@ export default class TabThree extends React.Component<Props, StateType> {
               handleChangeCheckboxSVG={this.handleChangeCheckboxSVG}
               handleChangeCheckboxPNG={this.handleChangeCheckboxPNG}
               isRootSelected={store.isRootSelected}
-              customConfigSaved={store.customConfigSaved}
+              isCustomConfigSaved={store.isCustomConfigSaved}
               selectGenerateWebConfigRoot={this.selectGenerateWebConfigRoot}
               defaultFormattedCode={this.state.defaultFormattedCode}
             />

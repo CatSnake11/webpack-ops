@@ -949,7 +949,7 @@ export default class Home extends React.Component<Props, StateType> {
     const { store } = this.props;
     return (
       <div className="mainContainerHome">
-        <div className={!store.displayWelcomeCard ? 'chartStatsHeadingBoxes' : 'displayOff'}>
+        <div className={!store.isWelcomeCardDisplayed ? 'chartStatsHeadingBoxes' : 'displayOff'}>
           <div className="boxContainer">
 
             <HomeHeadingBox
@@ -982,7 +982,7 @@ export default class Home extends React.Component<Props, StateType> {
         </div>
 
         <WhiteCardWelcome
-          displayWelcomeCard={store.displayWelcomeCard}
+          isWelcomeCardDisplayed={store.isWelcomeCardDisplayed}
           isPackageSelected={store.isPackageSelected}
         />
 
@@ -993,30 +993,30 @@ export default class Home extends React.Component<Props, StateType> {
           />
         }
 
-        {this.props.store.displayConfigSelection && store.isPackageSelected &&
+        {this.props.store.isConfigSelectionDisplayed && store.isPackageSelected &&
           <WhiteCardWebpackConfig
             getWebpackConfig={this.getWebpackConfig}
             listOfConfigs={this.state.listOfConfigs}
           />
         }
 
-        {store.isPackageSelected && !this.props.store.displayConfigSelection && this.props.store.displayLoadStats &&
+        {store.isPackageSelected && !this.props.store.isConfigSelectionDisplayed && this.props.store.isLoadStatsDisplayed &&
 
           <WhiteCardStatsJSON
-            statsFileGenerated={store.statsFileGenerated}
+            isStatsFileGenerated={store.isStatsFileGenerated}
             getWebpackStats={this.getWebpackStats}
             generateStatsFile={this.generateStatsFile}
           />
         }
 
         <D3ChartContainerCard
-          displayChartCard={store.displayChartCard}
-          displaySunburst={store.displaySunburst}
+          isChartCardDisplayed={store.isChartCardDisplayed}
+          isSunburstDisplayed={store.isSunburstDisplayed}
           width={this.state.width}
           height={this.state.height}
-          displayTreemap={store.displayTreemap}
-          displayTreemapZoom={store.displayTreemapZoom}
-          displaySunburstZoom={store.displaySunburstZoom}
+          isTreemapDisplayed={store.isTreemapDisplayed}
+          isTreemapZoomDisplayed={store.isTreemapZoomDisplayed}
+          isSunburstZoomDisplayed={store.isSunburstZoomDisplayed}
         />
       </div>
     );

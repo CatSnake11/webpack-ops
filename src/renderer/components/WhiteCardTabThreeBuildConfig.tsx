@@ -14,7 +14,7 @@ interface WhiteCardTabThreeBuildConfigProps {
   handleChangeCheckboxPNG(event: any): void;
   selectGenerateWebConfigRoot(event: any): void;
   isRootSelected: boolean;
-  customConfigSaved: boolean;
+  isCustomConfigSaved: boolean;
   defaultFormattedCode: string;
 }
 
@@ -93,13 +93,13 @@ const WhiteCardTabThreeBuildConfig = (props: WhiteCardTabThreeBuildConfigProps) 
           'opacity': '0.7'
         }}>{props.defaultFormattedCode}</SyntaxHighlighter>
       </div>
-      {props.isRootSelected && !props.customConfigSaved &&
+      {props.isRootSelected && !props.isCustomConfigSaved &&
         <Button
           classes="btn stats"
           func={props.selectGenerateWebConfigRoot}
           textContent="Create Webpack Config File"
         />}
-      {props.customConfigSaved && props.isRootSelected &&
+      {props.isCustomConfigSaved && props.isRootSelected &&
         <div className="tabThreeRowFlexContainer">
           < FaCheck className="greenCheck" />
           <div id="webpackConfigSaveText">

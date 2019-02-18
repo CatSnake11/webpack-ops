@@ -1,21 +1,21 @@
 import * as React from 'react';
 
 interface D3ChartContainerCardProps {
-  displayChartCard: boolean;
-  displaySunburst: boolean;
+  isChartCardDisplayed: boolean;
+  isSunburstDisplayed: boolean;
   width: number;
   height: number;
-  displayTreemap: boolean;
-  displayTreemapZoom: boolean;
-  displaySunburstZoom: boolean;
+  isTreemapDisplayed: boolean;
+  isTreemapZoomDisplayed: boolean;
+  isSunburstZoomDisplayed: boolean;
 }
 
 const D3ChartContainerCard = (props: D3ChartContainerCardProps) => {
   return (
-    <div className={props.displayChartCard ? 'whiteCard' : 'whiteCardOff'}>
+    <div className={props.isChartCardDisplayed ? 'whiteCard' : 'whiteCardOff'}>
       <div className="smallerMainContainer">
         <div id="graphsContainer">
-          <div className={props.displaySunburst ? 'd3DisplayOn' : 'd3DisplayOff'}>
+          <div className={props.isSunburstDisplayed ? 'd3DisplayOn' : 'd3DisplayOff'}>
             <div id="chart">
               <div id="sequence"></div>
               <div id="explanation">
@@ -31,7 +31,7 @@ const D3ChartContainerCard = (props: D3ChartContainerCardProps) => {
             </div>
           </div>
 
-          <div className={props.displayTreemap ? 'd3DisplayOn' : 'd3DisplayOff'}>
+          <div className={props.isTreemapDisplayed ? 'd3DisplayOn' : 'd3DisplayOff'}>
             <div id="sequenceTreeMap"></div>
             <div id="explanationTree">
               <div id="ancestors"></div>
@@ -49,7 +49,7 @@ const D3ChartContainerCard = (props: D3ChartContainerCardProps) => {
             </div>
           </div>
 
-          <div className={props.displayTreemapZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+          <div className={props.isTreemapZoomDisplayed ? 'd3DisplayOn' : 'd3DisplayOff'}>
             <div id="explanationTreeZoom">
               <div id="ancestorsZoom"></div>
               <span id="treemapTextZoom"></span>
@@ -70,7 +70,7 @@ const D3ChartContainerCard = (props: D3ChartContainerCardProps) => {
             </div>
           </div>
 
-          <div id="zoomContainer" className={props.displaySunburstZoom ? 'd3DisplayOn' : 'd3DisplayOff'}>
+          <div id="zoomContainer" className={props.isSunburstZoomDisplayed ? 'd3DisplayOn' : 'd3DisplayOff'}>
           </div>
         </div>
       </div>
