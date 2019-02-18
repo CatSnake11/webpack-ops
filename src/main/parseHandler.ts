@@ -1,10 +1,12 @@
 import fs from 'fs';
+const fsPromises = require('fs').promises;
 const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
 const prettier = require("prettier");
 import { any, string } from 'prop-types';
 import { exec } from 'child_process';
+import loadNewStats from './main';
 
 interface ParseHandler {
   directory?: string,
@@ -16,6 +18,8 @@ interface ParseHandler {
   originalConfig: string,
 
   updatedConfig: string,
+
+  configHasBeenSelected: boolean,
 
   plugins: Array<AvailablePlugin>,
 
@@ -50,7 +54,7 @@ interface ParseHandler {
 
   mergePlugin: () => void;
 
-  loadStats2: () => void;
+  loadStats2: (newConfig?: string) => void;
 
   // FIX
   //mergePluginSplitChunks: () => void;
@@ -100,6 +104,8 @@ const parseHandler: ParseHandler = {
 
   selectedConfig: '',
 
+  configHasBeenSelected: false,
+
   configFile: "", // webpack config name
 
   plugins: [],
@@ -109,12 +115,13 @@ const parseHandler: ParseHandler = {
   originalConfig: "", // original text of webpack config file
 
   setWorkingDirectory: function (directory: string, selectedConfig: string) {
-    console.log('logging!!!!!')
     console.log('directory: ', directory)
     console.log('selectedConfig: ', selectedConfig)
 
     this.directory = directory;
     if (selectedConfig) this.selectedConfig = selectedConfig;
+
+    this.configHasBeenSelected = true;
   },
 
   getWorkingDirectory: function () {
@@ -236,17 +243,25 @@ const parseHandler: ParseHandler = {
       if (err) throw err;
     });
 
-    fs.writeFile(this.directory + this.configFile, this.updatedConfig, (err) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
+    let newConfig = 'webpack --config ./new' + this.configFile + ' --profile --json > statsNew.json'
 
-    });
+    fsPromises.writeFile(this.directory + '/' + 'new' + this.configFile, this.updatedConfig)
+      .then(() => {
+        this.loadStats2(newConfig);
+      })
+      .catch(err => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+
+      });
     this.loadStats2();
   },
 
-  loadStats2: function () {
+
+
+  loadStats2: function (newConfig?: string) {
     async function runWebpack2(cmd) {
       return new Promise(function (resolve, reject) {
         exec(cmd, (err, stdout, stderr) => {
@@ -261,8 +276,9 @@ const parseHandler: ParseHandler = {
 
     // console.log('this.directory: ', this.directory)
     // console.log("this.selectedConfig: ", this.selectedConfig);
-    // console.log('-----------------')
-
+    let testLog = "cd '" + this.directory + "' && " + this.selectedConfig;
+    let pathToSave = __dirname.replace('/dist', '') + '/assets';
+    // console.log('__dirname: ', pathToSave);
     let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
       .then((res) => {
         isStatsUpdated();
@@ -271,6 +287,15 @@ const parseHandler: ParseHandler = {
       .catch((err) => {
         console.log(err);
       });
+
+    let newStats = this.directory + '/statsNew.json';
+
+    if (newConfig) {
+      runWebpack2("cd '" + this.directory + "' && " + newConfig)
+        .then(() => console.log('got it?????', newStats))
+        .then(() => loadNewStats(newStats))
+        .catch((err) => console.log(err));
+    }
 
     function isStatsUpdated() {
       fs.readFile("stats.json", (err, data) => {

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FaCheck } from "react-icons/fa";
 
-const WhiteCardTabTwoGreenCheck: React.SFC<{}> = () => {
+const WhiteCardTabTwoGreenCheck = () => {
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">

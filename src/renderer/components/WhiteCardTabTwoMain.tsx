@@ -13,7 +13,7 @@ interface WhiteCardTabTwoMainProps {
   drawProgressChart(): void;
 }
 
-const WhiteCardTabTwoMain: React.SFC<WhiteCardTabTwoMainProps> = (props) => {
+const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">Optimization Plugins</div>

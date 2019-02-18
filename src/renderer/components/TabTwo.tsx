@@ -15,7 +15,8 @@ const initialState = {
   checkedMini: false,
   checkedSplitChunks: false,
   checkedMoment: false,
-  value: ""
+  value: "",
+  newTotalSize: 0
 }
 
 type StateType = Readonly<typeof initialState>
@@ -39,6 +40,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.on('display-config', (event: any, data: any): void => {
       console.log("display updated config")
       this.setState({ value: data });
+    });
+
+    ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
+      console.log('data: ', data);
+      this.setState({ newTotalSize: data });
     })
 
   }
@@ -46,7 +52,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
   drawProgressChart = (): void => {
     this.doSelectOptimization();
     setTimeout(() => {
-      var data = [this.props.store.beforeTotalSize, this.props.store.afterTotalSize]; // here are the data values; v1 = total, v2 = current value
+      var data = [this.props.store.initialBuildSize, this.state.newTotalSize]; // here are the data values; v1 = total, v2 = current value
 
       var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
         .attr("class", "progressChart")
@@ -80,11 +86,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
   installPluggins = (): void => {
     const arr_plugins: string[] = ['checkedMini', 'checkedSplitChunks', 'checkedMoment'];
     let arrToInstall: string[] = arr_plugins.reduce((accum: string[], el: string): string[] => {
-      console.log(el)
+      // console.log(el)
       if (this.state[el] === true) accum.push(el);
       return accum;
     }, [])
-    console.log(arrToInstall)
+    // console.log(arrToInstall)
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
@@ -94,9 +100,9 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   saveConfig = (): void => {
-    this.installPluggins
-    let temp = this.state.value
-    ipcRenderer.send('save-config', this.state.value)
+    this.installPluggins;
+    let temp = this.state.value;
+    ipcRenderer.send('save-config', this.state.value);
   }
 
   handleChangeCheckboxMini = (event: any): void => {
@@ -150,6 +156,8 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <WhiteCardTabTwoOptimizationDisplay
             beforeTotalSize={store.beforeTotalSize}
             afterTotalSize={store.afterTotalSize}
+            initialBuildSize={store.initialBuildSize}
+            newBuildSize={this.state.newTotalSize}
           />
         }
       </div >

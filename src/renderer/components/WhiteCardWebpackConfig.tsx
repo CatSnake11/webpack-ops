@@ -5,7 +5,7 @@ interface WhiteCardWebpackConfigProps {
   getWebpackConfig(event: any): void;
 }
 
-const WhiteCardWebpackConfig: React.SFC<WhiteCardWebpackConfigProps> = (props) => {
+const WhiteCardWebpackConfig = (props: WhiteCardWebpackConfigProps) => {
   return (
     <div className="whiteCard">
       <div id="webpack-config-selector">

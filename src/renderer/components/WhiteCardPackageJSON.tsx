@@ -6,7 +6,7 @@ interface WhiteCardPackageJSONProps {
   getPackageJson(): void;
 }
 
-const WhiteCardPackageJSON: React.SFC<WhiteCardPackageJSONProps> = (props) => {
+const WhiteCardPackageJSON = (props: WhiteCardPackageJSONProps) => {
   return (
     <div className='whiteCard' >
       {!props.isPackageSelected &&

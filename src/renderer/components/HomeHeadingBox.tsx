@@ -6,7 +6,7 @@ interface HeadingBoxProps {
   displayData?: number;
 }
 
-const HomeHeadingBox: React.SFC<HeadingBoxProps> = (props) => {
+const HomeHeadingBox = (props: HeadingBoxProps) => {
   return (
     <div className="chartStatsHeadingBox">
       <div className='boxTextContainer'>

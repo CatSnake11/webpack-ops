@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx'
+import { initializeInstance } from 'mobx/lib/internal';
 
 export type StoreType = {
 	name: string,
@@ -15,6 +16,8 @@ export type StoreType = {
 	totalChunks: number,
 	setIsLoadingTrue(): void,
 	setRootSelected(): void,
+	initialBuildSize: number,
+	setInitialBuildSize(input: number): void,
 	displaySunburst: boolean,
 	displaySunburstZoom: boolean,
 	displayTreemap: boolean,
@@ -155,6 +158,9 @@ export default class Store {
 	afterTotalSize = 999999;
 
 	@observable
+	initialBuildSize = 0;
+
+	@observable
 	totalSize = 1334337;
 
 	@observable
@@ -234,6 +240,11 @@ export default class Store {
 	setIsLoadingTrue() {
 		this.isLoading = true;
 		this.displaySelectJson = false;
+	}
+
+	@action.bound
+	setInitialBuildSize(input: number) {
+		this.initialBuildSize = input;
 	}
 
 	@action.bound

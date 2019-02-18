@@ -5,7 +5,7 @@ interface WhiteCardTabThreeSelectRootProps {
   selectCustomWebConfigRoot(event: any): void;
 }
 
-const WhiteCardTabThreeSelectRoot: React.SFC<WhiteCardTabThreeSelectRootProps> = (props) => {
+const WhiteCardTabThreeSelectRoot = (props: WhiteCardTabThreeSelectRootProps) => {
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">Select your root directory</div>

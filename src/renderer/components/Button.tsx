@@ -7,7 +7,7 @@ interface ButtonProps {
   textContent: string;
 }
 
-const Button: React.SFC<ButtonProps> = (props) => {
+const Button = (props: ButtonProps) => {
 
   return (
     <button
