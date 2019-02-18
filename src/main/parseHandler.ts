@@ -6,6 +6,7 @@ import { generate } from 'astring';
 const prettier = require("prettier");
 import { any, string } from 'prop-types';
 import { exec } from 'child_process';
+import loadNewStats from './main';
 
 interface ParseHandler {
   directory?: string,
@@ -287,9 +288,12 @@ const parseHandler: ParseHandler = {
         console.log(err);
       });
 
+    let newStats = this.directory + '/statsNew.json';
+
     if (newConfig) {
       runWebpack2("cd '" + this.directory + "' && " + newConfig)
-        .then(() => console.log('new stats generated'))
+        .then(() => console.log('got it?????', newStats))
+        .then(() => loadNewStats(newStats))
         .catch((err) => console.log(err));
     }
 

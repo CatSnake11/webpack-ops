@@ -20,6 +20,7 @@ const initialState = {
   height: 550,
   listOfConfigs: [],
   totalSizeTemp: '',
+  initialBuildSize: 0,
   totalNodeCount: 0,
   totalAssets: 0,
   totalChunks: 0,
@@ -242,7 +243,8 @@ export default class Home extends React.Component<Props, StateType> {
     let totalSize = path.datum().value;
 
     this.setState({
-      totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb'
+      totalSizeTemp: (totalSize / 1000000).toPrecision(3) + ' Mb',
+      initialBuildSize: totalSize
     });
 
     function mouseover(d: any) {
@@ -869,6 +871,10 @@ export default class Home extends React.Component<Props, StateType> {
     this.props.store.setBeforeRoot(root);
   }
 
+  doSetInitialBuildSize = (): void => {
+    this.props.store.setInitialBuildSize(this.state.initialBuildSize);
+  }
+
   doSetDisplaySunburst = (): void => {
     this.props.store.setDisplaySunburst();
     if (!this.props.store.totalSizeTemp) {
@@ -878,6 +884,7 @@ export default class Home extends React.Component<Props, StateType> {
         this.state.totalAssets,
         this.state.totalChunks
       );
+      this.doSetInitialBuildSize();
     }
   }
 
