@@ -9,12 +9,6 @@ const astravel = require('astravel');
 import { generate } from 'astring';
 import parseHandler from './parseHandler';
 
-/* test of reducing Moment library size */
-import * as moment from 'moment';
-
-let now = moment().format('LLLL');
-console.log("This is a momentous time")
-console.log(now)
 
 let mainWindow: Electron.BrowserWindow;
 
