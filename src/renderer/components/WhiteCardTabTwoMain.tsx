@@ -61,12 +61,14 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
             textContent="Generate Webpack Config"
           />
 
-          <Button
-            classes="btn stats"
-            idName="tabTwoStatsButton"
-            func={props.drawProgressChart}
-            textContent="Show Size Change"
-          />
+          {props.isNewConfigGenerated &&
+            <Button
+              classes="btn stats"
+              idName="tabTwoStatsButton"
+              func={props.drawProgressChart}
+              textContent="Show Size Change"
+            />
+          }
         </div>
       }
       <div id="configbox"></div>
