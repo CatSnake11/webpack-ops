@@ -46,7 +46,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
       console.log('data: ', data);
       this.setState({ newTotalSize: data });
     })
-
   }
 
   drawProgressChart = (): void => {
