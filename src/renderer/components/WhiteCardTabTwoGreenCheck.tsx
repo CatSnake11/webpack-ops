@@ -1,12 +1,20 @@
 import * as React from 'react';
 import { FaCheck } from "react-icons/fa";
 
-const WhiteCardTabTwoGreenCheck = () => {
+interface WhiteCardTabTwoGreenCheckProps {
+  isBuildOptimized: boolean;
+}
+
+const WhiteCardTabTwoGreenCheck = (props: WhiteCardTabTwoGreenCheckProps) => {
   return (
-    <div className="whiteCard">
-      <div className="tabTwo-ThreeHeading">
-        <FaCheck id="greenCheck" /> Optimization Complete
-      </div>
+    <div>
+      {props.isBuildOptimized &&
+        <div className="whiteCard">
+          <div className="tabTwo-ThreeHeading">
+            <FaCheck id="greenCheck" /> Optimization Complete
+          </div>
+        </div>
+      }
     </div>
   );
 }

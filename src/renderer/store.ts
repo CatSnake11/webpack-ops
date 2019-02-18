@@ -75,7 +75,9 @@ export type StoreType = {
 	isPreviewSelected: boolean,
 	isCustomConfigSaved: boolean,
 	isNewConfigGenerated: boolean,
-	setCustomConfigSavedTrue(): void
+	setCustomConfigSavedTrue(): void,
+	setIsBuildOptimized(): void,
+	isBuildOptimized: boolean
 };
 
 export default class Store {
@@ -213,6 +215,9 @@ export default class Store {
 
 	@observable
 	totalChunks = 0;
+
+	@observable
+	isBuildOptimized = false;
 
 	// ACTIONS //
 
@@ -407,7 +412,11 @@ export default class Store {
 		this.totalNodeCount = b;
 		this.totalAssets = c;
 		this.totalChunks = d;
+	}
 
+	@action.bound
+	setIsBuildOptimized() {
+		this.isBuildOptimized = true;
 	}
 }
 

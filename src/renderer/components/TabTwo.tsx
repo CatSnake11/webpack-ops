@@ -44,8 +44,16 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
       console.log('data: ', data);
-      this.setState({ newTotalSize: data });
+      this.setState({
+        newTotalSize: data
+      }, () => this.doSetIsBuildOptimized());
     })
+  }
+
+  doSetIsBuildOptimized = (): void => {
+    if (this.state.newTotalSize - this.props.store.initialBuildSize < 0) {
+      this.props.store.setIsBuildOptimized();
+    }
   }
 
   drawProgressChart = (): void => {
@@ -133,32 +141,43 @@ export default class TabTwo extends React.Component<Props, StateType> {
     return (
       <div className="mainContainer">
 
-        {!store.isOptimizationSelected &&
-
-          <WhiteCardTabTwoMain
-            handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
-            handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
-            value={this.state.value}
-            isOptimizationSelected={store.isOptimizationSelected}
-            installPluggins={this.installPluggins}
-            drawProgressChart={this.drawProgressChart}
-            isNewConfigGenerated={store.isNewConfigGenerated}
-          />
-        }
-
         {store.isOptimizationSelected &&
-          <WhiteCardTabTwoGreenCheck />
-        }
-
-        {store.isOptimizationSelected &&
-
           <WhiteCardTabTwoOptimizationDisplay
+            isBuildOptimized={store.isBuildOptimized}
             beforeTotalSize={store.beforeTotalSize}
             afterTotalSize={store.afterTotalSize}
             initialBuildSize={store.initialBuildSize}
             newBuildSize={this.state.newTotalSize}
           />
         }
+
+        {/* {!store.isOptimizationSelected && */}
+        <WhiteCardTabTwoMain
+          handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
+          handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
+          value={this.state.value}
+          isOptimizationSelected={store.isOptimizationSelected}
+          installPluggins={this.installPluggins}
+          drawProgressChart={this.drawProgressChart}
+          isNewConfigGenerated={store.isNewConfigGenerated}
+        />
+        {/* } */}
+
+        {store.isOptimizationSelected &&
+          <WhiteCardTabTwoGreenCheck
+            isBuildOptimized={store.isBuildOptimized}
+          />
+        }
+
+        {/* {store.isOptimizationSelected &&
+          <WhiteCardTabTwoOptimizationDisplay
+            isBuildOptimized={store.isBuildOptimized}
+            beforeTotalSize={store.beforeTotalSize}
+            afterTotalSize={store.afterTotalSize}
+            initialBuildSize={store.initialBuildSize}
+            newBuildSize={this.state.newTotalSize}
+          />
+        } */}
       </div >
     );
   }
