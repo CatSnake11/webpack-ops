@@ -238,13 +238,20 @@ const parseHandler: ParseHandler = {
 
   saveConfig: function () {
     let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js"
-
     fs.rename(this.directory + this.configFile, this.directory + archiveName, (err) => {
       if (err) throw err;
     });
 
+    // save new WebpackOpsAssets directory if doesn't already exist
+    if (!fs.existsSync(this.directory + '/WebpackOpsAssets')) {
+      fs.mkdirSync(this.directory + '/WebpackOpsAssets');
+    }
+
+
     let newConfig = 'webpack --config ./new' + this.configFile + ' --profile --json > statsNew.json'
 
+    // creates new webpack.config file, then upon resolve, calls loadStats2 with newConfig
+    // to create new stats.json file
     fsPromises.writeFile(this.directory + '/' + 'new' + this.configFile, this.updatedConfig)
       .then(() => {
         this.loadStats2(newConfig);
@@ -254,7 +261,6 @@ const parseHandler: ParseHandler = {
           console.log(err);
           return;
         }
-
       });
   },
 
