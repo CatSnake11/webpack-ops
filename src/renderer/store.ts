@@ -31,6 +31,8 @@ export type StoreType = {
 	setChartNavClassOn(): void,
 	setChartNavClassOff(): void,
 	setUpdateCards(a: any, b: any, c: any, d: any): void,
+	setNewTotalSize(newSize: number): void,
+	newTotalSize: number,
 	setDisplaySunburst(): void,
 	setDisplaySunburstZoom(): void,
 	setDisplayTreemap(): void,
@@ -223,6 +225,9 @@ export default class Store {
 
 	@observable
 	isNewBuildSizeCalculated = false;
+
+	@observable
+	newTotalSize = 0;
 
 	// ACTIONS //
 
@@ -427,6 +432,11 @@ export default class Store {
 	@action.bound
 	setIsNewBuildSizeCalculated() {
 		this.isNewBuildSizeCalculated = true;
+	}
+
+	@action.bound
+	setNewTotalSize(newSize: number) {
+		this.newTotalSize = newSize;
 	}
 }
 

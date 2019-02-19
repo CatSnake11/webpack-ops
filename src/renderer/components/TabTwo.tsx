@@ -44,14 +44,19 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
       console.log('data: ', data);
+      this.doSetNewTotalSize(data);
       this.setState({
         newTotalSize: data
       }, () => this.doSetIsBuildOptimized());
     })
   }
 
+  doSetNewTotalSize = (newSize: number): void => {
+    this.props.store.setNewTotalSize(newSize);
+  }
+
   doSetIsBuildOptimized = (): void => {
-    if (this.state.newTotalSize - this.props.store.initialBuildSize < 0) {
+    if (this.props.store.newTotalSize - this.props.store.initialBuildSize < 0) {
       this.props.store.setIsBuildOptimized();
     }
     this.props.store.setIsNewBuildSizeCalculated();
@@ -60,7 +65,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
   drawProgressChart = (): void => {
     this.doSelectOptimization();
     setTimeout(() => {
-      var data = [this.props.store.initialBuildSize, this.state.newTotalSize]; // here are the data values; v1 = total, v2 = current value
+      var data = [this.props.store.initialBuildSize, this.props.store.newTotalSize]; // here are the data values; v1 = total, v2 = current value
 
       var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
         .attr("class", "progressChart")
@@ -154,7 +159,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
             beforeTotalSize={store.beforeTotalSize}
             afterTotalSize={store.afterTotalSize}
             initialBuildSize={store.initialBuildSize}
-            newBuildSize={this.state.newTotalSize}
+            newBuildSize={store.newTotalSize}
           />
         }
 
