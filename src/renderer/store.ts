@@ -82,6 +82,8 @@ export type StoreType = {
 	isBuildOptimized: boolean,
 	setIsNewBuildSizeCalculated(): void,
 	isNewBuildSizeCalculated: boolean,
+	setNewConfigDisplayCode(data: string): void,
+	newConfigDisplayCode: string,
 };
 
 export default class Store {
@@ -228,6 +230,9 @@ export default class Store {
 
 	@observable
 	newTotalSize = 0;
+
+	@observable
+	newConfigDisplayCode = '';
 
 	// ACTIONS //
 
@@ -437,6 +442,11 @@ export default class Store {
 	@action.bound
 	setNewTotalSize(newSize: number) {
 		this.newTotalSize = newSize;
+	}
+
+	@action.bound
+	setNewConfigDisplayCode(data: string) {
+		this.newConfigDisplayCode = data;
 	}
 }
 

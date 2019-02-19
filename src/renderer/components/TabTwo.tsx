@@ -39,6 +39,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
       console.log("display updated config")
+      this.doSetNewConfigDisplayCode(data);
       this.setState({ value: data });
     });
 
@@ -53,6 +54,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   doSetNewTotalSize = (newSize: number): void => {
     this.props.store.setNewTotalSize(newSize);
+  }
+
+  doSetNewConfigDisplayCode = (data: string): void => {
+    this.props.store.setNewConfigDisplayCode(data);
   }
 
   doSetIsBuildOptimized = (): void => {
@@ -167,7 +172,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
           <WhiteCardTabTwoMain
             handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
             handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
-            value={this.state.value}
+            value={store.newConfigDisplayCode}
             isOptimizationSelected={store.isOptimizationSelected}
             installPluggins={this.installPluggins}
             drawProgressChart={this.drawProgressChart}
