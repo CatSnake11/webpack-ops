@@ -256,7 +256,6 @@ const parseHandler: ParseHandler = {
         }
 
       });
-    this.loadStats2();
   },
 
 
@@ -276,8 +275,8 @@ const parseHandler: ParseHandler = {
 
     // console.log('this.directory: ', this.directory)
     // console.log("this.selectedConfig: ", this.selectedConfig);
-    let testLog = "cd '" + this.directory + "' && " + this.selectedConfig;
-    let pathToSave = __dirname.replace('/dist', '') + '/assets';
+    // let testLog = "cd '" + this.directory + "' && " + this.selectedConfig;
+    // let pathToSave = __dirname.replace('/dist', '') + '/assets';
     // console.log('__dirname: ', pathToSave);
     let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
       .then((res) => {
