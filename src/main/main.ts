@@ -1176,9 +1176,11 @@ export default function loadNewStats(file: string) {
 
     fs.rename(file, newFile, (err) => {
       if (err) {
+        throw (err);
         console.log(err)
       } else {
         console.log('sucessfully moved file!!!')
+        return;
       }
     });
   });
