@@ -281,11 +281,7 @@ const parseHandler: ParseHandler = {
       });
     }
 
-    // console.log('this.directory: ', this.directory)
-    // console.log("this.selectedConfig: ", this.selectedConfig);
-    // let testLog = "cd '" + this.directory + "' && " + this.selectedConfig;
-    // let pathToSave = __dirname.replace('/dist', '') + '/assets';
-    // console.log('__dirname: ', pathToSave);
+    // creates stats.json
     let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
       .then((res) => {
         isStatsUpdated();
@@ -297,6 +293,7 @@ const parseHandler: ParseHandler = {
 
     let newStats = this.directory + '/statsNew.json';
 
+    // creates new stats.json if there is a new webpack.config that has been generated
     if (newConfig) {
       runWebpack2("cd '" + this.directory + "' && " + newConfig)
         .then(() => console.log('got it?????', newStats))

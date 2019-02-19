@@ -3,7 +3,6 @@ import { ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import fs from 'fs';
-//import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
 const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
@@ -1085,6 +1084,7 @@ function loadStats(file: string) {
   });
 }
 
+// loads the newly created newStats.json file
 export default function loadNewStats(file: string) {
   fs.readFile(file, (err, data) => {
     if (err) {
@@ -1165,13 +1165,21 @@ export default function loadNewStats(file: string) {
     }, 0);
 
     console.log('totalSize: ', totalSize);
-    // sunBurstData.push(returnObj);
-    // console.log(sunBurstDataSum)
-    //console.log(co)
-    // console.log(content.substring(0, 40))
-    mainWindow.webContents.send('set-new-stats', totalSize)
 
-    //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
+    mainWindow.webContents.send('set-new-stats', totalSize);
 
+    // move newly created newStats.json and newwebpack.config.js files
+    // to WebpackOpsAssets directory
+    // console.log('file: ', file);
+    const newFile = file.replace('/stats', '/WebpackOpsAssets/stats')
+    // console.log('newFile: ', newFile);
+
+    fs.rename(file, newFile, (err) => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('sucessfully moved file!!!')
+      }
+    });
   });
 }
