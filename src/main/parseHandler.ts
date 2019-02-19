@@ -54,7 +54,7 @@ interface ParseHandler {
 
   mergePlugin: () => void;
 
-  loadStats2: (newConfig?: string) => void;
+  loadStats2: (newConfig?: string, newWebpackConfigFile?: string) => void;
 
   // FIX
   //mergePluginSplitChunks: () => void;
@@ -250,13 +250,14 @@ const parseHandler: ParseHandler = {
 
     let newConfig = 'webpack --config ./new' + this.configFile + ' --profile --json > statsNew.json'
 
+    let newWebpackConfigFile = `new${this.configFile}`;
     // creates new webpack.config file, then upon resolve, calls loadStats2 with newConfig
     // to create new stats.json file
     // ????????? //
     // fsPromises.writeFile(this.directory + '/WebpackOpsAssets' + '/' + 'new' + this.configFile, this.updatedConfig)
-    fsPromises.writeFile(this.directory + '/' + 'new' + this.configFile, this.updatedConfig)
+    fsPromises.writeFile(this.directory + '/' + newWebpackConfigFile, this.updatedConfig)
       .then(() => {
-        this.loadStats2(newConfig);
+        this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFile}`);
       })
       .catch(err => {
         if (err) {
@@ -268,7 +269,7 @@ const parseHandler: ParseHandler = {
 
 
 
-  loadStats2: function (newConfig?: string) {
+  loadStats2: function (newConfig?: string, newWebpackConfigFile?: string) {
     async function runWebpack2(cmd) {
       return new Promise(function (resolve, reject) {
         exec(cmd, (err, stdout, stderr) => {
@@ -297,7 +298,7 @@ const parseHandler: ParseHandler = {
     if (newConfig) {
       runWebpack2("cd '" + this.directory + "' && " + newConfig)
         .then(() => console.log('got it?????', newStats))
-        .then(() => loadNewStats(newStats))
+        .then(() => loadNewStats(newStats, newWebpackConfigFile))
         .catch((err) => console.log(err));
     }
 
@@ -309,6 +310,8 @@ const parseHandler: ParseHandler = {
         }
       });
     }
+
+    if (newConfig) console.log('newWebpackConfigFile: ', newWebpackConfigFile)
   },
 
   loadPlugin: function (name) {

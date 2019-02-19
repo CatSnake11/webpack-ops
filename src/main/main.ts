@@ -1085,7 +1085,9 @@ function loadStats(file: string) {
 }
 
 // loads the newly created newStats.json file
-export default function loadNewStats(file: string) {
+export default function loadNewStats(file: string, newWebpackConfigFile?: string) {
+  let fileCopy = file;
+
   fs.readFile(file, (err, data) => {
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
@@ -1171,14 +1173,29 @@ export default function loadNewStats(file: string) {
 
     const newFile = file.replace('/stats', '/WebpackOpsAssets/stats');
 
-    // move newly created statsNew.json and newwebpack.config.js files
-    // to WebpackOpsAssets directory
+    // move newly created statsNew.json file to WebpackOpsAssets directory
     fs.rename(file, newFile, (err) => {
       if (err) {
         throw (err);
         console.log(err)
       } else {
         console.log('sucessfully moved file!!!')
+        return;
+      }
+    });
+
+    const newPathWebpackFile = newWebpackConfigFile.replace('/new', '/WebpackOpsAssets/new');
+
+    console.log('newWebpackConfigFile: ', newWebpackConfigFile)
+    console.log('newPathWebpackFile: ', newPathWebpackFile)
+
+    // move newly created newwebpack.config.js file to WebpackOpsAssets directory
+    fs.rename(newWebpackConfigFile, newPathWebpackFile, (err) => {
+      if (err) {
+        throw (err);
+        console.log(err)
+      } else {
+        console.log('sucessfully moved file2!!!')
         return;
       }
     });

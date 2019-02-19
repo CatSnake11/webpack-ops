@@ -66,7 +66,6 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
           {props.isNewConfigGenerated && !props.isNewBuildSizeCalculated && <Spinner />}
 
           {props.isNewBuildSizeCalculated &&
-
             <Button
               classes="btn btnFadeIn stats"
               idName="tabTwoStatsButton"
