@@ -77,7 +77,9 @@ export type StoreType = {
 	isNewConfigGenerated: boolean,
 	setCustomConfigSavedTrue(): void,
 	setIsBuildOptimized(): void,
-	isBuildOptimized: boolean
+	isBuildOptimized: boolean,
+	setIsNewBuildSizeCalculated(): void,
+	isNewBuildSizeCalculated: boolean,
 };
 
 export default class Store {
@@ -218,6 +220,9 @@ export default class Store {
 
 	@observable
 	isBuildOptimized = false;
+
+	@observable
+	isNewBuildSizeCalculated = false;
 
 	// ACTIONS //
 
@@ -417,6 +422,11 @@ export default class Store {
 	@action.bound
 	setIsBuildOptimized() {
 		this.isBuildOptimized = true;
+	}
+
+	@action.bound
+	setIsNewBuildSizeCalculated() {
+		this.isNewBuildSizeCalculated = true;
 	}
 }
 

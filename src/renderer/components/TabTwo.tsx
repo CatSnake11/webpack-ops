@@ -54,6 +54,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     if (this.state.newTotalSize - this.props.store.initialBuildSize < 0) {
       this.props.store.setIsBuildOptimized();
     }
+    this.props.store.setIsNewBuildSizeCalculated();
   }
 
   drawProgressChart = (): void => {
@@ -142,34 +143,12 @@ export default class TabTwo extends React.Component<Props, StateType> {
       <div className="mainContainer">
 
         {store.isOptimizationSelected &&
-          <WhiteCardTabTwoOptimizationDisplay
-            isBuildOptimized={store.isBuildOptimized}
-            beforeTotalSize={store.beforeTotalSize}
-            afterTotalSize={store.afterTotalSize}
-            initialBuildSize={store.initialBuildSize}
-            newBuildSize={this.state.newTotalSize}
-          />
-        }
-
-        {/* {!store.isOptimizationSelected && */}
-        <WhiteCardTabTwoMain
-          handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
-          handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
-          value={this.state.value}
-          isOptimizationSelected={store.isOptimizationSelected}
-          installPluggins={this.installPluggins}
-          drawProgressChart={this.drawProgressChart}
-          isNewConfigGenerated={store.isNewConfigGenerated}
-        />
-        {/* } */}
-
-        {store.isOptimizationSelected &&
           <WhiteCardTabTwoGreenCheck
             isBuildOptimized={store.isBuildOptimized}
           />
         }
 
-        {/* {store.isOptimizationSelected &&
+        {store.isOptimizationSelected &&
           <WhiteCardTabTwoOptimizationDisplay
             isBuildOptimized={store.isBuildOptimized}
             beforeTotalSize={store.beforeTotalSize}
@@ -177,7 +156,21 @@ export default class TabTwo extends React.Component<Props, StateType> {
             initialBuildSize={store.initialBuildSize}
             newBuildSize={this.state.newTotalSize}
           />
-        } */}
+        }
+
+        {(!store.isOptimizationSelected || !store.isBuildOptimized) &&
+          <WhiteCardTabTwoMain
+            handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
+            handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
+            value={this.state.value}
+            isOptimizationSelected={store.isOptimizationSelected}
+            installPluggins={this.installPluggins}
+            drawProgressChart={this.drawProgressChart}
+            isNewConfigGenerated={store.isNewConfigGenerated}
+            isNewBuildSizeCalculated={store.isNewBuildSizeCalculated}
+          />
+        }
+
       </div >
     );
   }

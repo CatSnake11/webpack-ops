@@ -2,6 +2,7 @@ import * as React from 'react';
 import Button from './Button';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
+import Spinner from './AwesomeComponent';
 
 interface WhiteCardTabTwoMainProps {
   handleChangeCheckboxSplitChunks(event: any): void;
@@ -9,6 +10,7 @@ interface WhiteCardTabTwoMainProps {
   value: string;
   isOptimizationSelected: boolean;
   isNewConfigGenerated: boolean;
+  isNewBuildSizeCalculated: boolean;
   installPluggins(): void;
   drawProgressChart(): void;
 }
@@ -61,9 +63,12 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
             textContent="Generate Webpack Config"
           />
 
-          {props.isNewConfigGenerated &&
+          {props.isNewConfigGenerated && !props.isNewBuildSizeCalculated && <Spinner />}
+
+          {props.isNewBuildSizeCalculated &&
+
             <Button
-              classes="btn stats"
+              classes="btn btnFadeIn stats"
               idName="tabTwoStatsButton"
               func={props.drawProgressChart}
               textContent="Show Size Change"
