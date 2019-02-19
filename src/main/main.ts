@@ -1168,7 +1168,7 @@ export default function loadNewStats(file: string) {
 
     mainWindow.webContents.send('set-new-stats', totalSize);
 
-    // move newly created newStats.json and newwebpack.config.js files
+    // move newly created statsNew.json and newwebpack.config.js files
     // to WebpackOpsAssets directory
     // console.log('file: ', file);
     const newFile = file.replace('/stats', '/WebpackOpsAssets/stats')
