@@ -762,12 +762,7 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
-  // const selected = selectPackageJson();
-  // console.log('selected: ', selected);
-  // if (selected === 'err') {
-  //   console.log('this is error')
-  //   return '';
-  // }
+
   selectPackageJson();
 })
 
@@ -789,8 +784,6 @@ ipcMain.on('loadStats2', () => {
 });
 
 ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
-  //npm install --prefix ./install/here mini-css-extract-plugin
-  // console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
   var child;
 
@@ -823,15 +816,9 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
         parseHandler.saveConfig();
       }, 400);
     });
-
-  // promisify above list
-  // then run saveConfig() 
-
 });
 
 ipcMain.on('save-config', (event: any, configToSave: string) => {
-  console.log("ON SAVE-CONFIG CALLED")
-  //parseHandler.updatedConfig = configToSave
   parseHandler.saveConfig()
 });
 
@@ -843,22 +830,10 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  * Loading parsing of webpack config file
  **/
 
-// function selectPackageJson() {
-//   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0] || 'error';  // 'openDirectory', 'multiSelections'
-//   if (file !== 'error') {
-//     loadPackage(file);
-//   } else {
-//     return file;
-//   }
-//   // if (file === undefined) return;
-// }
-
 function selectPackageJson() {
   console.log("what is a dialog really?")
   let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
-  console.log('file[0]: ', file)
   if (file === undefined) {
-    console.log('no gooo');
     return false;
   }
   // console.log("what is a file really?")
@@ -872,10 +847,6 @@ let directory = "";
 let directory2 = "";
 
 function loadPackage(file: string) {
-  console.log("loadPackage")
-  // mainWindow.webContents.send('show-config-selection', true);
-  //  let lastSlash = file.match(//g)
-
   if (file.includes("/")) {
     directory = file.substring(0, file.lastIndexOf("/"));
     parseHandler.setWorkingDirectory(directory);
@@ -915,15 +886,12 @@ function selectConfig(packageFile: any) {
     }
   }
 
-  console.log(output + `\n`)
-
   mainWindow.webContents.send('choose-config', listOfConfigs)   // react should render the list in TabTwo
 }
 
 let selectedConfig: string;
 
 function readConfig(entry: number) {
-  console.log('listOfConfigs: ', listOfConfigs)
 
   selectedConfig = listOfConfigs[entry];
 
@@ -938,8 +906,6 @@ function readConfig(entry: number) {
   if (selectedConfig.match('-dev-server')) {
     selectedConfig = selectedConfig.replace('-dev-server', '');
   }
-
-  console.log('new selected config: -----', selectedConfig);
 
   parseHandler.setWorkingDirectory(directory, selectedConfig);
 
@@ -984,8 +950,6 @@ function selectStatsJson() {
     return false;
   }
 
-  console.log('file[0]: ', file[0])
-
   loadStats(file[0]);
   mainWindow.webContents.send('stats-is-selected');
 }
@@ -995,7 +959,6 @@ process.on('uncaughtException', function (error) {
   // Handle the error
   let err = error;
   return err;
-  // console.log(error);
 });
 
 function loadStats(file: string) {
@@ -1166,8 +1129,6 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
       return totalSize += chunk.size;
     }, 0);
 
-    console.log('totalSize: ', totalSize);
-
     mainWindow.webContents.send('set-new-stats', totalSize);
 
 
@@ -1179,15 +1140,11 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
         throw (err);
         console.log(err)
       } else {
-        console.log('sucessfully moved file!!!')
         return;
       }
     });
 
     const newPathWebpackFile = newWebpackConfigFile.replace('/new', '/WebpackOpsAssets/new');
-
-    console.log('newWebpackConfigFile: ', newWebpackConfigFile)
-    console.log('newPathWebpackFile: ', newPathWebpackFile)
 
     // move newly created newwebpack.config.js file to WebpackOpsAssets directory
     fs.rename(newWebpackConfigFile, newPathWebpackFile, (err) => {
@@ -1195,7 +1152,6 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
         throw (err);
         console.log(err)
       } else {
-        console.log('sucessfully moved file2!!!')
         return;
       }
     });
