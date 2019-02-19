@@ -252,6 +252,8 @@ const parseHandler: ParseHandler = {
 
     // creates new webpack.config file, then upon resolve, calls loadStats2 with newConfig
     // to create new stats.json file
+    // ????????? //
+    // fsPromises.writeFile(this.directory + '/WebpackOpsAssets' + '/' + 'new' + this.configFile, this.updatedConfig)
     fsPromises.writeFile(this.directory + '/' + 'new' + this.configFile, this.updatedConfig)
       .then(() => {
         this.loadStats2(newConfig);
