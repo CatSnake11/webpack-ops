@@ -421,30 +421,27 @@ ipcMain.on('removeSassToAST', (event: any, arg: any) => {
   formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
-})
+});
 
 
 
 ipcMain.on('addLessToAST', (event: any, arg: any) => {
-  console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/Less.config.js', (err, data) => {
     if (err) return console.log(err);
-    console.log('hi')
+
     LessAST = acorn.parse(data.toString(), {
       ecmaVersion: 6,
       locations: true,
       // onComment: comments,
     });
-    console.log('Less')
-    console.log('read' + JSON.stringify(LessAST.body[0].expression.right.properties[0]))
-    console.log('AST')
-    let customASTPropertyKey: string[] = []
+
+    let customASTPropertyKey: string[] = [];
     customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-      customASTPropertyKey.push(el.key.name)
+      customASTPropertyKey.push(el.key.name);
     })
     console.log(customASTPropertyKey);
-    //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+
 
     if (customASTPropertyKey.indexOf(LessAST.body[0].expression.right.properties[0].key.name) === -1) {
       moduleExist = true;
@@ -478,8 +475,8 @@ ipcMain.on('addLessToAST', (event: any, arg: any) => {
     formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
-  })
-})
+  });
+});
 
 ipcMain.on('removeLessToAST', (event: any, arg: any) => {
   let module_index = 0;
@@ -1047,6 +1044,10 @@ function loadStats(file: string) {
   });
 }
 
+function ogStatsGenerated(): void {
+  mainWindow.webContents.send('original-stats-is-generated');
+}
+
 // loads the newly created newStats.json file
 export default function loadNewStats(file: string, newWebpackConfigFile?: string) {
   let fileCopy = file;
@@ -1131,7 +1132,6 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
 
     mainWindow.webContents.send('set-new-stats', totalSize);
 
-
     const newFile = file.replace('/stats', '/WebpackOpsAssets/stats');
 
     // move newly created statsNew.json file to WebpackOpsAssets directory
@@ -1157,3 +1157,5 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
     });
   });
 }
+
+export { ogStatsGenerated };

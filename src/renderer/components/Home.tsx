@@ -147,6 +147,10 @@ export default class Home extends React.Component<Props, StateType> {
       this.doSetDisplayPluginsTabTrue();
     });
 
+    ipcRenderer.on('original-stats-is-generated', (): void => {
+      this.doSetOriginalStatsIsGenerated();
+    });
+
     if (this.props.store.wereChartsEverDrawn) {
       this.drawChart(this.props.store.beforeRoot);
       this.drawZoom(this.props.store.beforeRoot);
@@ -922,6 +926,10 @@ export default class Home extends React.Component<Props, StateType> {
     this.props.store.setDisplayStatsFileGeneratedTrue();
   }
 
+  doSetOriginalStatsIsGenerated = (): void => {
+    this.props.store.setOriginalStatsIsGenerated();
+  }
+
   getWebpackConfig = (event: any): void => {
     let radios = document.getElementsByName("config"); // as HTMLInputElement
 
@@ -1006,6 +1014,7 @@ export default class Home extends React.Component<Props, StateType> {
             isStatsFileGenerated={store.isStatsFileGenerated}
             getWebpackStats={this.getWebpackStats}
             generateStatsFile={this.generateStatsFile}
+            isOriginalStatsGenerated={store.isOriginalStatsGenerated}
           />
         }
 

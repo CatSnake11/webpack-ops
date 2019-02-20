@@ -7,6 +7,7 @@ const prettier = require("prettier");
 import { any, string } from 'prop-types';
 import { exec } from 'child_process';
 import loadNewStats from './main';
+import { ogStatsGenerated } from './main';
 
 interface ParseHandler {
   directory?: string,
@@ -267,8 +268,6 @@ const parseHandler: ParseHandler = {
       });
   },
 
-
-
   loadStats2: function (newConfig?: string, newWebpackConfigFile?: string) {
     async function runWebpack2(cmd) {
       return new Promise(function (resolve, reject) {
@@ -303,6 +302,9 @@ const parseHandler: ParseHandler = {
     }
 
     function isStatsUpdated() {
+      // let Home know that stats has been generated
+      ogStatsGenerated();
+
       fs.readFile("stats.json", (err, data) => {
         if (err) {
           console.log(err);

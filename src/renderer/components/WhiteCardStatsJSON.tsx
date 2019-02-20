@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Button from './Button';
 import { FaCheck } from "react-icons/fa";
+import Spinner from './AwesomeComponent';
 
 interface WhiteCardStatsJSONProps {
   isStatsFileGenerated: boolean;
   getWebpackStats(): void;
   generateStatsFile(): void;
+  isOriginalStatsGenerated: boolean;
 }
 
 const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
@@ -22,7 +24,7 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
           </div>
         }
 
-        {props.isStatsFileGenerated &&
+        {props.isOriginalStatsGenerated &&
           <div className="homeRowFlexContainer">
             < FaCheck className="greenCheck" />
             <div className="statsGeneratedText">
@@ -35,6 +37,7 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
           classes="btn stats"
           func={props.getWebpackStats}
           textContent="Load Stats File"
+          condition={props.isStatsFileGenerated && !props.isOriginalStatsGenerated}
         />
 
         {!props.isStatsFileGenerated &&
@@ -45,6 +48,11 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
             textContent="Generate Stats File"
           />
         }
+
+        {props.isStatsFileGenerated && !props.isOriginalStatsGenerated &&
+          <Spinner />
+        }
+
       </div>
     </div>
   );
