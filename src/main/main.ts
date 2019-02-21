@@ -780,6 +780,14 @@ ipcMain.on('loadStats2', () => {
   parseHandler.loadStats2();
 });
 
+ipcMain.on('get-root-directory', () => {
+  parseHandler.getRootDirectory();
+})
+
+function sendRootDirectory(newDirectory: string) {
+  mainWindow.webContents.send('root-Directory-Found', newDirectory);
+}
+
 ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
   var exec = require('child_process').exec;
   var child;
@@ -1158,4 +1166,4 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
   });
 }
 
-export { ogStatsGenerated };
+export { ogStatsGenerated, sendRootDirectory };

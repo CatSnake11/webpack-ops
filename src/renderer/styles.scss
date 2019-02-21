@@ -164,6 +164,12 @@ a {
   padding: 20px;
 }
 
+.modalButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
 .btn {
   transition: 0.3s;
   background-color:none;
@@ -185,6 +191,26 @@ a {
   box-shadow: $box-shadow;
   color: white;
   background: rgb(247, 101, 116);
+}
+
+.btnModalCancel {
+  transition: 0.3s;
+  background-color:none;
+  background-color: white;
+  border-radius: 4px;
+  outline: none;
+  border:none;
+  // color:rgb(225, 102, 114);
+  color: #c7c5c5;
+  font-size: 14px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btnModalCancel:hover {
+  box-shadow: $box-shadow;
+  color: white;
+  background: #c7c5c5;
 }
 
 .btn.stats:disabled {
@@ -475,7 +501,6 @@ a {
 }
 
 #tabTwoStatsButton {
-  margin-bottom: 0px;
   margin-right: 10px;
 }
 
@@ -769,12 +794,14 @@ pre {
 }
 
 .codeTextModal {
-  background-color: white;
-  padding: 5px;
+  padding: 0 5px 5px 0;
   margin: 0 1px;
-  color: $text-primary;
+  color: lighten($text-primary, 1%);
   font-family: 'Monaco';
-  font-size: 16px;
+  font-size: 12px;
+  word-wrap: break-word;
+  // padding-left: 0;
+  margin-left: -21px;
 }
 
 #codeText2 {

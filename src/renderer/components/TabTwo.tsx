@@ -19,6 +19,7 @@ const initialState = {
   newTotalSize: 0,
   isModalDisplayed: false,
   shouldContinue: false,
+  rootDirectory: ''
 }
 
 type StateType = Readonly<typeof initialState>
@@ -35,6 +36,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.handleShowModal = this.handleShowModal.bind(this);
     this.handleCloseModal = this.handleCloseModal.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
+    this.getRootDirectory = this.getRootDirectory.bind(this);
   }
 
   componentDidMount() {
@@ -110,6 +112,15 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, 0);
   }
 
+  getRootDirectory = (): void => {
+    ipcRenderer.send('get-root-directory');
+
+    ipcRenderer.on('root-Directory-Found', (event: any, rootDirectory: string): void => {
+      console.log('data: ', rootDirectory);
+      this.setState({ rootDirectory });
+    })
+  }
+
   installPluggins = (): void => {
     const arr_plugins: string[] = ['checkedMini', 'checkedSplitChunks', 'checkedMoment'];
     let arrToInstall: string[] = arr_plugins.reduce((accum: string[], el: string): string[] => {
@@ -118,7 +129,6 @@ export default class TabTwo extends React.Component<Props, StateType> {
       return accum;
     }, [])
 
-    // this.handleShowModal();
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
@@ -156,7 +166,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.props.store.setIsNewConfigGenerated();
   }
 
-  handleShowModal = () => this.setState({ isModalDisplayed: true });
+  handleShowModal = () => {
+    this.getRootDirectory();
+    this.setState({ isModalDisplayed: true });
+  }
 
   handleCloseModal = () => this.setState({ isModalDisplayed: false });
 
@@ -198,6 +211,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
             handleCloseModal={this.handleCloseModal}
             handleShowModal={this.handleShowModal}
             handleContinue={this.handleContinue}
+            rootDirectory={this.state.rootDirectory}
           />
         }
 

@@ -7,7 +7,7 @@ const prettier = require("prettier");
 import { any, string } from 'prop-types';
 import { exec } from 'child_process';
 import loadNewStats from './main';
-import { ogStatsGenerated } from './main';
+import { ogStatsGenerated, sendRootDirectory } from './main';
 
 interface ParseHandler {
   directory?: string,
@@ -42,6 +42,8 @@ interface ParseHandler {
   updateConfig: () => string;
 
   saveConfig: () => void;
+
+  getRootDirectory: () => void;
 
   definePlugins: (
     plugins: Array<AvailablePlugin>
@@ -235,6 +237,11 @@ const parseHandler: ParseHandler = {
     this.updatedConfig = formattedCode
 
     return this.updatedConfig;
+  },
+
+  getRootDirectory: function () {
+    let rootDirectory = this.directory + '/WebpackOpsAssets';
+    sendRootDirectory(rootDirectory);
   },
 
   saveConfig: function () {

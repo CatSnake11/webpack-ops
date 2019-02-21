@@ -18,6 +18,7 @@ interface WhiteCardTabTwoMainProps {
   handleCloseModal(): void;
   handleShowModal(): void;
   handleContinue(): void;
+  rootDirectory: string;
 }
 
 const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
@@ -73,6 +74,7 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
               onClose={props.handleCloseModal}
               handleContinue={props.handleContinue}
               installPluggins={props.installPluggins}
+              rootDirectory={props.rootDirectory}
             >
               Attention:
             </Modal>

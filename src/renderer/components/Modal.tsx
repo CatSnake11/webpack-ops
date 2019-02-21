@@ -7,6 +7,7 @@ interface ModalProps {
   handleContinue(): void;
   installPluggins(): void;
   children: string;
+  rootDirectory: string;
 }
 
 function Modal(props: ModalProps) {
@@ -29,15 +30,16 @@ function Modal(props: ModalProps) {
       <div
         style={{
           padding: 20,
-          background: '#fff',
+          // background: '#fff',
+          background: 'rgba(252, 252, 252, 1)',
           borderRadius: '2px',
           display: 'inline-block',
           // minHeight: '300px',
-          minHeight: '275px',
+          minHeight: '175px',
           margin: '1rem',
           position: 'relative',
-          minWidth: '300px',
-          maxWidth: '375px',
+          minWidth: '575px',
+          maxWidth: '575px',
           boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
           justifySelf: 'center',
           fontSize: '30px',
@@ -51,32 +53,30 @@ function Modal(props: ModalProps) {
         {props.children}
         <hr />
         <div className="tabTwoDescriptionTextModal">
-          <div className="modalText">A new 'WebpackOpsAssets' directory will be created, and your new <span className="codeTextModal">webpack.config</span>
-            and <span className="codeTextModal" id="codeText2">stats.json</span> files will be generated using your selected plugins and stored in the
-            'WebpackOpsAssets' directory.
-            </div>
-          <ul className="modalList">
+          <div className="modalText">A new directory to store your new build files will be created in your root directory:</div>
+          <br></br>
+          <div className="codeTextModal">{props.rootDirectory}</div>
+          {/* <ul className="modalList">
             <br></br>
             <li>To give permission - click 'Continue'</li>
             <br></br>
             <li>If you would not like to continue - click 'Cancel'</li>
-          </ul>
+          </ul> */}
         </div>
-        <Button
-          classes="btn stats"
-          idName="tabTwoStatsButton"
-          func={props.installPluggins}
-          textContent="Continue"
-        />
+        <div className="modalButtonContainer">
+          <Button
+            classes="btn stats"
+            idName="tabTwoStatsButton"
+            func={props.installPluggins}
+            textContent="Continue"
+          />
 
-        <Button
-          classes="btn stats"
-          func={props.onClose}
-          textContent="Cancel"
-        />
-
-        {/* <button onClick={props.installPluggins}>Continue</button>
-        <button onClick={props.onClose}>Cancel</button> */}
+          <Button
+            classes="btnModalCancel stats"
+            func={props.onClose}
+            textContent="Cancel"
+          />
+        </div>
       </div>
     </div >,
     document.querySelector("#modal"));
