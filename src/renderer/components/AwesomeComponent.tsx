@@ -7,9 +7,9 @@ export default class Spinner extends React.Component<{}, any> {
       <div className="spinner">
         <MDSpinner
           duration={2000}
-          color1="#485563"
-          color2="#485563"
-          color3="#485563"
+          color1="#515e6d"
+          color2="#515e6d"
+          color3="#515e6d"
           color4="#AAAAAA"
           size={26}
         />

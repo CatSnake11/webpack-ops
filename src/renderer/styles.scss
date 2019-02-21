@@ -193,14 +193,33 @@ a {
   background: rgb(247, 101, 116);
 }
 
+.btnModalContinue {
+  transition: 0.3s;
+  background-color:none;
+  background-color: white;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid rgba(225, 102, 114, 0.4);
+  color:rgb(225, 102, 114);
+  font-size: 14px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btnModalContinue:hover {
+  box-shadow: $box-shadow;
+  color: white;
+  background: rgb(247, 101, 116);
+  border: 1px solid opacify(rgba(225, 102, 114, 0.4), 0.1);
+}
+
 .btnModalCancel {
   transition: 0.3s;
   background-color:none;
   background-color: white;
   border-radius: 4px;
   outline: none;
-  border:none;
-  // color:rgb(225, 102, 114);
+  border: 1px solid rgba(199, 197, 197, 0.5);
   color: #c7c5c5;
   font-size: 14px;
   padding: 10px 10px 10px 10px;
@@ -211,6 +230,7 @@ a {
   box-shadow: $box-shadow;
   color: white;
   background: #c7c5c5;
+  border: 1px solid opacify(rgba(199, 197, 197, 0.5), 0.2);
 }
 
 .btn.stats:disabled {

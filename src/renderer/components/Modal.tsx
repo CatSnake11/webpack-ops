@@ -30,11 +30,9 @@ function Modal(props: ModalProps) {
       <div
         style={{
           padding: 20,
-          // background: '#fff',
           background: 'rgba(252, 252, 252, 1)',
           borderRadius: '2px',
           display: 'inline-block',
-          // minHeight: '300px',
           minHeight: '175px',
           margin: '1rem',
           position: 'relative',
@@ -65,7 +63,7 @@ function Modal(props: ModalProps) {
         </div>
         <div className="modalButtonContainer">
           <Button
-            classes="btn stats"
+            classes="btnModalContinue stats"
             idName="tabTwoStatsButton"
             func={props.installPluggins}
             textContent="Continue"
