@@ -171,7 +171,9 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.setState({ isModalDisplayed: true });
   }
 
-  handleCloseModal = () => this.setState({ isModalDisplayed: false });
+  handleCloseModal = () => {
+    this.setState({ isModalDisplayed: false });
+  }
 
   handleContinue = () => this.setState({ shouldContinue: true });
 

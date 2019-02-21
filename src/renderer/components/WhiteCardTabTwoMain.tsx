@@ -75,6 +75,7 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
               handleContinue={props.handleContinue}
               installPluggins={props.installPluggins}
               rootDirectory={props.rootDirectory}
+              isModalDisplayed={props.isModalDisplayed}
             >
               Attention:
             </Modal>

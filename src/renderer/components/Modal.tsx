@@ -8,6 +8,7 @@ interface ModalProps {
   installPluggins(): void;
   children: string;
   rootDirectory: string;
+  isModalDisplayed: boolean;
 }
 
 function Modal(props: ModalProps) {
@@ -54,12 +55,6 @@ function Modal(props: ModalProps) {
           <div className="modalText">A new directory to store your new build files will be created in your root directory:</div>
           <br></br>
           <div className="codeTextModal">{props.rootDirectory}</div>
-          {/* <ul className="modalList">
-            <br></br>
-            <li>To give permission - click 'Continue'</li>
-            <br></br>
-            <li>If you would not like to continue - click 'Cancel'</li>
-          </ul> */}
         </div>
         <div className="modalButtonContainer">
           <Button
