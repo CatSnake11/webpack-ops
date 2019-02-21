@@ -3,6 +3,7 @@ import Button from './Button';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import Spinner from './AwesomeComponent';
+import Modal from './Modal';
 
 interface WhiteCardTabTwoMainProps {
   handleChangeCheckboxSplitChunks(event: any): void;
@@ -13,9 +14,14 @@ interface WhiteCardTabTwoMainProps {
   isNewBuildSizeCalculated: boolean;
   installPluggins(): void;
   drawProgressChart(): void;
+  isModalDisplayed: boolean;
+  handleCloseModal(): void;
+  handleShowModal(): void;
+  handleContinue(): void;
 }
 
 const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
+  let aWord = <p>hello</p>
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
@@ -51,7 +57,6 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
           }}>{props.value}</SyntaxHighlighter>
         </div>}
 
-
       </div>
       {
         !props.isOptimizationSelected &&
@@ -59,9 +64,19 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
           <Button
             classes="btn stats"
             idName="tabTwoStatsButton"
-            func={props.installPluggins}
+            func={props.handleShowModal}
             textContent="Generate Webpack Config"
           />
+
+          {props.isModalDisplayed ? (
+            <Modal
+              onClose={props.handleCloseModal}
+              handleContinue={props.handleContinue}
+              installPluggins={props.installPluggins}
+            >
+              Attention:
+            </Modal>
+          ) : null}
 
           {props.isNewConfigGenerated && !props.isNewBuildSizeCalculated && <Spinner />}
 

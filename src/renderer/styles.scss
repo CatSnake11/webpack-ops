@@ -634,6 +634,14 @@ a {
   margin-bottom: 27px;
 }
 
+.tabTwoDescriptionTextModal {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: darken($text-black, 2%);
+  padding: 0 20px 20px;
+  margin-bottom: 10px;
+}
+
 .tabTwoButtonContainer {
   margin-top: 1px;
 }
@@ -760,6 +768,24 @@ pre {
   font-size: 13px;
 }
 
+.codeTextModal {
+  background-color: white;
+  padding: 5px;
+  margin: 0 1px;
+  color: $text-primary;
+  font-family: 'Monaco';
+  font-size: 16px;
+}
+
+#codeText2 {
+  padding-left: 0;
+}
+
+.modalText {
+  padding-left: 0;
+  margin-left: -21px;
+}
+
 .codeTextStats {
   color: $text-primary;
   font-family: 'Oswald';
@@ -768,6 +794,11 @@ pre {
 
 .codeTextStatsTabThree {
   color: $text-primary;
+}
+
+.modalList {
+  padding-left: 0;
+  margin-top: 10px;
 }
 
 .instructions {

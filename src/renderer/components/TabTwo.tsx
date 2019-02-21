@@ -16,7 +16,9 @@ const initialState = {
   checkedSplitChunks: false,
   checkedMoment: false,
   value: "",
-  newTotalSize: 0
+  newTotalSize: 0,
+  isModalDisplayed: false,
+  shouldContinue: false,
 }
 
 type StateType = Readonly<typeof initialState>
@@ -27,6 +29,13 @@ type StateType = Readonly<typeof initialState>
 
 export default class TabTwo extends React.Component<Props, StateType> {
   state: StateType = initialState;
+
+  constructor(props) {
+    super(props);
+    this.handleShowModal = this.handleShowModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleContinue = this.handleContinue.bind(this);
+  }
 
   componentDidMount() {
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
@@ -108,7 +117,8 @@ export default class TabTwo extends React.Component<Props, StateType> {
       if (this.state[el] === true) accum.push(el);
       return accum;
     }, [])
-    // console.log(arrToInstall)
+
+    // this.handleShowModal();
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
@@ -146,6 +156,12 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.props.store.setIsNewConfigGenerated();
   }
 
+  handleShowModal = () => this.setState({ isModalDisplayed: true });
+
+  handleCloseModal = () => this.setState({ isModalDisplayed: false });
+
+  handleContinue = () => this.setState({ shouldContinue: true });
+
   render() {
     const codeString = '(num) => num + 1';
     const { store } = this.props;
@@ -178,6 +194,10 @@ export default class TabTwo extends React.Component<Props, StateType> {
             drawProgressChart={this.drawProgressChart}
             isNewConfigGenerated={store.isNewConfigGenerated}
             isNewBuildSizeCalculated={store.isNewBuildSizeCalculated}
+            isModalDisplayed={this.state.isModalDisplayed}
+            handleCloseModal={this.handleCloseModal}
+            handleShowModal={this.handleShowModal}
+            handleContinue={this.handleContinue}
           />
         }
 

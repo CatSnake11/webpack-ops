@@ -29,7 +29,7 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
             < FaCheck className="greenCheck" />
             <div className="statsGeneratedText">
               stats file generated - click 'Load Stats File' button to load <span className="codeTextStats">stats.json</span> file below.
-                  </div>
+            </div>
           </div>
         }
 
