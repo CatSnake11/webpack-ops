@@ -2,6 +2,8 @@ import * as React from 'react';
 import Button from './Button';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
+import Spinner from './AwesomeComponent';
+import Modal from './Modal';
 
 interface WhiteCardTabTwoMainProps {
   handleChangeCheckboxSplitChunks(event: any): void;
@@ -9,11 +11,18 @@ interface WhiteCardTabTwoMainProps {
   value: string;
   isOptimizationSelected: boolean;
   isNewConfigGenerated: boolean;
+  isNewBuildSizeCalculated: boolean;
   installPluggins(): void;
   drawProgressChart(): void;
+  isModalDisplayed: boolean;
+  handleCloseModal(): void;
+  handleShowModal(): void;
+  handleContinue(): void;
+  rootDirectory: string;
 }
 
 const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
+  let aWord = <p>hello</p>
   return (
     <div className="whiteCard">
       <div className="tabTwo-ThreeHeading">Optimization Plugins</div>
@@ -49,7 +58,6 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
           }}>{props.value}</SyntaxHighlighter>
         </div>}
 
-
       </div>
       {
         !props.isOptimizationSelected &&
@@ -57,16 +65,32 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
           <Button
             classes="btn stats"
             idName="tabTwoStatsButton"
-            func={props.installPluggins}
+            func={props.handleShowModal}
             textContent="Generate Webpack Config"
           />
 
-          <Button
-            classes="btn stats"
-            idName="tabTwoStatsButton"
-            func={props.drawProgressChart}
-            textContent="Show Size Change"
-          />
+          {props.isModalDisplayed ? (
+            <Modal
+              onClose={props.handleCloseModal}
+              handleContinue={props.handleContinue}
+              installPluggins={props.installPluggins}
+              rootDirectory={props.rootDirectory}
+              isModalDisplayed={props.isModalDisplayed}
+            >
+              Attention:
+            </Modal>
+          ) : null}
+
+          {props.isNewConfigGenerated && !props.isNewBuildSizeCalculated && <Spinner />}
+
+          {props.isNewBuildSizeCalculated &&
+            <Button
+              classes="btn btnFadeIn stats"
+              idName="tabTwoStatsButton"
+              func={props.drawProgressChart}
+              textContent="Show Size Change"
+            />
+          }
         </div>
       }
       <div id="configbox"></div>

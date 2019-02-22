@@ -7,6 +7,7 @@ const prettier = require("prettier");
 import { any, string } from 'prop-types';
 import { exec } from 'child_process';
 import loadNewStats from './main';
+import { ogStatsGenerated, sendRootDirectory } from './main';
 
 interface ParseHandler {
   directory?: string,
@@ -42,6 +43,8 @@ interface ParseHandler {
 
   saveConfig: () => void;
 
+  getRootDirectory: () => void;
+
   definePlugins: (
     plugins: Array<AvailablePlugin>
   ) => void;
@@ -54,7 +57,7 @@ interface ParseHandler {
 
   mergePlugin: () => void;
 
-  loadStats2: (newConfig?: string) => void;
+  loadStats2: (newConfig?: string, newWebpackConfigFile?: string) => void;
 
   // FIX
   //mergePluginSplitChunks: () => void;
@@ -236,32 +239,43 @@ const parseHandler: ParseHandler = {
     return this.updatedConfig;
   },
 
+  getRootDirectory: function () {
+    let rootDirectory = this.directory + '/WebpackOpsAssets';
+    sendRootDirectory(rootDirectory);
+  },
+
   saveConfig: function () {
     let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js"
-
     fs.rename(this.directory + this.configFile, this.directory + archiveName, (err) => {
       if (err) throw err;
     });
 
+    // save new WebpackOpsAssets directory if doesn't already exist
+    if (!fs.existsSync(this.directory + '/WebpackOpsAssets')) {
+      fs.mkdirSync(this.directory + '/WebpackOpsAssets');
+    }
+
+
     let newConfig = 'webpack --config ./new' + this.configFile + ' --profile --json > statsNew.json'
 
-    fsPromises.writeFile(this.directory + '/' + 'new' + this.configFile, this.updatedConfig)
+    let newWebpackConfigFile = `new${this.configFile}`;
+    // creates new webpack.config file, then upon resolve, calls loadStats2 with newConfig
+    // to create new stats.json file
+    // ????????? //
+    // fsPromises.writeFile(this.directory + '/WebpackOpsAssets' + '/' + 'new' + this.configFile, this.updatedConfig)
+    fsPromises.writeFile(this.directory + '/' + newWebpackConfigFile, this.updatedConfig)
       .then(() => {
-        this.loadStats2(newConfig);
+        this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFile}`);
       })
       .catch(err => {
         if (err) {
           console.log(err);
           return;
         }
-
       });
-    this.loadStats2();
   },
 
-
-
-  loadStats2: function (newConfig?: string) {
+  loadStats2: function (newConfig?: string, newWebpackConfigFile?: string) {
     async function runWebpack2(cmd) {
       return new Promise(function (resolve, reject) {
         exec(cmd, (err, stdout, stderr) => {
@@ -274,11 +288,7 @@ const parseHandler: ParseHandler = {
       });
     }
 
-    // console.log('this.directory: ', this.directory)
-    // console.log("this.selectedConfig: ", this.selectedConfig);
-    let testLog = "cd '" + this.directory + "' && " + this.selectedConfig;
-    let pathToSave = __dirname.replace('/dist', '') + '/assets';
-    // console.log('__dirname: ', pathToSave);
+    // creates stats.json
     let aPromise = runWebpack2("cd '" + this.directory + "' && " + this.selectedConfig)
       .then((res) => {
         isStatsUpdated();
@@ -290,14 +300,18 @@ const parseHandler: ParseHandler = {
 
     let newStats = this.directory + '/statsNew.json';
 
+    // creates new stats.json if there is a new webpack.config that has been generated
     if (newConfig) {
       runWebpack2("cd '" + this.directory + "' && " + newConfig)
         .then(() => console.log('got it?????', newStats))
-        .then(() => loadNewStats(newStats))
+        .then(() => loadNewStats(newStats, newWebpackConfigFile))
         .catch((err) => console.log(err));
     }
 
     function isStatsUpdated() {
+      // let Home know that stats has been generated
+      ogStatsGenerated();
+
       fs.readFile("stats.json", (err, data) => {
         if (err) {
           console.log(err);
@@ -305,6 +319,8 @@ const parseHandler: ParseHandler = {
         }
       });
     }
+
+    if (newConfig) console.log('newWebpackConfigFile: ', newWebpackConfigFile)
   },
 
   loadPlugin: function (name) {

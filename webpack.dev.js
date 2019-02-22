@@ -1,12 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
- 
+// const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
+
 let mainConfig = {
   optimization: {
     splitChunks: {
-//     chunks: 'all',
+      //     chunks: 'all',
     }
   },
   mode: 'development',
@@ -105,7 +105,7 @@ let rendererConfig = {
       template: path.resolve(__dirname, './src/renderer/index.html'),
     }),
     // To strip all locales except “en”
-    new MomentLocalesPlugin(),
+    // new MomentLocalesPlugin(),
   ],
 };
 

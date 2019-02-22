@@ -3,7 +3,6 @@ import { ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import fs from 'fs';
-//import installExtension, { MOBX_DEVTOOLS } from 'electron-devtools-installer';
 const acorn = require("acorn");
 const astravel = require('astravel');
 import { generate } from 'astring';
@@ -422,30 +421,27 @@ ipcMain.on('removeSassToAST', (event: any, arg: any) => {
   formattedCode1ToSave = formattedCode1
   console.log(formattedCode1)
   mainWindow.webContents.send('transferCustomAST', formattedCode1)
-})
+});
 
 
 
 ipcMain.on('addLessToAST', (event: any, arg: any) => {
-  console.log('hi')
 
   fs.readFile(__dirname + '/../src/src_custom_config/Less.config.js', (err, data) => {
     if (err) return console.log(err);
-    console.log('hi')
+
     LessAST = acorn.parse(data.toString(), {
       ecmaVersion: 6,
       locations: true,
       // onComment: comments,
     });
-    console.log('Less')
-    console.log('read' + JSON.stringify(LessAST.body[0].expression.right.properties[0]))
-    console.log('AST')
-    let customASTPropertyKey: string[] = []
+
+    let customASTPropertyKey: string[] = [];
     customAST.body[customAST.body.length - 1].expression.right.properties.forEach((el) => {
-      customASTPropertyKey.push(el.key.name)
+      customASTPropertyKey.push(el.key.name);
     })
     console.log(customASTPropertyKey);
-    //console.log(JSON.stringify(customAST.body[customAST.body.length - 1].expression.right.properties))
+
 
     if (customASTPropertyKey.indexOf(LessAST.body[0].expression.right.properties[0].key.name) === -1) {
       moduleExist = true;
@@ -479,8 +475,8 @@ ipcMain.on('addLessToAST', (event: any, arg: any) => {
     formattedCode1ToSave = formattedCode1
     console.log(formattedCode1)
     mainWindow.webContents.send('transferCustomAST', formattedCode1)
-  })
-})
+  });
+});
 
 ipcMain.on('removeLessToAST', (event: any, arg: any) => {
   let module_index = 0;
@@ -763,12 +759,7 @@ ipcMain.on('load-package.json', (event: any, arg: any) => {
   // arg unimportant. selectPackage shows file dialog
   console.log(arg) // prints "ping"
   event.sender.send('asynchronous-reply', 'pong')  // sends pong as test
-  // const selected = selectPackageJson();
-  // console.log('selected: ', selected);
-  // if (selected === 'err') {
-  //   console.log('this is error')
-  //   return '';
-  // }
+
   selectPackageJson();
 })
 
@@ -789,9 +780,15 @@ ipcMain.on('loadStats2', () => {
   parseHandler.loadStats2();
 });
 
+ipcMain.on('get-root-directory', () => {
+  parseHandler.getRootDirectory();
+})
+
+function sendRootDirectory(newDirectory: string) {
+  mainWindow.webContents.send('root-Directory-Found', newDirectory);
+}
+
 ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
-  //npm install --prefix ./install/here mini-css-extract-plugin
-  // console.log(arrPluginsChecked)
   var exec = require('child_process').exec;
   var child;
 
@@ -824,15 +821,9 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
         parseHandler.saveConfig();
       }, 400);
     });
-
-  // promisify above list
-  // then run saveConfig() 
-
 });
 
 ipcMain.on('save-config', (event: any, configToSave: string) => {
-  console.log("ON SAVE-CONFIG CALLED")
-  //parseHandler.updatedConfig = configToSave
   parseHandler.saveConfig()
 });
 
@@ -844,22 +835,10 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
  * Loading parsing of webpack config file
  **/
 
-// function selectPackageJson() {
-//   let file = dialog.showOpenDialog({ properties: ['openFile'] })[0] || 'error';  // 'openDirectory', 'multiSelections'
-//   if (file !== 'error') {
-//     loadPackage(file);
-//   } else {
-//     return file;
-//   }
-//   // if (file === undefined) return;
-// }
-
 function selectPackageJson() {
   console.log("what is a dialog really?")
   let file = dialog.showOpenDialog({ properties: ['openFile'] }) // 'openDirectory', 'multiSelections'
-  console.log('file[0]: ', file)
   if (file === undefined) {
-    console.log('no gooo');
     return false;
   }
   // console.log("what is a file really?")
@@ -873,10 +852,6 @@ let directory = "";
 let directory2 = "";
 
 function loadPackage(file: string) {
-  console.log("loadPackage")
-  // mainWindow.webContents.send('show-config-selection', true);
-  //  let lastSlash = file.match(//g)
-
   if (file.includes("/")) {
     directory = file.substring(0, file.lastIndexOf("/"));
     parseHandler.setWorkingDirectory(directory);
@@ -916,15 +891,12 @@ function selectConfig(packageFile: any) {
     }
   }
 
-  console.log(output + `\n`)
-
   mainWindow.webContents.send('choose-config', listOfConfigs)   // react should render the list in TabTwo
 }
 
 let selectedConfig: string;
 
 function readConfig(entry: number) {
-  console.log('listOfConfigs: ', listOfConfigs)
 
   selectedConfig = listOfConfigs[entry];
 
@@ -939,8 +911,6 @@ function readConfig(entry: number) {
   if (selectedConfig.match('-dev-server')) {
     selectedConfig = selectedConfig.replace('-dev-server', '');
   }
-
-  console.log('new selected config: -----', selectedConfig);
 
   parseHandler.setWorkingDirectory(directory, selectedConfig);
 
@@ -985,8 +955,6 @@ function selectStatsJson() {
     return false;
   }
 
-  console.log('file[0]: ', file[0])
-
   loadStats(file[0]);
   mainWindow.webContents.send('stats-is-selected');
 }
@@ -996,7 +964,6 @@ process.on('uncaughtException', function (error) {
   // Handle the error
   let err = error;
   return err;
-  // console.log(error);
 });
 
 function loadStats(file: string) {
@@ -1085,7 +1052,14 @@ function loadStats(file: string) {
   });
 }
 
-export default function loadNewStats(file: string) {
+function ogStatsGenerated(): void {
+  mainWindow.webContents.send('original-stats-is-generated');
+}
+
+// loads the newly created newStats.json file
+export default function loadNewStats(file: string, newWebpackConfigFile?: string) {
+  let fileCopy = file;
+
   fs.readFile(file, (err, data) => {
     if (err) {
       //    alert("An error ocurred updating the file" + err.message); //alert doesn't work.
@@ -1164,14 +1138,32 @@ export default function loadNewStats(file: string) {
       return totalSize += chunk.size;
     }, 0);
 
-    console.log('totalSize: ', totalSize);
-    // sunBurstData.push(returnObj);
-    // console.log(sunBurstDataSum)
-    //console.log(co)
-    // console.log(content.substring(0, 40))
-    mainWindow.webContents.send('set-new-stats', totalSize)
+    mainWindow.webContents.send('set-new-stats', totalSize);
 
-    //mainWindow.webContents.send('display-stats-reply', JSON.parse(content))
+    const newFile = file.replace('/stats', '/WebpackOpsAssets/stats');
 
+    // move newly created statsNew.json file to WebpackOpsAssets directory
+    fs.rename(file, newFile, (err) => {
+      if (err) {
+        throw (err);
+        console.log(err)
+      } else {
+        return;
+      }
+    });
+
+    const newPathWebpackFile = newWebpackConfigFile.replace('/new', '/WebpackOpsAssets/new');
+
+    // move newly created newwebpack.config.js file to WebpackOpsAssets directory
+    fs.rename(newWebpackConfigFile, newPathWebpackFile, (err) => {
+      if (err) {
+        throw (err);
+        console.log(err)
+      } else {
+        return;
+      }
+    });
   });
 }
+
+export { ogStatsGenerated, sendRootDirectory };

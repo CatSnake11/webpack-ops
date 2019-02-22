@@ -16,7 +16,10 @@ const initialState = {
   checkedSplitChunks: false,
   checkedMoment: false,
   value: "",
-  newTotalSize: 0
+  newTotalSize: 0,
+  isModalDisplayed: false,
+  shouldContinue: false,
+  rootDirectory: ''
 }
 
 type StateType = Readonly<typeof initialState>
@@ -27,6 +30,14 @@ type StateType = Readonly<typeof initialState>
 
 export default class TabTwo extends React.Component<Props, StateType> {
   state: StateType = initialState;
+
+  constructor(props) {
+    super(props);
+    this.handleShowModal = this.handleShowModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+    this.handleContinue = this.handleContinue.bind(this);
+    this.getRootDirectory = this.getRootDirectory.bind(this);
+  }
 
   componentDidMount() {
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
@@ -39,20 +50,38 @@ export default class TabTwo extends React.Component<Props, StateType> {
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
       console.log("display updated config")
+      this.doSetNewConfigDisplayCode(data);
       this.setState({ value: data });
     });
 
     ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
       console.log('data: ', data);
-      this.setState({ newTotalSize: data });
+      this.doSetNewTotalSize(data);
+      this.setState({
+        newTotalSize: data
+      }, () => this.doSetIsBuildOptimized());
     })
+  }
 
+  doSetNewTotalSize = (newSize: number): void => {
+    this.props.store.setNewTotalSize(newSize);
+  }
+
+  doSetNewConfigDisplayCode = (data: string): void => {
+    this.props.store.setNewConfigDisplayCode(data);
+  }
+
+  doSetIsBuildOptimized = (): void => {
+    if (this.props.store.newTotalSize - this.props.store.initialBuildSize < 0) {
+      this.props.store.setIsBuildOptimized();
+    }
+    this.props.store.setIsNewBuildSizeCalculated();
   }
 
   drawProgressChart = (): void => {
     this.doSelectOptimization();
     setTimeout(() => {
-      var data = [this.props.store.initialBuildSize, this.state.newTotalSize]; // here are the data values; v1 = total, v2 = current value
+      var data = [this.props.store.initialBuildSize, this.props.store.newTotalSize]; // here are the data values; v1 = total, v2 = current value
 
       var chart = d3.select("#progressChartContainer").append("svg") // creating the svg object inside the container div
         .attr("class", "progressChart")
@@ -83,6 +112,15 @@ export default class TabTwo extends React.Component<Props, StateType> {
     }, 0);
   }
 
+  getRootDirectory = (): void => {
+    ipcRenderer.send('get-root-directory');
+
+    ipcRenderer.on('root-Directory-Found', (event: any, rootDirectory: string): void => {
+      console.log('data: ', rootDirectory);
+      this.setState({ rootDirectory });
+    })
+  }
+
   installPluggins = (): void => {
     const arr_plugins: string[] = ['checkedMini', 'checkedSplitChunks', 'checkedMoment'];
     let arrToInstall: string[] = arr_plugins.reduce((accum: string[], el: string): string[] => {
@@ -90,7 +128,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
       if (this.state[el] === true) accum.push(el);
       return accum;
     }, [])
-    // console.log(arrToInstall)
+
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
@@ -128,38 +166,57 @@ export default class TabTwo extends React.Component<Props, StateType> {
     this.props.store.setIsNewConfigGenerated();
   }
 
+  handleShowModal = () => {
+    this.getRootDirectory();
+    this.setState({ isModalDisplayed: true });
+  }
+
+  handleCloseModal = () => {
+    this.setState({ isModalDisplayed: false });
+  }
+
+  handleContinue = () => this.setState({ shouldContinue: true });
+
   render() {
     const codeString = '(num) => num + 1';
     const { store } = this.props;
     return (
       <div className="mainContainer">
 
-        {!store.isOptimizationSelected &&
+        {store.isOptimizationSelected &&
+          <WhiteCardTabTwoGreenCheck
+            isBuildOptimized={store.isBuildOptimized}
+          />
+        }
 
+        {store.isOptimizationSelected &&
+          <WhiteCardTabTwoOptimizationDisplay
+            isBuildOptimized={store.isBuildOptimized}
+            beforeTotalSize={store.beforeTotalSize}
+            afterTotalSize={store.afterTotalSize}
+            initialBuildSize={store.initialBuildSize}
+            newBuildSize={store.newTotalSize}
+          />
+        }
+
+        {(!store.isOptimizationSelected || !store.isBuildOptimized) &&
           <WhiteCardTabTwoMain
             handleChangeCheckboxSplitChunks={this.handleChangeCheckboxSplitChunks}
             handleChangeCheckboxMoment={this.handleChangeCheckboxMoment}
-            value={this.state.value}
+            value={store.newConfigDisplayCode}
             isOptimizationSelected={store.isOptimizationSelected}
             installPluggins={this.installPluggins}
             drawProgressChart={this.drawProgressChart}
             isNewConfigGenerated={store.isNewConfigGenerated}
+            isNewBuildSizeCalculated={store.isNewBuildSizeCalculated}
+            isModalDisplayed={this.state.isModalDisplayed}
+            handleCloseModal={this.handleCloseModal}
+            handleShowModal={this.handleShowModal}
+            handleContinue={this.handleContinue}
+            rootDirectory={this.state.rootDirectory}
           />
         }
 
-        {store.isOptimizationSelected &&
-          <WhiteCardTabTwoGreenCheck />
-        }
-
-        {store.isOptimizationSelected &&
-
-          <WhiteCardTabTwoOptimizationDisplay
-            beforeTotalSize={store.beforeTotalSize}
-            afterTotalSize={store.afterTotalSize}
-            initialBuildSize={store.initialBuildSize}
-            newBuildSize={this.state.newTotalSize}
-          />
-        }
       </div >
     );
   }

@@ -1,11 +1,13 @@
 import * as React from 'react';
 import Button from './Button';
 import { FaCheck } from "react-icons/fa";
+import Spinner from './AwesomeComponent';
 
 interface WhiteCardStatsJSONProps {
-  statsFileGenerated: boolean;
+  isStatsFileGenerated: boolean;
   getWebpackStats(): void;
   generateStatsFile(): void;
+  isOriginalStatsGenerated: boolean;
 }
 
 const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
@@ -13,7 +15,7 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
     <div className="whiteCard">
       <div id="stats-file-selector">
         <div className="tabOne-Heading2">Load Webpack Stats</div>
-        {!props.statsFileGenerated &&
+        {!props.isStatsFileGenerated &&
           <div>
             <div className='configMessageText'>If <span className="codeText">stats.json</span> file has already been generated, click <span className="codeText">Load Stats File</span> button to load <span className="codeText">stats.json</span> file below.</div>
             <br></br>
@@ -22,12 +24,12 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
           </div>
         }
 
-        {props.statsFileGenerated &&
+        {props.isOriginalStatsGenerated &&
           <div className="homeRowFlexContainer">
             < FaCheck className="greenCheck" />
             <div className="statsGeneratedText">
               stats file generated - click 'Load Stats File' button to load <span className="codeTextStats">stats.json</span> file below.
-                  </div>
+            </div>
           </div>
         }
 
@@ -35,9 +37,10 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
           classes="btn stats"
           func={props.getWebpackStats}
           textContent="Load Stats File"
+          condition={props.isStatsFileGenerated && !props.isOriginalStatsGenerated}
         />
 
-        {!props.statsFileGenerated &&
+        {!props.isStatsFileGenerated &&
           <Button
             classes="btn stats"
             idName="genButton"
@@ -45,6 +48,11 @@ const WhiteCardStatsJSON = (props: WhiteCardStatsJSONProps) => {
             textContent="Generate Stats File"
           />
         }
+
+        {props.isStatsFileGenerated && !props.isOriginalStatsGenerated &&
+          <Spinner />
+        }
+
       </div>
     </div>
   );

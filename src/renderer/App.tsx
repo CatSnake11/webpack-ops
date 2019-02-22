@@ -79,7 +79,7 @@ class Nav extends React.Component<Props, {}> {
               </Link>
             </li>
 
-            {store.displayChartCard && <ul className={store.displayChartNav ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
+            {store.isChartCardDisplayed && <ul className={store.isChartNavDisplayed ? 'chartNav selected' : 'chartNavOff'} style={{ listStyleType: 'none' }}>
               <li
                 className={store.isSunburstSelected ? "chartNavLinks chartNavLinkSelected" : "chartNavLinks"}
                 onClick={this.doSetDisplaySunburst}
@@ -106,7 +106,7 @@ class Nav extends React.Component<Props, {}> {
               </li>
             </ul>}
 
-            {store.displayChartCard && <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
+            {store.isChartCardDisplayed && <li className="Nav__item" onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabTwoSelected ? "Nav__link selected" : "Nav__link"}
                 to="/two"
@@ -117,7 +117,7 @@ class Nav extends React.Component<Props, {}> {
               </Link>
             </li>}
 
-            <li className={store.displayChartCard ? "Nav__item" : "Nav__itemPre"} onClick={this.doSetChartNavClassOff}>
+            <li className={store.isChartCardDisplayed ? "Nav__item" : "Nav__itemPre"} onClick={this.doSetChartNavClassOff}>
               <Link
                 className={store.isTabThreeSelected ? "Nav__link selected" : "Nav__link"}
                 to="/three"

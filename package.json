@@ -5,7 +5,8 @@
   "scripts": {
     "start": "electron ./dist/main.bundle.js",
     "development": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json",
-    "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors"
+    "production": "rimraf dist && webpack --config ./webpack.prod.js --progress --colors",
+    "webpackops": "rimraf dist && webpack --watch --config ./webpack.dev.js --progress --colors --profile --json > webpack-stats.json"
   },
   "license": "MIT",
   "devDependencies": {
@@ -26,7 +27,6 @@
     "html-webpack-plugin": "^3.2.0",
     "jest": "^23.6.0",
     "mini-css-extract-plugin": "^0.5.0",
-    "moment-locales-webpack-plugin": "^1.0.7",
     "node-sass": "^4.11.0",
     "prettier": "1.15.3",
     "react-test-renderer": "^16.7.0",

@@ -48,6 +48,11 @@ $afterNavLinkHover: rgba(237, 237, 237, 1);
   100% { opacity: 1; }
 }
 
+@keyframes buttonFadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 html {
   padding: 0;
   margin: 0;
@@ -155,7 +160,14 @@ a {
 }
 
 .spinner {
+  display: inline;
   padding: 20px;
+}
+
+.modalButtonContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .btn {
@@ -171,10 +183,73 @@ a {
   cursor: pointer;
 }
 
+.btnFadeIn {
+  animation: buttonFadeIn 1s;
+}
+
 .btn:hover {
   box-shadow: $box-shadow;
   color: white;
   background: rgb(247, 101, 116);
+}
+
+.btnModalContinue {
+  transition: 0.3s;
+  background-color:none;
+  background-color: white;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid rgba(225, 102, 114, 0.4);
+  color:rgb(225, 102, 114);
+  font-size: 14px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btnModalContinue:hover {
+  box-shadow: $box-shadow;
+  color: white;
+  background: rgb(247, 101, 116);
+  border: 1px solid opacify(rgba(225, 102, 114, 0.4), 0.1);
+}
+
+.btnModalCancel {
+  transition: 0.3s;
+  background-color:none;
+  background-color: white;
+  border-radius: 4px;
+  outline: none;
+  border: 1px solid rgba(199, 197, 197, 0.5);
+  color: #c7c5c5;
+  font-size: 14px;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+}
+
+.btnModalCancel:hover {
+  box-shadow: $box-shadow;
+  color: white;
+  background: #c7c5c5;
+  border: 1px solid opacify(rgba(199, 197, 197, 0.5), 0.2);
+}
+
+.btn.stats:disabled {
+  color: #ebe6e6;
+  animation: buttonFadeIn 0.6s;
+  cursor: default;
+}
+
+.btn.stats {
+  animation: buttonFadeIn 0.3s;
+}
+
+.btn.stats:disabled:hover {
+  color: #ebe6e6;
+  cursor: default;
+  background-color: white;
+  outline: none;
+  border:none;
+  box-shadow: none;
 }
 
 #resetButton {
@@ -446,7 +521,6 @@ a {
 }
 
 #tabTwoStatsButton {
-  margin-bottom: 0px;
   margin-right: 10px;
 }
 
@@ -605,6 +679,14 @@ a {
   margin-bottom: 27px;
 }
 
+.tabTwoDescriptionTextModal {
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  color: darken($text-black, 2%);
+  padding: 0 20px 20px;
+  margin-bottom: 10px;
+}
+
 .tabTwoButtonContainer {
   margin-top: 1px;
 }
@@ -731,6 +813,26 @@ pre {
   font-size: 13px;
 }
 
+.codeTextModal {
+  padding: 0 5px 5px 0;
+  margin: 0 1px;
+  color: lighten($text-primary, 1%);
+  font-family: 'Monaco';
+  font-size: 12px;
+  word-wrap: break-word;
+  // padding-left: 0;
+  margin-left: -21px;
+}
+
+#codeText2 {
+  padding-left: 0;
+}
+
+.modalText {
+  padding-left: 0;
+  margin-left: -21px;
+}
+
 .codeTextStats {
   color: $text-primary;
   font-family: 'Oswald';
@@ -739,6 +841,11 @@ pre {
 
 .codeTextStatsTabThree {
   color: $text-primary;
+}
+
+.modalList {
+  padding-left: 0;
+  margin-top: 10px;
 }
 
 .instructions {
@@ -767,4 +874,8 @@ pre {
 
 #ancestors {
   margin-bottom: -15px;
+}
+
+.didNotOptimizeHeading {
+  color:rgb(225, 102, 114);
 }
