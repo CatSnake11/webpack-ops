@@ -222,19 +222,17 @@ const parseHandler: ParseHandler = {
     // Use astring.generate to convert config ast back to a JavaScript file
     let formattedCode = generate(entryPoints.all, {
       comments: true,
-    })
-
-    // console.log('formattedCode: ', formattedCode)
+    });
 
     // pretty up the formatted code
     formattedCode = formattedCode
       .replace("/[{/g", "}\n]")
       .replace(/\nmodule.exports/, "\n\nmodule.exports")
-      .replace(/(\nconst.+new)/g, "\n$&")
+      .replace(/(\nconst.+new)/g, "\n$&");
 
     formattedCode = prettier.format(formattedCode, { semi: false, parser: "babylon" });
 
-    this.updatedConfig = formattedCode
+    this.updatedConfig = formattedCode;
 
     return this.updatedConfig;
   },
@@ -255,17 +253,27 @@ const parseHandler: ParseHandler = {
       fs.mkdirSync(this.directory + '/WebpackOpsAssets');
     }
 
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
 
-    let newConfig = 'webpack --config ./new' + this.configFile + ' --profile --json > statsNew.json'
+    let hour = (new Date().getHours() + 24) % 12 || 12;
+    let minute = new Date().getMinutes();
+    let second = new Date().getSeconds();
+    let newWebpackConfigFileWithDatenoNew = `${month}-${day}-${year}_${hour}-${minute}-${second}_${this.configFile}`;
 
-    let newWebpackConfigFile = `new${this.configFile}`;
+    let newStats = `statsNew-${month}-${day}-${year}_${hour}-${minute}-${second}.json`;
+
+    let newConfig = 'webpack --config ./new-' + newWebpackConfigFileWithDatenoNew + ' --profile --json > ' + newStats;
+
+    let newWebpackConfigFileWithDate = `new-${month}-${day}-${year}_${hour}-${minute}-${second}_${this.configFile}`;
+
     // creates new webpack.config file, then upon resolve, calls loadStats2 with newConfig
     // to create new stats.json file
-    // ????????? //
-    // fsPromises.writeFile(this.directory + '/WebpackOpsAssets' + '/' + 'new' + this.configFile, this.updatedConfig)
-    fsPromises.writeFile(this.directory + '/' + newWebpackConfigFile, this.updatedConfig)
+    fsPromises.writeFile(this.directory + '/' + newWebpackConfigFileWithDate, this.updatedConfig)
       .then(() => {
-        this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFile}`);
+        // this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFile}`);
+        this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFileWithDate}`);
       })
       .catch(err => {
         if (err) {
@@ -298,12 +306,23 @@ const parseHandler: ParseHandler = {
         console.log(err);
       });
 
-    let newStats = this.directory + '/statsNew.json';
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    let year = new Date().getFullYear();
+
+    let hour = (new Date().getHours() + 24) % 12 || 12;
+    let minute = new Date().getMinutes();
+    let second = new Date().getSeconds();
+
+    let newDate = `-${month}-${day}-${year}_${hour}-${minute}-${second}`;
+
+    let newStats = `${this.directory}/statsNew${newDate}.json`;
+    // let newStats = this.directory + '/statsNew.json';
 
     // creates new stats.json if there is a new webpack.config that has been generated
     if (newConfig) {
       runWebpack2("cd '" + this.directory + "' && " + newConfig)
-        .then(() => console.log('got it?????', newStats))
+        // .then(() => console.log('got it?????', newStats))
         .then(() => loadNewStats(newStats, newWebpackConfigFile))
         .catch((err) => console.log(err));
     }
