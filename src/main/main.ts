@@ -827,6 +827,17 @@ ipcMain.on('save-config', (event: any, configToSave: string) => {
   parseHandler.saveConfig()
 });
 
+ipcMain.on('does-webpack-ops-assets-exist', () => {
+  parseHandler.doesWebpackOpsAssetsExist();
+});
+
+function callInstallPluggins() {
+  mainWindow.webContents.send('call-install-pluggins');
+}
+
+function callOpenModal() {
+  mainWindow.webContents.send('webpack-ops-assets-does-not-exist');
+}
 
 /**
  * Event handlers - file loading / parsing
@@ -1166,4 +1177,4 @@ export default function loadNewStats(file: string, newWebpackConfigFile?: string
   });
 }
 
-export { ogStatsGenerated, sendRootDirectory };
+export { ogStatsGenerated, sendRootDirectory, callInstallPluggins, callOpenModal };

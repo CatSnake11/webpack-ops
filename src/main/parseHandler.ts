@@ -7,7 +7,7 @@ const prettier = require("prettier");
 import { any, string } from 'prop-types';
 import { exec } from 'child_process';
 import loadNewStats from './main';
-import { ogStatsGenerated, sendRootDirectory } from './main';
+import { ogStatsGenerated, sendRootDirectory, callInstallPluggins, callOpenModal } from './main';
 
 interface ParseHandler {
   directory?: string,
@@ -43,6 +43,8 @@ interface ParseHandler {
 
   saveConfig: () => void;
 
+  doesWebpackOpsAssetsExist: () => void;
+
   getRootDirectory: () => void;
 
   definePlugins: (
@@ -58,9 +60,6 @@ interface ParseHandler {
   mergePlugin: () => void;
 
   loadStats2: (newConfig?: string, newWebpackConfigFile?: string) => void;
-
-  // FIX
-  //mergePluginSplitChunks: () => void;
 }
 
 interface AvailablePlugin {
@@ -118,17 +117,16 @@ const parseHandler: ParseHandler = {
   originalConfig: "", // original text of webpack config file
 
   setWorkingDirectory: function (directory: string, selectedConfig: string) {
-    console.log('directory: ', directory)
-    console.log('selectedConfig: ', selectedConfig)
 
     this.directory = directory;
+
     if (selectedConfig) this.selectedConfig = selectedConfig;
 
     this.configHasBeenSelected = true;
   },
 
   getWorkingDirectory: function () {
-    return this.directory
+    return this.directory;
   },
 
   parseConfig: function (entry: string, filepath: string, writeFile: boolean = false) {
@@ -138,13 +136,10 @@ const parseHandler: ParseHandler = {
       filepath.lastIndexOf("\\");
 
     this.directory = filepath.substring(0, splitPoint + 1);
-
     this.configFile = filepath.substring(splitPoint + 1);
-
     this.originalConfig = entry;
-    // console.log('entry: ', entry);
 
-    return this.initEntryPoints(entry, writeFile)
+    return this.initEntryPoints(entry, writeFile);
   },
 
   initEntryPoints: function (entry: string = parseHandler.originalConfig, writeFile: boolean = false) {
@@ -191,8 +186,8 @@ const parseHandler: ParseHandler = {
 
     if (oldModuleExports.type === "ObjectExpression") { // we've found the single config
 
-      configs.push(oldModuleExports)
-      entryPoints.moduleExports = oldModuleExports
+      configs.push(oldModuleExports);
+      entryPoints.moduleExports = oldModuleExports;
     } else if (oldModuleExports.type === "ArrayExpression") { // there are multiple configs
 
       // not supported now
@@ -242,8 +237,22 @@ const parseHandler: ParseHandler = {
     sendRootDirectory(rootDirectory);
   },
 
+  doesWebpackOpsAssetsExist: function () {
+    // let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js";
+    // fs.rename(this.directory + this.configFile, this.directory + archiveName, (err) => {
+    //   if (err) throw err;
+    // });
+
+    // check if WebpackOpsAssets directory exists. if so, call installPluggins in TabTwo
+    if (fs.existsSync(this.directory + '/WebpackOpsAssets')) {
+      callInstallPluggins();
+    } else {
+      callOpenModal();
+    }
+  },
+
   saveConfig: function () {
-    let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js"
+    let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js";
     fs.rename(this.directory + this.configFile, this.directory + archiveName, (err) => {
       if (err) throw err;
     });
@@ -272,7 +281,6 @@ const parseHandler: ParseHandler = {
     // to create new stats.json file
     fsPromises.writeFile(this.directory + '/' + newWebpackConfigFileWithDate, this.updatedConfig)
       .then(() => {
-        // this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFile}`);
         this.loadStats2(newConfig, `${this.directory}/${newWebpackConfigFileWithDate}`);
       })
       .catch(err => {
@@ -317,12 +325,10 @@ const parseHandler: ParseHandler = {
     let newDate = `-${month}-${day}-${year}_${hour}-${minute}-${second}`;
 
     let newStats = `${this.directory}/statsNew${newDate}.json`;
-    // let newStats = this.directory + '/statsNew.json';
 
     // creates new stats.json if there is a new webpack.config that has been generated
     if (newConfig) {
       runWebpack2("cd '" + this.directory + "' && " + newConfig)
-        // .then(() => console.log('got it?????', newStats))
         .then(() => loadNewStats(newStats, newWebpackConfigFile))
         .catch((err) => console.log(err));
     }
@@ -339,7 +345,7 @@ const parseHandler: ParseHandler = {
       });
     }
 
-    if (newConfig) console.log('newWebpackConfigFile: ', newWebpackConfigFile)
+    // if (newConfig) console.log('newWebpackConfigFile: ', newWebpackConfigFile)
   },
 
   loadPlugin: function (name) {
