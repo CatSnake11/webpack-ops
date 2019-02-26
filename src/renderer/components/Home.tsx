@@ -227,12 +227,12 @@ export default class Home extends React.Component<Props, StateType> {
 
     let color = function () {
       let ctr = 0;
-      const hex = ['#8cc4d9', '#64b0cc', '#409dbf', '#337e99', '#265e73', '#193f4d']
-      // const hex = ['#cbedef', '#b6e7ed', '#9befee', '#d3e6e8', '#7df2ec', '#cdf2e4']
+      const hex = ['#8cc4d9', '#64b0cc', '#409dbf', '#337e99', '#265e73', '#193f4d'];
+
       return function () {
         if (ctr === hex.length - 1) {
           ctr = 0;
-          return hex[ctr]
+          return hex[ctr];
         } else {
           ctr++;
           return hex[ctr];
@@ -268,6 +268,7 @@ export default class Home extends React.Component<Props, StateType> {
 
       d3.select("#percentage")
         .text('% of Total: ' + percentageString);
+
       //ADDED FILE NAME
       d3.select("#filename")
         .text(d.data.name);
@@ -529,7 +530,7 @@ export default class Home extends React.Component<Props, StateType> {
     const slice = svg.selectAll('g.slice').data(partition(root).descendants());
 
     slice.exit().remove();
-    let path1 = d3.selectAll('g').data(root.descendants())
+    let path1 = d3.selectAll('g').data(root.descendants());
     let totalSize = path1.datum().value;
 
     const newSlice = slice

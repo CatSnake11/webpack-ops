@@ -149,7 +149,7 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
     //console.log(customASTPropertyKey);
 
     if (numberOfRules === 0) {
-      customAST.body[customAST.body.length - 1].expression.right.properties.push(ReactAST.body[0].expression.right.properties[0])
+      customAST.body[customAST.body.length - 1].expression.right.properties.push(ReactAST.body[0].expression.right.properties[0]);
       moduleExist = true;
       numberOfRules += 1;
     } else {
@@ -169,7 +169,7 @@ ipcMain.on('addReactToAST', (event: any, arg: any) => {
               moduleEl.value.elements.unshift(ReactAST.body[0].expression.right.properties[0].value.properties[0].value.elements[0])
               console.log(JSON.stringify(moduleEl.value.elements))
             }
-          })
+          });
         }
       })
       moduleExist = true;
