@@ -187,20 +187,19 @@ export default class TabTwo extends React.Component<Props, StateType> {
   handleShowModal = () => {
     this.getRootDirectory();
 
-    // if WebpackOpsAssets folder doesn't already exist, then open modal
     ipcRenderer.send('does-webpack-ops-assets-exist');
 
+    // if WebpackOpsAssets folder doesn't already exist, then open modal
     ipcRenderer.on('webpack-ops-assets-does-not-exist', () => {
-      // otherwise, call installPluggins from here
       if (this._isMounted) {
         this.setState({ isModalDisplayed: true });
       }
     });
 
+    // otherwise, call installPluggins from here
     ipcRenderer.on('call-install-pluggins', () => {
-      console.log('calling here!!!!')
       this.installPluggins();
-    })
+    });
   }
 
   handleCloseModal = () => {
