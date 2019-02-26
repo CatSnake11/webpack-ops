@@ -51,7 +51,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
-      console.log("display updated config")
+      
       this.doSetNewConfigDisplayCode(data);
       if (this._isMounted) {
         this.setState({ value: data });
@@ -59,14 +59,14 @@ export default class TabTwo extends React.Component<Props, StateType> {
     });
 
     ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
-      console.log('data: ', data);
+      
       this.doSetNewTotalSize(data);
       if (this._isMounted) {
         this.setState({
           newTotalSize: data
         }, () => this.doSetIsBuildOptimized());
       }
-    })
+    });
   }
 
   doSetNewTotalSize = (newSize: number): void => {
@@ -122,11 +122,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.send('get-root-directory');
 
     ipcRenderer.on('root-Directory-Found', (event: any, rootDirectory: string): void => {
-      console.log('data: ', rootDirectory);
+      
       if (this._isMounted) {
         this.setState({ rootDirectory });
       }
-    })
+    });
   }
 
   installPluggins = (): void => {
@@ -135,7 +135,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
       // console.log(el)
       if (this.state[el] === true) accum.push(el);
       return accum;
-    }, [])
+    }, []);
 
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
