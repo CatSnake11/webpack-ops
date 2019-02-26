@@ -6,8 +6,8 @@ import Home from './components/Home';
 import { FaHome } from "react-icons/fa";
 import { FaCube } from "react-icons/fa";
 import { IoLogoBuffer } from "react-icons/io";
-import { observer, inject } from 'mobx-react'
-import { StoreType } from './store'
+import { observer, inject } from 'mobx-react';
+import { StoreType } from './store';
 
 // Import the styles here to process them with webpack
 import './styles.scss';

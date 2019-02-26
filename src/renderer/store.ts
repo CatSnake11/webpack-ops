@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx'
+import { observable, action } from 'mobx';
 import { initializeInstance } from 'mobx/lib/internal';
 
 export type StoreType = {
@@ -459,4 +459,3 @@ export default class Store {
 		this.isOriginalStatsGenerated = true;
 	}
 }
-
