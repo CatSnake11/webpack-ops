@@ -238,10 +238,6 @@ const parseHandler: ParseHandler = {
   },
 
   doesWebpackOpsAssetsExist: function () {
-    // let archiveName: string = this.configFile.split(".js")[0] + ".bak" + ".js";
-    // fs.rename(this.directory + this.configFile, this.directory + archiveName, (err) => {
-    //   if (err) throw err;
-    // });
 
     // check if WebpackOpsAssets directory exists. if so, call installPluggins in TabTwo
     if (fs.existsSync(this.directory + '/WebpackOpsAssets')) {
@@ -344,8 +340,6 @@ const parseHandler: ParseHandler = {
         }
       });
     }
-
-    // if (newConfig) console.log('newWebpackConfigFile: ', newWebpackConfigFile)
   },
 
   loadPlugin: function (name) {
@@ -362,7 +356,7 @@ const parseHandler: ParseHandler = {
     }
     fs.readFile(__dirname + '/../src/plugins/' + pluginFileName, (err, data) => {
       if (err) return console.log(err)
-      this.parsePlugin(data.toString())
+      this.parsePlugin(data.toString());
       return { entryPoints: pluginEntryPoints }
     });
   },
@@ -374,17 +368,17 @@ const parseHandler: ParseHandler = {
       ecmaVersion: 6,
       locations: true,
       onComment: comments,
-    })
+    });
 
     // Attach comments to AST nodes
-    astravel.attachComments(ast, comments)
+    astravel.attachComments(ast, comments);
 
     pluginEntryPoints.all = ast;
     pluginEntryPoints.body = ast.body;
 
-    let i = ast.body.length - 1 // Checking for module.exports from the end. Should be the last node.
-    let configs: any = []
-    let oldModuleExports: any
+    let i = ast.body.length - 1; // Checking for module.exports from the end. Should be the last node.
+    let configs: any = [];
+    let oldModuleExports: any;
 
     // loop through ast looking for module.exports
     while (i >= 0) {
@@ -400,15 +394,15 @@ const parseHandler: ParseHandler = {
     }
 
     if (oldModuleExports.type === "ObjectExpression") {
-      configs.push(oldModuleExports)
-      pluginEntryPoints.moduleExports = oldModuleExports
+      configs.push(oldModuleExports);
+      pluginEntryPoints.moduleExports = oldModuleExports;
     }
 
-    pluginEntryPoints.pluginsSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "plugins")[0]
+    pluginEntryPoints.pluginsSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "plugins")[0];
 
-    pluginEntryPoints.optimizationSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0]
+    pluginEntryPoints.optimizationSection = pluginEntryPoints.moduleExports.properties.filter(element => element.key.name === "optimization")[0];
 
-    this.mergePlugin()
+    this.mergePlugin();
 
     return { pluginEntryPoints, ast }
   },
@@ -431,20 +425,18 @@ const parseHandler: ParseHandler = {
         // only add const webpack = require('webpack') if doesn't already exist
         entryPoints.body.unshift(pluginEntryPoints.body[0]);
       }
-      // entryPoints.body.unshift(pluginEntryPoints.body[0])  // should check to see if already exists 
-      // and do all variable definitions. currently doing one.
     }
     // Add any plugins to the plugins section of the config
     if (pluginEntryPoints.pluginsSection && pluginEntryPoints.pluginsSection.value.elements.length !== 0) {
       // check to see if plugins section of config exists and add if needed
       if (!entryPoints.pluginsSection) {
         // check to see if there is a plugins section already in place  
-        entryPoints.moduleExports.properties.push(pluginEntryPoints.pluginsSection)
+        entryPoints.moduleExports.properties.push(pluginEntryPoints.pluginsSection);
       } else {
         pluginEntryPoints.pluginsSection.value.elements.forEach(element => {
           entryPoints.pluginsSection.value.elements
-            .push(JSON.parse(JSON.stringify(element)))
-        })
+            .push(JSON.parse(JSON.stringify(element)));
+        });
       }
     }
     // Add any optimizations to the optimizations section of the config
@@ -452,17 +444,17 @@ const parseHandler: ParseHandler = {
       // check to see if optimization section of config exists and add if needed
       if (!entryPoints.optimizationSection) {
         // check to see if there is an optimization section already in place  
-        entryPoints.moduleExports.properties.push(pluginEntryPoints.optimizationSection)
+        entryPoints.moduleExports.properties.push(pluginEntryPoints.optimizationSection);
       } else {
         pluginEntryPoints.optimizationSection.value.properties.forEach(element => {
           if (!entryPoints.optimizationSection.value.properties[0]) {
             entryPoints.optimizationSection.value.properties
-              .push(JSON.parse(JSON.stringify(element)))
+              .push(JSON.parse(JSON.stringify(element)));
           }
         });
       }
     }
-    this.updateConfig()
+    this.updateConfig();
   },
 }
 
