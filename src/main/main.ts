@@ -71,9 +71,6 @@ ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) =
       console.log(err);
       return;
     }
-
-    console.log("The new file has been succesfully saved as");
-
   });
 })
 
@@ -685,7 +682,7 @@ ipcMain.on('install-pluggins', (event: any, arrPluginsChecked: string[]) => {
 
   Promise.all([p1, p2, p3])
     .then(values => {
-      console.log(values); // [3, 1337, "foo"]
+      //console.log(values); // [3, 1337, "foo"]
 
       setTimeout(() => {
         mainWindow.webContents.send('display-config', parseHandler.updatedConfig);
