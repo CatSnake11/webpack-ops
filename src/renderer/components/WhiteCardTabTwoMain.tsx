@@ -4,6 +4,7 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 import { paraisoLight } from 'react-syntax-highlighter/dist/styles/hljs';
 import Spinner from './AwesomeComponent';
 import Modal from './Modal';
+import { FaCheck } from "react-icons/fa";
 
 interface WhiteCardTabTwoMainProps {
   handleChangeCheckboxSplitChunks(event: any): void;
@@ -91,6 +92,15 @@ const WhiteCardTabTwoMain = (props: WhiteCardTabTwoMainProps) => {
               textContent="Show Size Change"
             />
           }
+
+          {props.isNewBuildSizeCalculated &&
+            <div className="tabThreeRowFlexContainer">
+              < FaCheck className="greenCheck" />
+              <div id="webpackConfigSaveText">
+                webpack.config.js generated
+              </div>
+            </div>}
+
         </div>
       }
       <div id="configbox"></div>
