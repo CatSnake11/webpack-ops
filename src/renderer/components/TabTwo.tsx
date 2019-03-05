@@ -19,17 +19,17 @@ const initialState = {
   newTotalSize: 0,
   isModalDisplayed: false,
   shouldContinue: false,
-  rootDirectory: ''
+  rootDirectory: '',
 }
 
 type StateType = Readonly<typeof initialState>
-
 
 @inject('store')
 @observer
 
 export default class TabTwo extends React.Component<Props, StateType> {
   state: StateType = initialState;
+  _isMounted: boolean = false;
 
   constructor(props) {
     super(props);
@@ -40,6 +40,8 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   componentDidMount() {
+    this._isMounted = true;
+
     ipcRenderer.on('done-installing', (event: any, arg: any): void => {
     });
 
@@ -49,18 +51,22 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
-      console.log("display updated config")
+      
       this.doSetNewConfigDisplayCode(data);
-      this.setState({ value: data });
+      if (this._isMounted) {
+        this.setState({ value: data });
+      }
     });
 
     ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
-      console.log('data: ', data);
+      
       this.doSetNewTotalSize(data);
-      this.setState({
-        newTotalSize: data
-      }, () => this.doSetIsBuildOptimized());
-    })
+      if (this._isMounted) {
+        this.setState({
+          newTotalSize: data
+        }, () => this.doSetIsBuildOptimized());
+      }
+    });
   }
 
   doSetNewTotalSize = (newSize: number): void => {
@@ -116,9 +122,11 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.send('get-root-directory');
 
     ipcRenderer.on('root-Directory-Found', (event: any, rootDirectory: string): void => {
-      console.log('data: ', rootDirectory);
-      this.setState({ rootDirectory });
-    })
+      
+      if (this._isMounted) {
+        this.setState({ rootDirectory });
+      }
+    });
   }
 
   installPluggins = (): void => {
@@ -127,14 +135,16 @@ export default class TabTwo extends React.Component<Props, StateType> {
       // console.log(el)
       if (this.state[el] === true) accum.push(el);
       return accum;
-    }, [])
+    }, []);
 
     ipcRenderer.send('install-pluggins', arrToInstall);
     this.doSetIsNewConfigGenerated();
   }
 
   updateConfig = (event: any, data): void => {
-    this.setState({ value: data });
+    if (this._isMounted) {
+      this.setState({ value: data });
+    }
   }
 
   saveConfig = (): void => {
@@ -144,18 +154,26 @@ export default class TabTwo extends React.Component<Props, StateType> {
   }
 
   handleChangeCheckboxMini = (event: any): void => {
-    this.setState({ checkedMini: !this.state.checkedMini });
+    if (this._isMounted) {
+      this.setState({ checkedMini: !this.state.checkedMini });
+    }
   }
   handleChangeCheckboxSplitChunks = (event: any): void => {
-    this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks });
+    if (this._isMounted) {
+      this.setState({ checkedSplitChunks: !this.state.checkedSplitChunks });
+    }
   }
   handleChangeCheckboxMoment = (event: any): void => {
-    this.setState({ checkedMoment: !this.state.checkedMoment });
+    if (this._isMounted) {
+      this.setState({ checkedMoment: !this.state.checkedMoment });
+    }
   }
 
   // Added for handling webpack config editing
   handleConfigEdit = (event: any): void => {
-    this.setState({ value: event.target.value });
+    if (this._isMounted) {
+      this.setState({ value: event.target.value });
+    }
   }
 
   doSelectOptimization = (): void => {
@@ -168,14 +186,37 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
   handleShowModal = () => {
     this.getRootDirectory();
-    this.setState({ isModalDisplayed: true });
+
+    ipcRenderer.send('does-webpack-ops-assets-exist');
+
+    // if WebpackOpsAssets folder doesn't already exist, then open modal
+    ipcRenderer.on('webpack-ops-assets-does-not-exist', () => {
+      if (this._isMounted) {
+        this.setState({ isModalDisplayed: true });
+      }
+    });
+
+    // otherwise, call installPluggins from here
+    ipcRenderer.on('call-install-pluggins', () => {
+      this.installPluggins();
+    });
   }
 
   handleCloseModal = () => {
-    this.setState({ isModalDisplayed: false });
+    if (this._isMounted) {
+      this.setState({ isModalDisplayed: false });
+    }
   }
 
-  handleContinue = () => this.setState({ shouldContinue: true });
+  handleContinue = () => {
+    if (this._isMounted) {
+      this.setState({ shouldContinue: true });
+    }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   render() {
     const codeString = '(num) => num + 1';

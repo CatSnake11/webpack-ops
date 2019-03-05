@@ -2,16 +2,13 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import Button from './Button';
 
-interface ModalProps {
+interface ModalHomeProps {
   onClose(): void;
-  handleContinue(): void;
-  installPluggins(): void;
   children: string;
-  rootDirectory: string;
   isModalDisplayed: boolean;
 }
 
-function Modal(props: ModalProps) {
+function ModalHome(props: ModalHomeProps) {
   return ReactDOM.createPortal(
     <div
       style={{
@@ -52,27 +49,22 @@ function Modal(props: ModalProps) {
         {props.children}
         <hr />
         <div className="tabTwoDescriptionTextModal">
-          <div className="modalText">A new directory to store your new build files will be created in your root directory:</div>
+          <div className="modalText">No <span className="codeTextStatsHome">webpack.config</span> selected. Please select a config file to continue.</div>
           <br></br>
-          <div className="codeTextModal">{props.rootDirectory}</div>
+
         </div>
         <div className="modalButtonContainer">
           <Button
             classes="btnModalContinue stats"
             idName="tabTwoStatsButton"
-            func={props.installPluggins}
-            textContent="Continue"
+            func={props.onClose}
+            textContent="Close"
           />
 
-          <Button
-            classes="btnModalCancel stats"
-            func={props.onClose}
-            textContent="Cancel"
-          />
         </div>
       </div>
     </div >,
     document.querySelector("#modal"));
 }
 
-export default Modal;
+export default ModalHome;

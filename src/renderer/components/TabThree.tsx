@@ -31,15 +31,22 @@ type StateType = Readonly<typeof initialState>
 
 export default class TabThree extends React.Component<Props, StateType> {
   state: StateType = initialState;
+  _isMounted: boolean = false;
 
   componentDidMount() {
+    this._isMounted = true;
+
     ipcRenderer.on('customRootDirectrySet', (event: any, customDirectory: string): void => {
-      this.setState({ rootCustomDirectory: customDirectory });
+      if (this._isMounted) {
+        this.setState({ rootCustomDirectory: customDirectory });
+      }
     });
 
     ipcRenderer.send('CustomAST', 'ping');
     ipcRenderer.on('transferCustomAST', (event: any, formattedCode1: string): void => {
-      this.setState({ defaultFormattedCode: formattedCode1 });
+      if (this._isMounted) {
+        this.setState({ defaultFormattedCode: formattedCode1 });
+      }
     });
 
     ipcRenderer.on('root-is-selected', (): void => {
@@ -51,35 +58,45 @@ export default class TabThree extends React.Component<Props, StateType> {
     if (this.state.checkedReact === false) ipcRenderer.send('addReactToAST');
     else ipcRenderer.send('removeReactToAST');
 
-    this.setState({ checkedReact: !this.state.checkedReact });
+    if (this._isMounted) {
+      this.setState({ checkedReact: !this.state.checkedReact });
+    }
   }
 
   handleChangeCheckboxCSS = (event: any): void => {
     if (this.state.checkedCSS === false) ipcRenderer.send('addCSSToAST');
     else ipcRenderer.send('removeCSSToAST');
 
-    this.setState({ checkedCSS: !this.state.checkedCSS });
+    if (this._isMounted) {
+      this.setState({ checkedCSS: !this.state.checkedCSS });
+    }
   }
 
   handleChangeCheckboxSass = (event: any): void => {
     if (this.state.checkedSass === false) ipcRenderer.send('addSassToAST');
     else ipcRenderer.send('removeSassToAST');
 
-    this.setState({ checkedSass: !this.state.checkedSass });
+    if (this._isMounted) {
+      this.setState({ checkedSass: !this.state.checkedSass });
+    }
   }
 
   handleChangeCheckboxLess = (event: any): void => {
     if (this.state.checkedLess === false) ipcRenderer.send('addLessToAST');
     else ipcRenderer.send('removeLessToAST');
 
-    this.setState({ checkedLess: !this.state.checkedLess });
+    if (this._isMounted) {
+      this.setState({ checkedLess: !this.state.checkedLess });
+    }
   }
 
   handleChangeCheckboxStylus = (event: any): void => {
     if (this.state.checkedStylus === false) ipcRenderer.send('addStylusToAST');
     else ipcRenderer.send('removeStylusToAST');
 
-    this.setState({ checkedStylus: !this.state.checkedStylus });
+    if (this._isMounted) {
+      this.setState({ checkedStylus: !this.state.checkedStylus });
+    }
   }
 
   handleChangeCheckboxSVG = (event: any): void => {
@@ -87,14 +104,18 @@ export default class TabThree extends React.Component<Props, StateType> {
     if (this.state.checkedSVG === false) ipcRenderer.send('addSVGToAST');
     else ipcRenderer.send('removeSVGToAST');
 
-    this.setState({ checkedSVG: !this.state.checkedSVG });
+    if (this._isMounted) {
+      this.setState({ checkedSVG: !this.state.checkedSVG });
+    }
   }
 
   handleChangeCheckboxPNG = (event: any): void => {
     if (this.state.checkedPNG === false) ipcRenderer.send('addPNGToAST');
     else ipcRenderer.send('removePNGToAST');
 
-    this.setState({ checkedPNG: !this.state.checkedPNG });
+    if (this._isMounted) {
+      this.setState({ checkedPNG: !this.state.checkedPNG });
+    }
   }
 
   doSetRootSelected = (): void => {
@@ -113,6 +134,10 @@ export default class TabThree extends React.Component<Props, StateType> {
 
   doSetCustomConfigSaved(): void {
     this.props.store.setCustomConfigSavedTrue()
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

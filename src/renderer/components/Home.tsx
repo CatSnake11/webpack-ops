@@ -9,6 +9,7 @@ import WhiteCardPackageJSON from './WhiteCardPackageJSON';
 import WhiteCardWebpackConfig from './WhiteCardWebpackConfig';
 import WhiteCardStatsJSON from './WhiteCardStatsJSON';
 import D3ChartContainerCard from './D3ChartContainerCard';
+import ModalHome from './ModalHome';
 
 type Props = {
   store?: StoreType
@@ -24,6 +25,7 @@ const initialState = {
   totalNodeCount: 0,
   totalAssets: 0,
   totalChunks: 0,
+  isModalDisplayed: false,
   data: {
     "name": "A1",
     "children": [
@@ -76,6 +78,12 @@ type StateType = Readonly<typeof initialState>
 export default class Home extends React.Component<Props, StateType> {
   // may need "readonly"
   state: StateType = initialState;
+
+  constructor(props) {
+    super(props);
+    this.handleShowModal = this.handleShowModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
+  }
 
   componentDidMount() {
     ipcRenderer.on('display-stats-reply', (event: any, data: string[][], obj: any): void => {
@@ -219,12 +227,12 @@ export default class Home extends React.Component<Props, StateType> {
 
     let color = function () {
       let ctr = 0;
-      const hex = ['#8cc4d9', '#64b0cc', '#409dbf', '#337e99', '#265e73', '#193f4d']
-      // const hex = ['#cbedef', '#b6e7ed', '#9befee', '#d3e6e8', '#7df2ec', '#cdf2e4']
+      const hex = ['#8cc4d9', '#64b0cc', '#409dbf', '#337e99', '#265e73', '#193f4d'];
+
       return function () {
         if (ctr === hex.length - 1) {
           ctr = 0;
-          return hex[ctr]
+          return hex[ctr];
         } else {
           ctr++;
           return hex[ctr];
@@ -260,6 +268,7 @@ export default class Home extends React.Component<Props, StateType> {
 
       d3.select("#percentage")
         .text('% of Total: ' + percentageString);
+
       //ADDED FILE NAME
       d3.select("#filename")
         .text(d.data.name);
@@ -521,7 +530,7 @@ export default class Home extends React.Component<Props, StateType> {
     const slice = svg.selectAll('g.slice').data(partition(root).descendants());
 
     slice.exit().remove();
-    let path1 = d3.selectAll('g').data(root.descendants())
+    let path1 = d3.selectAll('g').data(root.descendants());
     let totalSize = path1.datum().value;
 
     const newSlice = slice
@@ -933,15 +942,34 @@ export default class Home extends React.Component<Props, StateType> {
   getWebpackConfig = (event: any): void => {
     let radios = document.getElementsByName("config"); // as HTMLInputElement
 
+    let configSelected: boolean = false;
     for (var i = 0, length = radios.length; i < length; i++) {
       if ((radios[i] as HTMLInputElement).checked) {
         // send the checked radio
         ipcRenderer.send('read-config', i);
+        configSelected = true;
         break;
       }
     }
+
+    // if no config selected, show modal informing user that they must select config
+    if (!configSelected) {
+      this.handleShowModal();
+    }
+
     event.preventDefault();
-    this.doSetDisplayConfigSelectionFalse();
+
+    if (configSelected) {
+      this.doSetDisplayConfigSelectionFalse();
+    }
+  }
+
+  handleShowModal = () => {
+    this.setState({ isModalDisplayed: true });
+  }
+
+  handleCloseModal = () => {
+    this.setState({ isModalDisplayed: false });
   }
 
   getWebpackStats = (): void => {
@@ -1007,6 +1035,15 @@ export default class Home extends React.Component<Props, StateType> {
             listOfConfigs={this.state.listOfConfigs}
           />
         }
+
+        {this.state.isModalDisplayed ? (
+          <ModalHome
+            onClose={this.handleCloseModal}
+            isModalDisplayed={this.state.isModalDisplayed}
+          >
+            Attention:
+            </ModalHome>
+        ) : null}
 
         {store.isPackageSelected && !this.props.store.isConfigSelectionDisplayed && this.props.store.isLoadStatsDisplayed &&
 

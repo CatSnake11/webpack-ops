@@ -820,7 +820,6 @@ pre {
   font-family: 'Monaco';
   font-size: 12px;
   word-wrap: break-word;
-  // padding-left: 0;
   margin-left: -21px;
 }
 
@@ -837,6 +836,10 @@ pre {
   color: $text-primary;
   font-family: 'Oswald';
   font-size: 20px;
+}
+
+.codeTextStatsHome {
+  color: $text-primary;
 }
 
 .codeTextStatsTabThree {
