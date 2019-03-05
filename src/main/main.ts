@@ -72,8 +72,7 @@ ipcMain.on('saveCustomConfig', (event: any, rootDirectoryCustomConfig: string) =
       return;
     }
   });
-})
-
+});
 
 ipcMain.on('selectCustomWebConfig', (event: any, arg: any) => {
   let customDirectory: string = dialog.showOpenDialog({ properties: ['openDirectory'] })[0]
