@@ -12,14 +12,16 @@ WebpackOps is a Webpack bundle visualization, optimization and customization too
 git clone https://github.com/CatSnake11/Webpack-Ops.git
 ```
 
-**2.** Open the repository, go to your terminal and run the following commands to download all required libraries:
+**2.** Open the repository, go to your terminal and run the following commands to download all required libraries and generate build:
 ```
 npm install
 npm run webpackops
-npm start
 ```
 
-Download and install WebpackOps for Mac or Windows, and launch the application
+**3.** Once the build has completed, open a new tab in your terminal and run the following command to launch the application:
+```
+npm start
+```
 
 ## Usage
 WebpackOps has three tabs - *Home*, *Plugins*, and *Webpack Config*. Below, please find instructions on how to use each tab:
