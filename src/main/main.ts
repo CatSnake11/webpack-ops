@@ -16,6 +16,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     height: 920,
     width: 1150,
+    icon: path.join(__dirname, 'src/icons/png/webpack-ops-logo.png_64x64.png')
   });
 
   // and load the index.html of the app.

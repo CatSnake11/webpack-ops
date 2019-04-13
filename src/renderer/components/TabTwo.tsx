@@ -51,7 +51,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
 
     // Added for displaying webpack config
     ipcRenderer.on('display-config', (event: any, data: any): void => {
-      
+
       this.doSetNewConfigDisplayCode(data);
       if (this._isMounted) {
         this.setState({ value: data });
@@ -59,7 +59,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     });
 
     ipcRenderer.on('set-new-stats', (event: any, data: number): void => {
-      
+
       this.doSetNewTotalSize(data);
       if (this._isMounted) {
         this.setState({
@@ -122,7 +122,7 @@ export default class TabTwo extends React.Component<Props, StateType> {
     ipcRenderer.send('get-root-directory');
 
     ipcRenderer.on('root-Directory-Found', (event: any, rootDirectory: string): void => {
-      
+
       if (this._isMounted) {
         this.setState({ rootDirectory });
       }

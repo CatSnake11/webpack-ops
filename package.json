@@ -1,5 +1,6 @@
 {
-  "name": "webpack-optimizer",
+  "name": "webpack-ops",
+  "productName": "Webpack Ops",
   "version": "1.0.0",
   "main": "./dist/main.bundle.js",
   "scripts": {
@@ -20,6 +21,7 @@
     "css-loader": "^2.0.1",
     "electron": "^3.0.13",
     "electron-devtools-installer": "^2.2.4",
+    "electron-packager": "^13.1.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-to-json": "^3.3.5",
