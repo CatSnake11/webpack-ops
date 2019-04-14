@@ -873,7 +873,7 @@ function loadStats(file: string) {
     returnObj.assets = content.assets.map((asset: any) => ({
       name: asset.name,
       chunks: asset.chunks,
-      size: asset.size,
+      size: asset.size
     }));
 
     returnObj.chunks = content.chunks.map((chunk: any) => ({
@@ -884,6 +884,7 @@ function loadStats(file: string) {
           name: module.name,
           size: module.size,
           id: module.id,
+          issuerPath: module.issuerPath
         }))
         : [],
     }));
@@ -896,14 +897,17 @@ function loadStats(file: string) {
     let sizeStr: string;
     let sunBurstData = [];
 
-
     for (var k = 0; k < Pdata[i].chunks.length; k++) {
       for (var l = 0; l < Pdata[i].chunks[k].modules.length; l++) {
         sizeStr = Pdata[i].chunks[k].modules[l].size.toString();
         path = Pdata[i].chunks[k].modules[l].name.replace("./", "");
-        sunBurstData.push([path, sizeStr]);
+
+        let issuerPath = Pdata[i].chunks[k].modules[l].issuerPath;
+
+        sunBurstData.push([path, sizeStr, issuerPath]);
       }
     }
+    // console.log('issuerPaths: ', issuerPaths)
     const sunBurstDataSum: number = sunBurstData.reduce((sum: number, el: any): number => {
       return sum += parseInt(el[1]);
     }, 0);
@@ -912,6 +916,10 @@ function loadStats(file: string) {
       chunks: returnObj.chunks,
       assets: returnObj.assets
     }
+
+    // console.log('content: ', content);
+    // console.log('returnObj: ', returnObj);
+    // console.log('sunBurstData: ', sunBurstData);
 
     mainWindow.webContents.send('display-stats-reply', sunBurstData, returnObjData);
   });

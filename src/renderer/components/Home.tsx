@@ -86,15 +86,24 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   componentDidMount() {
-    ipcRenderer.on('display-stats-reply', (event: any, data: string[][], obj: any): void => {
+    ipcRenderer.on('display-stats-reply', (event: any, data: any[][], obj: any): void => {
       this.setState({
         totalAssets: obj.assets.length,
         totalChunks: obj.chunks.length,
         totalNodeCount: data.length,
       });
+      // this is the stats.modules array of all modules  
+      // console.log('returnObjData: ', obj);
+      // console.log('data: ', data)
+
       let root: any = { "name": "root", "children": [] };
       for (let i: number = 0; i < data.length; i++) {
         let sequence: string = data[i][0];
+
+        if (data[i][2]) {
+          var issuerPath = data[i][2].map(el => el.name);
+        }
+
         let size: number = +data[i][1];
         if (isNaN(size)) { // e.g. if this is a header row
           continue;
@@ -117,13 +126,13 @@ export default class Home extends React.Component<Props, StateType> {
             }
             // If we don't already have a child node for this branch, create it.
             if (!foundChild) {
-              childNode = { "name": nodeName, "children": [] };
+              childNode = { "name": nodeName, "children": [], "issuerPath": issuerPath };
               children.push(childNode);
             }
             currentNode = childNode;
           } else {
             // Reached the end of the sequence; create a leaf node.
-            childNode = { "name": nodeName, "value": size };
+            childNode = { "name": nodeName, "value": size, "issuerPath": issuerPath };
             children.push(childNode);
           }
         }
@@ -169,7 +178,6 @@ export default class Home extends React.Component<Props, StateType> {
   }
 
   private drawChart(jsonData: any) {
-
     // Breadcrumb dimensions: width, height, spacing, width of tip/tail.
     var _self = this;
     const b = {
@@ -266,6 +274,16 @@ export default class Home extends React.Component<Props, StateType> {
         percentageString = "< 0.1%";
       }
 
+
+      let issuerPathArr = Object.values(d.data.issuerPath);
+
+      let issuerPath = '';
+
+      // format issuerPath string in reverse order 
+      for (let i = issuerPathArr.length - 1; i >= 0; i -= 1) {
+        issuerPath += issuerPathArr[i] + '  >  ';
+      }
+
       d3.select("#percentage")
         .text('% of Total: ' + percentageString);
 
@@ -277,8 +295,14 @@ export default class Home extends React.Component<Props, StateType> {
       d3.select("#filesize")
         .text('Size: ' + d.value / 1000 + 'kb');
 
+      //ADDED ISSUER PATH
+      d3.select("#issuerPath")
+        .text('issuerPath: ' + issuerPath)
+
       d3.select("#explanation")
         .style("visibility", "");
+
+      // console.log('issuerPath: ', issuerPath);
 
       var sequenceArray = d.ancestors().reverse();
       sequenceArray.shift(); // remove root node from the array

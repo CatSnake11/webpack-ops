@@ -24,6 +24,9 @@ const D3ChartContainerCard = (props: D3ChartContainerCardProps) => {
                 <div>
                   <span id="filesize"></span> <br />
                 </div>
+                <div>
+                  <span id="issuerPath"></span> <br />
+                </div>
               </div>
               <div className="chartSVGContainer">
                 <svg width={props.width} height={props.height} className="sunburst" />
