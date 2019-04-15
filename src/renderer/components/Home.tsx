@@ -274,10 +274,9 @@ export default class Home extends React.Component<Props, StateType> {
         percentageString = "< 0.1%";
       }
 
+      let issuerPathArr: string[] = Object.values(d.data.issuerPath);
 
-      let issuerPathArr = Object.values(d.data.issuerPath);
-
-      let issuerPath = '';
+      let issuerPath: string = '';
 
       // format issuerPath string in reverse order 
       for (let i = issuerPathArr.length - 1; i >= 0; i -= 1) {

@@ -902,7 +902,7 @@ function loadStats(file: string) {
         sizeStr = Pdata[i].chunks[k].modules[l].size.toString();
         path = Pdata[i].chunks[k].modules[l].name.replace("./", "");
 
-        let issuerPath = Pdata[i].chunks[k].modules[l].issuerPath;
+        let issuerPath: {}[] = Pdata[i].chunks[k].modules[l].issuerPath;
 
         sunBurstData.push([path, sizeStr, issuerPath]);
       }
